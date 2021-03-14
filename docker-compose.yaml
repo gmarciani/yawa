@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+    ports:
+      - "3000:3000"
+    env_file: frontend/config.env
+    restart: always
+    stdin_open: true #https://github.com/docker/compose/issues/5016
+    depends_on:
+      - database
+      - server
+
+  server:
+    container_name: server
+    build:
+      context: server
+    ports:
+      - "8000:8000"
+    env_file: server/config.env
+    restart: always
+    stdin_open: true #https://github.com/docker/compose/issues/5016
+    depends_on:
+      - database
+
+  database:
+    container_name: database
+    build:
+      context: database
+    env_file: database/config.env
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:

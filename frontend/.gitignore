@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# Logging
+*.log
