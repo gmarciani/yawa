@@ -6,12 +6,13 @@ const morgan = require('morgan')
 const figlet = require('figlet')
 const bodyParser = require('body-parser')
 const path = require('path')
+const uuid = require('uuid')
 const { Sequelize } = require('sequelize')
 
 const logger = require('./config/logger')
 
 const opts = {
-  host: 'localhost',
+  host: '0.0.0.0',
   port: process.env.SERVER_PORT || 8000
 }
 
@@ -40,19 +41,31 @@ function unhandledError (err) {
 process.on('uncaughtException', unhandledError)
 process.on('unhandledRejection', unhandledError)
 
+// Morgan
+morgan.token('requestId', function getId (req) {
+  return req.id
+})
+
+// Middlewares
+function assignRequestId (req, res, next) {
+  req.id = uuid.v4()
+  next()
+}
+
 // Express App
 const app = express()
 app.use(cors())
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.json())
-app.use(morgan('combined', { 'stream': logger.stream }));
+app.use(assignRequestId)
+app.use(morgan(':requestId - :method :url HTTP/:http-version - :status :res[content-length] - :remote-addr :user-agent', { 'stream': logger.stream }));
 
 // Routes
 require('./routes/index.routes')(app)
-require('./routes/users.routes')(app)
+//require('./routes/users.routes')(app)
 
 // Database Sync
-const sequelize = new Sequelize('mysql://dbuser:dbpassword@localhost:3306/dbyawa', {
+/*const sequelize = new Sequelize('mysql://dbuser:dbpassword@localhost:3306/dbyawa', {
   logging: (msg) => logger.info('DB: ' + msg)
 })
 
@@ -62,6 +75,7 @@ try {
 } catch (error) {
   logger.error('INIT: DB connection failed:', error)
 }
+*/
 
 // Server start
 server = app.listen(opts.port, opts.host, function (err) {
@@ -78,5 +92,4 @@ server = app.listen(opts.port, opts.host, function (err) {
   const addr = server.address()
   console.log(figlet.textSync('YAWA', { font: 'ANSI Regular' }))
   console.log(`Running on: ${opts.host || addr.host || 'localhost'}:${addr.port}`)
-  console.log(`Log: ${path.resolve('app.log')}`)
 })

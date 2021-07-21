@@ -1,40 +1,52 @@
 version: "3.9"
 
 services:
-  frontend:
-    container_name: frontend
-    build:
-      context: frontend
-    ports:
-      - "3000:3000"
-    env_file: frontend/config.env
-    restart: always
-    stdin_open: true #https://github.com/docker/compose/issues/5016
-    depends_on:
-      - database
-      - server
+  #frontend:
+  #  container_name: frontend
+  #  build:
+  #    context: frontend
+  #  ports:
+  #    - 3000:3000
+  #  env_file: frontend/docker.env
+  #  restart: always
+  #  stdin_open: true #https://github.com/docker/compose/issues/5016
+  #  depends_on:
+  #    - database
+  #    - server
 
   server:
     container_name: server
     build:
       context: server
     ports:
-      - "8000:8000"
-    env_file: server/config.env
+      - 8001:8000
+    env_file: server/docker.env
     restart: always
-    stdin_open: true #https://github.com/docker/compose/issues/5016
-    depends_on:
-      - database
+    #stdin_open: true #https://github.com/docker/compose/issues/5016
+    #depends_on:
+    #  - database
 
   database:
     container_name: database
     build:
       context: database
-    env_file: database/config.env
+    env_file: database/docker.env
     ports:
-      - "3306:3306"
+      - 3307:3306
     restart: always
     volumes:
       - dbdata:/var/lib/mysql
+
+  dbadmin:
+    container_name: dbadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - database
+
 volumes:
   dbdata:
