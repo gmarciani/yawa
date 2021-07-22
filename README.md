@@ -39,10 +39,20 @@ mysql -h database -P 3306 -u dbuser -p
 ## Connect to server
 From host:
 ```
-curl --request GET --url http://localhost:8001
+curl --request GET --url https://localhost:8001
 ```
 
 From server container:
 ```
-curl --request GET --url http://localhost:8000
+curl --request GET --url https://localhost:8000
+```
+
+## HTTPS
+Create certificate
+```
+cd server/resources
+openssl genrsa -out key.pem
+openssl req -new -key key.pem -out csr.pem
+openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
+rm csr.pem
 ```

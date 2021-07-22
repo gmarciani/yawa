@@ -23,8 +23,11 @@ services:
     env_file: server/docker.env
     restart: always
     #stdin_open: true #https://github.com/docker/compose/issues/5016
-    #depends_on:
-    #  - database
+    volumes:
+      - ./server:/usr/src/yawa
+      - /usr/src/yawa/node_modules
+    depends_on:
+      - database
 
   database:
     container_name: database

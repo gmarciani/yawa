@@ -1,10 +1,11 @@
 'use strict'
 
+const https = require('https');
 const express = require('express')
+const fs = require('fs')
 const cors = require('cors')
 const morgan = require('morgan')
 const figlet = require('figlet')
-const bodyParser = require('body-parser')
 const path = require('path')
 const uuid = require('uuid')
 const { Sequelize } = require('sequelize')
@@ -55,10 +56,11 @@ function assignRequestId (req, res, next) {
 // Express App
 const app = express()
 app.use(cors())
-app.use(express.static(path.join(__dirname, 'views')));
-app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'views')))
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 app.use(assignRequestId)
-app.use(morgan(':requestId - :method :url HTTP/:http-version - :status :res[content-length] - :remote-addr :user-agent', { 'stream': logger.stream }));
+app.use(morgan(':requestId - :method :url HTTP/:http-version - :status :res[content-length] - :remote-addr :user-agent', { 'stream': logger.stream }))
 
 // Routes
 require('./routes/index.routes')(app)
@@ -77,8 +79,15 @@ try {
 }
 */
 
+// SSL
+var privateKey = fs.readFileSync(__dirname + '/resources/certificates/key.pem')
+var certificate = fs.readFileSync(__dirname + '/resources/certificates/cert.pem')
+
 // Server start
-server = app.listen(opts.port, opts.host, function (err) {
+server = https.createServer({
+  key: privateKey,
+  cert: certificate
+}, app).listen(opts.port, opts.host, function (err) {
   if (err) {
     logger.error(err)
   }

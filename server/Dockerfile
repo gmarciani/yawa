@@ -11,10 +11,10 @@ RUN apt-get install -y sudo vim curl wget less lsof default-mysql-client npm nod
 #RUN nvm install 16.1.0
 #RUN nvm use 16.1.0
 
-WORKDIR /yawa/server
+WORKDIR /usr/src/yawa
 
 COPY . .
 
 RUN npm install
 
-CMD npm run start
+CMD npm run dev
