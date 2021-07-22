@@ -18,7 +18,7 @@
   "scripts": {
     "start": "node server.js",
     "build": "webpack",
-    "dev": "nodemon ./server.js localhost 8000",
+    "dev": "nodemon -e js,yaml ./server.js localhost 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -30,9 +30,11 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "sequelize": "^6.5.0",
+    "split": "^1.0.1",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.5"
+    "winston-daily-rotate-file": "^4.5.5",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.7",

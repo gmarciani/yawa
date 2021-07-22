@@ -26,6 +26,7 @@ services:
     volumes:
       - ./server:/usr/src/yawa
       - /usr/src/yawa/node_modules
+      - ./container/var/yawa/logs:/var/yawa/logs
     depends_on:
       - database
 

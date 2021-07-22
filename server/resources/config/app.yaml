@@ -1,0 +1,11 @@
+host: 0.0.0.0
+port: 8000
+security:
+  privateKey: resources/certificates/key.pem
+  certificate: resources/certificates/cert.pem
+database:
+  host: database
+  port: 3306
+  name: dbyawa
+  user: dbuser
+  password: dbpassword

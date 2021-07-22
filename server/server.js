@@ -10,12 +10,8 @@ const path = require('path')
 const uuid = require('uuid')
 const { Sequelize } = require('sequelize')
 
-const logger = require('./config/logger')
-
-const opts = {
-  host: '0.0.0.0',
-  port: process.env.SERVER_PORT || 8000
-}
+const config = require('./common/config')
+const logger = require('./common/logger')
 
 // Server states
 let server
@@ -80,14 +76,14 @@ try {
 */
 
 // SSL
-var privateKey = fs.readFileSync(__dirname + '/resources/certificates/key.pem')
-var certificate = fs.readFileSync(__dirname + '/resources/certificates/cert.pem')
+const privateKey = fs.readFileSync(path.join(__dirname, config.security.privateKey), 'utf8')
+const certificate = fs.readFileSync(path.join(__dirname, config.security.certificate), 'utf8')
 
 // Server start
 server = https.createServer({
   key: privateKey,
   cert: certificate
-}, app).listen(opts.port, opts.host, function (err) {
+}, app).listen(config.port, config.host, function (err) {
   if (err) {
     logger.error(err)
   }
@@ -100,5 +96,5 @@ server = https.createServer({
 
   const addr = server.address()
   console.log(figlet.textSync('YAWA', { font: 'ANSI Regular' }))
-  console.log(`Running on: ${opts.host || addr.host || 'localhost'}:${addr.port}`)
+  console.log(`Running on: ${config.host}:${addr.port}`)
 })
