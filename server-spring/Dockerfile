@@ -18,8 +18,6 @@ RUN source "$SDKMAN_DIR/bin/sdkman-init.sh" && \
     sdk install java $JAVA_VERSION-amzn && \
     sdk install gradle $GRADLE_VERSION
 
-RUN echo $PATH
-
 ENV PATH "$PATH:$SDKMAN_DIR/candidates/java/current/bin"
 ENV PATH "$PATH:$SDKMAN_DIR/candidates/gradle/current/bin"
 
