@@ -2,7 +2,14 @@
 .idea
 *.iml
 
-
-
 # Docker
 .container
+
+# Java
+build
+lib
+
+# Gradle
+.gradle
+gradle
+gradlew.*
