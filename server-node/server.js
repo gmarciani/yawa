@@ -2,16 +2,16 @@
 
 const https = require('https');
 const express = require('express')
-const fs = require('fs')
 const cors = require('cors')
-const morgan = require('morgan')
 const figlet = require('figlet')
 const path = require('path')
-const uuid = require('uuid')
-const { Sequelize } = require('sequelize')
 
 const config = require('./common/config')
 const logger = require('./common/logger')
+const database = require('./data/database')
+const security = require('./common/security')
+const request = require('./middlewares/request')
+const requestLogger = require('./middlewares/requestLogger')
 
 // Server states
 let server
@@ -38,51 +38,26 @@ function unhandledError (err) {
 process.on('uncaughtException', unhandledError)
 process.on('unhandledRejection', unhandledError)
 
-// Morgan
-morgan.token('requestId', function getId (req) {
-  return req.id
-})
-
 // Middlewares
-function assignRequestId (req, res, next) {
-  req.id = uuid.v4()
-  next()
-}
-
-// Express App
 const app = express()
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'views')))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-app.use(assignRequestId)
-app.use(morgan(':requestId - :method :url HTTP/:http-version - :status :res[content-length] - :remote-addr :user-agent', { 'stream': logger.stream }))
+app.use(request)
+app.use(requestLogger(logger.stream))
 
 // Routes
 require('./routes/index.routes')(app)
-//require('./routes/users.routes')(app)
+require('./routes/users.routes')(app)
 
-// Database Sync
-/*const sequelize = new Sequelize('mysql://dbuser:dbpassword@localhost:3306/dbyawa', {
-  logging: (msg) => logger.info('DB: ' + msg)
-})
-
-try {
-  sequelize.authenticate()
-  logger.info('INIT: DB connection succeeded')
-} catch (error) {
-  logger.error('INIT: DB connection failed:', error)
-}
-*/
-
-// SSL
-const privateKey = fs.readFileSync(path.join(__dirname, config.security.privateKey), 'utf8')
-const certificate = fs.readFileSync(path.join(__dirname, config.security.certificate), 'utf8')
+// Database
+database.initialize(config.database)
 
 // Server start
 server = https.createServer({
-  key: privateKey,
-  cert: certificate
+  key: security.ssl.privateKey,
+  cert: security.ssl.certificate
 }, app).listen(config.port, config.host, function (err) {
   if (err) {
     logger.error(err)

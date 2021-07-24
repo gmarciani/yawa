@@ -4,6 +4,7 @@ security:
   privateKey: resources/certificates/key.pem
   certificate: resources/certificates/cert.pem
 database:
+  protocol: mysql
   host: database
   port: 3306
   name: dbyawa

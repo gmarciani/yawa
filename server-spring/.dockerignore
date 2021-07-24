@@ -1,0 +1,8 @@
+.dockerignore
+Dockerfile
+
+.container
+
+.gitignore
+
+build

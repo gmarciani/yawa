@@ -14,19 +14,32 @@ services:
   #    - database
   #    - server
 
-  server:
-    container_name: server
+  server-node:
+    container_name: server-node
     build:
-      context: server
+      context: server-node
     ports:
       - 8001:8000
-    env_file: server/docker.env
+    env_file: server-node/docker.env
     restart: always
-    #stdin_open: true #https://github.com/docker/compose/issues/5016
     volumes:
-      - ./server:/usr/src/yawa
+      - ./server-node:/usr/src/yawa
       - /usr/src/yawa/node_modules
-      - ./container/var/yawa/logs:/var/yawa/logs
+      - ./server-node/.container/var/yawa/logs:/var/yawa/logs
+    depends_on:
+      - database
+
+  server-spring:
+    container_name: server-spring
+    build:
+      context: server-spring
+    ports:
+      - 8002:8000
+    env_file: server-spring/docker.env
+    restart: always
+    volumes:
+      - ./server-spring:/usr/src/yawa
+      - ./server-spring/.container/var/yawa/logs:/var/yawa/logs
     depends_on:
       - database
 

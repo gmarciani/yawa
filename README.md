@@ -28,12 +28,12 @@ mysql -h 127.0.0.1 -P 3307 -u dbuser -p
 
 From database container:
 ```
-mysql -u dbuser -p
+mysql -h 127.0.0.1 -P 3306 -u dbuser -p
 ```
 
 From server container:
 ```
-mysql -h database -P 3306 -u dbuser -p
+mysql -h database -P 3306 -u dbuser -p --ssl-mode=DISABLED
 ```
 
 ## Connect to server

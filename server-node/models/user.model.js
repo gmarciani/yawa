@@ -1,10 +1,11 @@
 'use strict'
 
-const { Sequelize, DataTypes } = require('sequelize')
-const logger = require('../config/logger')
-const sequelize = new Sequelize('mysql://dbuser:dbpassword@localhost:3306/dbyawa', {
-    logging: (msg) => logger.info('DB: ' + msg)
-})
+const { DataTypes } = require('sequelize')
+
+const config = require('../common/config')
+const database = require('../data/database')
+
+const sequelize = database.initialize(config.database)
 
 const User = sequelize.define('User', {
     username: {
