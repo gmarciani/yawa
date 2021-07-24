@@ -56,3 +56,11 @@ openssl req -new -key key.pem -out csr.pem
 openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
 rm csr.pem
 ```
+
+Create certificate for Spring Server
+```
+keytool -genkey -alias yawa -keyalg rsa -keystore yawa.keystore \
+  -validity 9999 -storetype pkcs12 \
+  -dname "CN=localhost, O=Yawa, L=Cagliari, ST=Italy, C=IT" \
+  -keypass yawapass -storepass yawapass
+```

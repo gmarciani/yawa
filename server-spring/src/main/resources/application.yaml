@@ -1,2 +1,9 @@
 server:
   port: 8000
+  ssl:
+    enabled: true
+    key-store: "classpath:certificates/yawa.keystore"
+    key-store-type: pkcs12
+    key-alias: yawa
+    key-store-password: yawapass
+    key-password: yawapass
