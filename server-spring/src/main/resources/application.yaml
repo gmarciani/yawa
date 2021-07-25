@@ -2,8 +2,34 @@ server:
   port: 8000
   ssl:
     enabled: true
-    key-store: "classpath:certificates/yawa.keystore"
+    key-store: classpath:certificates/yawa.keystore
     key-store-type: pkcs12
     key-alias: yawa
     key-store-password: yawapass
     key-password: yawapass
+  error:
+    include-message: always
+    include-stacktrace: always  # In production should be 'never'
+    include-exception: true  # In production should be 'false'
+    include-binding-errors: always  # In production should be 'never'
+    whitelabel:
+      enabled: false
+spring:
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update  # In production should be 'none'
+  datasource:
+    url: jdbc:mysql://database:3306/dbyawa?useSSL=false
+    username: dbuser
+    password: dbpassword
+logging:
+  config: classpath:logging/logback.xml
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3307/dbyawa?useSSL=false
