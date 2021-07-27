@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
 
+    <property name="PATTERN" value="%date %-5level %X{transactionId} [%thread] %logger{36} [%file:%line] %msg%n" />
+    <springProfile name="local">
+        <property name="LOG_FILE" value="application.log" />
+    </springProfile>
+    <springProfile name="!local">
+        <property name="LOG_FILE" value="/var/yawa/logs/application.log" />
+    </springProfile>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${PATTERN}</pattern>
         </encoder>
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <springProfile name="local">
-            <file>application.log</file>
-        </springProfile>
-        <springProfile name="!local">
-            <file>/var/yawa/logs/application.log</file>
-        </springProfile>
+        <file>${LOG_FILE}</file>
         <encoder>
-            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+            <pattern>${PATTERN}</pattern>
         </encoder>
     </appender>
 
