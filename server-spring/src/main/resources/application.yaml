@@ -15,6 +15,9 @@ server:
     whitelabel:
       enabled: false
 spring:
+  devtools:
+    restart:
+      enabled: true
   jpa:
     database: mysql
     show-sql: true
