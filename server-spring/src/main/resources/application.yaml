@@ -29,6 +29,33 @@ spring:
     password: dbpassword
 logging:
   config: classpath:logging/logback.xml
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /manage
+      exposure:
+        include: configprops,env,health,info
+  endpoint:
+    configprops:
+      enabled: true
+    env:
+      enabled: true
+    health:
+      show-components: always
+      show-details: always
+      enabled: true
+    info:
+      enabled: true
+  health:
+    custom:
+      enabled: true
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+    ping:
+      enabled: true
 ---
 spring:
   config:
