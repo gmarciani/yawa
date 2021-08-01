@@ -35,7 +35,7 @@ management:
     web:
       base-path: /manage
       exposure:
-        include: configprops,env,health,info
+        include: configprops,env,health,info,metrics,prometheus
   endpoint:
     configprops:
       enabled: true
@@ -47,6 +47,10 @@ management:
       enabled: true
     info:
       enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
   health:
     custom:
       enabled: true
@@ -56,6 +60,17 @@ management:
       enabled: true
     ping:
       enabled: true
+  info:
+    build:
+      enabled: true
+    git:
+      enabled: true
+      mode: simple
+    defaults:
+      enabled: false
+  metrics:
+    tags:
+      application: yawa
 ---
 spring:
   config:

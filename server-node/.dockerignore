@@ -1,8 +1,0 @@
-.dockerignore
-Dockerfile
-
-.container
-
-.gitignore
-
-node_modules

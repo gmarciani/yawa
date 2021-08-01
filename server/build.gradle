@@ -2,11 +2,17 @@ plugins {
     id "java"
     id "org.springframework.boot" version "2.5.3"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    //id "com.gorylenko.gradle-git-properties" version "2.2.4"
 }
 
 ext {
     profile = project.properties.getOrDefault("profile", "default")
 }
+
+group = "com.yawa"
+version = "1.0.0"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -16,6 +22,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:2.5.3"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:2.5.3"
     implementation "org.springframework.boot:spring-boot-starter-actuator:2.5.3"
+    //implementation "io.awspring.cloud:spring-cloud-starter-aws:2.3.1"
+    //implementation "io.awspring.cloud:spring-cloud-aws-autoconfigure:2.3.1"
+    //implementation "io.micrometer:micrometer-registry-cloudwatch:1.7.2"
+    implementation "io.micrometer:micrometer-registry-prometheus:1.7.2"
     implementation "org.apache.commons:commons-lang3:3.12.0"
 
     developmentOnly "org.springframework.boot:spring-boot-devtools:2.5.3"
@@ -29,9 +39,6 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.springframework.boot:spring-boot-starter-test:2.5.3"
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 jar {
     manifest {
@@ -49,3 +56,13 @@ test {
 bootRun {
     systemProperty "spring.profiles.active", profile
 }
+
+springBoot {
+    buildInfo()
+}
+/*
+gitProperties {
+    gitPropertiesName = "git.properties"
+    dotGitDirectory = "${projectDir}/../.git"
+}
+*/

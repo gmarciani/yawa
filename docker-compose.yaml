@@ -14,32 +14,17 @@ services:
   #    - database
   #    - server
 
-  server-node:
-    container_name: server-node
+  server:
+    container_name: server
     build:
-      context: server-node
-    ports:
-      - 8001:8000
-    env_file: server-node/docker.env
-    restart: always
-    volumes:
-      - ./server-node:/usr/src/yawa
-      - /usr/src/yawa/node_modules
-      - ./server-node/.container/var/yawa/logs:/var/yawa/logs
-    depends_on:
-      - database
-
-  server-spring:
-    container_name: server-spring
-    build:
-      context: server-spring
+      context: server
     ports:
       - 8002:8000
-    env_file: server-spring/docker.env
+    env_file: server/docker.env
     restart: always
     volumes:
-      - ./server-spring:/usr/src/yawa
-      - ./server-spring/.container/var/yawa/logs:/var/yawa/logs
+      - ./server:/usr/src/yawa
+      - ./server/.container/var/yawa/logs:/var/yawa/logs
     depends_on:
       - database
 
@@ -59,11 +44,36 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 8081:80
+      - 8003:80
     environment:
       - PMA_ARBITRARY=1
     depends_on:
       - database
+
+  prometheus:
+    container_name: prometheus
+    build:
+      context: prometheus
+    env_file: prometheus/docker.env
+    restart: always
+    ports:
+      - 8004:9090
+    volumes:
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - server
+
+  grafana:
+    container_name: grafana
+    build:
+      context: grafana
+    env_file: grafana/docker.env
+    restart: always
+    ports:
+      - 8005:3000
+    depends_on:
+      - server
+      - prometheus
 
 volumes:
   dbdata:
