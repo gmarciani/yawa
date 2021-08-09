@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class UsersController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
-    public User signup(@RequestBody SignupUserRequest request) {
+    public User signup(@Valid @RequestBody SignupUserRequest request) {
         log.info("Called Users.signup: {}", request);
 
         if (userRepository.existsById(request.getUsername())) {
@@ -56,7 +57,7 @@ public class UsersController {
     }
 
     @PostMapping
-    public User create(@RequestBody CreateUserRequest request) {
+    public User create(@Valid @RequestBody CreateUserRequest request) {
         log.info("Called Users.create: {}", request);
 
         if (userRepository.existsById(request.getUsername())) {
@@ -72,7 +73,7 @@ public class UsersController {
     }
 
     @PatchMapping("/{username}")
-    public User update(@PathVariable String username, @RequestBody UpdateUserRequest request) {
+    public User update(@PathVariable String username, @Valid @RequestBody UpdateUserRequest request) {
         log.info("Called Users.update: {} {}", username, request);
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("User not found: %s", username)));
