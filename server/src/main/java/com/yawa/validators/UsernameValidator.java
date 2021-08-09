@@ -11,7 +11,7 @@ public class UsernameValidator implements ConstraintValidator<Username, String> 
     private static final Pattern PATTERN = Pattern.compile(String.format("^.{%d,%d}$", MIN_SIZE, MAX_SIZE));
 
     public static final String VALIDATION_ERROR_MESSAGE =
-            "Invalid username: must be a string between 3 and 30 characters";
+            "Invalid username: must be a string between " + MIN_SIZE + " and " + MAX_SIZE + " characters";
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

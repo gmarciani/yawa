@@ -1,17 +1,19 @@
 package com.yawa.validators;
 
+import com.yawa.models.UserRoles;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-public class RoleValidator implements ConstraintValidator<Username, String> {
+public class RoleValidator implements ConstraintValidator<Role, String> {
 
-    private static final int MIN_SIZE = 3;
-    private static final int MAX_SIZE = 10;
-    private static final Pattern PATTERN = Pattern.compile(String.format("^.{%d,%d}$", MIN_SIZE, MAX_SIZE));
+    private static final Pattern PATTERN = Pattern.compile(
+            String.format("^%s$", StringUtils.join(UserRoles.ALL_ROLES, "|")));
 
     public static final String VALIDATION_ERROR_MESSAGE =
-            "Invalid username: must be a string between 3 and 10 characters";
+            "Invalid role: must be one of " + UserRoles.ADMIN + ", " + UserRoles.NORMAL;
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

@@ -1,5 +1,7 @@
 package com.yawa.models;
 
+import com.yawa.validators.Password;
+import com.yawa.validators.Username;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +19,10 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
+    @Username
     private String username;
+
+    @Password
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
