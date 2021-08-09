@@ -1,12 +1,13 @@
-package com.yawa.controllers;
+package com.yawa.api.users;
 
 import com.yawa.exceptions.DuplicatedResourceException;
 import com.yawa.exceptions.ResourceNotFoundException;
 import com.yawa.models.User;
-import com.yawa.models.dto.UserDto;
+import com.yawa.models.UserRoles;
 import com.yawa.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,12 +21,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/users")
+@RequestMapping(path="/api/users")
 @Slf4j
 public class UsersController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/signup")
+    public User signup(@RequestBody SignupUserRequest request) {
+        log.info("Called Users.signup: {}", request);
+
+        if (userRepository.existsById(request.getUsername())) {
+            throw new DuplicatedResourceException(String.format("User already exists: %s", request.getUsername()));
+        }
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setAuthoritiesForRole(UserRoles.NORMAL);
+        userRepository.save(user);
+        return user;
+    }
 
     @GetMapping
     public List<User> getAll() {
@@ -36,27 +56,33 @@ public class UsersController {
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
-        log.info("Called Users.create: {}", user);
-        if (userRepository.existsById(user.getUsername())) {
-            throw new DuplicatedResourceException(String.format("User already exists: %s", user.getUsername()));
+    public User create(@RequestBody CreateUserRequest request) {
+        log.info("Called Users.create: {}", request);
+
+        if (userRepository.existsById(request.getUsername())) {
+            throw new DuplicatedResourceException(String.format("User already exists: %s", request.getUsername()));
         }
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setAuthoritiesForRole(request.getRole());
         userRepository.save(user);
         return user;
     }
 
     @PatchMapping("/{username}")
-    public User update(@PathVariable String username, @RequestBody UserDto userDto) {
-        log.info("Called Users.update: {} {}", username, userDto);
+    public User update(@PathVariable String username, @RequestBody UpdateUserRequest request) {
+        log.info("Called Users.update: {} {}", username, request);
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("User not found: %s", username)));
-        user.setPassword(userDto.getPassword());
+        user.setPassword(request.getPassword());
         return userRepository.save(user);
     }
 
     @GetMapping("/{username}")
-    public User get(@PathVariable String username) {
-        log.info("Called Users.get: {}", username);
+    public User describe(@PathVariable String username) {
+        log.info("Called Users.describe: {}", username);
         return userRepository.findById(username)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("User not found: %s", username)));
     }

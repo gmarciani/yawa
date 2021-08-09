@@ -19,7 +19,8 @@ services:
     build:
       context: server
     ports:
-      - 8002:8000
+      - "8002:8000"
+      - "8006:8001"
     env_file: server/docker.env
     restart: always
     volumes:
@@ -34,7 +35,7 @@ services:
       context: database
     env_file: database/docker.env
     ports:
-      - 3307:3306
+      - "3307:3306"
     restart: always
     volumes:
       - dbdata:/var/lib/mysql
@@ -44,7 +45,7 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 8003:80
+      - "8003:80"
     environment:
       - PMA_ARBITRARY=1
     depends_on:
@@ -57,7 +58,7 @@ services:
     env_file: prometheus/docker.env
     restart: always
     ports:
-      - 8004:9090
+      - "8004:9090"
     volumes:
       - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
     depends_on:
@@ -70,7 +71,7 @@ services:
     env_file: grafana/docker.env
     restart: always
     ports:
-      - 8005:3000
+      - "8005:3000"
     depends_on:
       - server
       - prometheus
