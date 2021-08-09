@@ -1,11 +1,9 @@
 package com.yawa.api.users;
 
 import com.yawa.validators.Password;
+import com.yawa.validators.Role;
 import com.yawa.validators.Username;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Data
 public class CreateUserRequest {
@@ -16,7 +14,6 @@ public class CreateUserRequest {
     @Password
     private String password;
 
-    @NotBlank()
-    @Size(min = 3, max = 10)
+    @Role
     private String role;
 }
