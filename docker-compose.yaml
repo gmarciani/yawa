@@ -60,7 +60,7 @@ services:
     ports:
       - "8004:9090"
     volumes:
-      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./prometheus/config/prometheus.yaml:/etc/prometheus/prometheus.yml
     depends_on:
       - server
 
