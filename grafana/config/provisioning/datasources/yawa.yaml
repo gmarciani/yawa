@@ -1,0 +1,18 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: Yawa
+    orgId: 1
+
+datasources:
+ - name: Yawa
+   type: prometheus
+   access: proxy
+   orgId: 1
+   url: http://prometheus:9090
+   isDefault: true
+   jsonData:
+     tlsSkipVerify: true
+     httpMethod: GET
+   editable: false
+   version: 1

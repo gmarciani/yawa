@@ -72,8 +72,9 @@ services:
     restart: always
     ports:
       - "8005:3000"
+    volumes:
+      - ./grafana/config/provisioning/datasources:/etc/grafana/provisioning/datasources
     depends_on:
-      - server
       - prometheus
 
 volumes:
