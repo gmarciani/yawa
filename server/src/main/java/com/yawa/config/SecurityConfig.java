@@ -80,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 //.antMatchers("/api/admin/**").hasAuthority(UserRoles.ADMIN)
                 .antMatchers("/api/admin/**").hasRole(UserRoles.ADMIN)
+                .antMatchers("/manage/**").permitAll()
                 // Private endpoints
                 .anyRequest().authenticated();
 
