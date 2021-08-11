@@ -68,12 +68,13 @@ services:
     container_name: grafana
     build:
       context: grafana
-    env_file: grafana/docker.env
     restart: always
     ports:
       - "8005:3000"
     volumes:
       - ./grafana/config/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/config/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/config/dashboards:/var/lib/grafana/dashboards/yawa
     depends_on:
       - prometheus
 
