@@ -72,9 +72,9 @@ services:
     ports:
       - "8005:3000"
     volumes:
-      - ./grafana/config/provisioning/datasources:/etc/grafana/provisioning/datasources
-      - ./grafana/config/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./grafana/config/dashboards:/var/lib/grafana/dashboards/yawa
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
 

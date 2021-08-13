@@ -1,11 +1,11 @@
 apiVersion: 1
 
 deleteDatasources:
-  - name: Yawa
+  - name: YAWA
     orgId: 1
 
 datasources:
- - name: Yawa
+ - name: YAWA
    type: prometheus
    access: proxy
    orgId: 1
