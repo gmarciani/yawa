@@ -15,6 +15,8 @@ server:
     whitelabel:
       enabled: false
 spring:
+  profiles:
+    default: developmentOnDocker
   devtools:
     restart:
       enabled: true
