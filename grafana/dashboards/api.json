@@ -36,7 +36,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1629017027195,
+  "iteration": 1629049794415,
   "links": [],
   "panels": [
     {
@@ -81,7 +81,7 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percentunit"
         },
         "overrides": []
       },
