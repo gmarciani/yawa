@@ -1,6 +1,7 @@
 package com.yawa.api.open;
 
 import com.yawa.exceptions.NotAuthorizedException;
+import com.yawa.exceptions.YawaInternalException;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,14 @@ public class PublicController {
         log.info("Called PublicController.random");
         float dice = new Random().nextFloat();
         if (dice <= 6.0/10) {
+            log.info("Will return success");
             return "Success";
         } else if (dice <= 9.0/10) {
+            log.warn("Will return client error");
             throw new NotAuthorizedException("Fake client error");
         } else {
-            throw new RuntimeException("Fake internal error");
+            log.error("Will return server error");
+            throw new YawaInternalException("Fake internal error");
         }
     }
 }
