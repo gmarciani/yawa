@@ -6,9 +6,13 @@ ENV GRADLE_VERSION 7.1.1
 ENV SDKMAN_DIR /usr/local/sdkman
 ENV YAWA_DIR /usr/src/yawa
 ENV LOG_DIR /var/yawa/logs
+ENV LOG_LEVEL=info
 ENV DEBUG_ENABLED true
 ENV SERVER_PORT 8000
 ENV DEBUG_PORT 8001
+ENV STACK dev
+ENV REGION local
+ENV CONFIG_FILE=resources/config/app.yaml
 
 EXPOSE $SERVER_PORT
 EXPOSE $DEBUG_PORT
@@ -34,4 +38,8 @@ COPY . .
 
 RUN gradle build
 
-CMD gradle bootRun -PdebugEnabled=$DEBUG_ENABLED -PdebugPort=$DEBUG_PORT
+CMD gradle bootRun \
+    -Pstack=$STACK \
+    -Pregion=$REGION \
+    -PdebugEnabled=$DEBUG_ENABLED \
+    -PdebugPort=$DEBUG_PORT

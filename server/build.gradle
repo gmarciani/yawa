@@ -7,7 +7,9 @@ plugins {
 ext {
     profile = project.properties.getOrDefault("profile", "default")
     debugEnabled = project.properties.getOrDefault("debugEnabled", false)
-    debugPort = project.properties.getOrDefault("debugPort", 8001)
+    debugPort = project.properties.getOrDefault("debugPort", 8001) as Integer
+    stack = project.properties.getOrDefault("stack", "prod")
+    region = project.properties.getOrDefault("region", "us-east-1")
 }
 
 group = "com.yawa"
@@ -54,8 +56,10 @@ bootJar {
 
 bootRun {
     systemProperty "spring.profiles.active", profile
+    systemProperty "yawa.stack", stack
+    systemProperty "yawa.region", region
     if (debugEnabled) {
-        jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8001"
+        jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${debugPort}"
     }
 }
 

@@ -73,8 +73,6 @@ management:
   metrics:
     tags:
       application: yawa
-      region: "us-east-1"
-      stack: "prod"
     web:
       server:
         request:

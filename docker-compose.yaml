@@ -21,7 +21,6 @@ services:
     ports:
       - "8002:8000"
       - "8006:8001"
-    env_file: server/docker.env
     restart: always
     volumes:
       - ./server:/usr/src/yawa
