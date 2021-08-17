@@ -20,8 +20,7 @@ public class MetricsTagContributor implements WebMvcTagsContributor {
                                  HttpServletResponse response, Object handler, Throwable exception) {
         return Tags.empty()
                 .and("stack", appConfigurationProvider.getProperty("yawa.stack"))
-                .and("region", appConfigurationProvider.getProperty("yawa.region"))
-                .and("custom", "custom tag");
+                .and("region", appConfigurationProvider.getProperty("yawa.region"));
     }
 
     @Override
