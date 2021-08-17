@@ -1,6 +1,8 @@
 package com.yawa.api.open;
 
 import com.yawa.exceptions.NotAuthorizedException;
+import com.yawa.exceptions.ResourceNotFoundException;
+import com.yawa.exceptions.YawaDatabaseInternalException;
 import com.yawa.exceptions.YawaInternalException;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +35,18 @@ public class PublicController {
         if (dice <= 6.0/10) {
             log.info("Will return success");
             return "Success";
-        } else if (dice <= 9.0/10) {
-            log.warn("Will return client error");
+        } else if (dice <= 7.5/10) {
+            log.warn("Will return client error: unauthorized");
             throw new NotAuthorizedException("Fake client error");
+        } else if (dice <= 9.0/10) {
+            log.warn("Will return client error: resource not found");
+            throw new ResourceNotFoundException("Fake client error");
+        } else if (dice <= 9.5/10) {
+            log.warn("Will return server error: db error");
+            throw new YawaDatabaseInternalException("Fake server error");
         } else {
-            log.error("Will return server error");
-            throw new YawaInternalException("Fake internal error");
+            log.error("Will return server error: generic internal error");
+            throw new YawaInternalException("Fake server error");
         }
     }
 }
