@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MAX_REQUESTS=10
+MAX_REQUESTS=10800
 SLEEP_SECONDS=1
 
 function sendRequest() {
@@ -10,7 +10,7 @@ function sendRequest() {
     curl -k --request $method $endpoint --header "Authorization: Bearer $token"
 }
 
-for request in {1..100}; do
+for ((request = 0 ; request < $MAX_REQUESTS ; request++ )); do
   echo "Request $request"
   sendRequest 'GET' 'https://localhost:8002/api/open/random'
   sleep $SLEEP_SECONDS
