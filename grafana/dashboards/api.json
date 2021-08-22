@@ -36,13 +36,13 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1629049794415,
+  "iteration": 1629648600991,
   "links": [],
   "panels": [
     {
       "cacheTimeout": null,
       "datasource": "YAWA",
-      "description": "Availability -- 1h frame",
+      "description": "Availability -- 1h",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -61,23 +61,19 @@
             }
           ],
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "#32ac2df7",
+                "color": "semi-dark-red",
                 "value": null
               },
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": 95
-              },
-              {
-                "color": "semi-dark-yellow",
-                "value": 99
+                "color": "#EAB839",
+                "value": 0.9
               },
               {
                 "color": "semi-dark-green",
-                "value": 100
+                "value": 0.99
               }
             ]
           },
@@ -129,7 +125,7 @@
     {
       "cacheTimeout": null,
       "datasource": "YAWA",
-      "description": "Per-second requests -- 1h frame",
+      "description": "Per-second requests -- 1h",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -153,14 +149,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "semi-dark-yellow",
-                "value": 750
-              },
-              {
-                "color": "red",
-                "value": 1000
               }
             ]
           },
@@ -200,7 +188,7 @@
           "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[1h]))",
           "format": "time_series",
           "interval": "",
-          "intervalFactor": 2,
+          "intervalFactor": 1,
           "legendFormat": "",
           "metric": "",
           "refId": "A",
@@ -213,7 +201,7 @@
     {
       "cacheTimeout": null,
       "datasource": "YAWA",
-      "description": "Latency -- 1h frame",
+      "description": "Latency -- 1h",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -300,7 +288,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "YAWA",
-      "decimals": null,
+      "decimals": 3,
       "editable": true,
       "error": false,
       "fill": 1,
@@ -322,7 +310,7 @@
       "hiddenSeries": false,
       "id": 106,
       "legend": {
-        "avg": false,
+        "avg": true,
         "current": true,
         "hideEmpty": false,
         "hideZero": false,
@@ -405,7 +393,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -419,8 +407,8 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "YAWA",
-      "decimals": 2,
-      "description": "Per second requests, calculated in 1m frame",
+      "decimals": 3,
+      "description": "",
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -448,7 +436,7 @@
       "hiddenSeries": false,
       "id": 139,
       "legend": {
-        "avg": false,
+        "avg": true,
         "current": true,
         "max": true,
         "min": true,
@@ -531,7 +519,7 @@
           "logBase": 1,
           "max": null,
           "min": "0",
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -545,7 +533,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "YAWA",
-      "decimals": null,
+      "decimals": 3,
       "editable": true,
       "error": false,
       "fieldConfig": {
@@ -574,7 +562,7 @@
       "hiddenSeries": false,
       "id": 137,
       "legend": {
-        "avg": false,
+        "avg": true,
         "current": true,
         "max": true,
         "min": true,
@@ -655,7 +643,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -669,13 +657,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "YAWA",
-      "decimals": 2,
+      "decimals": 3,
       "editable": true,
       "error": false,
       "fieldConfig": {
         "defaults": {
-          "displayName": "Requests",
-          "unit": "string"
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -691,18 +678,23 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 24,
         "x": 0,
         "y": 10
       },
       "hiddenSeries": false,
-      "id": 135,
+      "id": 142,
       "legend": {
-        "avg": false,
-        "current": true,
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
         "max": true,
         "min": true,
+        "rightSide": true,
         "show": true,
+        "sideWidth": 500,
+        "sort": "avg",
+        "sortDesc": true,
         "total": false,
         "values": true
       },
@@ -725,14 +717,50 @@
       "targets": [
         {
           "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval])) ",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "ALL",
+          "metric": "",
+          "refId": "A",
+          "step": 2400
+        },
+        {
+          "exemplar": true,
           "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "Requests",
+          "legendFormat": "SUCCESS",
           "metric": "",
-          "refId": "A",
+          "refId": "B",
+          "step": 2400
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "SERVER_ERROR",
+          "metric": "",
+          "refId": "C",
+          "step": 2400
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "CLIENT_ERROR",
+          "metric": "",
+          "refId": "D",
           "step": 2400
         }
       ],
@@ -740,7 +768,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Successes",
+      "title": "Volume",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -765,7 +793,7 @@
         {
           "$$hashKey": "object:777",
           "decimals": 3,
-          "format": "string",
+          "format": "reqps",
           "label": "",
           "logBase": 1,
           "max": null,
@@ -774,13 +802,12 @@
         },
         {
           "$$hashKey": "object:778",
-          "decimals": null,
           "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
-          "show": true
+          "min": "0",
+          "show": false
         }
       ],
       "yaxis": {
@@ -794,13 +821,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "YAWA",
-      "decimals": null,
+      "decimals": 3,
       "editable": true,
       "error": false,
       "fieldConfig": {
         "defaults": {
-          "displayName": "Requests",
-          "unit": "string"
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -816,18 +842,23 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 10
+        "w": 24,
+        "x": 0,
+        "y": 17
       },
       "hiddenSeries": false,
-      "id": 141,
+      "id": 145,
       "legend": {
-        "avg": false,
-        "current": true,
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
         "max": true,
         "min": true,
+        "rightSide": true,
         "show": true,
+        "sideWidth": 500,
+        "sort": "avg",
+        "sortDesc": true,
         "total": false,
         "values": true
       },
@@ -850,14 +881,26 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "Requests",
+          "legendFormat": "ALL",
           "metric": "",
           "refId": "A",
+          "step": 2400
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) by(exception)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{exception}}",
+          "metric": "",
+          "refId": "B",
           "step": 2400
         }
       ],
@@ -890,7 +933,7 @@
         {
           "$$hashKey": "object:777",
           "decimals": 3,
-          "format": "string",
+          "format": "reqps",
           "label": "",
           "logBase": 1,
           "max": null,
@@ -904,7 +947,7 @@
           "logBase": 1,
           "max": null,
           "min": "0",
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -923,8 +966,7 @@
       "error": false,
       "fieldConfig": {
         "defaults": {
-          "displayName": "Requests",
-          "unit": "string"
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -940,22 +982,23 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 10
+        "w": 24,
+        "x": 0,
+        "y": 24
       },
       "hiddenSeries": false,
-      "id": 140,
+      "id": 143,
       "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": true,
-        "hideEmpty": false,
-        "hideZero": false,
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
         "max": true,
         "min": true,
-        "rightSide": false,
+        "rightSide": true,
         "show": true,
+        "sideWidth": 500,
+        "sort": "avg",
+        "sortDesc": true,
         "total": false,
         "values": true
       },
@@ -978,14 +1021,26 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "Requests",
+          "legendFormat": "ALL",
           "metric": "",
           "refId": "A",
+          "step": 2400
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) by(exception)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{exception}}",
+          "metric": "",
+          "refId": "B",
           "step": 2400
         }
       ],
@@ -1018,7 +1073,7 @@
         {
           "$$hashKey": "object:777",
           "decimals": 3,
-          "format": "string",
+          "format": "reqps",
           "label": "",
           "logBase": 1,
           "max": null,
@@ -1031,8 +1086,8 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
-          "show": true
+          "min": "0",
+          "show": false
         }
       ],
       "yaxis": {
@@ -1046,6 +1101,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "YAWA",
+      "decimals": 3,
       "fieldConfig": {
         "defaults": {
           "unit": "s"
@@ -1056,18 +1112,23 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 24,
         "x": 0,
-        "y": 17
+        "y": 31
       },
       "hiddenSeries": false,
-      "id": 111,
+      "id": 144,
       "legend": {
-        "avg": false,
-        "current": true,
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
         "max": true,
         "min": true,
+        "rightSide": true,
         "show": true,
+        "sideWidth": 500,
+        "sort": "avg",
+        "sortDesc": false,
         "total": false,
         "values": true
       },
@@ -1090,19 +1151,49 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "Latency",
+          "legendFormat": "ALL",
           "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval]))",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "SUCCESS",
+          "refId": "B"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "SERVER_ERROR",
+          "refId": "C"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "CLIENT_ERROR",
+          "refId": "D"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Success Latency",
+      "title": "Latency",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1129,212 +1220,6 @@
         },
         {
           "$$hashKey": "object:1359",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "YAWA",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 17
-      },
-      "hiddenSeries": false,
-      "id": 136,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.1.1",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "Latency",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Server Error Latency",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1188",
-          "decimals": 3,
-          "format": "s",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1189",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "YAWA",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 17
-      },
-      "hiddenSeries": false,
-      "id": 113,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.1.1",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "Latency",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Client Error Latency",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1188",
-          "decimals": 3,
-          "format": "s",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1189",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1425,8 +1310,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "prod",
-          "value": "prod"
+          "text": "dev",
+          "value": "dev"
         },
         "datasource": "YAWA",
         "definition": "",
@@ -1457,8 +1342,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "us-east-1",
-          "value": "us-east-1"
+          "text": "local",
+          "value": "local"
         },
         "datasource": "YAWA",
         "definition": "",
@@ -1583,5 +1468,5 @@
   "timezone": "utc",
   "title": "YAWA API",
   "uid": "yawa-api",
-  "version": 1
+  "version": 4
 }
