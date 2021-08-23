@@ -1,5 +1,7 @@
 package com.yawa.config;
 
+import com.yawa.constants.MdcKeys;
+import com.yawa.constants.HttpHeaders;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
@@ -12,18 +14,16 @@ import java.util.UUID;
 @Component
 public class AppMvcInterceptor implements HandlerInterceptor {
 
-    private final String MDC_KEY = "transactionId";
-    private final String TRACE_HEADER = "X-Trace-Id";
-
     public AppMvcInterceptor() {
-        MDC.put(MDC_KEY, UUID.randomUUID().toString());
+        MDC.put(MdcKeys.REQUEST_ID, UUID.randomUUID().toString());
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String traceID = StringUtils.isNotBlank(request.getHeader(TRACE_HEADER)) ?
-                request.getHeader(TRACE_HEADER) : UUID.randomUUID().toString();
-        MDC.put(MDC_KEY, traceID);
+        String requestId = StringUtils.isNotBlank(request.getHeader(HttpHeaders.REQUEST_ID)) ?
+                request.getHeader(HttpHeaders.REQUEST_ID) : UUID.randomUUID().toString();
+        response.setHeader(HttpHeaders.REQUEST_ID, requestId);
+        MDC.put(MdcKeys.REQUEST_ID, requestId);
         return true;
     }
 }
