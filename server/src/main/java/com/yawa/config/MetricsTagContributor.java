@@ -1,5 +1,6 @@
 package com.yawa.config;
 
+import com.yawa.constants.SystemProperties;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,10 @@ public class MetricsTagContributor implements WebMvcTagsContributor {
     public Iterable<Tag> getTags(HttpServletRequest request,
                                  HttpServletResponse response, Object handler, Throwable exception) {
         return Tags.empty()
-                .and("stack", appConfigurationProvider.getProperty("yawa.stack"))
-                .and("region", appConfigurationProvider.getProperty("yawa.region"));
+                .and("stack", appConfigurationProvider.getProperty(SystemProperties.STACK))
+                .and("region", appConfigurationProvider.getProperty(SystemProperties.REGION));
+                /*.and("requestId", StringUtils.isNotBlank(response.getHeader(HttpHeaders.REQUEST_ID)) ?
+                        response.getHeader(HttpHeaders.REQUEST_ID) : "fake-" + UUID.randomUUID());*/
     }
 
     @Override
