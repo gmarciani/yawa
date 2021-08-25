@@ -76,6 +76,29 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
+      - loki
+
+  loki:
+    container_name: loki
+    build:
+      context: loki
+    restart: always
+    ports:
+      - "8007:3100"
+    volumes:
+      - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
+
+  promtail:
+    container_name: promtail
+    build:
+      context: promtail
+    restart: always
+    ports:
+      - "8008:9080"
+    volumes:
+      - ./promtail/config/promtail.yaml:/etc/promtail/local-config.yaml
+    depends_on:
+      - loki
 
 volumes:
   dbdata:

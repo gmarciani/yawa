@@ -19,7 +19,7 @@
         "type": "dashboard"
       },
       {
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "enable": true,
         "expr": "resets(process_uptime_seconds{application=\"$application\", instance=\"$instance\"}[1m]) > 0",
         "iconColor": "rgba(255, 96, 96, 1)",
@@ -36,12 +36,12 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1629713048860,
+  "iteration": 1629914321896,
   "links": [],
   "panels": [
     {
       "cacheTimeout": null,
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "description": "Availability -- 1h",
       "fieldConfig": {
         "defaults": {
@@ -124,7 +124,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "description": "Per-second requests -- 1h",
       "fieldConfig": {
         "defaults": {
@@ -200,7 +200,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "description": "Latency -- 1h",
       "fieldConfig": {
         "defaults": {
@@ -283,7 +283,7 @@
       "type": "stat"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -384,7 +384,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -485,7 +485,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -586,7 +586,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -718,7 +718,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -826,7 +826,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -934,7 +934,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "YAWA",
+      "datasource": "YAWA-Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1062,6 +1062,35 @@
       "timeShift": null,
       "title": "Latency",
       "type": "timeseries"
+    },
+    {
+      "datasource": "YAWA-Loki",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 147,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "expr": "{job=\"varlogs\"}",
+          "maxLines": 100,
+          "refId": "A"
+        }
+      ],
+      "title": "Logs",
+      "type": "logs"
     }
   ],
   "refresh": "10s",
@@ -1080,7 +1109,7 @@
           "text": "yawa",
           "value": "yawa"
         },
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "definition": "",
         "description": null,
         "error": null,
@@ -1111,7 +1140,7 @@
           "text": "server:8000",
           "value": "server:8000"
         },
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "definition": "",
         "description": null,
         "error": null,
@@ -1143,7 +1172,7 @@
           "text": "dev",
           "value": "dev"
         },
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "definition": "",
         "description": null,
         "error": null,
@@ -1175,7 +1204,7 @@
           "text": "local",
           "value": "local"
         },
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "definition": "",
         "description": null,
         "error": null,
@@ -1207,7 +1236,7 @@
           "text": "/api/open/random",
           "value": "/api/open/random"
         },
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "definition": "",
         "description": null,
         "error": null,
@@ -1239,7 +1268,7 @@
           "text": "GET",
           "value": "GET"
         },
-        "datasource": "YAWA",
+        "datasource": "YAWA-Prometheus",
         "definition": "",
         "description": null,
         "error": null,

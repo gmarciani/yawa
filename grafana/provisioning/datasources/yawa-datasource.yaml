@@ -1,11 +1,13 @@
 apiVersion: 1
 
 deleteDatasources:
-  - name: YAWA
+  - name: YAWA-Prometheus
+    orgId: 1
+  - name: YAWA-Loki
     orgId: 1
 
 datasources:
- - name: YAWA
+ - name: YAWA-Prometheus
    type: prometheus
    access: proxy
    orgId: 1
@@ -14,5 +16,11 @@ datasources:
    jsonData:
      tlsSkipVerify: true
      httpMethod: GET
+   editable: false
+   version: 1
+ - name: YAWA-Loki
+   type: loki
+   orgId: 1
+   url: http://loki:3100
    editable: false
    version: 1
