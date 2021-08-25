@@ -11,5 +11,4 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && \
     apt-get install -y sudo vim curl wget less lsof
 
-# Import Dashboard: https://grafana.com/grafana/dashboards/4701
 RUN grafana-cli admin reset-admin-password $GRAFANA_ADMIN_PASSWORD
