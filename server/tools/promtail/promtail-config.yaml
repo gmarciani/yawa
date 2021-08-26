@@ -23,3 +23,15 @@ scrape_configs:
         labels:
           job: yawa
           __path__: /var/yawa/logs/*.log
+    pipeline_stages:
+    - match:
+        selector: '{job="yawa"}'
+        stages:
+        - regex:
+            expression: '^(?P<timestamp>[^ ]+)\s(?P<level>[^ ]+)\s+(?P<requestId>[^ ]+)\s(?P<logger>[^ ]+)\s(?P<fileAndLine>[^ ]+)\s(?P<message>.*)$'
+        - labels:
+            level:
+            requestId:
+        - timestamp:
+            format: RFC3339Nano
+            source: timestamp
