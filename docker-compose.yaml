@@ -28,6 +28,7 @@ services:
       - ./server/.container/var/yawa/logs:/var/yawa/logs
     depends_on:
       - database
+      - loki
 
   database:
     container_name: database
