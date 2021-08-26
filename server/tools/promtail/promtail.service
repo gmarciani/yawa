@@ -1,0 +1,11 @@
+[Unit]
+Description=Promtail service
+After=network.target
+
+[Service]
+Type=simple
+User=promtail
+ExecStart=/opt/promptail/promtail-linux-amd64 -config.file /usr/src/yawa/tools/promtail/promtail-config.yaml
+
+[Install]
+WantedBy=multi-user.target

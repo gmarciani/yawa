@@ -1084,7 +1084,7 @@
       },
       "targets": [
         {
-          "expr": "{job=\"varlogs\"}",
+          "expr": "{job=\"yawa\"}",
           "maxLines": 100,
           "refId": "A"
         }

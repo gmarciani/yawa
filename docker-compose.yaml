@@ -19,8 +19,9 @@ services:
     build:
       context: server
     ports:
-      - "8002:8000"
-      - "8006:8001"
+      - "8002:8000"  # Server
+      - "8006:8001"  # Debugger
+      - "8008:9080"  # Promtail
     restart: always
     volumes:
       - ./server:/usr/src/yawa
@@ -87,18 +88,6 @@ services:
       - "8007:3100"
     volumes:
       - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
-
-  promtail:
-    container_name: promtail
-    build:
-      context: promtail
-    restart: always
-    ports:
-      - "8008:9080"
-    volumes:
-      - ./promtail/config/promtail.yaml:/etc/promtail/local-config.yaml
-    depends_on:
-      - loki
 
 volumes:
   dbdata:
