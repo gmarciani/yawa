@@ -47,8 +47,8 @@ RUN chmod a+x /opt/promptail/promtail-linux-amd64
 RUN useradd --system promtail
 RUN cp $YAWA_DIR/tools/promtail/promtail.service /etc/systemd/system/promtail.service
 RUN systemctl enable promtail.service
-RUN service promtail start
-RUN service promtail status
+RUN systemctl start promtail
+RUN systemctl status promtail
 
 # Yawa Server
 RUN gradle build
