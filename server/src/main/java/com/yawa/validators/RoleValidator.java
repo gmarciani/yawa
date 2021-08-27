@@ -1,6 +1,6 @@
 package com.yawa.validators;
 
-import com.yawa.models.UserRoles;
+import com.yawa.models.users.UserRoles;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;

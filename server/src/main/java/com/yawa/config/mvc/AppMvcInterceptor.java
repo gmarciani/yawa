@@ -1,4 +1,4 @@
-package com.yawa.config;
+package com.yawa.config.mvc;
 
 import com.yawa.constants.MdcKeys;
 import com.yawa.constants.HttpHeaders;

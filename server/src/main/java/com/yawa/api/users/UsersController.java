@@ -2,8 +2,8 @@ package com.yawa.api.users;
 
 import com.yawa.exceptions.DuplicatedResourceException;
 import com.yawa.exceptions.ResourceNotFoundException;
-import com.yawa.models.User;
-import com.yawa.models.UserRoles;
+import com.yawa.models.users.User;
+import com.yawa.models.users.UserRoles;
 import com.yawa.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

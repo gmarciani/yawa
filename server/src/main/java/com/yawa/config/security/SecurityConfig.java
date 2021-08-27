@@ -1,6 +1,6 @@
-package com.yawa.config;
+package com.yawa.config.security;
 
-import com.yawa.models.UserRoles;
+import com.yawa.models.users.UserRoles;
 import com.yawa.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.yawa.models;
+package com.yawa.models.users;
 
 import java.util.Arrays;
 import java.util.List;

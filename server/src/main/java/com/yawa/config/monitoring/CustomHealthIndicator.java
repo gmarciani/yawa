@@ -1,4 +1,4 @@
-package com.yawa.config;
+package com.yawa.config.monitoring;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

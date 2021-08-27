@@ -1,4 +1,4 @@
-package com.yawa.config;
+package com.yawa.config.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

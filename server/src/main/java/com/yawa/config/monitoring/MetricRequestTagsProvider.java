@@ -1,6 +1,7 @@
-package com.yawa.config;
+package com.yawa.config.monitoring;
 
-import com.yawa.constants.SystemProperties;
+import com.yawa.config.mvc.OperationNameProvider;
+import com.yawa.constants.MetricTags;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class MetricsTagContributor implements WebMvcTagsContributor {
+public class MetricRequestTagsProvider implements WebMvcTagsContributor {
 
     @Autowired
-    private AppConfigurationProvider appConfigurationProvider;
+    private OperationNameProvider operationNameProvider;
 
     @Override
     public Iterable<Tag> getTags(HttpServletRequest request,
                                  HttpServletResponse response, Object handler, Throwable exception) {
         return Tags.empty()
-                .and("stack", appConfigurationProvider.getProperty(SystemProperties.STACK))
-                .and("region", appConfigurationProvider.getProperty(SystemProperties.REGION));
+                .and(MetricTags.OPERATION,
+                        operationNameProvider.getOperationName(request.getMethod(), request.getRequestURI()));
                 /*.and("requestId", StringUtils.isNotBlank(response.getHeader(HttpHeaders.REQUEST_ID)) ?
-                        response.getHeader(HttpHeaders.REQUEST_ID) : "fake-" + UUID.randomUUID());*/
+                        response.getHeader(HttpHeaders.REQUEST_ID) : "none-" + UUID.randomUUID());*/
     }
 
     @Override

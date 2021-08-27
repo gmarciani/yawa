@@ -1,4 +1,4 @@
-package com.yawa.models;
+package com.yawa.models.users;
 
 import com.yawa.validators.Password;
 import com.yawa.validators.Username;
