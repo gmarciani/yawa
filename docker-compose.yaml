@@ -76,6 +76,7 @@ services:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/public/home.json:/usr/share/grafana/public/dashboards/home.json
     depends_on:
       - prometheus
       - loki
