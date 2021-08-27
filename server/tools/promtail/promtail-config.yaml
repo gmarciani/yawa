@@ -21,11 +21,14 @@ scrape_configs:
       - targets:
           - localhost
         labels:
-          job: yawa
-          __path__: /var/yawa/logs/*.log
+          application: yawa
+          component: server
+          stack: dev
+          region: local
+          __path__: /var/yawa/logs/application.log
     pipeline_stages:
     - match:
-        selector: '{job="yawa"}'
+        selector: '{application="yawa"}'
         stages:
         - regex:
             expression: '^(?P<timestamp>[^ ]+)\s(?P<level>[^ ]+)\s+(?P<requestId>[^ ]+)\s(?P<logger>[^ ]+)\s(?P<fileAndLine>[^ ]+)\s(?P<message>.*)$'
