@@ -17,18 +17,6 @@
           "type": "dashboard"
         },
         "type": "dashboard"
-      },
-      {
-        "datasource": "YAWA-Prometheus",
-        "enable": true,
-        "expr": "resets(process_uptime_seconds{application=\"$application\", instance=\"$instance\"}[1m]) > 0",
-        "iconColor": "rgba(255, 96, 96, 1)",
-        "name": "Restart Detection",
-        "showIn": 0,
-        "step": "1m",
-        "tagKeys": "restart-tag",
-        "textFormat": "uptime reset",
-        "titleFormat": "Restart"
       }
     ]
   },
@@ -36,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630023248995,
+  "iteration": 1630105432968,
   "links": [],
   "panels": [
     {
@@ -1084,6 +1072,16 @@
         "type": "constant"
       },
       {
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "label": "Component",
+        "name": "component",
+        "query": "server",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
         "allFormat": "glob",
         "allValue": null,
         "current": {
@@ -1092,7 +1090,7 @@
           "value": "dev"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\"}, stack)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\"}, stack)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1103,7 +1101,7 @@
         "name": "stack",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\"}, stack)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\"}, stack)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1120,11 +1118,11 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "local",
-          "value": "local"
+          "text": "docker",
+          "value": "docker"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, region)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\"}, region)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1135,7 +1133,7 @@
         "name": "region",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, region)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\"}, region)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1149,25 +1147,25 @@
       },
       {
         "allFormat": "glob",
-        "allValue": null,
+        "allValue": "",
         "current": {
           "selected": false,
-          "text": "server:8000",
-          "value": "server:8000"
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, instance)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\", region=\"$region\"}, instance)",
         "description": null,
         "error": null,
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Instance",
         "multi": false,
         "multiFormat": "glob",
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, instance)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\", region=\"$region\"}, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1188,7 +1186,7 @@
           "value": "/api/open/random"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\"}, uri)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\", region=\"$region\", instance=\"$instance\"}, uri)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1199,7 +1197,7 @@
         "name": "uri",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\"}, uri)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\", region=\"$region\", instance=\"$instance\"}, uri)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -1220,7 +1218,7 @@
           "value": "GET"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\", uri=\"$uri\"}, method)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\", region=\"$region\", instance=\"$instance\", uri=\"$uri\"}, method)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1231,7 +1229,7 @@
         "name": "method",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\", uri=\"$uri\"}, method)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", component=\"$component\", stack=\"$stack\", region=\"$region\", instance=\"$instance\", uri=\"$uri\"}, method)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,

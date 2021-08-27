@@ -17,26 +17,14 @@
           "type": "dashboard"
         },
         "type": "dashboard"
-      },
-      {
-        "datasource": "YAWA-Prometheus",
-        "enable": true,
-        "expr": "resets(process_uptime_seconds{application=\"$application\", instance=\"$instance\"}[1m]) > 0",
-        "iconColor": "rgba(255, 96, 96, 1)",
-        "name": "Restart Detection",
-        "showIn": 0,
-        "step": "1m",
-        "tagKeys": "restart-tag",
-        "textFormat": "uptime reset",
-        "titleFormat": "Restart"
       }
     ]
   },
-  "description": "Dashboard for YAWA API monitoring",
+  "description": "Dashboard for YAWA Request Logs",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630020710502,
+  "iteration": 1630104987129,
   "links": [],
   "panels": [
     {
@@ -60,7 +48,7 @@
       },
       "targets": [
         {
-          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", requestId=\"$request\", component=\"$component\", level=\"$level\"}",
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", requestId=~\"$request\", component=\"$component\", level=\"$level\"} |~ \"$search\"",
           "maxLines": 100,
           "refId": "A"
         }
@@ -73,7 +61,7 @@
   "style": "dark",
   "tags": [
     "yawa",
-    "api"
+    "logs"
   ],
   "templating": {
     "list": [
@@ -144,8 +132,8 @@
       {
         "current": {
           "selected": false,
-          "text": "a28c326b-29e9-4a43-bdc2-d7d05a77730c",
-          "value": "a28c326b-29e9-4a43-bdc2-d7d05a77730c"
+          "text": ".*",
+          "value": ".*"
         },
         "description": null,
         "error": null,
@@ -155,11 +143,11 @@
         "options": [
           {
             "selected": true,
-            "text": "a28c326b-29e9-4a43-bdc2-d7d05a77730c",
-            "value": "a28c326b-29e9-4a43-bdc2-d7d05a77730c"
+            "text": ".*",
+            "value": ".*"
           }
         ],
-        "query": "a28c326b-29e9-4a43-bdc2-d7d05a77730c",
+        "query": ".*",
         "skipUrlSync": false,
         "type": "textbox"
       },
@@ -221,6 +209,28 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": ".*",
+          "value": ".*"
+        },
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "label": "Search",
+        "name": "search",
+        "options": [
+          {
+            "selected": true,
+            "text": ".*",
+            "value": ".*"
+          }
+        ],
+        "query": ".*",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },
