@@ -1,3 +1,8 @@
+yawa:
+  application: yawa
+  component: server
+  stack: defaultStack
+  region: defaultRegion
 server:
   port: 8000
   ssl:
@@ -71,8 +76,6 @@ management:
     defaults:
       enabled: false
   metrics:
-    tags:
-      application: yawa
     web:
       server:
         request:
