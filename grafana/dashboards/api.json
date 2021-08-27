@@ -36,7 +36,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1629914321896,
+  "iteration": 1630023248995,
   "links": [],
   "panels": [
     {
@@ -1062,35 +1062,6 @@
       "timeShift": null,
       "title": "Latency",
       "type": "timeseries"
-    },
-    {
-      "datasource": "YAWA-Loki",
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 38
-      },
-      "id": 147,
-      "options": {
-        "dedupStrategy": "none",
-        "enableLogDetails": true,
-        "prettifyLogMessage": false,
-        "showCommonLabels": false,
-        "showLabels": false,
-        "showTime": false,
-        "sortOrder": "Descending",
-        "wrapLogMessage": false
-      },
-      "targets": [
-        {
-          "expr": "{job=\"yawa\"}",
-          "maxLines": 100,
-          "refId": "A"
-        }
-      ],
-      "title": "Logs",
-      "type": "logs"
     }
   ],
   "refresh": "10s",
@@ -1103,66 +1074,14 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "yawa",
-          "value": "yawa"
-        },
-        "datasource": "YAWA-Prometheus",
-        "definition": "",
         "description": null,
         "error": null,
-        "hide": 0,
-        "includeAll": false,
+        "hide": 2,
         "label": "Application",
-        "multi": false,
         "name": "application",
-        "options": [],
-        "query": {
-          "query": "label_values(application)",
-          "refId": "YAWA-application-Variable-Query"
-        },
-        "refresh": 2,
-        "regex": "",
+        "query": "yawa",
         "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allFormat": "glob",
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "server:8000",
-          "value": "server:8000"
-        },
-        "datasource": "YAWA-Prometheus",
-        "definition": "",
-        "description": null,
-        "error": null,
-        "hide": 0,
-        "includeAll": false,
-        "label": "Instance",
-        "multi": false,
-        "multiFormat": "glob",
-        "name": "instance",
-        "options": [],
-        "query": {
-          "query": "label_values(jvm_memory_used_bytes{application=\"$application\"}, instance)",
-          "refId": "YAWA-instance-Variable-Query"
-        },
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "constant"
       },
       {
         "allFormat": "glob",
@@ -1173,7 +1092,7 @@
           "value": "dev"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\"}, stack)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1184,8 +1103,8 @@
         "name": "stack",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\"}, stack)",
-          "refId": "YAWA-stack-Variable-Query"
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\"}, stack)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 2,
         "regex": "",
@@ -1205,7 +1124,7 @@
           "value": "local"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, region)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1216,8 +1135,40 @@
         "name": "region",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\"}, region)",
-          "refId": "YAWA-region-Variable-Query"
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, region)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "glob",
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "server:8000",
+          "value": "server:8000"
+        },
+        "datasource": "YAWA-Prometheus",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, instance)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Instance",
+        "multi": false,
+        "multiFormat": "glob",
+        "name": "instance",
+        "options": [],
+        "query": {
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\"}, instance)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 2,
         "regex": "",
@@ -1237,7 +1188,7 @@
           "value": "/api/open/random"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\"}, uri)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1248,8 +1199,8 @@
         "name": "uri",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\"}, uri)",
-          "refId": "YAWA-uri-Variable-Query"
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\"}, uri)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 2,
         "regex": "",
@@ -1269,7 +1220,7 @@
           "value": "GET"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\", uri=\"$uri\"}, method)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -1280,8 +1231,8 @@
         "name": "method",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\"}, method)",
-          "refId": "YAWA-method-Variable-Query"
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", instance=\"$instance\", uri=\"$uri\"}, method)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 2,
         "regex": "",
@@ -1327,5 +1278,5 @@
   "timezone": "utc",
   "title": "YAWA API",
   "uid": "yawa-api",
-  "version": 1
+  "version": 2
 }
