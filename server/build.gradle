@@ -51,7 +51,7 @@ test {
 }
 
 bootJar {
-    mainClass = "com.yawa.Application"
+    mainClass = "com.yawa.server.Application"
 }
 
 bootRun {
