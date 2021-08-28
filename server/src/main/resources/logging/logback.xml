@@ -17,9 +17,10 @@
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_FILE}</file>
-        <encoder>
-            <pattern>${PATTERN}</pattern>
-        </encoder>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+<!--        <encoder>-->
+<!--            <pattern>${PATTERN}</pattern>-->
+<!--        </encoder>-->
     </appender>
 
     <root level="warn">

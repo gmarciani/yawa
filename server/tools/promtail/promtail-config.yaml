@@ -30,11 +30,18 @@ scrape_configs:
     - match:
         selector: '{application="yawa", service="server"}'
         stages:
-        - regex:
-            expression: '^(?P<timestamp>[^ ]+)\s(?P<level>[^ ]+)\s+(?P<requestId>[^ ]+)\s(?P<logger>[^ ]+)\s(?P<message>.*)$'
+#        - regex:
+#            expression: '^(?P<timestamp>[^ ]+)\s(?P<level>[^ ]+)\s+(?P<requestId>[^ ]+)\s(?P<logger>[^ ]+)\s(?P<message>.*)$'
+        - json:
+            expressions:
+              timestamp: timestamp
+              logger: logger_name
+              level: level
+              message: message
+              requestId: requestId
         - labels:
             level:
-            requestId:
+#            requestId:
         - timestamp:
             format: RFC3339Nano
             source: timestamp
