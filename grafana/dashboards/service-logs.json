@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630157342721,
+  "iteration": 1630167979119,
   "links": [],
   "panels": [
     {
@@ -48,7 +48,7 @@
       },
       "targets": [
         {
-          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\", level=\"$level\"} |~ \"$search\"",
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\", level=\"$level\"} | json \n|~ \"$search\"\n| line_format \"{{._timestamp}} {{.level}} {{.requestId}} {{.message}}\"",
           "maxLines": 100,
           "refId": "A"
         }

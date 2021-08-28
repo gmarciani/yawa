@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630155381874,
+  "iteration": 1630169774518,
   "links": [],
   "panels": [
     {
@@ -48,7 +48,7 @@
       },
       "targets": [
         {
-          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", requestId=~\"$request\", service=\"$service\", level=\"$level\"} |~ \"$search\"",
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\", level=\"$level\"} | json \n| requestId = \"$request\"\n|~ \"$search\"\n| line_format \"{{._timestamp}} {{.level}} {{.requestId}} {{.message}}\"",
           "maxLines": 100,
           "refId": "A"
         }
@@ -106,8 +106,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "local",
-          "value": "local"
+          "text": "docker",
+          "value": "docker"
         },
         "datasource": "YAWA-Loki",
         "definition": "label_values({application=\"$application\", stack=\"$stack\"}, region)",
@@ -132,8 +132,8 @@
       {
         "current": {
           "selected": false,
-          "text": ".*",
-          "value": ".*"
+          "text": "bdd9ce15-b439-4466-8200-6ba5df961f18",
+          "value": "bdd9ce15-b439-4466-8200-6ba5df961f18"
         },
         "description": null,
         "error": null,
@@ -143,24 +143,20 @@
         "options": [
           {
             "selected": true,
-            "text": ".*",
-            "value": ".*"
+            "text": "bdd9ce15-b439-4466-8200-6ba5df961f18",
+            "value": "bdd9ce15-b439-4466-8200-6ba5df961f18"
           }
         ],
-        "query": ".*",
+        "query": "bdd9ce15-b439-4466-8200-6ba5df961f18",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": [
-            "None"
-          ],
-          "value": [
-            ""
-          ]
+          "selected": false,
+          "text": "server",
+          "value": "server"
         },
         "datasource": "YAWA-Loki",
         "definition": "label_values({application=\"$application\", stack=\"$stack\", region=\"$region\"}, service)",

@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630141573181,
+  "iteration": 1630170503402,
   "links": [],
   "panels": [
     {
@@ -98,7 +98,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[1h])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[1h]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[1h])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[1h]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -173,7 +173,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[1h]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[1h]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -257,7 +257,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[1h])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[1h]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[1h])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[1h]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -355,7 +355,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -455,7 +455,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -557,7 +557,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -653,7 +653,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval])) ",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval])) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -665,7 +665,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -677,7 +677,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -689,7 +689,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -785,7 +785,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) ",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -797,7 +797,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) by(exception)",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) by(exception)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -893,7 +893,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) ",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -905,7 +905,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) by(exception)",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) by(exception)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1008,7 +1008,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\"}[$__rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1017,7 +1017,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SUCCESS\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1027,7 +1027,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1037,7 +1037,7 @@
         },
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", method=\"$method\", uri=\"$uri\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1050,6 +1050,35 @@
       "timeShift": null,
       "title": "Latency",
       "type": "timeseries"
+    },
+    {
+      "datasource": "YAWA-Loki",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 147,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\"} | json \n| operation = \"GetRandomOutcome\"\n| line_format \"{{._timestamp}} {{.level}} {{.requestId}} {{.message}}\"",
+          "maxLines": 100,
+          "refId": "A"
+        }
+      ],
+      "title": "Requests",
+      "type": "logs"
     }
   ],
   "refresh": "10s",
@@ -1182,60 +1211,28 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "/api/open/random",
-          "value": "/api/open/random"
+          "text": "GetRandomOutcome",
+          "value": "GetRandomOutcome"
         },
         "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", service=\"$service\", stack=\"$stack\", region=\"$region\", instance=\"$instance\"}, uri)",
+        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", service=\"$service\", stack=\"$stack\", region=\"$region\", instance=\"$instance\"}, operation)",
         "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": "Uri",
+        "label": "Operation",
         "multi": false,
         "multiFormat": "glob",
-        "name": "uri",
+        "name": "operation",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", service=\"$service\", stack=\"$stack\", region=\"$region\", instance=\"$instance\"}, uri)",
+          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", service=\"$service\", stack=\"$stack\", region=\"$region\", instance=\"$instance\"}, operation)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allFormat": "glob",
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "GET",
-          "value": "GET"
-        },
-        "datasource": "YAWA-Prometheus",
-        "definition": "label_values(http_server_requests_seconds_count{application=\"$application\", service=\"$service\", stack=\"$stack\", region=\"$region\", instance=\"$instance\", uri=\"$uri\"}, method)",
-        "description": null,
-        "error": null,
-        "hide": 0,
-        "includeAll": false,
-        "label": "Method",
-        "multi": false,
-        "multiFormat": "glob",
-        "name": "method",
-        "options": [],
-        "query": {
-          "query": "label_values(http_server_requests_seconds_count{application=\"$application\", service=\"$service\", stack=\"$stack\", region=\"$region\", instance=\"$instance\", uri=\"$uri\"}, method)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tagsQuery": "",
         "type": "query",

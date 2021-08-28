@@ -24,6 +24,7 @@ public class RequestOperationNameAssigner implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String operationName = operationNameProvider.getOperationName(request.getMethod(), request.getRequestURI());
         request.setAttribute(RequestAttributes.OPERATION, operationName);
+        MDC.put(MdcKeys.OPERATION, operationName);
         return true;
     }
 }
