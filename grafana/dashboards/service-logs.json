@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630155381874,
+  "iteration": 1630157342721,
   "links": [],
   "panels": [
     {
@@ -48,7 +48,7 @@
       },
       "targets": [
         {
-          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", requestId=~\"$request\", service=\"$service\", level=\"$level\"} |~ \"$search\"",
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\", level=\"$level\"} |~ \"$search\"",
           "maxLines": 100,
           "refId": "A"
         }
@@ -106,8 +106,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "local",
-          "value": "local"
+          "text": "docker",
+          "value": "docker"
         },
         "datasource": "YAWA-Loki",
         "definition": "label_values({application=\"$application\", stack=\"$stack\"}, region)",
@@ -130,36 +130,14 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": ".*",
-          "value": ".*"
-        },
-        "description": null,
-        "error": null,
-        "hide": 0,
-        "label": "Request",
-        "name": "request",
-        "options": [
-          {
-            "selected": true,
-            "text": ".*",
-            "value": ".*"
-          }
-        ],
-        "query": ".*",
-        "skipUrlSync": false,
-        "type": "textbox"
-      },
-      {
         "allValue": null,
         "current": {
           "selected": true,
           "text": [
-            "None"
+            "server"
           ],
           "value": [
-            ""
+            "server"
           ]
         },
         "datasource": "YAWA-Loki",
@@ -265,7 +243,7 @@
     ]
   },
   "timezone": "utc",
-  "title": "YAWA Request Logs",
-  "uid": "yawa-request-logs",
+  "title": "YAWA Service Logs",
+  "uid": "yawa-service-logs",
   "version": 1
 }
