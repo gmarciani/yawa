@@ -17,6 +17,6 @@ public class AppEnvironment {
     @Value("${yawa.application}")
     private String application;
 
-    @Value("${yawa.component}")
-    private String component;
+    @Value("${yawa.service}")
+    private String service;
 }

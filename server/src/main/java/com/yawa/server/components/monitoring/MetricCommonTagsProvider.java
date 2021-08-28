@@ -21,7 +21,7 @@ public class MetricCommonTagsProvider implements MeterRegistryCustomizer<MeterRe
                 .and(MetricTags.STACK, appEnvironment.getStack())
                 .and(MetricTags.REGION, appEnvironment.getRegion())
                 .and(MetricTags.APPLICATION, appEnvironment.getApplication())
-                .and(MetricTags.COMPONENT, appEnvironment.getComponent());
+                .and(MetricTags.SERVICE, appEnvironment.getService());
 
         registry.config().commonTags(tags);
     }

@@ -1,6 +1,6 @@
 yawa:
   application: yawa
-  component: server
+  service: server
   stack: defaultStack
   region: defaultRegion
 server:
