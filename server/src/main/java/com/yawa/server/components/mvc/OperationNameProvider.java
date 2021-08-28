@@ -1,4 +1,4 @@
-package com.yawa.server.config.mvc;
+package com.yawa.server.components.mvc;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;

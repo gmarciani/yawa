@@ -1,6 +1,6 @@
-package com.yawa.server.config.monitoring;
+package com.yawa.server.components.monitoring;
 
-import com.yawa.server.config.mvc.OperationNameProvider;
+import com.yawa.server.components.mvc.OperationNameProvider;
 import com.yawa.server.constants.MetricTags;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Tags;

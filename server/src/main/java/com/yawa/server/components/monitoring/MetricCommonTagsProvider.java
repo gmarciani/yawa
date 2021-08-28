@@ -1,6 +1,6 @@
-package com.yawa.server.config.monitoring;
+package com.yawa.server.components.monitoring;
 
-import com.yawa.server.config.environment.AppEnvironment;
+import com.yawa.server.components.environment.AppEnvironment;
 import com.yawa.server.constants.MetricTags;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;

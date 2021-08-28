@@ -1,4 +1,4 @@
-package com.yawa.server.config.environment;
+package com.yawa.server.components.environment;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

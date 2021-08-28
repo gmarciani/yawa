@@ -1,4 +1,4 @@
-package com.yawa.server.config.security;
+package com.yawa.server.components.security;
 
 import com.yawa.server.models.users.UserRoles;
 import com.yawa.server.repositories.UserRepository;

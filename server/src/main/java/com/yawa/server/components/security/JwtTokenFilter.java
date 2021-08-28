@@ -1,4 +1,4 @@
-package com.yawa.server.config.security;
+package com.yawa.server.components.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
