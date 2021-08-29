@@ -13,13 +13,14 @@ import java.util.Map;
 public class OperationNameProvider {
 
     private static final Map<Pair<String, String>, String> OPERATIONS = new HashMap<Pair<String, String>, String>(){{
-        put(new ImmutablePair<>(HttpMethod.GET.name(), "/manage/prometheus"), "ManagePrometheus");
         put(new ImmutablePair<>(HttpMethod.GET.name(), "/api/open/random"), "GetRandomOutcome");
     }};
 
-    private static final String UNKNOWN_OPERATION = "UnknownOperation";
-
     public String getOperationName(@NotNull String method, @NotNull String uri) {
-        return OPERATIONS.getOrDefault(new ImmutablePair<>(method, uri), UNKNOWN_OPERATION);
+        return OPERATIONS.getOrDefault(new ImmutablePair<>(method, uri), getDefaultOperationName(method, uri));
+    }
+
+    private String getDefaultOperationName(@NotNull String method, @NotNull String uri) {
+        return String.format("%s:%s", method, uri);
     }
 }
