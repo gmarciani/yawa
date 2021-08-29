@@ -1,0 +1,26 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - mainline
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Install Docker Compose
+        run: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+      - name: Make Docker Compose Executable
+        run: sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Build
+        run: docker-compose build
