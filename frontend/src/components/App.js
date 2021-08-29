@@ -14,7 +14,7 @@ function App() {
       body: JSON.stringify({ counterName: 'MyCounter' })
     };
 
-    fetch('http://localhost:8000/counters', requestOptions)
+    fetch('http://localhost:8002/api/open/hello', requestOptions)
         .then(res => res.json())
         .then(data => {
           setCounterName(data.counterName)

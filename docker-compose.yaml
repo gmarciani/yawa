@@ -1,18 +1,17 @@
 version: "3.9"
 
 services:
-  #frontend:
-  #  container_name: frontend
-  #  build:
-  #    context: frontend
-  #  ports:
-  #    - 3000:3000
-  #  env_file: frontend/docker.env
-  #  restart: always
-  #  stdin_open: true #https://github.com/docker/compose/issues/5016
-  #  depends_on:
-  #    - database
-  #    - server
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+    ports:
+      - "8009:3000"
+    env_file: frontend/docker.env
+    restart: always
+    stdin_open: true #https://github.com/docker/compose/issues/5016
+    depends_on:
+      - server
 
   server:
     container_name: server
