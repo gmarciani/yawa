@@ -43,8 +43,8 @@
     {
       "datasource": null,
       "gridPos": {
-        "h": 22,
-        "w": 24,
+        "h": 13,
+        "w": 8,
         "x": 0,
         "y": 2
       },
@@ -58,22 +58,285 @@
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": true,
-        "tags": ["yawa"]
+        "tags": [
+          "yawa"
+        ]
       },
       "pluginVersion": "8.1.1",
       "tags": [],
       "title": "Dashboards",
       "type": "dashlist"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 8,
+        "y": 2
+      },
+      "id": 123125,
+      "options": {
+        "frameIndex": 0,
+        "showHeader": false,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "{operation=\"GET:/manage/prometheus\"}"
+          }
+        ]
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "http_server_requests_seconds_count{application=\"$application\"}",
+          "format": "table",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "API",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value #A": true,
+              "__name__": true,
+              "application": true,
+              "exception": true,
+              "instance": true,
+              "job": true,
+              "method": true,
+              "outcome": true,
+              "region": true,
+              "service": true,
+              "stack": true,
+              "status": true,
+              "uri": true
+            },
+            "indexByName": {
+              "Time": 1,
+              "Value #A": 14,
+              "__name__": 2,
+              "application": 3,
+              "exception": 4,
+              "instance": 5,
+              "job": 6,
+              "method": 7,
+              "operation": 0,
+              "outcome": 8,
+              "region": 10,
+              "service": 11,
+              "stack": 9,
+              "status": 12,
+              "uri": 13
+            },
+            "renameByName": {
+              "Time": "",
+              "operation": "",
+              "region": "",
+              "service": "",
+              "stack": ""
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Operation": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "operation": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 8,
+        "x": 16,
+        "y": 2
+      },
+      "id": 123126,
+      "options": {
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "{operation=\"GET:/manage/prometheus\"}"
+          }
+        ]
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "http_server_requests_seconds_count{application=\"$application\"}",
+          "format": "table",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Instances",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value #A": true,
+              "__name__": true,
+              "application": true,
+              "exception": true,
+              "instance": false,
+              "job": true,
+              "method": true,
+              "operation": true,
+              "outcome": true,
+              "region": false,
+              "service": true,
+              "stack": false,
+              "status": true,
+              "uri": true
+            },
+            "indexByName": {
+              "Time": 1,
+              "Value #A": 14,
+              "__name__": 2,
+              "application": 3,
+              "exception": 4,
+              "instance": 5,
+              "job": 6,
+              "method": 7,
+              "operation": 0,
+              "outcome": 8,
+              "region": 10,
+              "service": 11,
+              "stack": 9,
+              "status": 12,
+              "uri": 13
+            },
+            "renameByName": {
+              "Time": "",
+              "application": "",
+              "instance": "Instance",
+              "operation": "",
+              "region": "Region",
+              "service": "",
+              "stack": "Stack"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Instance": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Region": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "Stack": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
   "schemaVersion": 30,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "yawa",
+    "home"
+  ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "label": "Application",
+        "name": "application",
+        "query": "yawa",
+        "skipUrlSync": false,
+        "type": "constant"
+      }
+    ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
