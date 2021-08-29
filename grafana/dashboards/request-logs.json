@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630169774518,
+  "iteration": 1630225513965,
   "links": [],
   "panels": [
     {
@@ -48,7 +48,7 @@
       },
       "targets": [
         {
-          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\", level=\"$level\"} | json \n| requestId = \"$request\"\n|~ \"$search\"\n| line_format \"{{._timestamp}} {{.level}} {{.requestId}} {{.message}}\"",
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\", level=~\"$level\"} | json \n| requestId = \"$request\"\n|~ \"$search\"\n| line_format \"{{._timestamp}} {{.level}} {{.requestId}} {{.message}}\"",
           "maxLines": 100,
           "refId": "A"
         }
@@ -131,9 +131,9 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "bdd9ce15-b439-4466-8200-6ba5df961f18",
-          "value": "bdd9ce15-b439-4466-8200-6ba5df961f18"
+          "selected": true,
+          "text": "",
+          "value": ""
         },
         "description": null,
         "error": null,
@@ -143,20 +143,24 @@
         "options": [
           {
             "selected": true,
-            "text": "bdd9ce15-b439-4466-8200-6ba5df961f18",
-            "value": "bdd9ce15-b439-4466-8200-6ba5df961f18"
+            "text": "",
+            "value": ""
           }
         ],
-        "query": "bdd9ce15-b439-4466-8200-6ba5df961f18",
+        "query": "",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "server",
-          "value": "server"
+          "selected": true,
+          "text": [
+            "server"
+          ],
+          "value": [
+            "server"
+          ]
         },
         "datasource": "YAWA-Loki",
         "definition": "label_values({application=\"$application\", stack=\"$stack\", region=\"$region\"}, service)",
@@ -183,10 +187,16 @@
         "current": {
           "selected": true,
           "text": [
-            "INFO"
+            "DEBUG",
+            "WARN",
+            "INFO",
+            "ERROR"
           ],
           "value": [
-            "INFO"
+            "DEBUG",
+            "WARN",
+            "INFO",
+            "ERROR"
           ]
         },
         "datasource": "YAWA-Loki",

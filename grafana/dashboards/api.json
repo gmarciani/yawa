@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "iteration": 1630170503402,
+  "iteration": 1630225989423,
   "links": [],
   "panels": [
     {
@@ -1060,9 +1060,16 @@
         "y": 38
       },
       "id": 147,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Request Logs",
+          "url": "http://localhost:8005/d/yawa-request-logs/yawa-request-logs?orgId=1&var-application=yawa&var-stack=dev&var-region=docker&var-request=&var-service=server&var-search=&var-level=ERROR&var-level=DEBUG&var-level=WARN&var-level=INFO"
+        }
+      ],
       "options": {
         "dedupStrategy": "none",
-        "enableLogDetails": true,
+        "enableLogDetails": false,
         "prettifyLogMessage": false,
         "showCommonLabels": false,
         "showLabels": false,
@@ -1070,9 +1077,11 @@
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
+      "pluginVersion": "8.1.1",
+      "repeat": null,
       "targets": [
         {
-          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\"} | json \n| operation = \"GetRandomOutcome\"\n| line_format \"{{._timestamp}} {{.level}} {{.requestId}} {{.message}}\"",
+          "expr": "{application=\"$application\", stack=\"$stack\", region=\"$region\", service=\"$service\"} | json \n| logger_name = \"com.yawa.server.components.mvc.interceptors.AccessLogger\"\n| operation = \"$operation\"\n| line_format \"{{._timestamp}} {{.requestId}} {{.message}}\"",
           "maxLines": 100,
           "refId": "A"
         }
