@@ -29,12 +29,12 @@ public class PublicController {
     }
 
     @GetMapping("/random")
-    public String random() {
+    public GetRandomOutcomeResponse random() {
         log.info("Called PublicController.random");
         float dice = new Random().nextFloat();
         if (dice <= 6.0/10) {
             log.info("Will return success");
-            return "Success";
+            return new GetRandomOutcomeResponse("Success");
         } else if (dice <= 7.5/10) {
             log.warn("Will return client error: unauthorized");
             throw new NotAuthorizedException("Fake client error");
