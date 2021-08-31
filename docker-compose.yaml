@@ -6,9 +6,11 @@ services:
     build:
       context: frontend
     ports:
-      - "8009:3000"
+      - "8010:3000"
     env_file: frontend/docker.env
     restart: always
+    volumes:
+      - ./frontend:/usr/src/yawa/frontend
     stdin_open: true #https://github.com/docker/compose/issues/5016
     depends_on:
       - server
