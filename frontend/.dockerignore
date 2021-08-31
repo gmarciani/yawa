@@ -4,6 +4,8 @@ Dockerfile
 .container
 
 .gitignore
+.ignore
+*.iml
 
 build
 node_modules
