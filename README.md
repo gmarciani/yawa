@@ -1,10 +1,18 @@
-# yawa
+# YAWA
 Yet Another Web Application
 
 ## Requirements
-* mysql
+* Docker Compose. See [installation guide](https://docs.docker.com/compose/install/)
+
+* MySql
 ```
 brew install mysql
+```
+
+* Pre-Commit
+```
+brew install pre-commit
+pre-commit install
 ```
 
 ## Run
