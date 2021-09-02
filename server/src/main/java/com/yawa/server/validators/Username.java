@@ -22,4 +22,3 @@ public @interface Username {
     Class<? extends Payload>[] payload() default { };
 
 }
-

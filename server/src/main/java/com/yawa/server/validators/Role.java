@@ -22,4 +22,3 @@ public @interface Role {
     Class<? extends Payload>[] payload() default { };
 
 }
-

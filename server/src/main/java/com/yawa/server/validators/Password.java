@@ -22,4 +22,3 @@ public @interface Password {
     Class<? extends Payload>[] payload() default { };
 
 }
-
