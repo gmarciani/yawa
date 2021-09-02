@@ -52,6 +52,7 @@ RUN gradle build
 
 CMD systemctl start promtail && \
     gradle bootRun \
+        -Pprofile=docker \
         -Pstack=$STACK \
         -Pregion=$REGION \
         -PdebugEnabled=$DEBUG_ENABLED \
