@@ -1,0 +1,23 @@
+yawa:
+  stack: dev
+  region: docker
+spring:
+  config:
+    activate:
+      on-profile: docker
+  devtools:
+    restart:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://database:3306/dbyawa?useSSL=false
+server:
+  error:
+    include-message: always
+    include-stacktrace: always
+    include-exception: true
+    include-binding-errors: always
+    whitelabel:
+      enabled: false

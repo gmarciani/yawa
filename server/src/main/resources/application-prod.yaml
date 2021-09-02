@@ -1,0 +1,20 @@
+yawa:
+  stack: prod
+  region: us-east-1
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:mysql://database:3306/dbyawa?useSSL=false
+server:
+  error:
+    include-message: always
+    include-stacktrace: never
+    include-exception: false
+    include-binding-errors: never
+    whitelabel:
+      enabled: false

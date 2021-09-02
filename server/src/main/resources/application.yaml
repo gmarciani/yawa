@@ -1,8 +1,8 @@
 yawa:
   application: yawa
   service: server
-  stack: defaultStack
-  region: defaultRegion
+  stack: stack
+  region: region
 server:
   port: 8000
   ssl:
@@ -14,22 +14,19 @@ server:
     key-password: yawapass
   error:
     include-message: always
-    include-stacktrace: always  # In production should be 'never'
-    include-exception: true  # In production should be 'false'
-    include-binding-errors: always  # In production should be 'never'
+    include-stacktrace: never
+    include-exception: false
+    include-binding-errors: never
     whitelabel:
       enabled: false
 spring:
   profiles:
-    default: developmentOnDocker
-  devtools:
-    restart:
-      enabled: true
+    default: docker
   jpa:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: update  # In production should be 'none'
+      ddl-auto: none
   datasource:
     url: jdbc:mysql://database:3306/dbyawa?useSSL=false
     username: dbuser
@@ -81,10 +78,3 @@ management:
         request:
           autotime:
             enabled: true
----
-spring:
-  config:
-    activate:
-      on-profile: local
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3307/dbyawa?useSSL=false

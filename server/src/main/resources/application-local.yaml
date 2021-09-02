@@ -1,0 +1,23 @@
+yawa:
+  stack: dev
+  region: local
+spring:
+  config:
+    activate:
+      on-profile: local
+  devtools:
+    restart:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3307/dbyawa?useSSL=false
+server:
+  error:
+    include-message: always
+    include-stacktrace: always
+    include-exception: true
+    include-binding-errors: always
+    whitelabel:
+      enabled: false
