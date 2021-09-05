@@ -1,6 +1,6 @@
 import logo from './logo.svg';
-import './App.css';
-import Clock from './components/simple/Clock';
+import './App.sass';
+import Clock from './components/simple/clock/Clock';
 
 function App() {
   return (
