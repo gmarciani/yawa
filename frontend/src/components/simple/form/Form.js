@@ -1,6 +1,7 @@
 import React from 'react';
 import './Form.sass';
 import Button from "../button/Button";
+import Alert from "../alert/Alert";
 
 class Form extends React.Component {
     constructor(props) {
@@ -8,9 +9,20 @@ class Form extends React.Component {
     }
 
     render() {
-        var submitEnabled = this.props.submitEnabled;
+        let alert;
+        if (this.props.errorMessage) {
+            alert = (
+                <Alert type="error" message={this.props.errorMessage}/>
+            )
+        } else if (this.props.successMessage) {
+            alert = (
+                <Alert type="success" message={this.props.successMessage}/>
+            )
+        }
+
         return (
             <form>
+                {alert}
                 <div className="mb-3">
                     <label htmlFor="input-email" className="form-label">Email</label>
                     <input type="email" className="form-control" id="email" aria-describedby="emailHelp" disabled={this.props.submitting}/>
@@ -24,7 +36,7 @@ class Form extends React.Component {
                     <input type="checkbox" className="form-check-input" id="remember-me" disabled={this.props.submitting}/>
                     <label htmlFor="input-remember-me" className="form-check-label">Rememeber Me</label>
                 </div>
-                <Button value={this.props.submitting && "Submitting" || "Submit"} type="submit" loading={this.props.submitting} disabled={!submitEnabled}/>
+                <Button value={this.props.submitting && "Submitting" || "Submit"} type="submit" loading={this.props.submitting} disabled={this.props.submitDisabled}/>
             </form>
         );
     }
