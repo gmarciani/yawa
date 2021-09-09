@@ -16,7 +16,7 @@ export default {
                     })
                 );
             }),
-        ],
+        ]
     }
 };
 
@@ -68,8 +68,8 @@ FilledValidSuccess.parameters = {
                     message: 'A success message from the server'
                 })
             );
-        }),
-    ],
+        })
+    ]
 }
 
 export const FilledValidClientError = Template.bind({});
@@ -95,8 +95,8 @@ FilledValidClientError.parameters = {
                     message: 'A warning message from the server: client error'
                 })
             );
-        }),
-    ],
+        })
+    ]
 }
 
 export const FilledValidInternalError = Template.bind({});
@@ -122,8 +122,8 @@ FilledValidInternalError.parameters = {
                     message: 'An error message from the server: internal error'
                 })
             );
-        }),
-    ],
+        })
+    ]
 }
 
 export const FilledInvalidText = Template.bind({});
