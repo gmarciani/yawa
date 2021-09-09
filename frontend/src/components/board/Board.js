@@ -7,7 +7,7 @@ class Board extends React.Component {
         return (
             <div className="BoardWrapper">
                 <h2>Board</h2>
-                <p>Welcome {this.props.user || "Unknown"}</p>
+                <p>Data for user: {this.props.user || "Unknown"}</p>
             </div>
         );
     }
