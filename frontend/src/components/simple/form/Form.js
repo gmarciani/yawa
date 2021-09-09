@@ -2,34 +2,12 @@ import React from 'react';
 import './Form.sass';
 import Button from "../button/Button";
 import Alert from "../alert/Alert";
-
-class FormField {
-    constructor(value, isValid, errorMessage) {
-        this.value = value;
-        this.isValid = isValid;
-        this.errorMessage = errorMessage;
-    }
-
-    cleanValidation() {
-        this.isValid = null;
-        this.errorMessage = null;
-    }
-
-    setInvalid(errorMessage) {
-        this.isValid = false;
-        this.errorMessage = errorMessage;
-    }
-
-    setValid() {
-        this.isValid = true;
-        this.errorMessage = null;
-    }
-}
+import FormField from './FormField';
 
 class Form extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = props.state || {
             data: {
                 text: new FormField(''),
                 email: new FormField(''),
@@ -39,8 +17,9 @@ class Form extends React.Component {
                 radioMe: new FormField(false),
                 rangeMe: new FormField(0),
             },
-            submitting: false
-        }
+            submitting: false,
+            alert: null
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,13 +44,9 @@ class Form extends React.Component {
 
     render() {
         let alert;
-        if (this.props.errorMessage) {
+        if (this.state.alert) {
             alert = (
-                <Alert type="error" message={this.props.errorMessage}/>
-            )
-        } else if (this.props.successMessage) {
-            alert = (
-                <Alert type="success" message={this.props.successMessage}/>
+                <Alert type={this.state.alert.type} message={this.state.alert.message}/>
             )
         }
 
