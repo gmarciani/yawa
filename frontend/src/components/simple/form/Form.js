@@ -56,10 +56,10 @@ class Form extends React.Component {
         }
 
         return (
-            <div className="FormWrapper container-fluid">
+            <div className="FormWrapper">
                 <h2>{this.props.title || "Form"}</h2>
                 {alert}
-                <form id="simple-form" name="simpleForm" onSubmit={this.handleSubmit}>
+                <form id="simple-form" onSubmit={this.handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="input-text" className="form-label">Text</label>
                         <input id="input-text" type="text" name="text" className={"form-control " + this.getFieldValidationClassNames('text')}  placeholder="some text" value={this.state.data.text.value} disabled={this.state.submitting} onChange={this.handleChange}/>
