@@ -3,6 +3,8 @@ import './Form.sass';
 import Button from "../button/Button";
 import Alert from "../alert/Alert";
 import FormField from './FormField';
+import { isBlank } from '../../../common/string';
+import { jsonString } from '../../../common/json';
 
 class Form extends React.Component {
     constructor(props) {
@@ -32,14 +34,17 @@ class Form extends React.Component {
         let targetValue = ['checkbox', 'radio'].includes(event.target.type) ? event.target.checked : event.target.value;
         this.cleanDataValidation(targetName);
         this.updateDataValue(targetName, targetValue);
-        console.debug(`State is: ${JSON.stringify(this.state)}`);
+        console.debug(`State is: ${jsonString(this.state)}`);
     }
 
     handleSubmit(event) {
         event.preventDefault();
         console.debug(`Handling event: ${event.type} ${event.target.name}`);
-        this.validateData(this.state.data);
-        this.sendData(this.state.data);
+        if (this.validateData(this.state.data)) {
+            this.sendData('POST', '/submit', this.state.data);
+        } else {
+            this.setState({'alert': {'type': 'warning', 'message': 'Some fields are not valid'}});
+        }
     }
 
     render() {
@@ -121,90 +126,111 @@ class Form extends React.Component {
     }
 
     validateData(data) {
-        console.log(`Validating data: ${JSON.stringify(data)}`);
-        this.validateText(data.text, data);
-        this.validateEmail(data.email, data);
-        this.validatePassword(data.password, data);
-        this.validateSelectMe(data.selectMe, data);
-        this.validateCheckMe(data.checkMe, data);
-        this.validateRadioMe(data.radioMe, data);
-        this.validateRangeMe(data.rangeMe, data);
-        console.log(`State after validation: ${JSON.stringify(this.state)}`);
+        console.log(`Validating data: ${jsonString(data)}`);
+        let errors = 0;
+        this.validateText(data.text, data) || errors++;
+        this.validateEmail(data.email, data) || errors++;
+        this.validatePassword(data.password, data) || errors++;
+        this.validateSelectMe(data.selectMe, data) || errors++;
+        this.validateCheckMe(data.checkMe, data) || errors++;
+        this.validateRadioMe(data.radioMe, data) || errors++;
+        this.validateRangeMe(data.rangeMe, data) || errors++;
+        console.log(`State after validation: ${jsonString(this.state)}`);
+        return errors === 0;
     }
 
-    sendData(data) {
-        console.log(`Sending request with data: ${JSON.stringify(data)}`);
+    sendData(method, url, data) {
+        console.log(`Sending request to ${method} ${url} with body: ${jsonString(data)}`);
         this.setState({'submitting': true});
-        // SEND REQUEST
-        alert('Sending request');
-        this.setState({'submitting': false});
+        return fetch(url, {
+            method: method,
+            body: jsonString(data),
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log(`Response from ${method} ${url}: ${jsonString(response)}`);
+                let alertType = this.getAlertTypeFromResponseStatus(response.status);
+                let alertMessage = response.message;
+                this.setState({'alert': {'type': alertType, 'message': alertMessage}});
+            }).catch(error => {
+                console.log(`Error from ${method} ${url}: ${error.message}`);
+                let alertType = 'error';
+                let alertMessage = error.message;
+                this.setState({'alert': {'type': alertType, 'message': alertMessage}});
+            }).finally(() => {
+                this.setState({'submitting': false});
+            });
     }
 
     validateText(field, data) {
-        if (this.isBlank(field.value)) {
+        if (isBlank(field.value)) {
             console.log(`text is invalid: ${field.value}`);
             field.setInvalid(`text must not be empty`);
-            return;
+            return false;
         }
         field.setValid();
+        return true;
     }
 
     validateEmail(field, data) {
-        if (this.isBlank(field.value)) {
+        if (isBlank(field.value)) {
             console.log(`email is invalid: ${field.value}`);
             field.setInvalid(`email must not be empty`);
-            return;
+            return false;
         }
         field.setValid();
+        return true;
     }
 
     validatePassword(field, data) {
-        if (this.isBlank(field.value)) {
+        if (isBlank(field.value)) {
             console.log(`password is invalid: ${field.value}`);
             field.setInvalid(`password must not be empty`);
-            return;
+            return false;
         }
         field.setValid();
+        return true;
     }
 
     validateSelectMe(field, data) {
         if (field.value === 'option-1') {
             console.log(`selectMe is invalid: ${field.value}`);
             field.setInvalid('selectMe must not be option-1');
-            return;
+            return false;
         }
         field.setValid();
+        return true;
     }
 
     validateCheckMe(field, data) {
         if (field.value === false) {
             console.log(`checkMe is invalid: ${field.value}`);
             field.setInvalid('checkMe must be true');
-            return;
+            return false;
         }
         field.setValid();
+        return true;
     }
 
     validateRadioMe(field, data) {
         if (field.value === false) {
             console.log(`radioMe is invalid: ${field.value}`);
             field.setInvalid('radioMe must be true');
-            return;
+            return false;
         }
         field.setValid();
+        return true;
     }
 
     validateRangeMe(field, data) {
         if (field.value <= 2) {
             console.log(`rangeMe is invalid: ${field.value}`);
             field.setInvalid('rangeMe must be greater than 2');
-            return;
+            return false;
         }
         field.setValid();
-    }
-
-    isBlank(str) {
-        return (!str || /^\s*$/.test(str));
+        return true;
     }
 
     cleanDataValidation(field) {
@@ -218,6 +244,18 @@ class Form extends React.Component {
             case true: return 'is-valid';
             case false: return 'is-invalid';
             default: return '';
+        }
+    }
+
+    getAlertTypeFromResponseStatus(status) {
+        if (status >= 200 && status < 300) {
+            return 'success';
+        } else if (status >= 400 && status < 500) {
+            return 'warning';
+        } else if (status >= 500 && status < 600) {
+            return 'error';
+        } else {
+            return 'info';
         }
     }
 }

@@ -1,10 +1,23 @@
 import React from 'react';
+import { rest } from 'msw';
 import Form from "./Form";
 import FormField from "./FormField";
 
 export default {
     component: Form,
-    title: 'Form'
+    title: 'Form',
+    parameters: {
+        msw: [
+            rest.post('/submit', (req, res, ctx) => {
+                return res(
+                    ctx.json({
+                        status: 200,
+                        message: 'A success message from the server'
+                    })
+                );
+            }),
+        ],
+    }
 };
 
 const Template = args => <Form {...args}/>;
@@ -22,7 +35,7 @@ Filled.args = {
     state: {
         data: {
             text: new FormField('abc'),
-            email: new FormField('abc'),
+            email: new FormField('abc@abc.com'),
             password: new FormField('abc'),
             selectMe: new FormField('option-2'),
             checkMe: new FormField(true),
@@ -32,12 +45,12 @@ Filled.args = {
     }
 };
 
-export const FilledValid = Template.bind({});
-FilledValid.args = {
+export const FilledValidSuccess = Template.bind({});
+FilledValidSuccess.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
             password: new FormField('abc', true),
             selectMe: new FormField('option-2', true),
             checkMe: new FormField(true, true),
@@ -46,13 +59,79 @@ FilledValid.args = {
         }
     }
 };
+FilledValidSuccess.parameters = {
+    msw: [
+        rest.post('/submit', (req, res, ctx) => {
+            return res(
+                ctx.json({
+                    status: 200,
+                    message: 'A success message from the server'
+                })
+            );
+        }),
+    ],
+}
+
+export const FilledValidClientError = Template.bind({});
+FilledValidClientError.args = {
+    state: {
+        data: {
+            text: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
+            password: new FormField('abc', true),
+            selectMe: new FormField('option-2', true),
+            checkMe: new FormField(true, true),
+            radioMe: new FormField(true, true),
+            rangeMe: new FormField(3, true)
+        }
+    }
+};
+FilledValidClientError.parameters = {
+    msw: [
+        rest.post('/submit', (req, res, ctx) => {
+            return res(
+                ctx.json({
+                    status: 400,
+                    message: 'A warning message from the server: client error'
+                })
+            );
+        }),
+    ],
+}
+
+export const FilledValidInternalError = Template.bind({});
+FilledValidInternalError.args = {
+    state: {
+        data: {
+            text: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
+            password: new FormField('abc', true),
+            selectMe: new FormField('option-2', true),
+            checkMe: new FormField(true, true),
+            radioMe: new FormField(true, true),
+            rangeMe: new FormField(3, true)
+        }
+    }
+};
+FilledValidInternalError.parameters = {
+    msw: [
+        rest.post('/submit', (req, res, ctx) => {
+            return res(
+                ctx.json({
+                    status: 500,
+                    message: 'An error message from the server: internal error'
+                })
+            );
+        }),
+    ],
+}
 
 export const FilledInvalidText = Template.bind({});
 FilledInvalidText.args = {
     state: {
         data: {
-            text: new FormField('abc', false, 'A message about field being invalid'),
-            email: new FormField('abc', true),
+            text: new FormField('', false, 'A message about field being invalid'),
+            email: new FormField('abc@abc.com', true),
             password: new FormField('abc', true),
             selectMe: new FormField('option-2', true),
             checkMe: new FormField(true, true),
@@ -67,7 +146,7 @@ FilledInvalidEmail.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', false, 'A message about field being invalid'),
+            email: new FormField('', false, 'A message about field being invalid'),
             password: new FormField('abc', true),
             selectMe: new FormField('option-2', true),
             checkMe: new FormField(true, true),
@@ -82,8 +161,8 @@ FilledInvalidPassword.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', true),
-            password: new FormField('abc', false, 'A message about field being invalid'),
+            email: new FormField('abc@abc.com', true),
+            password: new FormField('', false, 'A message about field being invalid'),
             selectMe: new FormField('option-2', true),
             checkMe: new FormField(true, true),
             radioMe: new FormField(true, true),
@@ -97,9 +176,9 @@ FilledInvalidSelectMe.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
             password: new FormField('abc', true),
-            selectMe: new FormField('option-2', false, 'A message about field being invalid'),
+            selectMe: new FormField('option-1', false, 'A message about field being invalid'),
             checkMe: new FormField(true, true),
             radioMe: new FormField(true, true),
             rangeMe: new FormField(3, true)
@@ -112,10 +191,10 @@ FilledInvalidCheckMe.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
             password: new FormField('abc', true),
             selectMe: new FormField('option-2', true),
-            checkMe: new FormField(true, false, 'A message about field being invalid'),
+            checkMe: new FormField(false, false, 'A message about field being invalid'),
             radioMe: new FormField(true, true),
             rangeMe: new FormField(3, true)
         }
@@ -127,11 +206,11 @@ FilledInvalidRadioMe.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
             password: new FormField('abc', true),
             selectMe: new FormField('option-2', true),
             checkMe: new FormField(true, true),
-            radioMe: new FormField(true, false, 'A message about field being invalid'),
+            radioMe: new FormField(false, false, 'A message about field being invalid'),
             rangeMe: new FormField(3, true)
         }
     }
@@ -142,12 +221,12 @@ FilledInvalidRangeMe.args = {
     state: {
         data: {
             text: new FormField('abc', true),
-            email: new FormField('abc', true),
+            email: new FormField('abc@abc.com', true),
             password: new FormField('abc', true),
             selectMe: new FormField('option-2', true),
             checkMe: new FormField(true, true),
             radioMe: new FormField(true, true),
-            rangeMe: new FormField(3, false, 'A message about field being invalid')
+            rangeMe: new FormField(1, false, 'A message about field being invalid')
         }
     }
 };
@@ -157,7 +236,7 @@ Submitting.args = {
     state: {
         data: {
             text: new FormField('abc'),
-            email: new FormField('abc'),
+            email: new FormField('abc@abc.com'),
             password: new FormField('abc'),
             selectMe: new FormField('option-2'),
             checkMe: new FormField(true),
@@ -173,7 +252,7 @@ AlertSuccess.args = {
     state: {
         data: {
             text: new FormField('abc'),
-            email: new FormField('abc'),
+            email: new FormField('abc@abc.com'),
             password: new FormField('abc'),
             selectMe: new FormField('option-2'),
             checkMe: new FormField(true),
@@ -192,7 +271,7 @@ AlertWarning.args = {
     state: {
         data: {
             text: new FormField('abc'),
-            email: new FormField('abc'),
+            email: new FormField('abc@abc.com'),
             password: new FormField('abc'),
             selectMe: new FormField('option-2'),
             checkMe: new FormField(true),
@@ -211,7 +290,7 @@ AlertError.args = {
     state: {
         data: {
             text: new FormField('abc'),
-            email: new FormField('abc'),
+            email: new FormField('abc@abc.com'),
             password: new FormField('abc'),
             selectMe: new FormField('option-2'),
             checkMe: new FormField(true),
