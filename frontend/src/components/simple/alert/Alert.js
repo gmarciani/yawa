@@ -2,9 +2,6 @@ import React from 'react';
 import './Alert.sass';
 
 class Alert extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         var alertTypeClass;

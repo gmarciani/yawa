@@ -3,9 +3,6 @@ import './Navbar.sass';
 import logo from './logo.svg';
 
 class Navbar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         let menuItemProfile = (
