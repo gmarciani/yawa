@@ -27,17 +27,17 @@ class Form extends React.Component {
 
     handleChange(event) {
         event.preventDefault();
-        console.log(`Handling event: ${event.type} ${event.target.name} (${event.target.type}) = ${event.target.value} ${event.target.checked}`);
+        console.debug(`Handling event: ${event.type} ${event.target.name} (${event.target.type}) = ${event.target.value} ${event.target.checked}`);
         let targetName = event.target.name;
         let targetValue = ['checkbox', 'radio'].includes(event.target.type) ? event.target.checked : event.target.value;
         this.cleanDataValidation(targetName);
         this.updateDataValue(targetName, targetValue);
-        console.log(`State is: ${JSON.stringify(this.state)}`);
+        console.debug(`State is: ${JSON.stringify(this.state)}`);
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(`Handling event: ${event.type} ${event.target.name}`);
+        console.debug(`Handling event: ${event.type} ${event.target.name}`);
         this.validateData(this.state.data);
         this.sendData(this.state.data);
     }
