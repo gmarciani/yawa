@@ -78,7 +78,7 @@ class Login extends React.Component {
                             {this.state.data.rememberMe.errorMessage}
                         </div>
                     </div>
-                    <Button value={this.state.submitting && "Submitting" || "Submit"} type="submit" loading={this.state.submitting}/>
+                    <Button value={(this.state.submitting && "Submitting") || "Submit"} type="submit" loading={this.state.submitting}/>
                 </form>
             </div>
         );

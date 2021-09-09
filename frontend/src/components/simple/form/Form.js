@@ -113,7 +113,7 @@ class Form extends React.Component {
                             {this.state.data.rangeMe.errorMessage}
                         </div>
                     </div>
-                    <Button value={this.state.submitting && "Submitting" || "Submit"} type="submit" loading={this.state.submitting}/>
+                    <Button value={(this.state.submitting && "Submitting") || "Submit"} type="submit" loading={this.state.submitting}/>
                 </form>
             </div>
         );
