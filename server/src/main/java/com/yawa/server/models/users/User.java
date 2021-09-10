@@ -1,6 +1,8 @@
 package com.yawa.server.models.users;
 
+import com.yawa.server.validators.Email;
 import com.yawa.server.validators.Password;
+import com.yawa.server.validators.RegularString;
 import com.yawa.server.validators.Username;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,8 +24,17 @@ public class User implements UserDetails {
     @Username
     private String username;
 
+    @Email
+    private String email;
+
     @Password
     private String password;
+
+    @RegularString
+    private String firstname;
+
+    @RegularString
+    private String lastname;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<GrantedAuthority> authorities = new HashSet<>();
