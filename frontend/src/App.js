@@ -23,26 +23,28 @@ class App extends React.Component {
         return (
             <div className="App">
                 <Navbar user={user} />
-                <BrowserRouter>
-                    <Switch>
-                        <Route exact path="/">
-                            {(user && <Board user={user}/>) || <Landing />}
-                        </Route>
-                        <Route path="/profile">
-                            <Profile user={user}/>
-                        </Route>
-                        <Route path="/settings">
-                            <Settings user={user}/>
-                        </Route>
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-                        <Route path="/signup">
-                            <Signup />
-                        </Route>
+                <div className="AppContentWrapper">
+                    <BrowserRouter>
+                        <Switch>
+                            <Route exact path="/">
+                                {(user && <Board user={user}/>) || <Landing />}
+                            </Route>
+                            <Route path="/profile">
+                                <Profile user={user}/>
+                            </Route>
+                            <Route path="/settings">
+                                <Settings user={user}/>
+                            </Route>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/signup">
+                                <Signup />
+                            </Route>
 
-                    </Switch>
-                </BrowserRouter>
+                        </Switch>
+                    </BrowserRouter>
+                </div>
             </div>
         );
     }
