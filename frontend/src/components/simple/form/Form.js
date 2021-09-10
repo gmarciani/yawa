@@ -5,6 +5,7 @@ import Alert from "../alert/Alert";
 import FormField from './FormField';
 import { isBlank } from '../../../common/string';
 import { jsonString } from '../../../common/json';
+import {setUser} from "../../../common/authentication";
 
 class Form extends React.Component {
     constructor(props) {
@@ -41,7 +42,13 @@ class Form extends React.Component {
         event.preventDefault();
         console.debug(`Handling event: ${event.type} ${event.target.name}`);
         if (this.validateData(this.state.data)) {
-            this.sendData('POST', '/submit', this.state.data);
+            let body = {};
+            Object.entries(this.state.data).forEach(function([k, v]) {
+                body[k] = v.value;
+            });
+            this.sendData('POST', this.submitUrl, body).then(response => {
+                console.log(`response = ${jsonString(response)}`);
+            });
         } else {
             this.setState({'alert': {'type': 'warning', 'message': 'Some fields are not valid'}});
         }
@@ -139,10 +146,10 @@ class Form extends React.Component {
         return errors === 0;
     }
 
-    sendData(method, url, data) {
+    async sendData(method, url, data) {
         console.log(`Sending request to ${method} ${url} with body: ${jsonString(data)}`);
         this.setState({'submitting': true});
-        return fetch(url, {
+        return await fetch(url, {
             method: method,
             body: jsonString(data),
             headers: { 'Content-Type': 'application/json' }
@@ -153,6 +160,7 @@ class Form extends React.Component {
                 let alertType = this.getAlertTypeFromResponseStatus(response.status);
                 let alertMessage = response.message;
                 this.setState({'alert': {'type': alertType, 'message': alertMessage}});
+                return response;
             }).catch(error => {
                 console.log(`Error from ${method} ${url}: ${error.message}`);
                 let alertType = 'error';

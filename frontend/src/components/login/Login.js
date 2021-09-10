@@ -40,9 +40,14 @@ class Login extends React.Component {
         event.preventDefault();
         console.debug(`Handling event: ${event.type} ${event.target.name}`);
         if (this.validateData(this.state.data)) {
-            this.sendData('POST', this.submitUrl, this.state.data);
-            setUser('mgiacomo');
-            window.location.href = '/';
+            let body = {};
+            Object.entries(this.state.data).forEach(function([k, v]) {
+                body[k] = v.value;
+            });
+            this.sendData('POST', this.submitUrl, body).then(response => {
+                setUser(response.user);
+                window.location.href = '/';
+            });
         } else {
             this.setState({'alert': {'type': 'warning', 'message': 'Some fields are not valid'}});
         }
@@ -104,10 +109,10 @@ class Login extends React.Component {
         return errors === 0;
     }
 
-    sendData(method, url, data) {
+    async sendData(method, url, data) {
         console.log(`Sending request to ${method} ${url} with body: ${jsonString(data)}`);
         this.setState({'submitting': true});
-        return fetch(url, {
+        return await fetch(url, {
             method: method,
             body: jsonString(data),
             headers: { 'Content-Type': 'application/json' }
@@ -118,6 +123,7 @@ class Login extends React.Component {
                 let alertType = this.getAlertTypeFromResponseStatus(response.status);
                 let alertMessage = response.message;
                 this.setState({'alert': {'type': alertType, 'message': alertMessage}});
+                return response;
             }).catch(error => {
                 console.log(`Error from ${method} ${url}: ${error.message}`);
                 let alertType = 'error';
