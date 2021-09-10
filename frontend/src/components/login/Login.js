@@ -5,6 +5,7 @@ import Alert from "../simple/alert/Alert";
 import FormField from '../simple/form/FormField';
 import { isBlank } from '../../common/string';
 import { jsonString } from '../../common/json';
+import { setUser } from '../../common/authentication';
 
 class Login extends React.Component {
     constructor(props) {
@@ -39,7 +40,9 @@ class Login extends React.Component {
         event.preventDefault();
         console.debug(`Handling event: ${event.type} ${event.target.name}`);
         if (this.validateData(this.state.data)) {
-            this.sendData('POST', this.submitUrl, this.state.data);
+            //this.sendData('POST', this.submitUrl, this.state.data);
+            setUser('mgiacomo');
+            window.location.href = '/';
         } else {
             this.setState({'alert': {'type': 'warning', 'message': 'Some fields are not valid'}});
         }
@@ -73,7 +76,7 @@ class Login extends React.Component {
                         </div>
                     </div>
                     <div className="mb-3 form-check form-switch">
-                        <input id="input-remember-me" type="checkbox" name="checkMe" className={"form-check-input " + this.getFieldValidationClassNames('rememberMe')} checked={this.state.data.rememberMe.value} disabled={this.state.submitting} onChange={this.handleChange}/>
+                        <input id="input-remember-me" type="checkbox" name="rememberMe" className={"form-check-input " + this.getFieldValidationClassNames('rememberMe')} checked={this.state.data.rememberMe.value} disabled={this.state.submitting} onChange={this.handleChange}/>
                         <label htmlFor="input-remember-me" className="form-check-label">Remember Me</label>
                         <div className="invalid-feedback">
                             {this.state.data.rememberMe.errorMessage}

@@ -13,5 +13,7 @@ Unauthenticated.args = {};
 
 export const Authenticated = Template.bind({});
 Authenticated.args = {
-    user: "mgiacomo"
+    state: {
+        user: "mgiacomo"
+    }
 };

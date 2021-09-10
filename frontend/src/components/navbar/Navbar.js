@@ -1,10 +1,13 @@
 import React from 'react';
 import './Navbar.sass';
 import logo from './logo.svg';
+import { getUser, unsetUser } from '../../common/authentication';
 
 class Navbar extends React.Component {
 
     render() {
+        const user = this.props.user || getUser();
+
         let menuItemBoard = (
             <a className="nav-item nav-link" href="/">Home</a>
         );
@@ -18,7 +21,7 @@ class Navbar extends React.Component {
         );
 
         let menuItemLogout = (
-            <a className="nav-item nav-link" href="/">Logout</a>
+            <a className="nav-item nav-link" href="#" onClick={onClickLogout}>Logout</a>
         );
 
         let menuItemLogin = (
@@ -40,18 +43,25 @@ class Navbar extends React.Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
-                            {this.props.user && menuItemBoard}
-                            {this.props.user && menuItemProfile}
-                            {this.props.user && menuItemSettings}
-                            {this.props.user && menuItemLogout}
-                            {!this.props.user && menuItemLogin}
-                            {!this.props.user && menuItemSignup}
+                            {user && menuItemBoard}
+                            {user && menuItemProfile}
+                            {user && menuItemSettings}
+                            {user && menuItemLogout}
+                            {!user && menuItemLogin}
+                            {!user && menuItemSignup}
                         </div>
                     </div>
                 </nav>
             </div>
         );
     }
+}
+
+function onClickLogout(event) {
+    event.preventDefault();
+    console.debug(`Handling event: ${event.type} ${event.target.name} (${event.target.type}) = ${event.target.value} ${event.target.checked}`);
+    unsetUser();
+    window.location.href = '/';
 }
 
 export default Navbar;

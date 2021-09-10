@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import './App.sass';
 import Login from './components/login/Login';
 import Signup from './components/signup/Signup';
@@ -8,24 +8,31 @@ import Board from './components/board/Board';
 import Profile from './components/profile/Profile';
 import Settings from './components/settings/Settings';
 import Navbar from "./components/navbar/Navbar";
-import FormField from "./components/simple/form/FormField";
+import { getUser } from './common/authentication';
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = props.state || {
+            user: null
+        };
+    }
 
     render() {
+        const user = this.state.user || getUser();
         return (
             <div className="App">
-                <Navbar user={this.props.user}/>
+                <Navbar user={user} />
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/">
-                            {this.props.user && <Board user={this.props.user}/> || <Landing />}
+                        <Route exact path="/">
+                            {(user && <Board user={user}/>) || <Landing />}
                         </Route>
                         <Route path="/profile">
-                            <Profile user={this.props.user}/>
+                            <Profile user={user}/>
                         </Route>
                         <Route path="/settings">
-                            <Settings user={this.props.user}/>
+                            <Settings user={user}/>
                         </Route>
                         <Route path="/login">
                             <Login />
@@ -33,6 +40,7 @@ class App extends React.Component {
                         <Route path="/signup">
                             <Signup />
                         </Route>
+
                     </Switch>
                 </BrowserRouter>
             </div>
