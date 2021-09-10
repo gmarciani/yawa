@@ -40,7 +40,7 @@ class Login extends React.Component {
         event.preventDefault();
         console.debug(`Handling event: ${event.type} ${event.target.name}`);
         if (this.validateData(this.state.data)) {
-            //this.sendData('POST', this.submitUrl, this.state.data);
+            this.sendData('POST', this.submitUrl, this.state.data);
             setUser('mgiacomo');
             window.location.href = '/';
         } else {
