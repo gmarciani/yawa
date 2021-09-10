@@ -25,23 +25,27 @@ class Navbar extends React.Component {
         );
 
         let menuItemLogin = (
-            <a className="nav-item nav-link" href="/login">Login</a>
+            <a className="nav-item nav-link" href="/login">
+                <button className="btn btn-outline-primary" type="submit">Login</button>
+            </a>
         );
 
         let menuItemSignup = (
-            <a className="nav-item nav-link" href="/signup">Signup</a>
+            <a className="nav-item nav-link" href="/signup">
+                <button className="btn btn-success" type="submit">Signup</button>
+            </a>
         );
 
         return (
             <div className="NavbarWrapper">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <a className="navbar-brand" href="/"><img src={logo} width="30" height="30" className="d-inline-block align-top" alt=""/>Yawa</a>
+                    <a className="navbar-brand" href="/"><img src={logo} className="d-inline-block align-top" alt=""/>YAWA</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                             aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"/>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
                             {user && menuItemHome}
                             {user && menuItemProfile}
