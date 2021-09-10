@@ -8,7 +8,7 @@ class Navbar extends React.Component {
     render() {
         const user = this.props.user || getUser();
 
-        let menuItemBoard = (
+        let menuItemHome = (
             <a className="nav-item nav-link" href="/">Home</a>
         );
 
@@ -43,7 +43,7 @@ class Navbar extends React.Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
-                            {user && menuItemBoard}
+                            {user && menuItemHome}
                             {user && menuItemProfile}
                             {user && menuItemSettings}
                             {user && menuItemLogout}
