@@ -10,6 +10,7 @@ class Signup extends React.Component {
     constructor(props) {
         super(props);
         this.title = this.props.title || 'Signup';
+        this.submitUrl = this.props.submitUrl || '/api/users/signup';
         this.state = props.state || {
             data: {
                 firstname: new FormField(''),
@@ -39,7 +40,7 @@ class Signup extends React.Component {
         event.preventDefault();
         console.debug(`Handling event: ${event.type} ${event.target.name}`);
         if (this.validateData(this.state.data)) {
-            this.sendData('POST', '/signup', this.state.data);
+            this.sendData('POST', this.submitUrl, this.state.data);
         } else {
             this.setState({'alert': {'type': 'warning', 'message': 'Some fields are not valid'}});
         }

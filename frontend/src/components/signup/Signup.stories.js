@@ -8,7 +8,7 @@ export default {
     title: 'Signup',
     parameters: {
         msw: [
-            rest.post('/signup', (req, res, ctx) => {
+            rest.post('/api/users/signup', (req, res, ctx) => {
                 return res(
                     ctx.json({
                         status: 200,
@@ -39,7 +39,7 @@ FilledValidSuccess.args = {
 };
 FilledValidSuccess.parameters = {
     msw: [
-        rest.post('/signup', (req, res, ctx) => {
+        rest.post('/api/users/signup', (req, res, ctx) => {
             return res(
                 ctx.json({
                     status: 200,
@@ -64,7 +64,7 @@ FilledValidClientError.args = {
 };
 FilledValidClientError.parameters = {
     msw: [
-        rest.post('/signup', (req, res, ctx) => {
+        rest.post('/api/users/signup', (req, res, ctx) => {
             return res(
                 ctx.json({
                     status: 400,
@@ -88,7 +88,7 @@ FilledValidInternalError.args = {
 };
 FilledValidInternalError.parameters = {
     msw: [
-        rest.post('/signup', (req, res, ctx) => {
+        rest.post('/api/users/signup', (req, res, ctx) => {
             return res(
                 ctx.json({
                     status: 500,
