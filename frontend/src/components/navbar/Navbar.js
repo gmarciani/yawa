@@ -6,11 +6,19 @@ class Navbar extends React.Component {
 
     render() {
         let menuItemBoard = (
-            <a className="nav-item nav-link" href="/board">Board</a>
+            <a className="nav-item nav-link" href="/">Home</a>
         );
 
         let menuItemProfile = (
-            <a className="nav-item nav-link" href="/profile">{this.props.user}</a>
+            <a className="nav-item nav-link" href="/profile">Profile</a>
+        );
+
+        let menuItemSettings = (
+            <a className="nav-item nav-link" href="/settings">Settings</a>
+        );
+
+        let menuItemLogout = (
+            <a className="nav-item nav-link" href="/">Logout</a>
         );
 
         let menuItemLogin = (
@@ -34,6 +42,8 @@ class Navbar extends React.Component {
                         <div className="navbar-nav">
                             {this.props.user && menuItemBoard}
                             {this.props.user && menuItemProfile}
+                            {this.props.user && menuItemSettings}
+                            {this.props.user && menuItemLogout}
                             {!this.props.user && menuItemLogin}
                             {!this.props.user && menuItemSignup}
                         </div>
