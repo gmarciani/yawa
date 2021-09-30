@@ -2,6 +2,7 @@ import React from 'react';
 import './Navbar.sass';
 import logo from './logo.svg';
 import { getUser, unsetUser } from '../../common/authentication';
+import Button from './../simple/button/Button';
 
 class Navbar extends React.Component {
 
@@ -26,13 +27,13 @@ class Navbar extends React.Component {
 
         let menuItemLogin = (
             <a className="nav-item nav-link" href="/login">
-                <button className="btn btn-outline-primary" type="submit">Login</button>
+                <Button type="submit" label="Login" category="outline-primary"/>
             </a>
         );
 
         let menuItemSignup = (
             <a className="nav-item nav-link" href="/signup">
-                <button className="btn btn-success" type="submit">Signup</button>
+                <Button type="submit" label="Signup" category="success"/>
             </a>
         );
 

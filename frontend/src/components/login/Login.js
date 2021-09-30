@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.sass';
-import Button from "../simple/button/Button";
+import SubmitButton from "../simple/button/SubmitButton";
 import Alert from "../simple/alert/Alert";
 import FormField from '../simple/form/FormField';
 import { isBlank } from '../../common/string';
@@ -87,7 +87,7 @@ class Login extends React.Component {
                             {this.state.data.rememberMe.errorMessage}
                         </div>
                     </div>
-                    <Button value={(this.state.submitting && "Submitting") || "Submit"} type="submit" loading={this.state.submitting}/>
+                    <SubmitButton submitting={this.state.submitting}/>
                 </form>
             </div>
         );

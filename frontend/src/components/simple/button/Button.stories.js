@@ -6,7 +6,8 @@ export default {
     title: 'Button',
     args: {
         type: 'button',
-        value: 'Label',
+        category: 'outline-primary',
+        label: 'Label',
         disabled: false,
         loading: false
     },
@@ -16,7 +17,12 @@ export default {
             control: { type: 'radio' },
             options: ['button', 'submit']
         },
-        value: {
+        category: {
+            description: 'Set the UI category of the button.',
+            control: { type: 'radio' },
+            options: ['outline-primary', 'success']
+        },
+        label: {
             description: 'The button label.',
             default: 'Button'
         },
@@ -35,38 +41,39 @@ const Template = args => <Button {...args}/>;
 
 export const Basic = Template.bind({});
 Basic.args = {
-    value: "Click Me"
+    label: "Click Me"
 };
 
 export const Custom = Template.bind({});
 Custom.args = {
-    value: "Click Me",
+    label: "Click Me",
     disabled: false,
     loading: false,
-    type: "button"
+    type: "button",
+    category: "outline-primary"
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-    value: "Click Me",
+    label: "Click Me",
     disabled: true
 };
 
 export const Loading = Template.bind({});
 Loading.args = {
-    value: "Click Me",
+    label: "Click Me",
     loading: true
 };
 
 export const Submit = Template.bind({});
 Submit.args = {
     type: "submit",
-    value: "Submit",
+    label: "Submit",
 };
 
 export const Submitting = Template.bind({});
 Submitting.args = {
     type: "submit",
-    value: "Submitting",
+    label: "Submitting",
     loading: true
 };

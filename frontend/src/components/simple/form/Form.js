@@ -1,6 +1,6 @@
 import React from 'react';
 import './Form.sass';
-import Button from "../button/Button";
+import SubmitButton from "../button/SubmitButton";
 import Alert from "../alert/Alert";
 import FormField from './FormField';
 import { isBlank } from '../../../common/string';
@@ -120,7 +120,7 @@ class Form extends React.Component {
                             {this.state.data.rangeMe.errorMessage}
                         </div>
                     </div>
-                    <Button value={(this.state.submitting && "Submitting") || "Submit"} type="submit" loading={this.state.submitting}/>
+                    <SubmitButton submitting={this.state.submitting}/>
                 </form>
             </div>
         );
