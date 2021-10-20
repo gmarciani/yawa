@@ -3,7 +3,6 @@ package com.yawa.server.api.auth
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.yawa.server.exceptions.NotAuthorizedException
-import com.yawa.server.models.users.User
 import com.yawa.server.validators.Password
 import com.yawa.server.validators.Username
 import mu.KotlinLogging
@@ -14,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-
 import javax.validation.Valid
 
 private val log = KotlinLogging.logger {}
@@ -32,7 +30,7 @@ class Login(
             val authenticate = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(request.username, request.password))
 
-            val user = authenticate.principal as User
+            val user = authenticate.principal as org.springframework.security.core.userdetails.User
 
             log.info("Authenticated user: $user")
 

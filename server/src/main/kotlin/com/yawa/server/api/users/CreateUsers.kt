@@ -27,7 +27,7 @@ class CreateUsers(
 ) {
 
     @PostMapping("/CreateUsers")
-    fun action(@Valid @RequestBody request: Request, authentication: Authentication) : Response{
+    fun action(@Valid @RequestBody request: Request, authentication: Authentication?) : Response{
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -57,13 +57,13 @@ class CreateUsers(
 
     data class Response(val user: User)
 
-    private fun authorizeRequest(request: Request, authentication: Authentication) {
-        val identity = authentication.principal as User
+    private fun authorizeRequest(request: Request, authentication: Authentication?) {
+        val identity = authentication?.principal as User?
 
         val role = request.role
 
-        if (role != null && UserRole.ADMIN != identity.role) {
-            throw NotAuthorizedException("User with identity ${identity.username} cannot create user with role $role")
+        if (role != null && UserRole.ADMIN != identity?.role) {
+            throw NotAuthorizedException("User with identity ${identity?.username} cannot create user with role $role")
         }
     }
 }
