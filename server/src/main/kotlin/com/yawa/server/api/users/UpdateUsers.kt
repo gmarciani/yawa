@@ -43,8 +43,8 @@ class UpdateUsers(
         }
 
         val user = userRepository.findById(username).orElseThrow{ ResourceNotFoundException("User not found: $username") } as User
-        request.password?.let { user.setPassword(passwordEncoder.encode(it)) }
-        request.email?.let { user.setEmail(it) }
+        request.password?.let { user.password = passwordEncoder.encode(it) }
+        request.email?.let { user.email = it }
         //TODO Must restrict the possibility to create users with role different from Normal
         request.role?.let { user.setAuthoritiesForRole(UserRole.valueOf(it)) }
 

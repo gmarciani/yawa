@@ -37,6 +37,7 @@ class SecurityConfig(
             userRepository
                 .findById(username!!)
                 .orElseThrow { UsernameNotFoundException("User not found: $username") }
+                .toUserDetails()
         })
     }
 
