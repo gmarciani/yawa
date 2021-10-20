@@ -34,14 +34,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
+	implementation("org.springdoc:springdoc-openapi-ui:1.5.11")
 	implementation("com.auth0:java-jwt:3.18.1")
 	implementation("io.micrometer:micrometer-registry-prometheus:1.7.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 	implementation("net.logstash.logback:logstash-logback-encoder:6.6")
 	implementation("io.github.microutils:kotlin-logging:1.12.5")
 	implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
-
-
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib")

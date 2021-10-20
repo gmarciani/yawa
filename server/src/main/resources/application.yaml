@@ -78,3 +78,6 @@ management:
         request:
           autotime:
             enabled: true
+springdoc:
+  api-docs:
+    path: /manage/openapi

@@ -72,3 +72,19 @@ keytool -genkey -alias yawa -keyalg rsa -keystore yawa.keystore \
   -dname "CN=localhost, O=Yawa, L=Cagliari, ST=Italy, C=IT" \
   -keypass yawapass -storepass yawapass
 ```
+
+## Swagger Client
+
+```
+swagger-codegen generate \
+--input-spec "/Users/mgiacomo/Desktop/com.yawa.server.api-docs.json" \
+--api-package com.yawa.server.client.api \
+--model-package com.yawa.server.api.model \
+--invoker-package com.yawa.server.api.invoker \
+--group-id com.yawa \
+--artifact-id server.client \
+--artifact-version 1.0.0 \
+--lang python \
+--library urllib3 \
+--output yawa-client
+```
