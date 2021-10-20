@@ -48,9 +48,6 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
-	//annotationProcessor("org.projectlombok:lombok:1.18.20")
-	//compileOnly("org.projectlombok:lombok:1.18.20")
-
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	runtimeOnly("com.h2database:h2")
