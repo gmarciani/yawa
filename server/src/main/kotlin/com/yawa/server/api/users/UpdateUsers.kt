@@ -30,23 +30,14 @@ class UpdateUsers(
     fun action(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
         log.info("Called with request: $request")
 
+        authorizeRequest(request = request, authentication = authentication)
+
         val username = request.username
-
-        val identity = authentication.principal as User
-
-        if (UserRole.ADMIN.toAuthority() !in identity.authorities && username != identity.username) {
-            throw NotAuthorizedException("User with identity ${identity.username} cannot update user $username")
-        }
-
-        if (UserRole.ADMIN.toAuthority() !in identity.authorities && request.role != null) {
-            throw NotAuthorizedException("User with identity ${identity.username} cannot update role for user $username")
-        }
 
         val user = userRepository.findById(username).orElseThrow{ ResourceNotFoundException("User not found: $username") } as User
         request.password?.let { user.password = passwordEncoder.encode(it) }
         request.email?.let { user.email = it }
-        //TODO Must restrict the possibility to create users with role different from Normal
-        request.role?.let { user.setAuthoritiesForRole(UserRole.valueOf(it)) }
+        request.role?.let { user.role = UserRole.valueOf(it) }
 
         userRepository.save(user)
 
@@ -61,4 +52,18 @@ class UpdateUsers(
     )
 
     data class Response(val user: User)
+
+    private fun authorizeRequest(request: Request, authentication: Authentication) {
+        val identity = authentication.principal as User
+
+        val username = request.username
+
+        if (username != identity.username && UserRole.ADMIN != identity.role) {
+            throw NotAuthorizedException("User with identity ${identity.username} cannot update user $username")
+        }
+
+        if (request.role != null && UserRole.ADMIN != identity.role) {
+            throw NotAuthorizedException("User with identity ${identity.username} cannot update role for user $username")
+        }
+    }
 }

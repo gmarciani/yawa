@@ -26,13 +26,9 @@ class DescribeUsers(
     fun action(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
         log.info("Called with request: $request")
 
+        authorizeRequest(request = request, authentication = authentication)
+
         val username = request.username
-
-        val identity = authentication.principal as User
-
-        if (UserRole.ADMIN.toAuthority() !in identity.authorities && username != identity.username) {
-            throw NotAuthorizedException("User with identity ${identity.username} cannot describe user $username")
-        }
 
         val user = userRepository.findById(username).orElseThrow{ ResourceNotFoundException("User not found: $username") }
 
@@ -42,4 +38,14 @@ class DescribeUsers(
     data class Request(@Username val username: String)
 
     data class Response(val user: User)
+
+    private fun authorizeRequest(request: Request, authentication: Authentication) {
+        val identity = authentication.principal as User
+
+        val username = request.username
+
+        if (username != identity.username && UserRole.ADMIN != identity.role) {
+            throw NotAuthorizedException("User with identity ${identity.username} cannot describe user ${username}")
+        }
+    }
 }
