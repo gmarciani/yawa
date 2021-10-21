@@ -91,10 +91,13 @@ task("buildClients") {
 	this.dependsOn("buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient")
 }
 
+val openapiDefinition = "$mainResourcesDir/openapi/definition.yaml"
+val generateClientsDir = "$buildDir/generated/clients"
+
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClient") {
 	this.generatorName.set("bash")
-	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
-	this.outputDir.set("$buildDir/generated/clients/bash")
+	this.inputSpec.set(openapiDefinition)
+	this.outputDir.set("$generateClientsDir/bash")
 	this.apiPackage.set("yawac.api")
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
@@ -107,44 +110,35 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClie
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildPythonClient") {
 	this.generatorName.set("python")
-	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
-	this.outputDir.set("$buildDir/generated/clients/python")
+	this.inputSpec.set(openapiDefinition)
+	this.outputDir.set("$generateClientsDir/python")
 	this.apiPackage.set("yawac.api")
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
 	this.packageName.set("yawac")
-	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
-	this.skipOverwrite.set(false)
-	this.verbose.set(false)
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildJavaClient") {
 	this.generatorName.set("java")
-	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
-	this.outputDir.set("$buildDir/generated/clients/java")
-	this.apiPackage.set("yawac.api")
-	this.invokerPackage.set("yawac.invoker")
-	this.modelPackage.set("yawac.model")
+	this.inputSpec.set(openapiDefinition)
+	this.outputDir.set("$generateClientsDir/java")
+	this.apiPackage.set("com.yawa.client.api")
+	this.invokerPackage.set("com.yawa.client.invoker")
+	this.modelPackage.set("com.yawa.client.model")
 	this.packageName.set("yawac")
-	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
-	this.skipOverwrite.set(false)
-	this.verbose.set(false)
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinClient") {
 	this.generatorName.set("kotlin")
-	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
-	this.outputDir.set("$buildDir/generated/clients/kotlin")
+	this.inputSpec.set(openapiDefinition)
+	this.outputDir.set("$generateClientsDir/kotlin")
 	this.apiPackage.set("yawac.api")
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
 	this.packageName.set("yawac")
-	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
-	this.skipOverwrite.set(false)
-	this.verbose.set(false)
 }
 
 configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
