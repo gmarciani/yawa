@@ -31,6 +31,8 @@ spring:
     url: jdbc:mysql://database:3306/dbyawa?useSSL=false
     username: dbuser
     password: dbpassword
+  mustache:
+    check-template-location: false
 logging:
   config: classpath:logging/logback.xml
 management:
