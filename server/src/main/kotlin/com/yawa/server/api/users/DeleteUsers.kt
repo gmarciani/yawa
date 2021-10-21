@@ -22,7 +22,7 @@ class DeleteUsers(
 ) {
 
     @DeleteMapping("/DeleteUsers")
-    fun action(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
+    fun deleteUsers(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)

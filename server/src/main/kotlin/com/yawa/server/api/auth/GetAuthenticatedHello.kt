@@ -12,7 +12,7 @@ private val log = KotlinLogging.logger {}
 class GetAuthenticatedHello {
 
     @GetMapping("/GetAuthenticatedHello")
-    fun action(authentication: Authentication) : Response {
+    fun getAuthenticatedHello(authentication: Authentication) : Response {
         log.info("Called with authentication: {}", authentication)
         val user = authentication.principal as User
         return Response(message = "Hello ${user.username}")

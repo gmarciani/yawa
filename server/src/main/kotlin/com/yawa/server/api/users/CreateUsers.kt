@@ -27,7 +27,7 @@ class CreateUsers(
 ) {
 
     @PostMapping("/CreateUsers")
-    fun action(@Valid @RequestBody request: Request, authentication: Authentication?) : Response{
+    fun createUsers(@Valid @RequestBody request: Request, authentication: Authentication?) : Response{
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)

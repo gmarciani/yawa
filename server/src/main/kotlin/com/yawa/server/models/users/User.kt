@@ -8,7 +8,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-open class User(
+class User(
     @Id @Username val username: String,
     @Email var email: String,
     @EncryptedPassword var password: String,

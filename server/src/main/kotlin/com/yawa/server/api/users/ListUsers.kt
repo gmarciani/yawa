@@ -17,7 +17,7 @@ class ListUsers(
 ) {
 
     @GetMapping("/ListUsers")
-    fun action(@Valid @RequestBody request: Request) : Response {
+    fun listUsers(@Valid @RequestBody request: Request) : Response {
         log.info("Called with request: $request")
 
         val users = mutableListOf<User>()

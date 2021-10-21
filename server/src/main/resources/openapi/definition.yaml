@@ -10,7 +10,7 @@ paths:
     post:
       tags:
       - logout
-      operationId: action
+      operationId: logout
       responses:
         "200":
           description: OK
@@ -22,7 +22,7 @@ paths:
     post:
       tags:
       - login
-      operationId: action_1
+      operationId: login
       requestBody:
         content:
           application/json:
@@ -40,7 +40,7 @@ paths:
     post:
       tags:
       - create-users
-      operationId: action_2
+      operationId: createUsers
       requestBody:
         content:
           application/json:
@@ -58,7 +58,7 @@ paths:
     patch:
       tags:
       - update-users
-      operationId: action_3
+      operationId: updateUsers
       requestBody:
         content:
           application/json:
@@ -76,7 +76,7 @@ paths:
     get:
       tags:
       - list-users
-      operationId: action_4
+      operationId: listUsers
       parameters:
       - name: request
         in: query
@@ -94,7 +94,7 @@ paths:
     get:
       tags:
       - get-random-outcome
-      operationId: action_5
+      operationId: getRandomOutcome
       responses:
         "200":
           description: OK
@@ -106,7 +106,7 @@ paths:
     get:
       tags:
       - get-authenticated-hello
-      operationId: action_6
+      operationId: getAuthenticatedHello
       responses:
         "200":
           description: OK
@@ -118,7 +118,7 @@ paths:
     get:
       tags:
       - describe-users
-      operationId: action_7
+      operationId: describeUsers
       parameters:
       - name: request
         in: query
@@ -136,7 +136,7 @@ paths:
     delete:
       tags:
       - delete-users
-      operationId: action_8
+      operationId: deleteUsers
       requestBody:
         content:
           application/json:

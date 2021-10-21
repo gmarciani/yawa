@@ -23,7 +23,7 @@ class Login(
 ) {
 
     @PostMapping("/Login")
-    fun action(@Valid @RequestBody request: Request) : Response{
+    fun login(@Valid @RequestBody request: Request) : Response{
         log.info("Called with request: $request")
 
         try {

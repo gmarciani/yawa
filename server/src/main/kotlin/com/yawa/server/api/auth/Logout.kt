@@ -14,7 +14,7 @@ class Logout {
 
     @PostMapping("/Logout")
     @ResponseBody
-    fun action(authentication: Authentication) : Response {
+    fun logout(authentication: Authentication) : Response {
         log.info("Called with authentication: $authentication")
         val user = authentication.principal as User
         return Response(message = "Bye ${user.username}")

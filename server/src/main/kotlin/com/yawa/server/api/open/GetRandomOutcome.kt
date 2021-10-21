@@ -15,7 +15,7 @@ private val log = KotlinLogging.logger {}
 class GetRandomOutcome {
 
     @GetMapping("/GetRandomOutcome")
-    fun action() : Response {
+    fun getRandomOutcome() : Response {
         log.info("Called")
         val dice = Random().nextFloat()
         if (dice <= 6.0/10) {
