@@ -72,3 +72,19 @@ keytool -genkey -alias yawa -keyalg rsa -keystore yawa.keystore \
   -dname "CN=localhost, O=Yawa, L=Cagliari, ST=Italy, C=IT" \
   -keypass yawapass -storepass yawapass
 ```
+
+## Clients
+
+### Bash
+Examples:
+```
+./client.sh -k --host https://localhost:8002 getRandomOutcome
+```
+
+```
+./client.sh -k --host https://localhost:8002 getAuthenticatedHello Authorization:"Bearer YOUR_AUTH_TOKEN"
+```
+
+```
+./client.sh -k --host https://localhost:8002 login username==YOUR_USERNAME password==YOUR_PASSWORD
+```
