@@ -5,6 +5,7 @@ plugins {
 	id("org.springframework.boot") version "2.5.5"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.5.31"
+	id("org.openapi.generator") version "5.2.1"
 	kotlin("jvm") version "1.5.31"
 	kotlin("plugin.spring") version "1.5.31"
 	kotlin("plugin.jpa") version "1.5.31"
@@ -17,6 +18,8 @@ ext {
 	set("stack", project.properties["stack"])
 	set("region", project.properties["region"])
 }
+
+val mainResourcesDir = "$rootDir/src/main/resources"
 
 group = "com.yawa.server"
 version = "1.0.0"
@@ -74,7 +77,7 @@ tasks.withType<Jar> {
 }
 
 tasks.bootJar {
-	mainClassName = "com.yawa.server.Application"
+	this.mainClass.set("com.yawa.server.Application")
 }
 
 tasks.bootRun {
@@ -83,8 +86,67 @@ tasks.bootRun {
 	if (ext.get("region") != null) { systemProperty("yawa.region", ext.get("region")!!) }
 	if (ext.get("debugEnabled") != null) { jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${ext.get("debugPort")}") }
 }
-/*
-tasks.springBoot {
+
+task("buildClients") {
+	this.dependsOn("buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient")
+}
+
+task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClient") {
+	this.generatorName.set("bash")
+	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
+	this.outputDir.set("$buildDir/generated/clients/bash")
+	this.apiPackage.set("yawac.api")
+	this.invokerPackage.set("yawac.invoker")
+	this.modelPackage.set("yawac.model")
+	this.packageName.set("yawac")
+	this.generateApiDocumentation.set(true)
+	this.validateSpec.set(true)
+	this.skipOverwrite.set(false)
+	this.verbose.set(false)
+}
+
+task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildPythonClient") {
+	this.generatorName.set("python")
+	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
+	this.outputDir.set("$buildDir/generated/clients/python")
+	this.apiPackage.set("yawac.api")
+	this.invokerPackage.set("yawac.invoker")
+	this.modelPackage.set("yawac.model")
+	this.packageName.set("yawac")
+	this.generateApiDocumentation.set(true)
+	this.validateSpec.set(true)
+	this.skipOverwrite.set(false)
+	this.verbose.set(false)
+}
+
+task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildJavaClient") {
+	this.generatorName.set("java")
+	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
+	this.outputDir.set("$buildDir/generated/clients/java")
+	this.apiPackage.set("yawac.api")
+	this.invokerPackage.set("yawac.invoker")
+	this.modelPackage.set("yawac.model")
+	this.packageName.set("yawac")
+	this.generateApiDocumentation.set(true)
+	this.validateSpec.set(true)
+	this.skipOverwrite.set(false)
+	this.verbose.set(false)
+}
+
+task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinClient") {
+	this.generatorName.set("kotlin")
+	this.inputSpec.set("$mainResourcesDir/openapi/definition.yaml")
+	this.outputDir.set("$buildDir/generated/clients/kotlin")
+	this.apiPackage.set("yawac.api")
+	this.invokerPackage.set("yawac.invoker")
+	this.modelPackage.set("yawac.model")
+	this.packageName.set("yawac")
+	this.generateApiDocumentation.set(true)
+	this.validateSpec.set(true)
+	this.skipOverwrite.set(false)
+	this.verbose.set(false)
+}
+
+configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
 	buildInfo()
 }
-*/
