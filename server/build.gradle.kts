@@ -98,24 +98,31 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClie
 	this.generatorName.set("bash")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/bash")
-	this.apiPackage.set("yawac.api")
-	this.invokerPackage.set("yawac.invoker")
-	this.modelPackage.set("yawac.model")
-	this.packageName.set("yawac")
+	this.configOptions.set(mapOf(
+		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+		"curlOptions" to "--insecure",
+		"generateBashCompletion" to "true",
+		"generateZshCompletion" to "true",
+		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+		"scriptName" to "yawac"
+	))
 	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
-	this.skipOverwrite.set(false)
-	this.verbose.set(false)
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildPythonClient") {
 	this.generatorName.set("python")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/python")
-	this.apiPackage.set("yawac.api")
-	this.invokerPackage.set("yawac.invoker")
-	this.modelPackage.set("yawac.model")
-	this.packageName.set("yawac")
+	this.configOptions.set(mapOf(
+		"library" to "urllib3",
+		"packageName" to "yawac",
+		"packageUrl" to "https://github.com/gmarciani/yawa",
+		"packageVersion" to "1.0.0",
+		"projectName" to "yawac",
+		"scriptName" to "yawac"
+	))
+	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
 
@@ -127,6 +134,15 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildJavaClie
 	this.invokerPackage.set("com.yawa.client.invoker")
 	this.modelPackage.set("com.yawa.client.model")
 	this.packageName.set("yawac")
+	this.configOptions.set(mapOf(
+		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+		"curlOptions" to "--insecure",
+		"generateBashCompletion" to "true",
+		"generateZshCompletion" to "true",
+		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+		"scriptName" to "yawac"
+	))
+	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
 
@@ -138,6 +154,15 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinCl
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
 	this.packageName.set("yawac")
+	this.configOptions.set(mapOf(
+		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+		"curlOptions" to "--insecure",
+		"generateBashCompletion" to "true",
+		"generateZshCompletion" to "true",
+		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+		"scriptName" to "yawac"
+	))
+	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
 
