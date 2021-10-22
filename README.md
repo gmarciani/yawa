@@ -4,12 +4,28 @@ Yet Another Web Application
 ## Requirements
 * Docker Compose. See [installation guide](https://docs.docker.com/compose/install/)
 
-* MySql
+* Shell: Bash
+```
+brew install bash
+```
+
+* Shell: JSON
+```
+brew install jq
+```
+
+* Clients: OpenApi, Bash.Completion
+```
+brew install openapi-generator
+brew install bash-completion
+```
+
+* Database: MySql
 ```
 brew install mysql
 ```
 
-* Pre-Commit
+* GitHub repo tools: PreCommit
 ```
 brew install pre-commit
 pre-commit install
@@ -78,13 +94,50 @@ keytool -genkey -alias yawa -keyalg rsa -keystore yawa.keystore \
 ### Bash
 Examples:
 ```
-./client.sh -k --host https://localhost:8002 getRandomOutcome
+export YAWA_ENDPOINT="https://localhost:8002"
+export YAWA_USERNAME="mgiacomo"
+export YAWA_PASSWORD="password"
+./yawac getRandomOutcome
+token=$(./yawac login username==$YAWA_USERNAME password==$YAWA_PASSWORD | jq -r '.token')
+./yawac login getAuthenticatedHello Authorization:"Bearer $token"
 ```
 
-```
-./client.sh -k --host https://localhost:8002 getAuthenticatedHello Authorization:"Bearer YOUR_AUTH_TOKEN"
-```
+### Python
+Examples
+```python
+import yawac
+from pprint import pprint
+from yawac.api import get_random_outcome_api
+from yawac.api import login_api
+from yawac.api import get_authenticated_hello_api
+from yawac.model.request import Request
 
-```
-./client.sh -k --host https://localhost:8002 login username==YOUR_USERNAME password==YOUR_PASSWORD
+YAWA_ENDPOINT="https://localhost:8002"
+YAWA_USERNAME="mgiacomo"
+YAWA_PASSWORD="password"
+
+configuration = yawac.Configuration(host=YAWA_ENDPOINT)
+configuration.verify_ssl = False
+
+with yawac.ApiClient(configuration) as client:
+    try:
+        # GetRandomOutcome
+        api = get_random_outcome_api.GetRandomOutcomeApi(client)
+        response = api.get_random_outcome()
+        pprint(response)
+
+        # Login
+        api = login_api.LoginApi(client)
+        request = Request(username=YAWA_USERNAME, password=YAWA_PASSWORD)
+        response = api.login(request)
+        pprint(response)
+
+        client.set_default_header("Authorization", "Bearer " + response["token"])
+
+        # GetAuthenticatedHello
+        api = get_authenticated_hello_api.GetAuthenticatedHelloApi(client)
+        response = api.get_authenticated_hello()
+        pprint(response)
+    except yawac.ApiException as e:
+        print("Exception when calling API: %s\n" % e)
 ```
