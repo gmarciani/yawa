@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("java")
 	id("org.springframework.boot") version "2.5.6"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.5.31"
 	id("org.openapi.generator") version "5.2.1"
 	kotlin("jvm") version "1.5.31"
@@ -31,13 +30,13 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-mustache")
-	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-web:2.5.6")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.6")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:2.5.6")
+	implementation("org.springframework.boot:spring-boot-starter-security:2.5.6")
+	implementation("org.springframework.boot:spring-boot-starter-validation:2.5.6")
+	implementation("org.springframework.boot:spring-boot-starter-mustache:2.5.6")
+	implementation("org.springframework.boot:spring-boot-starter-mail:2.5.6")
 	implementation("org.springdoc:springdoc-openapi-ui:1.5.11")
 	implementation("com.auth0:java-jwt:3.18.1")
 	implementation("io.micrometer:micrometer-registry-prometheus:1.7.2")
@@ -45,21 +44,21 @@ dependencies {
 	implementation("net.logstash.logback:logstash-logback-encoder:6.6")
 	implementation("io.github.microutils:kotlin-logging:1.12.5")
 	implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.6")
 
-	runtimeOnly("com.h2database:h2")
+	runtimeOnly("com.h2database:h2:1.4.200")
 	runtimeOnly("mysql:mysql-connector-java:8.0.26")
 
 	testImplementation("io.kotest:kotest-framework-api-jvm:4.6.0")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
 	testImplementation("io.mockk:mockk:1.11.0")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.6")
 }
 
 tasks.withType<KotlinCompile> {
