@@ -23,5 +23,6 @@ class UsernameValidator : ConstraintValidator<Username, String> {
     val PATTERN : Pattern = Pattern.compile("^.{$MIN_SIZE,$MAX_SIZE}$")
     val VALIDATION_ERROR_MESSAGE = "Invalid username: must be a string between $MIN_SIZE and $MAX_SIZE characters"
 
-    override fun isValid(value: String, context: ConstraintValidatorContext) : Boolean = PATTERN.matcher(value).matches()
+    override fun isValid(value: String, context: ConstraintValidatorContext) : Boolean =
+        PATTERN.matcher(value).matches()
 }
