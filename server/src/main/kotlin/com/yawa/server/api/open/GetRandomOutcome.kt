@@ -17,7 +17,7 @@ class GetRandomOutcome {
     @GetMapping("/GetRandomOutcome")
     fun getRandomOutcome() : Response {
         log.info("Called")
-        val dice = Random().nextFloat()
+        val dice = random()
         if (dice <= 6.0/10) {
             log.info("Will return success")
             return Response("Success")
@@ -37,4 +37,6 @@ class GetRandomOutcome {
     }
 
     data class Response(val message: String)
+
+    private fun random() : Double = Random().nextDouble()
 }
