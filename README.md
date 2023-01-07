@@ -1,5 +1,6 @@
 # YAWA
-Yet Another Web Application
+
+![YAWA Logo](resources/brand/yawa-logo.png)
 
 ## Requirements
 
