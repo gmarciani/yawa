@@ -26,7 +26,7 @@ docker exec -it [container-name] /bin/bash
 ## Connect to DB
 From host:
 ```shell
-mysql -h 127.0.0.1 -P 3307 -u dbuser -p
+mysql -h 127.0.0.1 -P 3307 -u dbuser -p --ssl-mode=DISABLED
 ```
 
 From database container:
@@ -38,6 +38,13 @@ From server container:
 ```shell
 mysql -h database -P 3306 -u dbuser -p --ssl-mode=DISABLED
 ```
+
+From PhpMyAdmin:
+1. Go to `localhost:8003`
+2. Login with the following credentials:
+   1. Server: database
+   2. Username: dbuser
+   3. Password: dbpassword
 
 ## Connect to server
 From host:
