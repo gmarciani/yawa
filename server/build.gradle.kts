@@ -5,6 +5,7 @@ plugins {
 	id("org.springframework.boot") version "2.5.6"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.5.31"
 	id("org.openapi.generator") version "5.2.1"
+	id("com.github.ben-manes.versions") version "0.44.0"
 	kotlin("jvm") version "1.5.31"
 	kotlin("plugin.spring") version "1.5.31"
 	kotlin("plugin.jpa") version "1.5.31"
