@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("java")
-	id("org.springframework.boot") version "2.5.6"
-	id("org.jetbrains.kotlin.plugin.allopen") version "1.5.31"
-	id("org.openapi.generator") version "5.2.1"
+	id("org.springframework.boot") version "2.7.5"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.0"
+	id("org.openapi.generator") version "6.2.1"
 	id("com.github.ben-manes.versions") version "0.44.0"
-	kotlin("jvm") version "1.5.31"
-	kotlin("plugin.spring") version "1.5.31"
-	kotlin("plugin.jpa") version "1.5.31"
+	kotlin("jvm") version "1.8.0"
+	kotlin("plugin.spring") version "1.8.0"
+	kotlin("plugin.jpa") version "1.8.0"
 }
 
 ext {
@@ -31,35 +31,35 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web:2.5.6")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.6")
-	implementation("org.springframework.boot:spring-boot-starter-actuator:2.5.6")
-	implementation("org.springframework.boot:spring-boot-starter-security:2.5.6")
-	implementation("org.springframework.boot:spring-boot-starter-validation:2.5.6")
-	implementation("org.springframework.boot:spring-boot-starter-mustache:2.5.6")
-	implementation("org.springframework.boot:spring-boot-starter-mail:2.5.6")
-	implementation("org.springdoc:springdoc-openapi-ui:1.5.11")
-	implementation("com.auth0:java-jwt:3.18.1")
-	implementation("io.micrometer:micrometer-registry-prometheus:1.7.2")
+	implementation("org.springframework.boot:spring-boot-starter-web:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-security:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-validation:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-mustache:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-mail:2.7.5")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+	implementation("com.auth0:java-jwt:4.2.1")
+	implementation("io.micrometer:micrometer-registry-prometheus:1.10.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
-	implementation("net.logstash.logback:logstash-logback-encoder:6.6")
-	implementation("io.github.microutils:kotlin-logging:1.12.5")
-	implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
-	implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+	implementation("net.logstash.logback:logstash-logback-encoder:7.2")
+	implementation("io.github.microutils:kotlin-logging:3.0.4")
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
-	developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.6")
+	developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.5")
 
-	runtimeOnly("com.h2database:h2:1.4.200")
-	runtimeOnly("mysql:mysql-connector-java:8.0.26")
+	runtimeOnly("com.h2database:h2:2.1.214")
+	runtimeOnly("mysql:mysql-connector-java:8.0.31")
 
 	testImplementation("io.kotest:kotest-framework-api-jvm:4.6.0")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
-	testImplementation("io.mockk:mockk:1.11.0")
-	testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.6")
+	testImplementation("io.mockk:mockk:1.13.3")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.5")
 }
 
 tasks.withType<KotlinCompile> {
