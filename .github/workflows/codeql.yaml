@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ "ubuntu-20.04" ]
-        language: [ "java", "javascript", "python" ]
+        language: [ "javascript", "python" ] #TODO Add "java" as soon as CodeQL supports Kotlin 1.8.0
 
     steps:
       - name: Checkout Code
