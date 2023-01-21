@@ -19,17 +19,21 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 12
 
-      - name: Docker Compose Action
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: docker-compose.yaml
-#
 #      - name: Install Docker Compose
 #        run: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 #
 #      - name: Make Docker Compose Executable
 #        run: sudo chmod +x /usr/local/bin/docker-compose
-#
-#      - name: Build
-#        run: docker-compose build
+
+      - name: Build Containers
+        run: docker-compose build
+
+      - name: Start Containers
+        run: docker-compose up --detach
+
+      - name: Stop Containers
+        run: docker-compose down
