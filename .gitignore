@@ -13,3 +13,6 @@ lib
 .gradle
 gradle
 gradlew.*
+
+# Mac
+.DS_Store
