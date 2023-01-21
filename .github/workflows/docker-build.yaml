@@ -1,6 +1,10 @@
 name: Docker Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "mainline" ]
+  pull_request:
+    branches: [ "mainline" ]
 
 jobs:
   docker-build:
@@ -8,11 +12,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-20.04 ]
+        os: [ "ubuntu-20.04" ]
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
