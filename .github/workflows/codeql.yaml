@@ -28,11 +28,11 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
-      - if: matrix.language == "java"
+      - if: matrix.language == 'java'
         name: Build Java
         run: |
           gradle clean build --project-dir server
-      - if: matrix.language == "javascript" || matrix.language == "python"
+      - if: matrix.language == 'javascript' || matrix.language == 'python'
         name: AutoBuild
         uses: github/codeql-action/autobuild@v2
       - name: Perform CodeQL Analysis
