@@ -24,7 +24,7 @@ jobs:
         timeout-minutes: 10
       - name: Start Containers
         run: docker-compose up --detach --build
-        timeout-minutes: 5
+        timeout-minutes: 15
       - name: Stop Containers
         run: docker-compose down
         timeout-minutes: 2
