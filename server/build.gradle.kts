@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("java")
-	id("org.springframework.boot") version "2.7.5"
+	id("org.springframework.boot") version "2.7.8"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.0"
 	id("org.openapi.generator") version "6.2.1"
 	id("com.github.ben-manes.versions") version "0.44.0"
@@ -10,6 +10,8 @@ plugins {
 	kotlin("plugin.spring") version "1.8.0"
 	kotlin("plugin.jpa") version "1.8.0"
 }
+
+apply(plugin = "io.spring.dependency-management")
 
 ext {
 	set("debugEnabled", project.properties.getOrDefault("debugEnabled", false))
@@ -31,13 +33,13 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web:2.7.5")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.5")
-	implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.5")
-	implementation("org.springframework.boot:spring-boot-starter-security:2.7.5")
-	implementation("org.springframework.boot:spring-boot-starter-validation:2.7.5")
-	implementation("org.springframework.boot:spring-boot-starter-mustache:2.7.5")
-	implementation("org.springframework.boot:spring-boot-starter-mail:2.7.5")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-mustache")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
 	implementation("com.auth0:java-jwt:4.2.1")
 	implementation("io.micrometer:micrometer-registry-prometheus:1.10.2")
@@ -51,7 +53,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
-	developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.5")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	runtimeOnly("com.h2database:h2:2.1.214")
 	runtimeOnly("mysql:mysql-connector-java:8.0.31")
@@ -59,7 +61,7 @@ dependencies {
 	testImplementation("io.kotest:kotest-framework-api-jvm:4.6.0")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
 	testImplementation("io.mockk:mockk:1.13.3")
-	testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.5")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
