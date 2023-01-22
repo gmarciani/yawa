@@ -13,6 +13,8 @@ spring:
       ddl-auto: update
   datasource:
     url: jdbc:mysql://127.0.0.1:3307/dbyawa?useSSL=false
+  pid:
+    file: yawa.pid
 server:
   error:
     include-message: always
