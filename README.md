@@ -153,3 +153,8 @@ Before submitting your code, configure Pre-Commit in your local repo:
 brew install pre-commit
 pre-commit install
 ```
+
+## References
+1. [Spring Boot Reference](https://docs.spring.io/spring-boot/docs/2.7.8/reference/html/)
+1. [Spring Boot API Docs](https://docs.spring.io/spring-boot/docs/2.7.8/api/
+2. [Spring Gradle Plugin](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/)
