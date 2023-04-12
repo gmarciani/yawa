@@ -19,6 +19,7 @@ server:
     include-binding-errors: never
     whitelabel:
       enabled: false
+  shutdown: graceful
 spring:
   profiles:
     default: docker
@@ -36,6 +37,8 @@ spring:
   pid:
     file: /var/yawa/run/yawa.pid
     fail-on-write-error: true
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
 logging:
   config: classpath:logging/logback.xml
 management:
