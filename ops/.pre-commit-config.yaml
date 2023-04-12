@@ -1,0 +1,42 @@
+repos:
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: check-added-large-files
+        args: ['--maxkb=3000']
+      - id: check-ast
+      - id: check-case-conflict
+      - id: check-docstring-first
+      #- id: check-shebang-scripts-are-executable
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: name-tests-test
+      - id: check-xml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: detect-aws-credentials
+      #- id: double-quote-string-fixer
+      - id: check-symlinks
+      - id: requirements-txt-fixer
+      #- id: python-use-type-annotations
+      - id: end-of-file-fixer
+      - id: pretty-format-json
+      - id: requirements-txt-fixer
+      #- id: shellcheck
+      - id: mixed-line-ending
+        args: ['--fix=no']
+
+  - repo: https://github.com/ambv/black
+    rev: 22.6.0
+    hooks:
+      - id: black
+        args: ['-l 120']
+
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.9.3
+    hooks:
+      - id: isort
+        args: ['--profile', 'black']

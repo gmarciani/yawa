@@ -1,0 +1,3 @@
+include requirements.txt
+exclude DEVELOPMENT.md
+recursive-exclude tests *
