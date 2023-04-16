@@ -1,4 +1,4 @@
-FROM grafana/loki:2.3.0
+FROM grafana/loki:2.8.0
 
 EXPOSE 3100
 
