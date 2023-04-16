@@ -1,3 +1,3 @@
-FROM prom/prometheus:v2.28.1
+FROM prom/prometheus:v2.43.0
 
 EXPOSE 9090
