@@ -16,11 +16,12 @@ The application is made of the containers below.
 
 | Name | Url | Documentation |
 |-|-|-|
-| frontend | https://localhost:8010 | [README](frontend/README.md) |
-| server   | https://localhost:8002 | [README](server/README.md) |
-| dbadmin  | https://localhost:3307 | [README](database/README.md) |
-| dbadmin  | https://localhost:8002 | [README](database/README.md) |
-| grafana  | http://localhost:8005  | [README](grafana/README.md) |
+| frontend   | https://localhost:8010 | [README](frontend/README.md) |
+| server     | https://localhost:8002 | [README](server/README.md) |
+| dbadmin    | https://localhost:3307 | [README](database/README.md) |
+| dbadmin    | https://localhost:8002 | [README](database/README.md) |
+| grafana    | http://localhost:8005  | [README](grafana/README.md) |
+| prometheus | http://localhost:8004  | [README](prometheus/README.md) |
 
 ### Run
 Run all containers
