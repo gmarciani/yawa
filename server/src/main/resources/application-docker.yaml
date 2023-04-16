@@ -12,7 +12,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://database:3306/dbyawa?useSSL=false
+    url: jdbc:mysql://database:3306/dbyawa?useSSL=false&allowPublicKeyRetrieval=true
 server:
   error:
     include-message: always
