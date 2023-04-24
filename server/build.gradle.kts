@@ -7,6 +7,7 @@ plugins {
 	id("org.openapi.generator") version "6.5.0"
 	id("com.github.ben-manes.versions") version "0.46.0"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20"
+	id("com.gorylenko.gradle-git-properties") version "2.4.1"
 	kotlin("jvm") version "1.8.20"
 	kotlin("plugin.spring") version "1.8.20"
 	kotlin("plugin.jpa") version "1.8.20"
