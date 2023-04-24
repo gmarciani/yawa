@@ -91,7 +91,7 @@ management:
       enabled: true
     git:
       enabled: true
-      mode: simple
+      mode: full
     java:
       enabled: true
     os:
