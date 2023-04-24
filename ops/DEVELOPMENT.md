@@ -20,7 +20,7 @@ pre-commit run --all-files
 ## Install
 Install the package on your local environment:
 ```
-pip install -e .
+pip install --force-reinstall -e .
 ```
 
 ## Build
