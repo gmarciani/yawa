@@ -98,7 +98,7 @@ task("buildClients") {
 	this.dependsOn("buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient")
 }
 
-val openapiDefinition = "$mainResourcesDir/openapi/definition.yaml"
+val openapiDefinition = "$mainResourcesDir/openapi/definition.json"
 val generateClientsDir = "$buildDir/generated/clients"
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClient") {
