@@ -57,7 +57,7 @@ management:
     web:
       base-path: /manage
       exposure:
-        include: configprops,env,health,info,metrics,prometheus,shutdown
+        include: configprops,env,health,info,mappings,metrics,prometheus,shutdown
   endpoint:
     configprops:
       enabled: true
@@ -68,6 +68,8 @@ management:
       show-details: always
       enabled: true
     info:
+      enabled: true
+    mappings:
       enabled: true
     metrics:
       enabled: true
