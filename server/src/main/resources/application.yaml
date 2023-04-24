@@ -92,6 +92,10 @@ management:
     git:
       enabled: true
       mode: simple
+    java:
+      enabled: true
+    os:
+      enabled: true
     defaults:
       enabled: false
   metrics:
