@@ -4,7 +4,6 @@ import com.yawa.server.models.users.User
 import mu.KotlinLogging
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 
 private val log = KotlinLogging.logger {}
@@ -13,7 +12,6 @@ private val log = KotlinLogging.logger {}
 class Logout {
 
     @PostMapping("/Logout")
-    @ResponseBody
     fun logout(authentication: Authentication) : Response {
         log.info("Called with authentication: $authentication")
         val user = authentication.principal as User
