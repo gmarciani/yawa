@@ -25,13 +25,16 @@ spring:
     default: docker
   jpa:
     database: mysql
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
   datasource:
     url: jdbc:mysql://database:3306/dbyawa?useSSL=false
     username: dbuser
     password: dbpassword
+  output:
+    ansi:
+      enabled: detect
   mustache:
     check-template-location: false
   pid:
@@ -39,6 +42,13 @@ spring:
     fail-on-write-error: true
   lifecycle:
     timeout-per-shutdown-phase: 60s
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: "31171094515-jdf9rm9820bin2q38lcisbs5k1mt7c4g.apps.googleusercontent.com"
+#            client-secret: "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"
 logging:
   config: classpath:logging/logback.xml
 management:
@@ -47,7 +57,7 @@ management:
     web:
       base-path: /manage
       exposure:
-        include: configprops,env,health,info,metrics,prometheus
+        include: configprops,env,health,info,metrics,prometheus,shutdown
   endpoint:
     configprops:
       enabled: true
@@ -62,6 +72,8 @@ management:
     metrics:
       enabled: true
     prometheus:
+      enabled: true
+    shutdown:
       enabled: true
   health:
     custom:
@@ -89,3 +101,8 @@ management:
 springdoc:
   api-docs:
     path: /manage/openapi
+  swagger-ui:
+    path: /manage/swagger-ui
+  show-actuator: true
+  default-consumes-media-type: "application/json"
+  default-produces-media-type: "application/json"
