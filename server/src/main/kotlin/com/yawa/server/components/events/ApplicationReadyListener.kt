@@ -21,7 +21,6 @@ class ApplicationReadyListener(
     @EventListener
     fun onEvent(event: ApplicationReadyEvent) {
         log.info("Application is ready")
-        println("Application is ready")
 
         val adminUsername = "admin"
 
