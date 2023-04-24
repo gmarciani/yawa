@@ -177,3 +177,8 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinCl
 configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
 	buildInfo()
 }
+
+// TODO We must ignore the failures because the Git folder is not copied into the container.
+configure<com.gorylenko.GitPropertiesPluginExtension> {
+	this.failOnNoGitDirectory = false
+}
