@@ -1,13 +1,11 @@
-import json
-
 import click
 import yawac
 from yawac.paths.manage_health.get import Health
-
-from yawa_ops.config.client_config import build_client_config
 from yawa_ops.utils import logutils
 from yawac.paths.manage_info.get import Info
 from yawac.paths.manage_shutdown.post import Shutdown
+
+from yawa_ops.utils.api import print_response, build_client
 
 log = logutils.get_logger(__name__)
 
@@ -16,10 +14,10 @@ log = logutils.get_logger(__name__)
 def health():
     log.info("Describing the server health")
 
-    with yawac.ApiClient(build_client_config()) as api_client:
+    with build_client() as api_client:
         try:
             api_response = Health(api_client).health()
-            print(json.dumps(api_response.body, indent=2))
+            print_response(api_response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)
 
@@ -28,10 +26,10 @@ def health():
 def info():
     log.info("Describing the server info")
 
-    with yawac.ApiClient(build_client_config()) as api_client:
+    with build_client() as api_client:
         try:
             api_response = Info(api_client).info()
-            print(json.dumps(api_response.body, indent=2))
+            print_response(api_response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)
 
@@ -40,9 +38,9 @@ def info():
 def shutdown():
     log.info("Shutting down the server")
 
-    with yawac.ApiClient(build_client_config()) as api_client:
+    with build_client() as api_client:
         try:
             api_response = Shutdown(api_client).shutdown()
-            print(json.dumps(api_response.body, indent=2))
+            print_response(api_response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)

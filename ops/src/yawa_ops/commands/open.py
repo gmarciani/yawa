@@ -1,11 +1,8 @@
-import json
-
 import click
 import yawac
 from yawac.apis.tags.get_random_outcome_api import GetRandomOutcomeApi
-
-from yawa_ops.config.client_config import build_client_config
 from yawa_ops.utils import logutils
+from yawa_ops.utils.api import print_response, build_client
 
 log = logutils.get_logger(__name__)
 
@@ -14,9 +11,9 @@ log = logutils.get_logger(__name__)
 def get_random_outcome():
     log.info("Requesting a random outcome")
 
-    with yawac.ApiClient(build_client_config()) as api_client:
+    with build_client() as api_client:
         try:
             api_response = GetRandomOutcomeApi(api_client).get_random_outcome()
-            print(json.dumps(api_response.body, indent=2))
+            print_response(api_response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)
