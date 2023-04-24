@@ -1,7 +1,6 @@
 package com.yawa.server.api.auth
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
+import com.yawa.server.components.security.JwtIssuer
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.validators.Password
 import com.yawa.server.validators.Username
@@ -19,11 +18,12 @@ private val log = KotlinLogging.logger {}
 
 @RestController
 class Login(
-    @Autowired val authenticationManager: AuthenticationManager
+    @Autowired val authenticationManager: AuthenticationManager,
+    @Autowired val jwtIssuer: JwtIssuer
 ) {
 
     @PostMapping("/Login")
-    fun login(@Valid @RequestBody request: Request) : Response{
+    fun login(@Valid @RequestBody request: Request) : Response {
         log.info("Called with request: $request")
 
         try {
@@ -34,13 +34,11 @@ class Login(
 
             log.info("Authenticated user: $user")
 
-            val token = JWT.create()
-                    .withClaim("username", user.username)
-                    .sign(Algorithm.HMAC256("secret"))
+            val token = jwtIssuer.issue(user.username)
 
             log.info("Authentication token: $token")
 
-            return Response(token = token, message = "Successfully logged in")
+            return Response(token = token, message = "Successfully logged in as ${user.username}")
         } catch (exc: BadCredentialsException) {
             throw NotAuthorizedException("Cannot log in")
         }
