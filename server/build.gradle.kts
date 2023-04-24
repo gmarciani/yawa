@@ -2,13 +2,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("java")
-	id("org.springframework.boot") version "2.7.8"
-	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.0"
+	id("org.springframework.boot") version "2.7.11"
+	id("io.spring.dependency-management") version "1.1.0"
 	id("org.openapi.generator") version "6.5.0"
-	id("com.github.ben-manes.versions") version "0.44.0"
-	kotlin("jvm") version "1.8.0"
-	kotlin("plugin.spring") version "1.8.0"
-	kotlin("plugin.jpa") version "1.8.0"
+	id("com.github.ben-manes.versions") version "0.46.0"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20"
+	kotlin("jvm") version "1.8.20"
+	kotlin("plugin.spring") version "1.8.20"
+	kotlin("plugin.jpa") version "1.8.20"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -25,8 +26,8 @@ val mainResourcesDir = "$rootDir/src/main/resources"
 
 group = "com.yawa.server"
 version = "1.0.0"
-java.sourceCompatibility = JavaVersion.VERSION_11
-java.targetCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()
@@ -37,10 +38,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+//	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
+	implementation("org.springdoc:springdoc-openapi-security:1.7.0")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.7.0")
 	implementation("com.auth0:java-jwt:4.2.1")
 	implementation("io.micrometer:micrometer-registry-prometheus:1.10.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
@@ -67,7 +71,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
+		jvmTarget = "17"
 	}
 }
 
