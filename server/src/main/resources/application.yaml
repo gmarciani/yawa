@@ -86,6 +86,10 @@ management:
       enabled: true
     ping:
       enabled: true
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
   info:
     build:
       enabled: true
