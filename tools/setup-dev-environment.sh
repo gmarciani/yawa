@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
-JAVA_VERSION="11.0.17-amzn"
+JAVA_VERSION="17.0.7-amzn"
+
+# Gradle 7.6.0 is the maximum version supported by the Kotlin Gradle Plugin.
+# If you are considering to upgrade Gradle, you first need to check the compatibility.
+# See https://kotlinlang.org/docs/gradle-configure-project.html#check-for-jvm-target-compatibility-of-related-compile-tasks
 GRADLE_VERSION="7.6"
 
 # Install SDKMAN; see https://sdkman.io/install
@@ -15,7 +19,6 @@ sdk default java $JAVA_VERSION
 # Install Gradle and set as default version
 sdk install gradle $GRADLE_VERSION
 sdk default gradle $GRADLE_VERSION
-
 
 brew install docker docker-compose # Docker environment
 brew install openapi-generator # OpenAPI generator
