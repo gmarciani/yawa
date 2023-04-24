@@ -96,6 +96,8 @@ management:
       enabled: true
     os:
       enabled: true
+    custom:
+      enabled: false
     defaults:
       enabled: false
   metrics:
