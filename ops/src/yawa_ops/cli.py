@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import click
-from yawa_ops.commands.simple import random_outcome
+from yawa_ops.commands.auth import login, logout, get_authenticated_hello
+from yawa_ops.commands.management import info, shutdown, health
+from yawa_ops.commands.open import get_random_outcome
 from yawa_ops.config.metadata import NAME, VERSION
 from yawa_ops.utils import guiutils, logutils
 
@@ -22,7 +24,18 @@ def main(ctx, debug):
         logutils.set_level("DEBUG" if debug else "INFO")
 
 
-main.add_command(random_outcome)
+# Management
+main.add_command(info)
+main.add_command(health)
+main.add_command(shutdown)
+
+# Auth
+main.add_command(login)
+main.add_command(logout)
+main.add_command(get_authenticated_hello)
+
+# Open
+main.add_command(get_random_outcome)
 
 
 if __name__ == "__main__":
