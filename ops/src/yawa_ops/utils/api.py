@@ -2,18 +2,22 @@ import json
 
 import yawac
 
-from yawa_ops.config.constants import ENDPOINT, ADMIN_TOKEN
+
+def build_client(debug=False, verify_ssl=True, access_token=None, endpoint=None):
+    config = build_client_config(
+        endpoint=endpoint,
+        access_token=access_token,
+        debug=debug,
+        verify_ssl=verify_ssl
+    )
+    return yawac.ApiClient(config)
 
 
-def build_client():
-    return yawac.ApiClient(build_client_config())
-
-
-def build_client_config():
-    configuration = yawac.Configuration(host=ENDPOINT)
-    configuration.verify_ssl = False
-    configuration.debug = True
-    configuration.access_token = ADMIN_TOKEN
+def build_client_config(endpoint=None, access_token=None, verify_ssl=True, debug=False):
+    configuration = yawac.Configuration(host=endpoint)
+    configuration.access_token = access_token
+    configuration.verify_ssl = verify_ssl
+    configuration.debug = debug
     return configuration
 
 

@@ -1,5 +1,7 @@
 import click
 import yawac
+
+from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
 from yawac.apis.paths.get_authenticated_hello import GetAuthenticatedHello
 from yawac.apis.paths.login import Login
@@ -11,7 +13,7 @@ from yawa_ops.utils.api import print_response, build_client
 log = logutils.get_logger(__name__)
 
 
-@click.command(help="Login.")
+@click.command(help="Login.", cls=BaseCommand)
 @click.option(
     "--username",
     required=True,
@@ -22,10 +24,10 @@ log = logutils.get_logger(__name__)
     required=True,
     help="Password.",
 )
-def login(username, password):
+def login(endpoint, access_token, verify_ssl, debug, username, password):
     log.info("Logging in")
 
-    with build_client() as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
         try:
             api_response = Login(api_client).post(body=Request(username=username, password=password))
             print_response(api_response)
@@ -33,11 +35,11 @@ def login(username, password):
             log.error("Request failed:\n%s" % e)
 
 
-@click.command(help="Logout.")
-def logout():
+@click.command(help="Logout.", cls=BaseCommand)
+def logout(endpoint, access_token, verify_ssl, debug):
     log.info("Logging out")
 
-    with build_client() as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
         try:
             api_response = Logout(api_client).post()
             print_response(api_response)
@@ -45,11 +47,11 @@ def logout():
             log.error("Request failed:\n%s" % e)
 
 
-@click.command(help="Request to say hello to the authenticated user.")
-def get_authenticated_hello():
+@click.command(help="Request to say hello to the authenticated user.", cls=BaseCommand)
+def get_authenticated_hello(endpoint, access_token, verify_ssl, debug):
     log.info("Requesting to say hello to the authenticated user")
 
-    with build_client() as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
         try:
             api_response = GetAuthenticatedHello(api_client).get()
             print_response(api_response)
