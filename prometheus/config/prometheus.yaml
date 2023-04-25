@@ -8,6 +8,6 @@ scrape_configs:
       insecure_skip_verify: true
     authorization:
       type: Bearer
-      credentials: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.e3UwvG12weaHaVWZ2u-vuH1SkOb6Ee0NFMVJGtTgwio
+      credentials: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InByb21ldGhldXMifQ.Z_4lE37inXUhS8YpaYYzlmy56yjxesxlkLKpxnWc4iM
     static_configs:
       - targets: ['server:8000']
