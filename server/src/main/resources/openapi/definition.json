@@ -309,6 +309,37 @@
         }
       }
     },
+    "/manage/mappings": {
+      "get": {
+        "tags": [
+          "Actuator"
+        ],
+        "summary": "Actuator web endpoint 'mappings'",
+        "operationId": "mappings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/manage/info": {
       "get": {
         "tags": [
@@ -596,6 +627,36 @@
         }
       }
     },
+    "/GetDeterministicOutcome": {
+      "get": {
+        "tags": [
+          "get-deterministic-outcome"
+        ],
+        "operationId": "getDeterministicOutcome",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/GetAuthenticatedHello": {
       "get": {
         "tags": [
@@ -680,6 +741,9 @@
   "components": {
     "schemas": {
       "Response": {
+        "required": [
+          "message"
+        ],
         "type": "object",
         "properties": {
           "message": {
@@ -688,6 +752,10 @@
         }
       },
       "Request": {
+        "required": [
+          "password",
+          "username"
+        ],
         "type": "object",
         "properties": {
           "username": {
