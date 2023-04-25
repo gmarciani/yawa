@@ -91,3 +91,20 @@ with yawac.ApiClient(configuration) as client:
     except yawac.ApiException as e:
         print("Exception when calling API: %s\n" % e)
 ```
+
+### Debugging
+You can debug YAWA server from IntelliJ, as follows:
+1. Launch YAWA with Docker
+2. The debugger is listening on https://localhost:8006
+3. Create a debugging configuration with the following settings:
+   1. Type: Remote JVM Debug
+   2. Name: YAWA
+   3. Debugger Mode: Attach to remote JVM
+   4. Host: localhost
+   5. Port: 8006
+   6. Command line arguments for remote JVM (JDK9 or later): -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8006
+   7. Use module classpath: server
+4. Wait for the server to be up and running
+5. Set your breakpoints
+6. Start the debugger in IntelliJ
+7. Send requests to the server
