@@ -1,4 +1,4 @@
-package com.yawa.server.api.auth
+package com.yawa.server.api.simple
 
 import com.yawa.server.models.users.User
 import mu.KotlinLogging
