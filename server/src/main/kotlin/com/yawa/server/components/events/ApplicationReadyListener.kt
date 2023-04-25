@@ -20,17 +20,53 @@ class ApplicationReadyListener(
 
     @EventListener
     fun onEvent(event: ApplicationReadyEvent) {
-        log.info("Application is ready")
+        log.info("LIFECYCLE: Application ready")
 
-        val adminUsername = "admin"
+        this.createAdminUser()
+        this.createPrometheusUser()
+        this.createTestUser()
+    }
 
-        if (!userRepository.existsById(adminUsername)) {
-            log.info("Creating admin user")
+    private fun createAdminUser() {
+        val username = "admin"
+
+        if (!userRepository.existsById(username)) {
+            log.info("Creating user: $username")
             val user = User(
-                username = adminUsername,
-                password = passwordEncoder.encode("P@ssw0rd"),
-                email = "giacomo.marciani@gmail.com",
+                username = username,
+                password = passwordEncoder.encode("P@ssw0rd-ADMIN"),
+                email = "yawa.admin@gmail.com",
                 role = UserRole.ADMIN
+            )
+            userRepository.save(user)
+        }
+    }
+
+    private fun createPrometheusUser() {
+        val username = "prometheus"
+
+        if (!userRepository.existsById(username)) {
+            log.info("Creating user: $username")
+            val user = User(
+                username = username,
+                password = passwordEncoder.encode("P@ssw0rd-PROMETHEUS"),
+                email = "yawa.prometheus@gmail.com",
+                role = UserRole.PROMETHEUS
+            )
+            userRepository.save(user)
+        }
+    }
+
+    private fun createTestUser() {
+        val username = "test-user"
+
+        if (!userRepository.existsById(username)) {
+            log.info("Creating user: $username")
+            val user = User(
+                username = username,
+                password = passwordEncoder.encode("P@ssw0rd-TEST-USER"),
+                email = "yawa.test-user@gmail.com",
+                role = UserRole.NORMAL
             )
             userRepository.save(user)
         }
