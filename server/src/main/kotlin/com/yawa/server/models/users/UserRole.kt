@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 enum class UserRole {
-    ADMIN, NORMAL;
+    ADMIN, PROMETHEUS, NORMAL;
 
     fun toAuthorities(): MutableSet<GrantedAuthority> = mutableSetOf(SimpleGrantedAuthority("ROLE_$this"))
 }
