@@ -1,7 +1,5 @@
 package com.yawa.server.components.security
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.yawa.server.repositories.UserRepository
@@ -22,6 +20,7 @@ private val log = KotlinLogging.logger {}
 
 @Component
 class JwtTokenFilter(
+    @Autowired val jwtIssuer: JwtIssuer,
     @Autowired val userRepository: UserRepository
 ) : OncePerRequestFilter() {
 
@@ -31,16 +30,19 @@ class JwtTokenFilter(
 
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (StringUtils.isBlank(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+            log.warn("AUTHENTICATION: Cannot find access token in request, skipping authentication method")
             chain.doFilter(request, response)
             return
         }
 
-        val jwt: DecodedJWT?
         val token = authorizationHeader.split(" ")[1].trim()
+
+        val jwt: DecodedJWT?
+
         try {
-            jwt = JWT.require(Algorithm.HMAC256("secret")).build().verify(token)
+            jwt = jwtIssuer.decode(token)
         } catch (exc: JWTVerificationException) {
-            log.error("Cannot verify JWT: $exc")
+            log.error("AUTHENTICATION: Cannot decode access token as JWT, skipping authentication method: $exc")
             chain.doFilter(request, response)
             return
         }
@@ -49,15 +51,19 @@ class JwtTokenFilter(
         val user = userRepository.findById(username).orElse(null)
 
         if (user == null) {
+            log.error("AUTHENTICATION: Cannot find user for the provided JWT, skipping authentication method")
             chain.doFilter(request, response)
             return
         }
 
         val authentication = UsernamePasswordAuthenticationToken(user, null, user.toUserDetails().authorities)
 
-        authentication.setDetails(WebAuthenticationDetailsSource().buildDetails(request))
+        authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
-        SecurityContextHolder.getContext().setAuthentication(authentication)
+        log.info("AUTHENTICATION: User authenticated with JWT access token: $username")
+
+        SecurityContextHolder.getContext().authentication = authentication
+
         chain.doFilter(request, response)
     }
 }
