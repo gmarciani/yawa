@@ -11,6 +11,6 @@ class ApplicationShutdownListener {
 
     @PreDestroy
     fun action() {
-        log.info("Application is shutting down")
+        log.info("LIFECYCLE: Application is shutting down")
     }
 }

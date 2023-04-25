@@ -12,6 +12,6 @@ class ApplicationStartedListener {
 
     @EventListener
     fun onEvent(event: ApplicationStartedEvent) {
-        log.info("Application has started")
+        log.info("LIFECYCLE: Application started")
     }
 }
