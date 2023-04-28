@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse
 class SecurityConfig(
     @Autowired val userInfoService: UserInfoService,
     @Autowired val jwtTokenFilter: JwtTokenFilter,
+    @Autowired val throttlingFilter: ThrottlingFilter,
     @Autowired val operationNameProvider: OperationNameProvider
 ) {
 
@@ -89,8 +90,9 @@ class SecurityConfig(
             // Any other endpoint
             .anyRequest().authenticated().accessDecisionManager(accessDecisionManager())
 
-        // Add JWT token filter
+        // Add filters
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
+        http.addFilterAfter(throttlingFilter, JwtTokenFilter::class.java)
 
         return http.build()
     }

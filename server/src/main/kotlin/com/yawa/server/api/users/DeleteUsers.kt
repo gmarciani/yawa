@@ -1,5 +1,6 @@
 package com.yawa.server.api.users
 
+import com.yawa.server.components.throttling.ThrottlingService
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
@@ -18,7 +19,8 @@ private val log = KotlinLogging.logger {}
 
 @RestController
 class DeleteUsers(
-    @Autowired val userRepository: UserRepository
+    @Autowired val userRepository: UserRepository,
+    @Autowired val throttlingService: ThrottlingService
 ) {
 
     @DeleteMapping("/DeleteUsers")
@@ -31,6 +33,7 @@ class DeleteUsers(
 
         val user = userRepository.findById(username).orElseThrow { ResourceNotFoundException("User not found: $username") }
         userRepository.delete(user)
+        throttlingService.deleteIfExists(username)
 
         return Response(user = user)
     }
