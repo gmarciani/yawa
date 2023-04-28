@@ -3,13 +3,20 @@
 ![YAWA Logo](resources/brand/yawa-logo.png)
 
 ## Requirements
-Configure the local development environment
+* Configure the local development environment
 
 ```shell
 tools/setup-dev-environment.sh
 ```
 
-Start Docker
+* Start Docker
+
+## Quick Start
+
+Run all containers
+```shell
+docker-compose up --detach
+```
 
 ## Containers
 The application is made of the containers below.
