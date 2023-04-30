@@ -29,6 +29,7 @@ services:
       - ./server/.container/var/yawa/logs:/var/yawa/logs
     depends_on:
       - database
+      - cache
 
   database:
     container_name: database
@@ -51,6 +52,17 @@ services:
       - PMA_ARBITRARY=1
     depends_on:
       - database
+
+  cache:
+    container_name: cache
+    build:
+      context: cache
+    env_file: cache/docker.env
+    ports:
+      - "6380:6379"
+    restart: always
+    volumes:
+      - cachedata:/var/redis
 
   prometheus:
     container_name: prometheus
@@ -93,3 +105,4 @@ services:
 
 volumes:
   dbdata:
+  cachedata:
