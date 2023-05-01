@@ -59,10 +59,11 @@ services:
       context: cache
     env_file: cache/docker.env
     ports:
-      - "6380:6379"
+      - "6000:6379"
     restart: always
     volumes:
       - cachedata:/var/redis
+      - ./cache/.container/var/redis/logs:/var/redis/logs
 
   prometheus:
     container_name: prometheus
