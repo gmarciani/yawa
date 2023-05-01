@@ -20,16 +20,19 @@ From host:
 ```shell
 redis-cli -h localhost -p 6380
 AUTH admin adminpass
+keys *
 ```
 
 From cache container:
 ```shell
 redis-cli -h localhost -p 6379
 AUTH admin adminpass
+keys *
 ```
 
 From server container:
 ```shell
 redis-cli -h cache -p 6380
 AUTH admin adminpass
+keys *
 ```
