@@ -4,7 +4,7 @@ import io.github.bucket4j.Bandwidth
 import io.github.bucket4j.Refill
 import java.time.Duration
 
-enum class UserPlan {
+enum class UserSubscriptionPlan {
     FREE {
         override fun limit(): Bandwidth = Bandwidth.classic(20, Refill.intervally(20, Duration.ofHours(1)))
     },

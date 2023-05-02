@@ -1,6 +1,6 @@
 package com.yawa.server.components.throttling
 
-import com.yawa.server.models.users.UserPlan
+import com.yawa.server.models.users.UserSubscriptionPlan
 import io.github.bucket4j.Bucket
 import io.github.bucket4j.BucketConfiguration
 import io.github.bucket4j.redis.lettuce.cas.LettuceBasedProxyManager
@@ -22,6 +22,6 @@ class ThrottlingService(
     }
 
     private fun newBucket(): BucketConfiguration {
-        return BucketConfiguration.builder().addLimit(UserPlan.FREE.limit()).build()
+        return BucketConfiguration.builder().addLimit(UserSubscriptionPlan.FREE.limit()).build()
     }
 }
