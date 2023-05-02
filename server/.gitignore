@@ -8,4 +8,4 @@ gradlew.bat
 *.log
 .ignore
 .python-version
-src/main/resources/secrets
+src/main/resources/secrets.yaml
