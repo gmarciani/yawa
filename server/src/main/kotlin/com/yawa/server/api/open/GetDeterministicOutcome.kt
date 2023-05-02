@@ -19,25 +19,24 @@ class GetDeterministicOutcome {
     @GetMapping("/GetDeterministicOutcome")
     fun getDeterministicOutcome(@Valid @RequestBody request: Request) : Response {
         log.info("Called with request $request")
-        val outcome = request.outcome
-        when {
-            outcome.equals(Outcome.SUCCESS) -> {
+        when (request.outcome) {
+            Outcome.SUCCESS -> {
                 log.info("Will return success")
                 return Response("Success")
             }
-            outcome.equals(Outcome.NOT_AUTHORIZED) -> {
+            Outcome.NOT_AUTHORIZED -> {
                 log.warn("Will return client error: unauthorized")
                 throw NotAuthorizedException("Fake client error")
             }
-            outcome.equals(Outcome.NOT_FOUND) -> {
+            Outcome.NOT_FOUND -> {
                 log.warn("Will return client error: resource not found")
                 throw ResourceNotFoundException("Fake client error")
             }
-            outcome.equals(Outcome.DB_ERROR) -> {
+            Outcome.DB_ERROR -> {
                 log.warn("Will return server error: db error")
                 throw YawaDatabaseInternalException("Fake server error")
             }
-            outcome.equals(Outcome.INTERNAL_ERROR) -> {
+            Outcome.INTERNAL_ERROR -> {
                 log.error("Will return server error: generic internal error")
                 throw YawaInternalException("Fake server error")
             }
