@@ -30,7 +30,9 @@ class DescribeUsers(
 
         val username = request.username
 
-        val user = userRepository.findById(username).orElseThrow{ ResourceNotFoundException("User not found: $username") }
+        val user = userRepository.findById(username).orElseThrow {
+            ResourceNotFoundException("User not found: $username")
+        }
 
         return Response(user = user)
     }
