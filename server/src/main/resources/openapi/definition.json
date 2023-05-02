@@ -52,6 +52,36 @@
         }
       }
     },
+    "/admin/SendMail": {
+      "post": {
+        "tags": [
+          "send-mail"
+        ],
+        "operationId": "sendMail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Logout": {
       "post": {
         "tags": [
@@ -108,6 +138,66 @@
           "create-users"
         ],
         "operationId": "createUsers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ConfirmUserDeletion": {
+      "post": {
+        "tags": [
+          "confirm-user-deletion"
+        ],
+        "operationId": "confirmUserDeletion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ConfirmUserCreation": {
+      "post": {
+        "tags": [
+          "confirm-user-creation"
+        ],
+        "operationId": "confirmUserCreation",
         "requestBody": {
           "content": {
             "application/json": {
@@ -740,6 +830,22 @@
   },
   "components": {
     "schemas": {
+      "Request": {
+        "required": [
+          "mailType"
+        ],
+        "type": "object",
+        "properties": {
+          "mailType": {
+            "type": "string",
+            "enum": [
+              "TEST_PLAIN",
+              "TEST_TEMPLATE",
+              "TEST_TEMPLATE_HTML"
+            ]
+          }
+        }
+      },
       "Response": {
         "required": [
           "message"
@@ -747,21 +853,6 @@
         "type": "object",
         "properties": {
           "message": {
-            "type": "string"
-          }
-        }
-      },
-      "Request": {
-        "required": [
-          "password",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "password": {
             "type": "string"
           }
         }
