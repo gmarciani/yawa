@@ -13,6 +13,9 @@ enum class UserSubscriptionPlan {
     },
     PROFESSIONAL {
         override fun limit(): Bandwidth = Bandwidth.classic(100, Refill.intervally(100, Duration.ofHours(1)))
+    },
+    SYSTEM {
+        override fun limit(): Bandwidth = Bandwidth.classic(1000, Refill.intervally(1000, Duration.ofMinutes(1)))
     };
 
     abstract fun limit(): Bandwidth
