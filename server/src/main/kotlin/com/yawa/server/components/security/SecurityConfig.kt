@@ -84,6 +84,7 @@ class SecurityConfig(
             .antMatchers("/Login").permitAll()
             // Administration endpoints
             .antMatchers("/ListUsers").hasRole(UserRole.ADMIN.name)
+            .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
             .antMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
             .antMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
 
