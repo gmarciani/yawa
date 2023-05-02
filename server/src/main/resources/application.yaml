@@ -21,6 +21,8 @@ server:
       enabled: false
   shutdown: graceful
 spring:
+  config:
+    import: classpath:secrets.yaml
   profiles:
     default: docker
   jpa:
@@ -49,6 +51,19 @@ spring:
 #          google:
 #            client-id: "31171094515-jdf9rm9820bin2q38lcisbs5k1mt7c4g.apps.googleusercontent.com"
 #            client-secret: "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"
+  mail:
+    host: smtp.gmail.com
+    port: 587
+#    username: FROM secrets.yaml
+#    password: FROM secrets.yaml
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
 logging:
   config: classpath:logging/logback.xml
 management:
