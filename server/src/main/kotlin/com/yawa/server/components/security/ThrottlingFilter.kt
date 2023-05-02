@@ -26,15 +26,15 @@ class ThrottlingFilter(
                                   chain: FilterChain
     ) {
 
-        val username = (SecurityContextHolder.getContext().authentication?.principal as User?)?.username
+        val user = SecurityContextHolder.getContext().authentication?.principal as User?
 
-        if (username == null) {
-            log.error("THROTTLING: Cannot determine username, skipping filter")
+        if (user == null) {
+            log.error("THROTTLING: Cannot determine user, skipping filter")
             chain.doFilter(request, response)
             return
         }
 
-        val probe = throttlingService.resolveBucket(username).tryConsumeAndReturnRemaining(1)
+        val probe = throttlingService.resolveBucket(user).tryConsumeAndReturnRemaining(1)
 
         response.setHeader(HttpHeaders.THROTTLING_REMAINING_TOKENS, probe.remainingTokens.toString())
         response.setHeader(HttpHeaders.THROTTLING_WAIT_FOR_REFILL_NANOS, probe.nanosToWaitForReset.toString())

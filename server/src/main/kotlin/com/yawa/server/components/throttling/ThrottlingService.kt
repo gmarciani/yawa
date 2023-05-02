@@ -1,5 +1,6 @@
 package com.yawa.server.components.throttling
 
+import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserSubscriptionPlan
 import io.github.bucket4j.Bucket
 import io.github.bucket4j.BucketConfiguration
@@ -13,15 +14,15 @@ class ThrottlingService(
     @Autowired val bucketsCacheProxyManager: LettuceBasedProxyManager
 ) {
 
-    fun resolveBucket(username: String): Bucket {
-        return bucketsCacheProxyManager.builder().build(username.toByteArray(), newBucket())
+    fun resolveBucket(user: User): Bucket {
+        return bucketsCacheProxyManager.builder().build(user.username.toByteArray(), newBucket(user.subscriptionPlan))
     }
 
     fun deleteIfExists(username: String) {
         bucketsCacheProxyManager.removeProxy(username.toByteArray())
     }
 
-    private fun newBucket(): BucketConfiguration {
-        return BucketConfiguration.builder().addLimit(UserSubscriptionPlan.FREE.limit()).build()
+    private fun newBucket(userSubscriptionPlan: UserSubscriptionPlan): BucketConfiguration {
+        return BucketConfiguration.builder().addLimit(userSubscriptionPlan.limit()).build()
     }
 }
