@@ -1,6 +1,7 @@
 package com.yawa.server.api.users
 
 import com.yawa.server.events.UserCreationConfirmedEvent
+import com.yawa.server.exceptions.ResourceExpiredException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
 import com.yawa.server.repositories.ConfirmationTokenRepository
@@ -24,7 +25,7 @@ class ConfirmUserCreation(
 ) {
 
     @PostMapping("/ConfirmUserCreation")
-    fun confirmUserCreation(@Valid @RequestBody request: Request, authentication: Authentication?) : Response{
+    fun confirmUserCreation(@Valid @RequestBody request: ConfirmUserCreationRequest, authentication: Authentication?) : ConfirmUserCreationResponse{
         log.info("Called with request: $request")
 
         val loggedUser = authentication?.principal as User
@@ -33,6 +34,11 @@ class ConfirmUserCreation(
 
         val token = confirmationTokenRepository.findByIdAndUser(id = tokenId, user = loggedUser).orElseThrow {
             ResourceNotFoundException("Confirmation token not found: $tokenId")
+        }
+
+        if (!token.isValid()) {
+            log.warn("Confirmation token expired: ${token.id}")
+            throw ResourceExpiredException("Confirmation token expired: ${token.id}")
         }
 
         val user = token.user
@@ -44,10 +50,10 @@ class ConfirmUserCreation(
 
         applicationEventPublisher.publishEvent(UserCreationConfirmedEvent(user = user))
 
-        return Response(message = "User creation confirmed for ${user.username}")
+        return ConfirmUserCreationResponse(message = "User creation confirmed for ${user.username}")
     }
 
-    data class Request(val tokenId: Long)
+    data class ConfirmUserCreationRequest(val tokenId: Long)
 
-    data class Response(val message: String)
+    data class ConfirmUserCreationResponse(val message: String)
 }

@@ -1,4 +1,4 @@
-package com.yawa.server.components.monitoring
+package com.yawa.server.monitoring
 
 import com.yawa.server.components.mvc.OperationNameProvider
 import com.yawa.server.constants.MetricTags

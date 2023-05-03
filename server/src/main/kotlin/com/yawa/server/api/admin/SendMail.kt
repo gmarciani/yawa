@@ -18,7 +18,7 @@ class SendMail(
 ) {
 
     @PostMapping("/admin/SendMail")
-    fun sendMail(@Valid @RequestBody request: Request): Response {
+    fun sendMail(@Valid @RequestBody request: SendMailRequest): SendMailResponse {
         val user = SecurityContextHolder.getContext().authentication.principal as User
 
         when (val mailType = request.mailType) {
@@ -35,14 +35,14 @@ class SendMail(
             }
         }
 
-        return Response(message = "Mail sent to ${user.email}")
+        return SendMailResponse(message = "Mail sent to ${user.email}")
     }
 
-    data class Request(
+    data class SendMailRequest(
         val mailType: MailType,
     )
 
-    data class Response(val message: String)
+    data class SendMailResponse(val message: String)
 
     enum class MailType {
         TEST_PLAIN, TEST_TEMPLATE, TEST_TEMPLATE_HTML

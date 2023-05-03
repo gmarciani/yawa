@@ -17,12 +17,12 @@ private val log = KotlinLogging.logger {}
 class GetDeterministicOutcome {
 
     @GetMapping("/GetDeterministicOutcome")
-    fun getDeterministicOutcome(@Valid @RequestBody request: Request) : Response {
+    fun getDeterministicOutcome(@Valid @RequestBody request: GetDeterministicOutcomeRequest) : GetDeterministicOutcomeResponse {
         log.info("Called with request $request")
         when (request.outcome) {
             Outcome.SUCCESS -> {
                 log.info("Will return success")
-                return Response("Success")
+                return GetDeterministicOutcomeResponse("Success")
             }
             Outcome.NOT_AUTHORIZED -> {
                 log.warn("Will return client error: unauthorized")
@@ -42,16 +42,16 @@ class GetDeterministicOutcome {
             }
             else -> {
                 log.info("Will return success")
-                return Response("Success")
+                return GetDeterministicOutcomeResponse("Success")
             }
         }
     }
 
-    data class Request(
+    data class GetDeterministicOutcomeRequest(
         val outcome: Outcome
     )
 
-    data class Response(val message: String)
+    data class GetDeterministicOutcomeResponse(val message: String)
 
     enum class Outcome {
         SUCCESS, NOT_AUTHORIZED, NOT_FOUND, DB_ERROR, INTERNAL_ERROR

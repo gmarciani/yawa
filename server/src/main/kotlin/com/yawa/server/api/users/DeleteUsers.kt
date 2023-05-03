@@ -27,7 +27,7 @@ class DeleteUsers(
 ) {
 
     @DeleteMapping("/DeleteUsers")
-    fun deleteUsers(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
+    fun deleteUsers(@Valid @RequestBody request: DeleteUsersRequest, authentication: Authentication) : DeleteUsersResponse {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -40,14 +40,14 @@ class DeleteUsers(
 
         applicationEventPublisher.publishEvent(UserDeletedEvent(user = user))
 
-        return Response(user = user)
+        return DeleteUsersResponse(user = user)
     }
 
-    data class Request(@Username val username: String)
+    data class DeleteUsersRequest(@Username val username: String)
 
-    data class Response(val user: User)
+    data class DeleteUsersResponse(val user: User)
 
-    private fun authorizeRequest(request: Request, authentication: Authentication) {
+    private fun authorizeRequest(request: DeleteUsersRequest, authentication: Authentication) {
         val identity = authentication.principal as User
 
         val username = request.username

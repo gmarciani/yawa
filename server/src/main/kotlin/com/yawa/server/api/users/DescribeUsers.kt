@@ -23,7 +23,7 @@ class DescribeUsers(
 ) {
 
     @GetMapping("/DescribeUsers")
-    fun describeUsers(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
+    fun describeUsers(@Valid @RequestBody request: DescribeUsersRequest, authentication: Authentication) : DescribeUsersResponse {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -34,14 +34,14 @@ class DescribeUsers(
             ResourceNotFoundException("User not found: $username")
         }
 
-        return Response(user = user)
+        return DescribeUsersResponse(user = user)
     }
 
-    data class Request(@Username val username: String)
+    data class DescribeUsersRequest(@Username val username: String)
 
-    data class Response(val user: User)
+    data class DescribeUsersResponse(val user: User)
 
-    private fun authorizeRequest(request: Request, authentication: Authentication) {
+    private fun authorizeRequest(request: DescribeUsersRequest, authentication: Authentication) {
         val identity = authentication.principal as User
 
         val username = request.username

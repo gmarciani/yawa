@@ -17,16 +17,16 @@ class ListUsers(
 ) {
 
     @GetMapping("/ListUsers")
-    fun listUsers(@Valid @RequestBody request: Request) : Response {
+    fun listUsers(@Valid @RequestBody request: ListUsersRequest) : ListUsersResponse {
         log.info("Called with request: $request")
 
         val users = mutableListOf<User>()
         userRepository.findAll().forEach { users.add(it) }
 
-        return Response(users = users)
+        return ListUsersResponse(users = users)
     }
 
-    data class Request(val filter: String?)
+    data class ListUsersRequest(val filter: String?)
 
-    data class Response(val users: List<User>)
+    data class ListUsersResponse(val users: List<User>)
 }

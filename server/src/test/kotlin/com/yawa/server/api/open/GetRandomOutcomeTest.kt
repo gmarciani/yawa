@@ -21,7 +21,7 @@ class GetRandomOutcomeTest : BehaviorSpec({
 
                 then("it returns a successful response") {
                     val response = subject.getRandomOutcome()
-                    response shouldBe GetRandomOutcome.Response("Success")
+                    response shouldBe GetRandomOutcome.GetRandomOutcomeResponse("Success")
                 }
             }
 

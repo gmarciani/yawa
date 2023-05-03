@@ -1,10 +1,10 @@
-package com.yawa.server.components.environment
+package com.yawa.server.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class AppEnvironment(
+class AppEnvironmentConfiguration(
 
     @Value("\${yawa.stack}")
     val stack: String,

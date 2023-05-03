@@ -22,7 +22,7 @@ class GetAuthenticatedHelloTest : BehaviorSpec({
 
                 then("returns the expected response") {
                     val response = subject.getAuthenticatedHello(authentication)
-                    response shouldBe GetAuthenticatedHello.Response(message = "Hello CALLER_USERNAME")
+                    response shouldBe GetAuthenticatedHello.GetAuthenticatedHelloResponse(message = "Hello CALLER_USERNAME")
                 }
             }
         }

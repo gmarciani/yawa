@@ -32,7 +32,7 @@ class CreateUsers(
 ) {
 
     @PostMapping("/CreateUsers")
-    fun createUsers(@Valid @RequestBody request: Request, authentication: Authentication?) : Response{
+    fun createUsers(@Valid @RequestBody request: CreateUsersRequest, authentication: Authentication?) : CreateUsersResponse{
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -55,10 +55,10 @@ class CreateUsers(
 
         applicationEventPublisher.publishEvent(UserCreatedEvent(user = user))
 
-        return Response(user = user)
+        return CreateUsersResponse(user = user)
     }
 
-    data class Request(
+    data class CreateUsersRequest(
         @Username val username: String,
         @Password val password: String,
         @Email val email: String,
@@ -66,9 +66,9 @@ class CreateUsers(
         @SubscriptionPlan val subscriptionPlan: String?
     )
 
-    data class Response(val user: User)
+    data class CreateUsersResponse(val user: User)
 
-    private fun authorizeRequest(request: Request, authentication: Authentication?) {
+    private fun authorizeRequest(request: CreateUsersRequest, authentication: Authentication?) {
         val identity = authentication?.principal as User?
 
         val role = request.role

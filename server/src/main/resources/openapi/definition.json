@@ -62,7 +62,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/SendMailRequest"
               }
             }
           },
@@ -74,7 +74,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/SendMailResponse"
                 }
               }
             }
@@ -94,7 +94,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/LogoutResponse"
                 }
               }
             }
@@ -112,7 +112,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           },
@@ -124,7 +124,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
@@ -142,7 +142,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/CreateUsersRequest"
               }
             }
           },
@@ -154,7 +154,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/CreateUsersResponse"
                 }
               }
             }
@@ -172,7 +172,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/ConfirmUserDeletionRequest"
               }
             }
           },
@@ -184,7 +184,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ConfirmUserDeletionResponse"
                 }
               }
             }
@@ -202,7 +202,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/ConfirmUserCreationRequest"
               }
             }
           },
@@ -214,7 +214,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ConfirmUserCreationResponse"
                 }
               }
             }
@@ -232,7 +232,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/UpdateUsersRequest"
               }
             }
           },
@@ -244,7 +244,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/UpdateUsersResponse"
                 }
               }
             }
@@ -679,7 +679,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Request"
+              "$ref": "#/components/schemas/ListUsersRequest"
             }
           }
         ],
@@ -689,7 +689,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ListUsersResponse"
                 }
               }
             }
@@ -709,7 +709,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/GetRandomOutcomeResponse"
                 }
               }
             }
@@ -729,7 +729,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Request"
+              "$ref": "#/components/schemas/GetDeterministicOutcomeRequest"
             }
           }
         ],
@@ -739,7 +739,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/GetDeterministicOutcomeResponse"
                 }
               }
             }
@@ -759,7 +759,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/GetAuthenticatedHelloResponse"
                 }
               }
             }
@@ -779,7 +779,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/Request"
+              "$ref": "#/components/schemas/DescribeUsersRequest"
             }
           }
         ],
@@ -789,7 +789,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/DescribeUsersResponse"
                 }
               }
             }
@@ -807,7 +807,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Request"
+                "$ref": "#/components/schemas/DeleteUsersRequest"
               }
             }
           },
@@ -819,7 +819,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/DeleteUsersResponse"
                 }
               }
             }
@@ -830,7 +830,7 @@
   },
   "components": {
     "schemas": {
-      "Request": {
+      "SendMailRequest": {
         "required": [
           "mailType"
         ],
@@ -846,7 +846,7 @@
           }
         }
       },
-      "Response": {
+      "SendMailResponse": {
         "required": [
           "message"
         ],
@@ -854,6 +854,214 @@
         "properties": {
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "LogoutResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginResponse": {
+        "required": [
+          "message",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateUsersRequest": {
+        "required": [
+          "email",
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "subscriptionPlan": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateUsersResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "email",
+          "isAccountNonExpired",
+          "isAccountNonLocked",
+          "isCredentialsNonExpired",
+          "isEnabled",
+          "password",
+          "role",
+          "subscriptionPlan",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "PROMETHEUS",
+              "NORMAL"
+            ]
+          },
+          "subscriptionPlan": {
+            "type": "string",
+            "enum": [
+              "FREE",
+              "BASIC",
+              "PROFESSIONAL",
+              "SYSTEM"
+            ]
+          },
+          "isEnabled": {
+            "type": "boolean"
+          },
+          "isAccountNonExpired": {
+            "type": "boolean"
+          },
+          "isCredentialsNonExpired": {
+            "type": "boolean"
+          },
+          "isAccountNonLocked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ConfirmUserDeletionRequest": {
+        "required": [
+          "tokenId"
+        ],
+        "type": "object",
+        "properties": {
+          "tokenId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ConfirmUserDeletionResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmUserCreationRequest": {
+        "required": [
+          "tokenId"
+        ],
+        "type": "object",
+        "properties": {
+          "tokenId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ConfirmUserCreationResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateUsersRequest": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateUsersResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
           }
         }
       },
@@ -865,6 +1073,123 @@
           },
           "templated": {
             "type": "boolean"
+          }
+        }
+      },
+      "ListUsersRequest": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "string"
+          }
+        }
+      },
+      "ListUsersResponse": {
+        "required": [
+          "users"
+        ],
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "GetRandomOutcomeResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "GetDeterministicOutcomeRequest": {
+        "required": [
+          "outcome"
+        ],
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "NOT_AUTHORIZED",
+              "NOT_FOUND",
+              "DB_ERROR",
+              "INTERNAL_ERROR"
+            ]
+          }
+        }
+      },
+      "GetDeterministicOutcomeResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAuthenticatedHelloResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "DescribeUsersRequest": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "DescribeUsersResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "DeleteUsersRequest": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUsersResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
           }
         }
       }

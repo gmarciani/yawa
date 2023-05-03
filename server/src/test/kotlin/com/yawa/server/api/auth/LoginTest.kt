@@ -1,6 +1,6 @@
 package com.yawa.server.api.auth
 
-import com.yawa.server.components.security.JwtIssuer
+import com.yawa.server.services.JwtService
 import com.yawa.server.exceptions.NotAuthorizedException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
@@ -14,13 +14,13 @@ import org.springframework.security.core.Authentication
 class LoginTest : BehaviorSpec({
     given(LoginTest::class.simpleName!!) {
         val authenticationManager = mockk<AuthenticationManager>(relaxed = true)
-        val jwtIssuer = mockk<JwtIssuer>(relaxed = true)
+        val jwtService = mockk<JwtService>(relaxed = true)
 
-        val subject = Login(authenticationManager, jwtIssuer)
+        val subject = Login(authenticationManager, jwtService)
 
         `when`("login is called") {
 
-            val request = Login.Request(username = "A_USERNAME", password = "A_PASSWORD")
+            val loginRequest = Login.LoginRequest(username = "A_USERNAME", password = "A_PASSWORD")
 
             and("caller is authenticated") {
                 every { authenticationManager.authenticate(any()) } returns mockk<Authentication>(relaxed = true).also {
@@ -29,11 +29,11 @@ class LoginTest : BehaviorSpec({
                     }
                 }
 
-                every { jwtIssuer.issue(any()) } returns "A_JWT_TOKEN"
+                every { jwtService.issue(any()) } returns "A_JWT_TOKEN"
 
                 then("returns the expected response") {
-                    val response = subject.login(request)
-                    response shouldBe Login.Response(token = "A_JWT_TOKEN", message = "Successfully logged in as A_USERNAME")
+                    val response = subject.login(loginRequest)
+                    response shouldBe Login.LoginResponse(token = "A_JWT_TOKEN", message = "Successfully logged in as A_USERNAME")
                 }
             }
 
@@ -42,7 +42,7 @@ class LoginTest : BehaviorSpec({
 
                 then("returns failure") {
                     val exception = shouldThrow<NotAuthorizedException> {
-                        subject.login(request)
+                        subject.login(loginRequest)
                     }
                     exception.message shouldBe "Cannot log in"
                 }

@@ -3,6 +3,7 @@ package com.yawa.server.components.security
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.yawa.server.repositories.UserRepository
+import com.yawa.server.services.JwtService
 import mu.KotlinLogging
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,7 @@ private val log = KotlinLogging.logger {}
 
 @Component
 class JwtTokenFilter(
-    @Autowired val jwtIssuer: JwtIssuer,
+    @Autowired val jwtService: JwtService,
     @Autowired val userRepository: UserRepository
 ) : OncePerRequestFilter() {
 
@@ -40,7 +41,7 @@ class JwtTokenFilter(
         val jwt: DecodedJWT?
 
         try {
-            jwt = jwtIssuer.decode(token)
+            jwt = jwtService.decode(token)
         } catch (exc: JWTVerificationException) {
             log.error("AUTHENTICATION: Cannot decode access token as JWT, skipping authentication method: $exc")
             chain.doFilter(request, response)

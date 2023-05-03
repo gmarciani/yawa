@@ -1,4 +1,4 @@
-package com.yawa.server.components.events
+package com.yawa.server.listeners
 
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.models.users.UserSubscriptionPlan

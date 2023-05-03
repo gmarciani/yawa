@@ -22,4 +22,8 @@ class ConfirmationToken(
     val expiryDate: Instant = Instant.now().plusMillis(VALIDITY.toMillis()),
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID? = null
-)
+) {
+    fun isValid(): Boolean {
+        return Instant.now().isAfter(this.expiryDate)
+    }
+}

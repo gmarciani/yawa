@@ -15,12 +15,12 @@ private val log = KotlinLogging.logger {}
 class GetRandomOutcome {
 
     @GetMapping("/GetRandomOutcome")
-    fun getRandomOutcome() : Response {
+    fun getRandomOutcome() : GetRandomOutcomeResponse {
         log.info("Called")
         val dice = random()
         if (dice <= 6.0/10) {
             log.info("Will return success")
-            return Response("Success")
+            return GetRandomOutcomeResponse("Success")
         } else if (dice <= 7.5/10) {
             log.warn("Will return client error: unauthorized")
             throw NotAuthorizedException("Fake client error")
@@ -36,7 +36,7 @@ class GetRandomOutcome {
         }
     }
 
-    data class Response(val message: String)
+    data class GetRandomOutcomeResponse(val message: String)
 
     private fun random() : Double = Random().nextDouble()
 }

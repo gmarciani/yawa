@@ -1,4 +1,4 @@
-package com.yawa.server.components.events
+package com.yawa.server.listeners
 
 import mu.KotlinLogging
 import org.springframework.boot.context.event.ApplicationStartedEvent

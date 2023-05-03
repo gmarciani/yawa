@@ -3,6 +3,9 @@ yawa:
   service: server
   stack: stack
   region: region
+#  security:
+#    jwt:
+#      secret: FROM secrets.yaml
 server:
   port: 8000
   ssl:

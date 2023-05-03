@@ -27,7 +27,7 @@ class UpdateUsers(
 ) {
 
     @PatchMapping("/UpdateUsers")
-    fun updateUsers(@Valid @RequestBody request: Request, authentication: Authentication) : Response {
+    fun updateUsers(@Valid @RequestBody request: UpdateUsersRequest, authentication: Authentication) : UpdateUsersResponse {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -41,19 +41,19 @@ class UpdateUsers(
 
         userRepository.save(user)
 
-        return Response(user = user)
+        return UpdateUsersResponse(user = user)
     }
 
-    data class Request(
+    data class UpdateUsersRequest(
         @Username val username: String,
         @Password val password: String?,
         @Role val role: String?,
         @Email val email: String?
     )
 
-    data class Response(val user: User)
+    data class UpdateUsersResponse(val user: User)
 
-    private fun authorizeRequest(request: Request, authentication: Authentication) {
+    private fun authorizeRequest(request: UpdateUsersRequest, authentication: Authentication) {
         val identity = authentication.principal as User
 
         val username = request.username

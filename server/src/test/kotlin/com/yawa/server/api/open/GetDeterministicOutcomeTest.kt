@@ -16,16 +16,16 @@ class GetDeterministicOutcomeTest : BehaviorSpec({
         `when`("GetDeterministicOutcome is called") {
 
             and("the requested outcome is ${GetDeterministicOutcome.Outcome.SUCCESS}") {
-                val request = GetDeterministicOutcome.Request(outcome = GetDeterministicOutcome.Outcome.SUCCESS)
+                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.SUCCESS)
 
                 then("it returns a successful response") {
                     val response = subject.getDeterministicOutcome(request)
-                    response shouldBe GetDeterministicOutcome.Response("Success")
+                    response shouldBe GetDeterministicOutcome.GetDeterministicOutcomeResponse("Success")
                 }
             }
 
             and("the requested outcome is ${GetDeterministicOutcome.Outcome.NOT_AUTHORIZED}") {
-                val request = GetDeterministicOutcome.Request(outcome = GetDeterministicOutcome.Outcome.NOT_AUTHORIZED)
+                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.NOT_AUTHORIZED)
 
                 then("it returns a NotAuthorizedException exception") {
                     shouldThrowExactly<NotAuthorizedException> { subject.getDeterministicOutcome(request) }
@@ -33,7 +33,7 @@ class GetDeterministicOutcomeTest : BehaviorSpec({
             }
 
             and("the requested outcome is ${GetDeterministicOutcome.Outcome.NOT_FOUND}") {
-                val request = GetDeterministicOutcome.Request(outcome = GetDeterministicOutcome.Outcome.NOT_FOUND)
+                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.NOT_FOUND)
 
                 then("it returns a ResourceNotFoundException exception") {
                     shouldThrowExactly<ResourceNotFoundException> { subject.getDeterministicOutcome(request) }
@@ -41,7 +41,7 @@ class GetDeterministicOutcomeTest : BehaviorSpec({
             }
 
             and("the requested outcome is ${GetDeterministicOutcome.Outcome.DB_ERROR}") {
-                val request = GetDeterministicOutcome.Request(outcome = GetDeterministicOutcome.Outcome.DB_ERROR)
+                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.DB_ERROR)
 
                 then("it returns a YawaDatabaseInternalException exception") {
                     shouldThrowExactly<YawaDatabaseInternalException> { subject.getDeterministicOutcome(request) }
@@ -49,7 +49,7 @@ class GetDeterministicOutcomeTest : BehaviorSpec({
             }
 
             and("the requested outcome is ${GetDeterministicOutcome.Outcome.INTERNAL_ERROR}") {
-                val request = GetDeterministicOutcome.Request(outcome = GetDeterministicOutcome.Outcome.INTERNAL_ERROR)
+                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.INTERNAL_ERROR)
 
                 then("it returns a YawaInternalException exception") {
                     shouldThrowExactly<YawaInternalException> { subject.getDeterministicOutcome(request) }

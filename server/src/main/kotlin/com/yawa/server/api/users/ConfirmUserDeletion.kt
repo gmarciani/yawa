@@ -1,6 +1,7 @@
 package com.yawa.server.api.users
 
 import com.yawa.server.events.UserCreationConfirmedEvent
+import com.yawa.server.exceptions.ResourceExpiredException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
 import com.yawa.server.repositories.ConfirmationTokenRepository
@@ -25,7 +26,7 @@ class ConfirmUserDeletion(
 ) {
 
     @PostMapping("/ConfirmUserDeletion")
-    fun confirmUserDeletion(@Valid @RequestBody request: Request, authentication: Authentication?) : Response{
+    fun confirmUserDeletion(@Valid @RequestBody request: ConfirmUserDeletionRequest, authentication: Authentication?) : ConfirmUserDeletionResponse{
         log.info("Called with request: $request")
 
         val loggedUser = authentication?.principal as User
@@ -34,6 +35,11 @@ class ConfirmUserDeletion(
 
         val token = confirmationTokenRepository.findByIdAndUser(id = tokenId, user = loggedUser).orElseThrow {
             ResourceNotFoundException("Confirmation token not found: $tokenId")
+        }
+
+        if (!token.isValid()) {
+            log.warn("Confirmation token expired: ${token.id}")
+            throw ResourceExpiredException("Confirmation token expired: ${token.id}")
         }
 
         val user = token.user
@@ -45,10 +51,10 @@ class ConfirmUserDeletion(
 
         applicationEventPublisher.publishEvent(UserCreationConfirmedEvent(user = user))
 
-        return Response(message = "User deletion confirmed for ${user.username}")
+        return ConfirmUserDeletionResponse(message = "User deletion confirmed for ${user.username}")
     }
 
-    data class Request(val tokenId: Long)
+    data class ConfirmUserDeletionRequest(val tokenId: Long)
 
-    data class Response(val message: String)
+    data class ConfirmUserDeletionResponse(val message: String)
 }
