@@ -9,9 +9,9 @@ server:
     enabled: true
     key-store: classpath:certificates/yawa.keystore
     key-store-type: pkcs12
-    key-alias: yawa
-    key-store-password: yawapass
-    key-password: yawapass
+#    key-alias: FROM secrets.yaml
+#    key-store-password: FROM secrets.yaml
+#    key-password: FROM secrets.yaml
   error:
     include-message: always
     include-stacktrace: never
@@ -32,8 +32,8 @@ spring:
       ddl-auto: none
   datasource:
     url: jdbc:mysql://database:3306/dbyawa?useSSL=false
-    username: dbuser
-    password: dbpassword
+#    username: FROM secrets.yaml
+#    password: FROM secrets.yaml
   output:
     ansi:
       enabled: detect
@@ -49,8 +49,8 @@ spring:
 #      client:
 #        registration:
 #          google:
-#            client-id: "31171094515-jdf9rm9820bin2q38lcisbs5k1mt7c4g.apps.googleusercontent.com"
-#            client-secret: "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"
+#            client-id: FROM secrets.yaml
+#            client-secret: FROM secrets.yaml
   mail:
     host: smtp.gmail.com
     port: 587
