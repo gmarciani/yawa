@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import click
+
+from yawa_ops.commands.admin import send_mail
 from yawa_ops.commands.auth import login, logout, get_authenticated_hello
 from yawa_ops.commands.management import info, shutdown, health
 from yawa_ops.commands.open import get_random_outcome
@@ -27,6 +29,9 @@ def main(ctx, debug=False):
 main.add_command(info)
 main.add_command(health)
 main.add_command(shutdown)
+
+# Admin
+main.add_command(send_mail)
 
 # Auth
 main.add_command(login)
