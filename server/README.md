@@ -15,23 +15,16 @@ From server container:
 curl --request GET --url https://localhost:8000 --insecure
 ```
 
-### HTTPS
-Create certificate
-```shell
-cd server/src/main/resources
-openssl genrsa -out key.pem
-openssl req -new -key key.pem -out csr.pem
-openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
-rm csr.pem
-```
-
-Create certificate for Spring Server
-```shell
-keytool -genkey -alias yawa -keyalg rsa -keystore yawa.keystore \
-  -validity 9999 -storetype pkcs12 \
-  -dname "CN=localhost, O=Yawa, L=Cagliari, ST=Italy, C=IT" \
-  -keypass yawapass -storepass yawapass
-```
+### Certificates
+Create a Certificate Authority (CA) on KeyChain, following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2686/mac) enabling SAN extension.
+Create a Certificate Signing Request (CSR), following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2793/mac).
+Create the server certificate, by KeyChain > Certificate Assistant > Create a Certificate For Someone Else > Select the above CA and CSR.
+Export the server certificate from KeyChain in P12 format.
+Export the CA certificate from KeyChain in CER format.
+Convert the CA certificate from CER to PEM format: `openssl x509 -inform der -in gmarciani-root-ca.cer -out gmarciani-root-ca.pem`
+Check the content of the P12 keystore: `openssl pkcs12 -info -in yawa.p12 -nodes`
+Check the returned certificate from the server: `openssl s_client -connect localhost:8002 -CAfile gmarciani-root-ca.pem`
+Copy the CA certificate to the Ops module at `ops/src/yawa_ops/config/gmarciani-root-ca.pem` to make it trust the root CA
 
 ## Clients
 Clients are built as part of the server build process.
@@ -50,46 +43,6 @@ export YAWA_PASSWORD="password"
 ./yawac getRandomOutcome
 token=$(./yawac login username==$YAWA_USERNAME password==$YAWA_PASSWORD | jq -r '.token')
 ./yawac login getAuthenticatedHello Authorization:"Bearer $token"
-```
-
-### Python
-Examples
-```python
-import yawac
-from pprint import pprint
-from yawac.api import get_random_outcome_api
-from yawac.api import login_api
-from yawac.api import get_authenticated_hello_api
-from yawac.model.request import Request
-
-YAWA_ENDPOINT="https://localhost:8002"
-YAWA_USERNAME="mgiacomo"
-YAWA_PASSWORD="password"
-
-configuration = yawac.Configuration(host=YAWA_ENDPOINT)
-configuration.verify_ssl = False
-
-with yawac.ApiClient(configuration) as client:
-    try:
-        # GetRandomOutcome
-        api = get_random_outcome_api.GetRandomOutcomeApi(client)
-        response = api.get_random_outcome()
-        pprint(response)
-
-        # Login
-        api = login_api.LoginApi(client)
-        request = Request(username=YAWA_USERNAME, password=YAWA_PASSWORD)
-        response = api.login(request)
-        pprint(response)
-
-        client.set_default_header("Authorization", "Bearer " + response["token"])
-
-        # GetAuthenticatedHello
-        api = get_authenticated_hello_api.GetAuthenticatedHelloApi(client)
-        response = api.get_authenticated_hello()
-        pprint(response)
-    except yawac.ApiException as e:
-        print("Exception when calling API: %s\n" % e)
 ```
 
 ### Debugging
