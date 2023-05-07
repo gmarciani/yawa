@@ -10,7 +10,7 @@ server:
   port: 8000
   ssl:
     enabled: true
-    key-store: classpath:certificates/yawa.keystore
+    key-store: classpath:secrets/certificates/yawa.p12
     key-store-type: pkcs12
 #    key-alias: FROM secrets.yaml
 #    key-store-password: FROM secrets.yaml
@@ -25,7 +25,7 @@ server:
   shutdown: graceful
 spring:
   config:
-    import: classpath:secrets.yaml
+    import: classpath:secrets/application.yaml
   profiles:
     default: docker
   jpa:
