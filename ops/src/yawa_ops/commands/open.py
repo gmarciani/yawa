@@ -10,10 +10,10 @@ log = logutils.get_logger(__name__)
 
 
 @click.command(help="Request a random outcome.", cls=BaseCommand)
-def get_random_outcome(endpoint, access_token, verify_ssl, debug):
+def get_random_outcome(endpoint, access_token, verify_ssl, ca_file, debug):
     log.info("Requesting a random outcome")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
             api_response = GetRandomOutcomeApi(api_client).get_random_outcome()
             print_response(api_response)

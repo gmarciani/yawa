@@ -13,10 +13,10 @@ log = logutils.get_logger(__name__)
 
 
 @click.command(help="Describe the server health.", cls=BaseCommand)
-def health(endpoint, access_token, verify_ssl, debug):
+def health(endpoint, access_token, verify_ssl, ca_file, debug):
     log.info("Describing the server health")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
             api_response = Health(api_client).health()
             print_response(api_response)
@@ -25,10 +25,10 @@ def health(endpoint, access_token, verify_ssl, debug):
 
 
 @click.command(help="Describe the server info.", cls=BaseCommand)
-def info(endpoint, access_token, verify_ssl, debug):
+def info(endpoint, access_token, verify_ssl, ca_file, debug):
     log.info("Describing the server info")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
             api_response = Info(api_client).info()
             print_response(api_response)
@@ -37,10 +37,10 @@ def info(endpoint, access_token, verify_ssl, debug):
 
 
 @click.command(help="Shuts the server down.", cls=BaseCommand)
-def shutdown(endpoint, access_token, verify_ssl, debug):
+def shutdown(endpoint, access_token, verify_ssl, ca_file, debug):
     log.info("Shutting down the server")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
             api_response = Shutdown(api_client).shutdown()
             print_response(api_response)
