@@ -2,12 +2,14 @@ package com.yawa.server.components.security
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
+import com.yawa.server.models.users.UserRole
 import com.yawa.server.repositories.UserRepository
 import com.yawa.server.services.JwtService
 import mu.KotlinLogging
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
+import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
@@ -31,7 +33,10 @@ class JwtTokenFilter(
 
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (StringUtils.isBlank(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
-            log.warn("AUTHENTICATION: Cannot find access token in request, skipping authentication method")
+            log.warn("AUTHENTICATION: Cannot find access token in request, setting anonymous authentication")
+            SecurityContextHolder.getContext().authentication = AnonymousAuthenticationToken(
+                "anonymousKey", "anonymous", UserRole.ANONYMOUS.toAuthorities()
+            )
             chain.doFilter(request, response)
             return
         }

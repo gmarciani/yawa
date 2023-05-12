@@ -6,6 +6,7 @@ import com.yawa.server.models.users.User
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
@@ -25,14 +26,14 @@ class ThrottlingFilter(
                                   response: HttpServletResponse,
                                   chain: FilterChain
     ) {
+        val authentication = SecurityContextHolder.getContext().authentication!!
 
-        val user = SecurityContextHolder.getContext().authentication?.principal as User?
-
-        if (user == null) {
-            log.error("THROTTLING: Cannot determine user, skipping filter")
+        if (authentication is AnonymousAuthenticationToken) {
+            log.warn("THROTTLING: Anonymous authentication, skipping filter")
             chain.doFilter(request, response)
             return
         }
+        val user = authentication.principal as User
 
         val probe = throttlingService.resolveBucket(user).tryConsumeAndReturnRemaining(1)
 

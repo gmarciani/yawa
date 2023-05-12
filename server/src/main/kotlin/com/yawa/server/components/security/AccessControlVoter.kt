@@ -7,6 +7,7 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.AccessDecisionVoter
 import org.springframework.security.access.ConfigAttribute
+import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.FilterInvocation
 import org.springframework.stereotype.Component
@@ -31,18 +32,19 @@ class AccessControlVoter(
         filterInvocation: FilterInvocation?,
         attributes: MutableCollection<ConfigAttribute>?
     ): Int {
-        val username = (authentication?.principal as User?)?.username
 
-        if (username == null) {
-            log.error("AUTHORIZATION: Cannot determine username, abstaining from authorization vote")
+        if (authentication is AnonymousAuthenticationToken) {
+            log.warn("AUTHORIZATION: Anonymous authentication, abstaining from authorization vote")
             return AccessDecisionVoter.ACCESS_ABSTAIN
         }
+
+        val username = (authentication?.principal as User).username
 
         val method = filterInvocation?.request?.method
         val requestUri = filterInvocation?.request?.requestURI
 
         if (method == null || requestUri == null) {
-            log.error("AUTHORIZATION: Cannot determine http request method and/or URI, abstaining from authorization vote")
+            log.warn("AUTHORIZATION: Cannot determine http request method and/or URI, abstaining from authorization vote")
             return AccessDecisionVoter.ACCESS_ABSTAIN
         }
 

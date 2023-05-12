@@ -80,6 +80,7 @@ class SecurityConfig(
             // Public endpoints
             .antMatchers("/GetDeterministicOutcome").permitAll()
             .antMatchers("/GetRandomOutcome").permitAll()
+            .antMatchers("/GetAuthenticatedHello").permitAll()
             .antMatchers("/CreateUsers").permitAll()
             .antMatchers("/Login").permitAll()
             // Administration endpoints
