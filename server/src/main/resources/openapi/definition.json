@@ -132,17 +132,17 @@
         }
       }
     },
-    "/CreateUsers": {
+    "/CreateUser": {
       "post": {
         "tags": [
-          "create-users"
+          "create-user"
         ],
-        "operationId": "createUsers",
+        "operationId": "createUser",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUsersRequest"
+                "$ref": "#/components/schemas/CreateUserRequest"
               }
             }
           },
@@ -154,7 +154,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateUsersResponse"
+                  "$ref": "#/components/schemas/CreateUserResponse"
                 }
               }
             }
@@ -797,17 +797,17 @@
         }
       }
     },
-    "/DeleteUsers": {
+    "/DeleteUser": {
       "delete": {
         "tags": [
-          "delete-users"
+          "delete-user"
         ],
         "operationId": "deleteUsers",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DeleteUsersRequest"
+                "$ref": "#/components/schemas/DeleteUserRequest"
               }
             }
           },
@@ -819,7 +819,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteUsersResponse"
+                  "$ref": "#/components/schemas/DeleteUserResponse"
                 }
               }
             }
@@ -898,7 +898,7 @@
           }
         }
       },
-      "CreateUsersRequest": {
+      "CreateUserRequest": {
         "required": [
           "email",
           "password",
@@ -923,7 +923,7 @@
           }
         }
       },
-      "CreateUsersResponse": {
+      "CreateUserResponse": {
         "required": [
           "user"
         ],
@@ -962,7 +962,8 @@
             "enum": [
               "ADMIN",
               "PROMETHEUS",
-              "NORMAL"
+              "NORMAL",
+              "ANONYMOUS"
             ]
           },
           "subscriptionPlan": {
@@ -1171,7 +1172,7 @@
           }
         }
       },
-      "DeleteUsersRequest": {
+      "DeleteUserRequest": {
         "required": [
           "username"
         ],
@@ -1182,7 +1183,7 @@
           }
         }
       },
-      "DeleteUsersResponse": {
+      "DeleteUserResponse": {
         "required": [
           "user"
         ],

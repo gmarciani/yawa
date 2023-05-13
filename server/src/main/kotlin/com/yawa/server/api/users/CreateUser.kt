@@ -25,14 +25,14 @@ import javax.validation.Valid
 private val log = KotlinLogging.logger {}
 
 @RestController
-class CreateUsers(
+class CreateUser(
     @Autowired val userRepository: UserRepository,
     @Autowired val passwordEncoder: PasswordEncoder,
     @Autowired val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
-    @PostMapping("/CreateUsers")
-    fun createUsers(@Valid @RequestBody request: CreateUsersRequest, authentication: Authentication?) : CreateUsersResponse{
+    @PostMapping("/CreateUser")
+    fun createUser(@Valid @RequestBody request: CreateUserRequest, authentication: Authentication?): CreateUserResponse {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -55,10 +55,10 @@ class CreateUsers(
 
         applicationEventPublisher.publishEvent(UserCreatedEvent(user = user))
 
-        return CreateUsersResponse(user = user)
+        return CreateUserResponse(user = user)
     }
 
-    data class CreateUsersRequest(
+    data class CreateUserRequest(
         @Username val username: String,
         @Password val password: String,
         @Email val email: String,
@@ -66,9 +66,9 @@ class CreateUsers(
         @SubscriptionPlan val subscriptionPlan: String?
     )
 
-    data class CreateUsersResponse(val user: User)
+    data class CreateUserResponse(val user: User)
 
-    private fun authorizeRequest(request: CreateUsersRequest, authentication: Authentication?) {
+    private fun authorizeRequest(request: CreateUserRequest, authentication: Authentication?) {
         val identity = authentication?.principal as User?
 
         val role = request.role

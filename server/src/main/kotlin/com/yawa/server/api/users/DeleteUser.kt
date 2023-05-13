@@ -20,14 +20,14 @@ import javax.validation.Valid
 private val log = KotlinLogging.logger {}
 
 @RestController
-class DeleteUsers(
+class DeleteUser(
     @Autowired val userRepository: UserRepository,
     @Autowired val throttlingService: ThrottlingService,
     @Autowired val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
-    @DeleteMapping("/DeleteUsers")
-    fun deleteUsers(@Valid @RequestBody request: DeleteUsersRequest, authentication: Authentication) : DeleteUsersResponse {
+    @DeleteMapping("/DeleteUser")
+    fun deleteUsers(@Valid @RequestBody request: DeleteUserRequest, authentication: Authentication): DeleteUserResponse {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
@@ -40,14 +40,14 @@ class DeleteUsers(
 
         applicationEventPublisher.publishEvent(UserDeletedEvent(user = user))
 
-        return DeleteUsersResponse(user = user)
+        return DeleteUserResponse(user = user)
     }
 
-    data class DeleteUsersRequest(@Username val username: String)
+    data class DeleteUserRequest(@Username val username: String)
 
-    data class DeleteUsersResponse(val user: User)
+    data class DeleteUserResponse(val user: User)
 
-    private fun authorizeRequest(request: DeleteUsersRequest, authentication: Authentication) {
+    private fun authorizeRequest(request: DeleteUserRequest, authentication: Authentication) {
         val identity = authentication.principal as User
 
         val username = request.username
