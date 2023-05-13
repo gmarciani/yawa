@@ -1,6 +1,7 @@
 import click.core
 
-from yawa_ops.config.constants import ENDPOINT, CA_FILE, Identity, IDENTITY, TOKEN
+from yawa_ops.config.constants import ENDPOINT, CA_FILE, Identity, IDENTITY, TOKEN, TOKENS
+from yawa_ops.utils import logutils
 
 ENDPOINT_OPTION = click.Option(
     ("--endpoint",), default=ENDPOINT, show_default=True, type=str, help="Service endpoint."
@@ -32,6 +33,8 @@ DEBUG_OPTION = click.Option(
     help="Activate/Deactivate debug mode."
 )
 
+log = logutils.get_logger(__name__)
+
 
 class BaseCommand(click.core.Command):
 
@@ -44,7 +47,13 @@ class BaseCommand(click.core.Command):
         self.params.insert(4, CA_FILE)
         self.params.insert(5, DEBUG_OPTION)
 
-    # def invoke(self, ctx: click.Context):
-    #     ctx.ensure_object(dict)
-    #
-    #     super().invoke(ctx)
+    def invoke(self, ctx: click.Context):
+        log.info(f"Executing command: {ctx.command.name}")
+        ctx.obj['CLIENT_CONFIG'] = dict(
+            endpoint=ctx.params.get(ENDPOINT_OPTION.name),
+            access_token=ctx.params.get(ACCESS_TOKEN_OPTION.name) or TOKENS[ctx.params.get(IDENTITY_OPTION.name)],
+            verify_ssl=ctx.params.get(VERIFY_SSL_OPTION.name),
+            ca_file=ctx.params.get(CA_FILE.name),
+            debug=ctx.params.get(DEBUG_OPTION.name)
+        )
+        super().invoke(ctx)

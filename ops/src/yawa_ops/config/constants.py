@@ -27,7 +27,7 @@ IDENTITY = Identity.ANONYMOUS
 TOKENS = {
     Identity.ADMIN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.e3UwvG12weaHaVWZ2u-vuH1SkOb6Ee0NFMVJGtTgwio",
     Identity.NORMAL_FREE: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InRlc3Qtbm9ybWFsLWZyZWUifQ.2kZkbxGdijcI8CfM2MvO6NW9st8OLv8wdr7kz0kmmyo",
-    Identity.ANONYMOUS: "",
+    Identity.ANONYMOUS: None,
 }
 
 TOKEN = TOKENS[IDENTITY]

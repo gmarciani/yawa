@@ -3,7 +3,6 @@ import yawac
 from yawac.apis.tags.get_random_outcome_api import GetRandomOutcomeApi
 
 from yawa_ops.commands.base_command import BaseCommand
-from yawa_ops.config.constants import TOKENS
 from yawa_ops.utils import logutils
 from yawa_ops.utils.api import print_response, build_client
 
@@ -11,10 +10,9 @@ log = logutils.get_logger(__name__)
 
 
 @click.command(help="Request a random outcome.", cls=BaseCommand)
-def get_random_outcome(endpoint, identity, access_token, verify_ssl, ca_file, debug):
-    log.info("Requesting a random outcome")
-
-    with build_client(endpoint=endpoint, access_token=access_token or TOKENS[identity], verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
+@click.pass_context
+def get_random_outcome(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug):
+    with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         try:
             response = GetRandomOutcomeApi(api_client).get_random_outcome()
             print_response(response)
