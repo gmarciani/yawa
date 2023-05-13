@@ -6,6 +6,7 @@ from yawa_ops.commands.admin import send_mail
 from yawa_ops.commands.auth import login, logout, get_authenticated_hello
 from yawa_ops.commands.management import info, shutdown, health
 from yawa_ops.commands.open import get_random_outcome
+from yawa_ops.commands.users import create_user, confirm_user_creation
 from yawa_ops.config.metadata import NAME, VERSION
 from yawa_ops.utils import guiutils, logutils
 
@@ -40,6 +41,10 @@ main.add_command(get_authenticated_hello)
 
 # Open
 main.add_command(get_random_outcome)
+
+# Users
+main.add_command(create_user)
+main.add_command(confirm_user_creation)
 
 
 if __name__ == "__main__":

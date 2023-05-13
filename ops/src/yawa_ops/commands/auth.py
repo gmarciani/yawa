@@ -2,6 +2,7 @@ import click
 import yawac
 
 from yawa_ops.commands.base_command import BaseCommand
+from yawa_ops.config.constants import TOKENS
 from yawa_ops.utils import logutils
 from yawac.apis.paths.get_authenticated_hello import GetAuthenticatedHello
 from yawac.apis.paths.login import Login
@@ -24,36 +25,37 @@ log = logutils.get_logger(__name__)
     required=True,
     help="Password.",
 )
-def login(endpoint, access_token, verify_ssl, ca_file, debug, username, password):
+def login(endpoint, identity, access_token, verify_ssl, ca_file, debug, username, password):
     log.info("Logging in")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token or TOKENS[identity], verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
-            api_response = Login(api_client).post(body=LoginRequest(username=username, password=password))
-            print_response(api_response)
+            request = LoginRequest(username=username, password=password)
+            response = Login(api_client).post(body=request)
+            print_response(response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)
 
 
 @click.command(help="Logout.", cls=BaseCommand)
-def logout(endpoint, access_token, verify_ssl, ca_file, debug):
+def logout(endpoint, identity, access_token, verify_ssl, ca_file, debug):
     log.info("Logging out")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token or TOKENS[identity], verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
-            api_response = Logout(api_client).post()
-            print_response(api_response)
+            response = Logout(api_client).post()
+            print_response(response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)
 
 
 @click.command(help="Request to say hello to the authenticated user.", cls=BaseCommand)
-def get_authenticated_hello(endpoint, access_token, verify_ssl, ca_file, debug):
+def get_authenticated_hello(endpoint, identity, access_token, verify_ssl, ca_file, debug):
     log.info("Requesting to say hello to the authenticated user")
 
-    with build_client(endpoint=endpoint, access_token=access_token, verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
+    with build_client(endpoint=endpoint, access_token=access_token or TOKENS[identity], verify_ssl=verify_ssl, ca_file=ca_file, debug=debug) as api_client:
         try:
-            api_response = GetAuthenticatedHello(api_client).get()
-            print_response(api_response)
+            response = GetAuthenticatedHello(api_client).get()
+            print_response(response)
         except yawac.ApiException as e:
             log.error("Request failed:\n%s" % e)
