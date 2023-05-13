@@ -1,11 +1,11 @@
 package com.yawa.server.security
 
-import com.yawa.server.utils.OperationNameProvider
 import com.yawa.server.components.security.authentication.JwtTokenFilter
 import com.yawa.server.components.security.authentication.UserInfoService
 import com.yawa.server.components.security.authorization.AccessControlVoter
 import com.yawa.server.components.security.throttling.ThrottlingFilter
 import com.yawa.server.models.users.UserRole
+import com.yawa.server.utils.OperationNameProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -85,7 +85,8 @@ class SecurityConfig(
             .antMatchers("/GetDeterministicOutcome").permitAll()
             .antMatchers("/GetRandomOutcome").permitAll()
             .antMatchers("/GetAuthenticatedHello").permitAll()
-            .antMatchers("/CreateUsers").permitAll()
+            .antMatchers("/CreateUser").permitAll()
+            .antMatchers("/ConfirmUserCreation").permitAll()
             .antMatchers("/Login").permitAll()
             // Administration endpoints
             .antMatchers("/ListUsers").hasRole(UserRole.ADMIN.name)

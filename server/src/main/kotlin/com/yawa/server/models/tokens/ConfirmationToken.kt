@@ -1,6 +1,7 @@
 package com.yawa.server.models.tokens
 
 import com.yawa.server.models.users.User
+import org.hibernate.annotations.Type
 import java.time.Duration
 import java.time.Instant
 import java.util.*
@@ -20,10 +21,10 @@ class ConfirmationToken(
     @JoinColumn(name = "username", nullable = false)
     val user: User,
     val expiryDate: Instant = Instant.now().plusMillis(VALIDITY.toMillis()),
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Type(type = "org.hibernate.type.UUIDCharType")
     var id: UUID? = null
 ) {
     fun isValid(): Boolean {
-        return Instant.now().isAfter(this.expiryDate)
+        return Instant.now().isBefore(this.expiryDate)
     }
 }

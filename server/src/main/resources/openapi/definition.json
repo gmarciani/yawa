@@ -996,8 +996,8 @@
         "type": "object",
         "properties": {
           "tokenId": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -1019,8 +1019,8 @@
         "type": "object",
         "properties": {
           "tokenId": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "format": "uuid"
           }
         }
       },

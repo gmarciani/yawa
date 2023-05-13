@@ -5,6 +5,6 @@ import com.yawa.server.models.users.User
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 
-interface ConfirmationTokenRepository: CrudRepository<ConfirmationToken, Long> {
-    fun findByIdAndUser(id: Long, user: User): Optional<ConfirmationToken>
+interface ConfirmationTokenRepository: CrudRepository<ConfirmationToken, UUID> {
+    fun findByIdAndUser(id: UUID, user: User): Optional<ConfirmationToken>
 }

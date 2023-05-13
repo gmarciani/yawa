@@ -8,6 +8,7 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -28,7 +29,8 @@ class Login(
 
         try {
             val authenticate = authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(request.username, request.password))
+                UsernamePasswordAuthenticationToken(request.username, request.password)
+            )
 
             val user = authenticate.principal as org.springframework.security.core.userdetails.User
 
@@ -39,6 +41,8 @@ class Login(
             log.info("Authentication token: $token")
 
             return LoginResponse(token = token, message = "Successfully logged in as ${user.username}")
+        } catch (exc: DisabledException) {
+            throw NotAuthorizedException("User is not enabled")
         } catch (exc: BadCredentialsException) {
             throw NotAuthorizedException("Cannot log in")
         }
