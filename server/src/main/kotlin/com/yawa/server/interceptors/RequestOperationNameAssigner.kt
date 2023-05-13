@@ -1,6 +1,6 @@
 package com.yawa.server.components.mvc.interceptors;
 
-import com.yawa.server.components.mvc.OperationNameProvider;
+import com.yawa.server.utils.OperationNameProvider;
 import com.yawa.server.constants.MdcKeys;
 import com.yawa.server.constants.RequestAttributes;
 import org.slf4j.MDC;

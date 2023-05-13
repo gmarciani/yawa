@@ -1,4 +1,4 @@
-package com.yawa.server.components.throttling
+package com.yawa.server.components.security.throttling
 
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserSubscriptionPlan

@@ -1,4 +1,4 @@
-package com.yawa.server.components.actuators.info
+package com.yawa.server.utils
 
 import org.springframework.boot.actuate.info.Info
 import org.springframework.boot.actuate.info.InfoContributor

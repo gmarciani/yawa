@@ -1,7 +1,7 @@
 package com.yawa.server.api.auth
 
 import com.yawa.server.exceptions.NotAuthorizedException
-import com.yawa.server.services.JwtService
+import com.yawa.server.security.authentication.JwtService
 import com.yawa.server.validators.Password
 import com.yawa.server.validators.Username
 import mu.KotlinLogging

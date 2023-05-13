@@ -1,6 +1,6 @@
-package com.yawa.server.listeners
+package com.yawa.server.events.listeners
 
-import com.yawa.server.events.UserDeletionConfirmedEvent
+import com.yawa.server.events.UserCreatedEvent
 import com.yawa.server.models.tokens.ConfirmationToken
 import com.yawa.server.models.users.User
 import com.yawa.server.repositories.ConfirmationTokenRepository
@@ -10,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 
-
 private val log = KotlinLogging.logger {}
+
 @Component
-class UserDeletionConfirmedListener(
+class UserCreatedListener(
     @Autowired val confirmationTokenRepository: ConfirmationTokenRepository,
     @Autowired val mailService: MailService
-): ApplicationListener<UserDeletionConfirmedEvent> {
-    override fun onApplicationEvent(event: UserDeletionConfirmedEvent) {
-        log.info("ON USER DELETION CONFIRMED: handling confirmation for the deletion of user ${event.user.username}")
+): ApplicationListener<UserCreatedEvent> {
+    override fun onApplicationEvent(event: UserCreatedEvent) {
+        log.info("ON USER CREATED: handling creation of user ${event.user.username}")
         sendConfirmationEmail(event.user)
     }
 
@@ -27,7 +27,7 @@ class UserDeletionConfirmedListener(
         confirmationTokenRepository.save(token)
         mailService.send(
             recipient = user.email,
-            subject = "USER DELETION CONFIRMED",
-            body = "User deletion confirmed!")
+            subject = "CONFIRM USER CREATION",
+            body = "Confirmation Token: ${token.id}")
     }
 }

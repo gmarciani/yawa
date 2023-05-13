@@ -1,4 +1,4 @@
-package com.yawa.server.listeners
+package com.yawa.server.events.listeners
 
 import com.yawa.server.events.UserDeletedEvent
 import com.yawa.server.models.tokens.ConfirmationToken

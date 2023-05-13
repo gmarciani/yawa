@@ -1,4 +1,4 @@
-package com.yawa.server.components.mvc
+package com.yawa.server.config
 
 import com.yawa.server.components.mvc.interceptors.AccessLogger
 import com.yawa.server.components.mvc.interceptors.RequestIdAssigner

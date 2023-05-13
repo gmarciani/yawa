@@ -1,4 +1,4 @@
-package com.yawa.server.components.actuators.info
+package com.yawa.server.utils
 
 import org.springframework.boot.actuate.autoconfigure.info.ConditionalOnEnabledInfoContributor
 import org.springframework.boot.actuate.autoconfigure.info.InfoContributorAutoConfiguration

@@ -1,10 +1,10 @@
-package com.yawa.server.components.security
+package com.yawa.server.components.security.authentication
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.repositories.UserRepository
-import com.yawa.server.services.JwtService
+import com.yawa.server.security.authentication.JwtService
 import mu.KotlinLogging
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +29,8 @@ class JwtTokenFilter(
 
     override fun doFilterInternal(request: HttpServletRequest,
                                   response: HttpServletResponse,
-                                  chain: FilterChain) {
+                                  chain: FilterChain
+    ) {
 
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (StringUtils.isBlank(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {

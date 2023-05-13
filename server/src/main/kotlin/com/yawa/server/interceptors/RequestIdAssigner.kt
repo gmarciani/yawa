@@ -1,6 +1,6 @@
 package com.yawa.server.components.mvc.interceptors
 
-import com.yawa.server.components.mvc.common.RequestIdGenerator
+import com.yawa.server.utils.RequestIdGenerator
 import com.yawa.server.constants.HttpHeaders
 import com.yawa.server.constants.MdcKeys
 import com.yawa.server.constants.RequestAttributes

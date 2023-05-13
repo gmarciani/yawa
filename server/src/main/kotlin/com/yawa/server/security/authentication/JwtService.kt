@@ -1,8 +1,8 @@
-package com.yawa.server.services
+package com.yawa.server.security.authentication
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.yawa.server.config.SecurityJwtConfiguration
+import com.yawa.server.security.authentication.SecurityJwtConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

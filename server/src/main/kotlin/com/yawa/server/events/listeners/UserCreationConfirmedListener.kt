@@ -1,6 +1,6 @@
-package com.yawa.server.listeners
+package com.yawa.server.events.listeners
 
-import com.yawa.server.events.UserCreatedEvent
+import com.yawa.server.events.UserCreationConfirmedEvent
 import com.yawa.server.models.tokens.ConfirmationToken
 import com.yawa.server.models.users.User
 import com.yawa.server.repositories.ConfirmationTokenRepository
@@ -10,16 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 
-
 private val log = KotlinLogging.logger {}
 
 @Component
-class UserCreatedListener(
+class UserCreationConfirmedListener(
     @Autowired val confirmationTokenRepository: ConfirmationTokenRepository,
     @Autowired val mailService: MailService
-): ApplicationListener<UserCreatedEvent> {
-    override fun onApplicationEvent(event: UserCreatedEvent) {
-        log.info("ON USER CREATED: handling creation of user ${event.user.username}")
+): ApplicationListener<UserCreationConfirmedEvent> {
+    override fun onApplicationEvent(event: UserCreationConfirmedEvent) {
+        log.info("ON USER CREATION CONFIRMED: handling confirmation for the creation of user ${event.user.username}")
         sendConfirmationEmail(event.user)
     }
 
@@ -28,7 +27,7 @@ class UserCreatedListener(
         confirmationTokenRepository.save(token)
         mailService.send(
             recipient = user.email,
-            subject = "CONFIRM USER CREATION",
-            body = "Confirmation Token: ${token.id}")
+            subject = "CONFIRMED USER CREATION",
+            body = "User creation confirmed!")
     }
 }

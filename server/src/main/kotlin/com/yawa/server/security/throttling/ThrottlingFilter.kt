@@ -1,6 +1,5 @@
-package com.yawa.server.components.security
+package com.yawa.server.components.security.throttling
 
-import com.yawa.server.components.throttling.ThrottlingService
 import com.yawa.server.constants.HttpHeaders
 import com.yawa.server.models.users.User
 import mu.KotlinLogging
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse
 
 
 private val log = KotlinLogging.logger {}
-
 @Component
 class ThrottlingFilter(
     @Autowired val throttlingService: ThrottlingService,

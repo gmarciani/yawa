@@ -1,4 +1,4 @@
-package com.yawa.server.components.security
+package com.yawa.server.components.security.authentication
 
 import com.yawa.server.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,6 +1,10 @@
-package com.yawa.server.components.security
+package com.yawa.server.security
 
-import com.yawa.server.components.mvc.OperationNameProvider
+import com.yawa.server.utils.OperationNameProvider
+import com.yawa.server.components.security.authentication.JwtTokenFilter
+import com.yawa.server.components.security.authentication.UserInfoService
+import com.yawa.server.components.security.authorization.AccessControlVoter
+import com.yawa.server.components.security.throttling.ThrottlingFilter
 import com.yawa.server.models.users.UserRole
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean

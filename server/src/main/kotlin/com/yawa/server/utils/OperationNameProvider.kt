@@ -1,4 +1,4 @@
-package com.yawa.server.components.mvc
+package com.yawa.server.utils
 
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Component

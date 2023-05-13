@@ -1,6 +1,6 @@
 package com.yawa.server.api.users
 
-import com.yawa.server.components.throttling.ThrottlingService
+import com.yawa.server.components.security.throttling.ThrottlingService
 import com.yawa.server.events.UserDeletedEvent
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
