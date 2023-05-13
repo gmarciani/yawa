@@ -17,7 +17,7 @@ private val log = KotlinLogging.logger {}
 @Component
 class AccessControlVoter(
     @Autowired val operationNameProvider : OperationNameProvider
-) : AccessDecisionVoter<FilterInvocation> {
+): AccessDecisionVoter<FilterInvocation> {
 
     override fun supports(attribute: ConfigAttribute?): Boolean {
         return false

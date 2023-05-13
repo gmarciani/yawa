@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 class MetricCommonTagsProvider(
     @Autowired val appEnvironmentConfiguration: AppEnvironmentConfiguration
-) : MeterRegistryCustomizer<MeterRegistry> {
+): MeterRegistryCustomizer<MeterRegistry> {
 
     override fun customize(registry: MeterRegistry) {
         val tags = Tags.empty()

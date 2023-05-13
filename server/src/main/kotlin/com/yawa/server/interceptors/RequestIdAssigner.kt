@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class RequestIdAssigner(
     @Autowired val requestIdGenerator: RequestIdGenerator
-) : HandlerInterceptor {
+): HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val requestId = requestIdGenerator.generateRequestId()

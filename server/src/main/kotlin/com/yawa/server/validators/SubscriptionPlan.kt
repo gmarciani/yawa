@@ -23,6 +23,6 @@ class SubscriptionPlanValidator : ConstraintValidator<SubscriptionPlan, String> 
     val PATTERN : Pattern = Pattern.compile("^${StringUtils.join(UserSubscriptionPlan.values(), "|")}$")
     val VALIDATION_ERROR_MESSAGE = "Invalid subscription plan: must be one of ${UserSubscriptionPlan.values()}"
 
-    override fun isValid(value: String, context: ConstraintValidatorContext) : Boolean =
+    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
         PATTERN.matcher(value).matches()
 }

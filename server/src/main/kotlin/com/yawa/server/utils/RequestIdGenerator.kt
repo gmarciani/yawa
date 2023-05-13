@@ -5,5 +5,5 @@ import java.util.*
 
 @Component
 class RequestIdGenerator {
-    fun generateRequestId() :  String = UUID.randomUUID().toString()
+    fun generateRequestId():  String = UUID.randomUUID().toString()
 }

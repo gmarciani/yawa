@@ -21,6 +21,6 @@ class EmailValidator : ConstraintValidator<Email, String> {
     val PATTERN : Pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)
     val VALIDATION_ERROR_MESSAGE = "Invalid email: must be a string following the standard email pattern, like me@myself.com"
 
-    override fun isValid(value: String, context: ConstraintValidatorContext) : Boolean =
+    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
         PATTERN.matcher(value).matches()
 }

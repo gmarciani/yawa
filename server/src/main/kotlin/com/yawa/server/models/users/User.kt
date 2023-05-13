@@ -22,7 +22,7 @@ class User(
     var isAccountNonLocked: Boolean = true
 ) {
 
-    fun toUserDetails() : UserDetails = org.springframework.security.core.userdetails.User(
+    fun toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User(
         username, password,
         isEnabled, isAccountNonExpired, isCredentialsNonExpired, isAccountNonLocked,
         role.toAuthorities())

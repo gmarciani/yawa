@@ -24,6 +24,6 @@ class PathValidator : ConstraintValidator<Path, String> {
     val PATTERN : Pattern = Pattern.compile("^.{$MIN_SIZE,$MAX_SIZE}$")
     val VALIDATION_ERROR_MESSAGE = "Invalid value: must be null or a string representing a file system path between $MIN_SIZE and $MAX_SIZE characters"
 
-    override fun isValid(value: String, context: ConstraintValidatorContext) : Boolean =
+    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
         StringUtils.isBlank(value) || PATTERN.matcher(value).matches()
 }

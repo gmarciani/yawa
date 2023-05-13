@@ -23,7 +23,7 @@ class DescribeUsers(
 ) {
 
     @GetMapping("/DescribeUsers")
-    fun describeUsers(@Valid @RequestBody request: DescribeUsersRequest, authentication: Authentication) : DescribeUsersResponse {
+    fun describeUsers(@Valid @RequestBody request: DescribeUsersRequest, authentication: Authentication): DescribeUsersResponse {
         log.info("Called with request: $request")
 
         authorizeRequest(request = request, authentication = authentication)

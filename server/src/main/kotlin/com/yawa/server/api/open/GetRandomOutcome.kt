@@ -15,7 +15,7 @@ private val log = KotlinLogging.logger {}
 class GetRandomOutcome {
 
     @GetMapping("/GetRandomOutcome")
-    fun getRandomOutcome() : GetRandomOutcomeResponse {
+    fun getRandomOutcome(): GetRandomOutcomeResponse {
         log.info("Called")
         val dice = random()
         if (dice <= 6.0/10) {
@@ -38,5 +38,5 @@ class GetRandomOutcome {
 
     data class GetRandomOutcomeResponse(val message: String)
 
-    private fun random() : Double = Random().nextDouble()
+    private fun random(): Double = Random().nextDouble()
 }

@@ -58,7 +58,7 @@ class SecurityConfig(
     }
 
     @Bean
-    fun passwordEncoder() : PasswordEncoder =  BCryptPasswordEncoder()
+    fun passwordEncoder(): PasswordEncoder =  BCryptPasswordEncoder()
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
@@ -104,7 +104,7 @@ class SecurityConfig(
     }
 
     @Bean
-    fun corsFilter() : CorsFilter {
+    fun corsFilter(): CorsFilter {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true

@@ -25,7 +25,7 @@ class ConfirmUserCreation(
 ) {
 
     @PostMapping("/ConfirmUserCreation")
-    fun confirmUserCreation(@Valid @RequestBody request: ConfirmUserCreationRequest, authentication: Authentication?) : ConfirmUserCreationResponse{
+    fun confirmUserCreation(@Valid @RequestBody request: ConfirmUserCreationRequest, authentication: Authentication?): ConfirmUserCreationResponse{
         log.info("Called with request: $request")
 
         val loggedUser = authentication?.principal as User

@@ -17,7 +17,7 @@ private val log = KotlinLogging.logger {}
 class GetDeterministicOutcome {
 
     @GetMapping("/GetDeterministicOutcome")
-    fun getDeterministicOutcome(@Valid @RequestBody request: GetDeterministicOutcomeRequest) : GetDeterministicOutcomeResponse {
+    fun getDeterministicOutcome(@Valid @RequestBody request: GetDeterministicOutcomeRequest): GetDeterministicOutcomeResponse {
         log.info("Called with request $request")
         when (request.outcome) {
             Outcome.SUCCESS -> {

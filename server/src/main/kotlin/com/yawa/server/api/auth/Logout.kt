@@ -12,7 +12,7 @@ private val log = KotlinLogging.logger {}
 class Logout {
 
     @PostMapping("/Logout")
-    fun logout(authentication: Authentication) : LogoutResponse {
+    fun logout(authentication: Authentication): LogoutResponse {
         log.info("Called with authentication: $authentication")
         val user = authentication.principal as User
         return LogoutResponse(message = "Bye ${user.username}")

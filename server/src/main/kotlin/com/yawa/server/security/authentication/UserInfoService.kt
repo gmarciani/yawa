@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserInfoService(
     @Autowired val userRepository: UserRepository
-) : UserDetailsService {
+): UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails {
         return userRepository
             .findById(username!!)

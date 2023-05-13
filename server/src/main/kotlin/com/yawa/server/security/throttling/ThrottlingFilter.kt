@@ -18,7 +18,7 @@ private val log = KotlinLogging.logger {}
 @Component
 class ThrottlingFilter(
     @Autowired val throttlingService: ThrottlingService,
-) : OncePerRequestFilter() {
+): OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest,
                                   response: HttpServletResponse,

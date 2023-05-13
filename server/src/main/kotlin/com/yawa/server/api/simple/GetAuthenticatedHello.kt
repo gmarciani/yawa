@@ -13,7 +13,7 @@ private val log = KotlinLogging.logger {}
 class GetAuthenticatedHello {
 
     @GetMapping("/GetAuthenticatedHello")
-    fun getAuthenticatedHello() : GetAuthenticatedHelloResponse {
+    fun getAuthenticatedHello(): GetAuthenticatedHelloResponse {
         val authentication = SecurityContextHolder.getContext().authentication!!
 
         val user = if (authentication is AnonymousAuthenticationToken) null else (authentication.principal as User)

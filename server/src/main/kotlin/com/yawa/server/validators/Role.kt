@@ -23,6 +23,6 @@ class RoleValidator : ConstraintValidator<Role, String> {
     val PATTERN : Pattern = Pattern.compile("^${StringUtils.join(UserRole.values(), "|")}$")
     val VALIDATION_ERROR_MESSAGE = "Invalid role: must be one of ${UserRole.values()}"
 
-    override fun isValid(value: String, context: ConstraintValidatorContext) : Boolean =
+    override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
         PATTERN.matcher(value).matches()
 }

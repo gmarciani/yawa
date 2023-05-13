@@ -26,7 +26,7 @@ class ConfirmUserDeletion(
 ) {
 
     @PostMapping("/ConfirmUserDeletion")
-    fun confirmUserDeletion(@Valid @RequestBody request: ConfirmUserDeletionRequest, authentication: Authentication?) : ConfirmUserDeletionResponse{
+    fun confirmUserDeletion(@Valid @RequestBody request: ConfirmUserDeletionRequest, authentication: Authentication?): ConfirmUserDeletionResponse{
         log.info("Called with request: $request")
 
         val loggedUser = authentication?.principal as User

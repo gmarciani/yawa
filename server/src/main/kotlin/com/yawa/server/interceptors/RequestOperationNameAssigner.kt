@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 class RequestOperationNameAssigner(
     @Autowired val operationNameProvider : OperationNameProvider
-) : HandlerInterceptor {
+): HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val operationName = operationNameProvider.getOperationName(request.getMethod(), request.getRequestURI());
