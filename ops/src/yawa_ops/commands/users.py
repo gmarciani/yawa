@@ -42,9 +42,10 @@ def create_user(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debu
 @click.command(help="Confirm user creation.", cls=BaseCommand)
 @click.pass_context
 @click.option(
-    "--tokenId",
+    "--token-id",
     required=True,
-    help="Token ID.",
+    type=str,
+    help="Token id.",
 )
 def confirm_user_creation(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug, token_id):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
