@@ -75,6 +75,7 @@ services:
       - "8004:9090"
     volumes:
       - ./prometheus/config/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./prometheus/config/secrets/yawa-credentials.txt:/etc/prometheus/yawa-credentials.txt
     depends_on:
       - server
 
