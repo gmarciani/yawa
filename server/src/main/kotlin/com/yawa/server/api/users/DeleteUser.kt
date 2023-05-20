@@ -1,7 +1,6 @@
 package com.yawa.server.api.users
 
-import com.yawa.server.components.security.throttling.ThrottlingService
-import com.yawa.server.events.UserDeletedEvent
+import com.yawa.server.events.users.deletion.UserDeletionRequestedEvent
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
@@ -22,23 +21,25 @@ private val log = KotlinLogging.logger {}
 @RestController
 class DeleteUser(
     @Autowired val userRepository: UserRepository,
-    @Autowired val throttlingService: ThrottlingService,
     @Autowired val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
     @DeleteMapping("/DeleteUser")
-    fun deleteUsers(@Valid @RequestBody request: DeleteUserRequest, authentication: Authentication): DeleteUserResponse {
-        log.info("Called with request: $request")
+    fun deleteUser(@Valid @RequestBody request: DeleteUserRequest, authentication: Authentication): DeleteUserResponse {
+        log.info("Processing request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
 
         val username = request.username
 
-        val user = userRepository.findById(username).orElseThrow { ResourceNotFoundException("User not found: $username") }
-        userRepository.delete(user)
-        throttlingService.deleteIfExists(username)
+        val user = userRepository.findById(username).orElseThrow {
+            ResourceNotFoundException("User not found: $username")
+        }
 
-        applicationEventPublisher.publishEvent(UserDeletedEvent(user = user))
+        user.isEnabled = false
+        userRepository.save(user)
+
+        applicationEventPublisher.publishEvent(UserDeletionRequestedEvent(user = user))
 
         return DeleteUserResponse(user = user)
     }
@@ -53,7 +54,7 @@ class DeleteUser(
         val username = request.username
 
         if (username != identity.username && UserRole.ADMIN != identity.role) {
-            throw NotAuthorizedException("User with identity ${identity.username} cannot delete user ${username}")
+            throw NotAuthorizedException("User with identity ${identity.username} cannot delete user $username")
         }
     }
 }

@@ -1,50 +1,68 @@
 package com.yawa.server.api.auth
 
-import com.yawa.server.security.authentication.JwtService
-import com.yawa.server.exceptions.NotAuthorizedException
+import com.yawa.server.models.tokens.AuthenticationTokens
+import com.yawa.server.models.users.User
+import com.yawa.server.security.authentication.AuthenticationService
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.BadCredentialsException
-import org.springframework.security.core.Authentication
+import org.springframework.security.core.AuthenticationException
+import java.time.Instant
 
 class LoginTest : BehaviorSpec({
     given(LoginTest::class.simpleName!!) {
-        val authenticationManager = mockk<AuthenticationManager>(relaxed = true)
-        val jwtService = mockk<JwtService>(relaxed = true)
+        val authenticationService = mockk<AuthenticationService>(relaxed = true)
 
-        val subject = Login(authenticationManager, jwtService)
+        val subject = Login(authenticationService)
+        val username = "A_USERNAME"
+        val password = "A_PASSWORD"
 
         `when`("login is called") {
 
-            val loginRequest = Login.LoginRequest(username = "A_USERNAME", password = "A_PASSWORD")
+            val loginRequest = Login.LoginRequest(username = username, password = password)
 
             and("caller is authenticated") {
-                every { authenticationManager.authenticate(any()) } returns mockk<Authentication>(relaxed = true).also {
-                    every { it.principal } returns mockk<org.springframework.security.core.userdetails.User>(relaxed = true).also {
-                        every { it.username } returns "A_USERNAME"
-                    }
+                val user = mockk<User>(relaxed = true)
+                every { authenticationService.authenticate(username = username, password = password) } returns user.also {
+                    every { it.username } returns username
+                    every { it.password } returns password
                 }
 
-                every { jwtService.issue(any()) } returns "A_JWT_TOKEN"
+                and("authentication tokens generated") {
+                    val authenticationTokens = mockk<AuthenticationTokens>(relaxed = true).also {
+                        every { it.accessToken } returns "ACCESS_TOKEN"
+                        every { it.accessTokenExpiration } returns Instant.ofEpochMilli(1)
+                        every { it.refreshToken } returns "REFRESH_TOKEN"
+                        every { it.refreshTokenExpiration } returns Instant.ofEpochMilli(100)
 
-                then("returns the expected response") {
-                    val response = subject.login(loginRequest)
-                    response shouldBe Login.LoginResponse(token = "A_JWT_TOKEN", message = "Successfully logged in as A_USERNAME")
+                    }
+                    every { authenticationService.generateAuthenticationTokens(user = user) } returns authenticationTokens
+
+                    then("returns the expected response") {
+                        val response = subject.login(loginRequest)
+                        response shouldBe Login.LoginResponse(
+                            accessToken = authenticationTokens.accessToken,
+                            accessTokenExpiration = authenticationTokens.accessTokenExpiration,
+                            refreshToken = authenticationTokens.refreshToken,
+                            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration
+                        )
+                    }
                 }
             }
 
             and("caller is not authenticated") {
-                every { authenticationManager.authenticate(any()) } throws mockk<BadCredentialsException>()
+                val authenticationException = mockk<AuthenticationException>().also {
+                    every { it.message } returns "EXCEPTION_MESSAGE"
+                }
+                every { authenticationService.authenticate(username = username, password = password) } throws authenticationException
 
                 then("returns failure") {
-                    val exception = shouldThrow<NotAuthorizedException> {
+                    val exception = shouldThrow<AuthenticationException> {
                         subject.login(loginRequest)
                     }
-                    exception.message shouldBe "Cannot log in"
+                    exception.message shouldBe authenticationException.message
                 }
             }
         }

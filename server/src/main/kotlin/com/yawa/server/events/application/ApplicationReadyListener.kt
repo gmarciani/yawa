@@ -1,4 +1,4 @@
-package com.yawa.server.events.listeners
+package com.yawa.server.events.application
 
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.models.users.UserSubscriptionPlan
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
-
 
 private val log = KotlinLogging.logger {}
 

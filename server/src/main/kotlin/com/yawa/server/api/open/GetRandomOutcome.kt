@@ -16,7 +16,7 @@ class GetRandomOutcome {
 
     @GetMapping("/GetRandomOutcome")
     fun getRandomOutcome(): GetRandomOutcomeResponse {
-        log.info("Called")
+        log.info("Processing request")
         val dice = random()
         if (dice <= 6.0/10) {
             log.info("Will return success")

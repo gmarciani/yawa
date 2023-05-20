@@ -5,6 +5,7 @@ import com.yawa.server.components.security.authentication.UserInfoService
 import com.yawa.server.components.security.authorization.AccessControlVoter
 import com.yawa.server.components.security.throttling.ThrottlingFilter
 import com.yawa.server.models.users.UserRole
+import com.yawa.server.security.authentication.AnonymousAuthenticationFilter
 import com.yawa.server.utils.OperationNameProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -40,6 +41,7 @@ import javax.servlet.http.HttpServletResponse
 class SecurityConfig(
     @Autowired val userInfoService: UserInfoService,
     @Autowired val jwtTokenFilter: JwtTokenFilter,
+    @Autowired val anonymousAuthenticationFilter: AnonymousAuthenticationFilter,
     @Autowired val throttlingFilter: ThrottlingFilter,
     @Autowired val operationNameProvider: OperationNameProvider
 ) {
@@ -71,6 +73,7 @@ class SecurityConfig(
             .and()
 
             // Set unauthorized requests exception handler
+            // TODO handle exception DisabledException
             .exceptionHandling()
             .authenticationEntryPoint { _: HttpServletRequest?, response: HttpServletResponse, ex: AuthenticationException ->
                 response.sendError(
@@ -81,13 +84,21 @@ class SecurityConfig(
 
         // Set permissions on endpoints
         http.authorizeRequests()
-            // Public endpoints
+            // User Management
+            .antMatchers("/CreateUser").permitAll()
+            .antMatchers("/ConfirmUserCreation").permitAll()
+
+            // User Authentication
+            .antMatchers("/Login").permitAll()
+            .antMatchers("/RefreshAuthentication").permitAll()
+            .antMatchers("/AuthorizePasswordReset").permitAll()
+            .antMatchers("/ResetPassword").permitAll()
+
+            // Examples
             .antMatchers("/GetDeterministicOutcome").permitAll()
             .antMatchers("/GetRandomOutcome").permitAll()
             .antMatchers("/GetAuthenticatedHello").permitAll()
-            .antMatchers("/CreateUser").permitAll()
-            .antMatchers("/ConfirmUserCreation").permitAll()
-            .antMatchers("/Login").permitAll()
+
             // Administration endpoints
             .antMatchers("/ListUsers").hasRole(UserRole.ADMIN.name)
             .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
@@ -99,7 +110,8 @@ class SecurityConfig(
 
         // Add filters
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
-        http.addFilterAfter(throttlingFilter, JwtTokenFilter::class.java)
+        http.addFilterAfter(anonymousAuthenticationFilter, JwtTokenFilter::class.java)
+        http.addFilterAfter(throttlingFilter, AnonymousAuthenticationFilter::class.java)
 
         return http.build()
     }

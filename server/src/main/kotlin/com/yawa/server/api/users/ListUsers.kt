@@ -18,7 +18,7 @@ class ListUsers(
 
     @GetMapping("/ListUsers")
     fun listUsers(@Valid @RequestBody request: ListUsersRequest): ListUsersResponse {
-        log.info("Called with request: $request")
+        log.info("Processing request: $request")
 
         val users = mutableListOf<User>()
         userRepository.findAll().forEach { users.add(it) }

@@ -2,7 +2,7 @@ package com.yawa.server.api.admin
 
 import com.yawa.server.exceptions.YawaInternalException
 import com.yawa.server.models.users.User
-import com.yawa.server.services.MailService
+import com.yawa.server.notifications.MailService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -19,6 +19,8 @@ class SendMail(
 
     @PostMapping("/admin/SendMail")
     fun sendMail(@Valid @RequestBody request: SendMailRequest): SendMailResponse {
+        log.info("Processing request: $request")
+
         val user = SecurityContextHolder.getContext().authentication.principal as User
 
         when (val mailType = request.mailType) {

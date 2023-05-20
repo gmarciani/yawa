@@ -14,6 +14,8 @@ class GetAuthenticatedHello {
 
     @GetMapping("/GetAuthenticatedHello")
     fun getAuthenticatedHello(): GetAuthenticatedHelloResponse {
+        log.info("Processing request")
+
         val authentication = SecurityContextHolder.getContext().authentication!!
 
         val user = if (authentication is AnonymousAuthenticationToken) null else (authentication.principal as User)

@@ -82,6 +82,36 @@
         }
       }
     },
+    "/RefreshAuthentication": {
+      "post": {
+        "tags": [
+          "refresh-authentication"
+        ],
+        "operationId": "refreshAuthentication",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshAuthenticationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshAuthenticationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/Logout": {
       "post": {
         "tags": [
@@ -802,7 +832,7 @@
         "tags": [
           "delete-user"
         ],
-        "operationId": "deleteUsers",
+        "operationId": "deleteUser",
         "requestBody": {
           "content": {
             "application/json": {
@@ -857,6 +887,42 @@
           }
         }
       },
+      "RefreshAuthenticationRequest": {
+        "required": [
+          "refreshToken"
+        ],
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "RefreshAuthenticationResponse": {
+        "required": [
+          "accessToken",
+          "accessTokenExpiration",
+          "refreshToken",
+          "refreshTokenExpiration"
+        ],
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "accessTokenExpiration": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "refreshTokenExpiration": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "LogoutResponse": {
         "required": [
           "message"
@@ -885,16 +951,26 @@
       },
       "LoginResponse": {
         "required": [
-          "message",
-          "token"
+          "accessToken",
+          "accessTokenExpiration",
+          "refreshToken",
+          "refreshTokenExpiration"
         ],
         "type": "object",
         "properties": {
-          "token": {
+          "accessToken": {
             "type": "string"
           },
-          "message": {
+          "accessTokenExpiration": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refreshToken": {
             "type": "string"
+          },
+          "refreshTokenExpiration": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -913,12 +989,6 @@
             "type": "string"
           },
           "email": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          },
-          "subscriptionPlan": {
             "type": "string"
           }
         }
@@ -991,13 +1061,12 @@
       },
       "ConfirmUserDeletionRequest": {
         "required": [
-          "tokenId"
+          "token"
         ],
         "type": "object",
         "properties": {
-          "tokenId": {
-            "type": "string",
-            "format": "uuid"
+          "token": {
+            "type": "string"
           }
         }
       },
@@ -1014,13 +1083,12 @@
       },
       "ConfirmUserCreationRequest": {
         "required": [
-          "tokenId"
+          "token"
         ],
         "type": "object",
         "properties": {
-          "tokenId": {
-            "type": "string",
-            "format": "uuid"
+          "token": {
+            "type": "string"
           }
         }
       },

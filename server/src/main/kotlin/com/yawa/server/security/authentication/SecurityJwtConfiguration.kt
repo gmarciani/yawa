@@ -8,5 +8,6 @@ import org.springframework.stereotype.Component
 class SecurityJwtConfiguration(
     @Value("\${yawa.security.jwt.secret}") private val secret: String
 ) {
+    val issuer: String = "YAWA"
     val signingAlgorithm: Algorithm = Algorithm.HMAC256(secret)
 }

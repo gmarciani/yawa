@@ -1,6 +1,6 @@
 package com.yawa.server.api.users
 
-import com.yawa.server.events.users.deletion.UserDeletionConfirmedEvent
+import com.yawa.server.events.users.password.PasswordResetConfirmedEvent
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
@@ -10,26 +10,24 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
 import javax.validation.Valid
-
 
 private val log = KotlinLogging.logger {}
 
 @RestController
-class ConfirmUserDeletion(
+class ResetPassword(
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val userService: UserService,
     @Autowired val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
-    @PostMapping("/ConfirmUserDeletion")
-    fun confirmUserDeletion(@Valid @RequestBody request: ConfirmUserDeletionRequest): ConfirmUserDeletionResponse{
+    @PostMapping("/ResetPassword")
+    fun resetPassword(@Valid @RequestBody request: ResetPasswordRequest): ResetPasswordResponse{
         log.info("Processing request: $request")
 
         val token = request.token
 
-        val grant = actionTokenService.consumeToken(token = token, action = TokenAction.CONFIRM_USER_DELETION)
+        val grant = actionTokenService.consumeToken(token = token, action = TokenAction.RESET_PASSWORD)
 
         val username = grant.username
         val action = grant.action
@@ -38,14 +36,14 @@ class ConfirmUserDeletion(
 
         log.info("Action token accepted for user $username to execute action $action")
 
-        userService.deleteUser(user = user)
+        userService.setPassword(user = user, password = request.password)
 
-        applicationEventPublisher.publishEvent(UserDeletionConfirmedEvent(user = user))
+        applicationEventPublisher.publishEvent(PasswordResetConfirmedEvent(user = user))
 
-        return ConfirmUserDeletionResponse(message = "Confirmed deletion of user ${user.username}")
+        return ResetPasswordResponse(message = "Confirmed password reset for user ${user.username}")
     }
 
-    data class ConfirmUserDeletionRequest(val token: String)
+    data class ResetPasswordRequest(val token: String, val password: String)
 
-    data class ConfirmUserDeletionResponse(val message: String)
+    data class ResetPasswordResponse(val message: String)
 }

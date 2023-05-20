@@ -18,6 +18,8 @@ class AccessLogger : HandlerInterceptor {
         handler: Any,
         @Nullable ex: Exception?
     ) {
-        log.info("Request completed with status {}", response.getStatus())
+        val uri = request.requestURI
+        val status = request.requestURI
+        log.info("REQUEST END $uri : $status")
     }
 }

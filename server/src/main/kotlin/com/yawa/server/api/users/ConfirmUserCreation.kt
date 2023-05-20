@@ -1,14 +1,12 @@
 package com.yawa.server.api.users
 
-import com.yawa.server.events.UserCreationConfirmedEvent
-import com.yawa.server.exceptions.ResourceExpiredException
-import com.yawa.server.exceptions.ResourceNotFoundException
-import com.yawa.server.repositories.ConfirmationTokenRepository
-import com.yawa.server.repositories.UserRepository
+import com.yawa.server.events.users.creation.UserCreationConfirmedEvent
+import com.yawa.server.models.tokens.TokenAction
+import com.yawa.server.security.tokens.ActionTokenService
+import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -19,39 +17,34 @@ private val log = KotlinLogging.logger {}
 
 @RestController
 class ConfirmUserCreation(
-    @Autowired val confirmationTokenRepository: ConfirmationTokenRepository,
-    @Autowired val userRepository: UserRepository,
+    @Autowired val actionTokenService: ActionTokenService,
+    @Autowired val userService: UserService,
     @Autowired val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
     @PostMapping("/ConfirmUserCreation")
-    fun confirmUserCreation(@Valid @RequestBody request: ConfirmUserCreationRequest, authentication: Authentication?): ConfirmUserCreationResponse{
-        log.info("Called with request: $request")
+    fun confirmUserCreation(@Valid @RequestBody request: ConfirmUserCreationRequest): ConfirmUserCreationResponse{
+        log.info("Processing request: $request")
 
-        val tokenId = request.tokenId
+        val token = request.token
 
-        val token = confirmationTokenRepository.findById(tokenId).orElseThrow {
-            ResourceNotFoundException("Confirmation token not found: $tokenId")
-        }
+        val grant = actionTokenService.consumeToken(token = token, action = TokenAction.CONFIRM_USER_CREATION)
 
-        if (!token.isValid()) {
-            log.warn("Confirmation token expired: ${token.id}")
-            throw ResourceExpiredException("Confirmation token expired: ${token.id}")
-        }
+        val username = grant.username
+        val action = grant.action
 
-        val user = token.user
+        val user = userService.findUser(username = username)
 
-        user.isEnabled = true
+        log.info("Action token accepted for user $username to execute action $action")
 
-        userRepository.save(user)
-        confirmationTokenRepository.delete(token)
+        userService.enableUser(user = user)
 
         applicationEventPublisher.publishEvent(UserCreationConfirmedEvent(user = user))
 
-        return ConfirmUserCreationResponse(message = "User creation confirmed for ${user.username}")
+        return ConfirmUserCreationResponse(message = "Confirmed creation of user ${user.username}")
     }
 
-    data class ConfirmUserCreationRequest(val tokenId: UUID)
+    data class ConfirmUserCreationRequest(val token: String)
 
     data class ConfirmUserCreationResponse(val message: String)
 }

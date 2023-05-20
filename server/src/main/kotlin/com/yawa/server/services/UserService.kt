@@ -1,5 +1,7 @@
 package com.yawa.server.services
 
+import com.yawa.server.components.security.throttling.ThrottlingService
+import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.models.users.UserSubscriptionPlan
@@ -13,14 +15,48 @@ private val log = KotlinLogging.logger {}
 @Service
 class UserService(
     @Autowired val userRepository: UserRepository,
-    @Autowired val passwordEncoder: PasswordEncoder
+    @Autowired val passwordEncoder: PasswordEncoder,
+    @Autowired val throttlingService: ThrottlingService
 ) {
 
-    fun createAdminUser() {
+    fun createUser(username: String, password: String, email: String): User {
         val user = User(
-            username = "admin",
-            password = passwordEncoder.encode("P@ssw0rd-ADMIN"),
-            email = "giacomo.marciani@gmail.com",
+            username = username,
+            password = passwordEncoder.encode(password),
+            email = email,
+            role = UserRole.NORMAL,
+            subscriptionPlan = UserSubscriptionPlan.FREE,
+            isEnabled = false
+        )
+        userRepository.save(user)
+        return user
+    }
+
+    fun findUser(username: String): User {
+        return userRepository.findById(username).orElseThrow {
+            ResourceNotFoundException("User not found: $username")
+        }
+    }
+
+    fun enableUser(user: User) {
+        user.isEnabled = true
+        userRepository.save(user)
+    }
+
+    fun deleteUser(user: User) {
+        userRepository.delete(user)
+    }
+
+    fun existsUser(username: String): Boolean {
+        return userRepository.existsById(username)
+    }
+
+    fun createAdminUser() {
+        val username = "admin"
+        val user = User(
+            username = username,
+            password = passwordEncoder.encode("P@ssw0rd-$username"),
+            email = "giacomo.marciani+$username@gmail.com",
             role = UserRole.ADMIN,
             subscriptionPlan = UserSubscriptionPlan.SYSTEM,
             isEnabled = true
@@ -29,10 +65,11 @@ class UserService(
     }
 
     fun createPrometheusUser() {
+        val username = "prometheus"
         val user = User(
-            username = "prometheus",
-            password = passwordEncoder.encode("P@ssw0rd-PROMETHEUS"),
-            email = "prometheus@yawa.com",
+            username = username,
+            password = passwordEncoder.encode("P@ssw0rd-$username"),
+            email = "giacomo.marciani+$username@gmail.com",
             role = UserRole.PROMETHEUS,
             subscriptionPlan = UserSubscriptionPlan.SYSTEM,
             isEnabled = true
@@ -45,7 +82,7 @@ class UserService(
         val user = User(
             username = username,
             password = passwordEncoder.encode("P@ssw0rd-$username"),
-            email = "$username@yawa.com",
+            email = "giacomo.marciani+$username@gmail.com",
             role = role,
             subscriptionPlan = userSubscriptionPlan,
             isEnabled = true
@@ -60,5 +97,10 @@ class UserService(
         }
         userRepository.save(user)
         log.info("User created: ${user.username}")
+    }
+
+    fun setPassword(user: User, password: String) {
+        user.password = passwordEncoder.encode(password)
+        userRepository.save(user)
     }
 }

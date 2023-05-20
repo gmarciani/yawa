@@ -18,7 +18,7 @@ class GetDeterministicOutcome {
 
     @GetMapping("/GetDeterministicOutcome")
     fun getDeterministicOutcome(@Valid @RequestBody request: GetDeterministicOutcomeRequest): GetDeterministicOutcomeResponse {
-        log.info("Called with request $request")
+        log.info("Processing request: $request")
         when (request.outcome) {
             Outcome.SUCCESS -> {
                 log.info("Will return success")

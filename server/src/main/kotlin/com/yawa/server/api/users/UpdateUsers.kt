@@ -28,7 +28,7 @@ class UpdateUsers(
 
     @PatchMapping("/UpdateUsers")
     fun updateUsers(@Valid @RequestBody request: UpdateUsersRequest, authentication: Authentication): UpdateUsersResponse {
-        log.info("Called with request: $request")
+        log.info("Processing request: $request")
 
         authorizeRequest(request = request, authentication = authentication)
 

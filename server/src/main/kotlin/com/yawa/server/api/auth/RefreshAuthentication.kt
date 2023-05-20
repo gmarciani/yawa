@@ -1,8 +1,6 @@
 package com.yawa.server.api.auth
 
 import com.yawa.server.security.authentication.AuthenticationService
-import com.yawa.server.validators.Password
-import com.yawa.server.validators.Username
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,25 +12,25 @@ import javax.validation.Valid
 private val log = KotlinLogging.logger {}
 
 @RestController
-class Login(
+class RefreshAuthentication(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
-    @PostMapping("/Login")
-    fun login(@Valid @RequestBody request: LoginRequest): LoginResponse {
+    @PostMapping("/RefreshAuthentication")
+    fun refreshAuthentication(@Valid @RequestBody request: RefreshAuthenticationRequest): RefreshAuthenticationResponse {
         log.info("Processing request: $request")
 
-        val user = authenticationService.authenticate(username = request.username, password = request.password)
+        val refreshToken = request.refreshToken
+
+        val user = authenticationService.authenticateRefreshToken(refreshToken = refreshToken)
 
         log.info("Authenticated user: ${user.username}")
 
-        val authenticationTokens = authenticationService.generateAuthenticationTokens(
-            user = user, neverExpire = request.neverExpire
-        )
+        val authenticationTokens = authenticationService.refreshAuthenticationTokens(refreshToken)
 
-        log.info("Authentication tokens generated for user: ${user.username}")
+        log.info("Authentication tokens refreshed for user: ${user.username}")
 
-        return LoginResponse(
+        return RefreshAuthenticationResponse(
             accessToken = authenticationTokens.accessToken,
             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
             refreshToken = authenticationTokens.refreshToken,
@@ -40,13 +38,9 @@ class Login(
         )
     }
 
-    data class LoginRequest(
-        @Username val username: String,
-        @Password val password: String,
-        val neverExpire: Boolean = false,
-    )
+    data class RefreshAuthenticationRequest(val refreshToken: String)
 
-    data class LoginResponse(
+    data class RefreshAuthenticationResponse(
         val accessToken: String,
         val accessTokenExpiration: Instant,
         val refreshToken: String,

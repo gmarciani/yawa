@@ -13,8 +13,8 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-
 private val log = KotlinLogging.logger {}
+
 @Component
 class ThrottlingFilter(
     @Autowired val throttlingService: ThrottlingService,
