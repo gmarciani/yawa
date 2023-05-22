@@ -45,6 +45,7 @@ class UserService(
 
     fun deleteUser(user: User) {
         userRepository.delete(user)
+        throttlingService.deleteIfExists(user.username)
     }
 
     fun existsUser(username: String): Boolean {

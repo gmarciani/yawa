@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <title th:fragment="title">YAWA</title>
+    <meta th:fragment="meta" http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style th:fragment="style">
+        span.variable {
+            font-weight: bold;
+        }
+        span.team-name {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<p th:fragment="greetings">
+    Hello <span class="variable" th:text="${name}">Giacomo Marciani</span>,
+</p>
+<p th:fragment="signature">
+    Regards, <br/>
+    <span class="team-name">The YAWA Team</span>
+</p>
+</body>
+</html>
