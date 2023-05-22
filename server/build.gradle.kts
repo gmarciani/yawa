@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("java")
-	id("org.springframework.boot") version "2.7.11"
+	id("org.springframework.boot") version "3.1.0"
 	id("io.spring.dependency-management") version "1.1.0"
 	id("org.openapi.generator") version "6.5.0"
 	id("com.github.ben-manes.versions") version "0.46.0"
@@ -60,6 +60,7 @@ dependencies {
 	implementation("com.bucket4j:bucket4j-core:8.2.0")
 	implementation("com.bucket4j:bucket4j-redis:8.2.0")
 	implementation("io.lettuce:lettuce-core:6.2.4.RELEASE")
+	implementation("org.thymeleaf:thymeleaf:3.1.1.RELEASE")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
