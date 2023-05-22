@@ -1,8 +1,8 @@
 package com.yawa.server.events.application
 
+import jakarta.annotation.PreDestroy
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import javax.annotation.PreDestroy
 
 private val log = KotlinLogging.logger {}
 

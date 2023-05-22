@@ -2,23 +2,22 @@ package com.yawa.server.security
 
 import com.yawa.server.components.security.authentication.JwtTokenFilter
 import com.yawa.server.components.security.authentication.UserInfoService
-import com.yawa.server.components.security.authorization.AccessControlVoter
+import com.yawa.server.components.security.authorization.AccessControlAuthorizationManager
 import com.yawa.server.components.security.throttling.ThrottlingFilter
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.security.authentication.AnonymousAuthenticationFilter
-import com.yawa.server.utils.OperationNameProvider
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.access.AccessDecisionManager
-import org.springframework.security.access.AccessDecisionVoter
-import org.springframework.security.access.vote.AuthenticatedVoter
-import org.springframework.security.access.vote.RoleVoter
-import org.springframework.security.access.vote.UnanimousBased
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
+import org.springframework.security.authorization.AuthenticatedAuthorizationManager
+import org.springframework.security.authorization.AuthorizationManager
+import org.springframework.security.authorization.AuthorizationManagers
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -26,24 +25,22 @@ import org.springframework.security.core.AuthenticationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.access.expression.WebExpressionVoter
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import org.springframework.web.filter.CorsFilter
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@EnableMethodSecurity
 class SecurityConfig(
     @Autowired val userInfoService: UserInfoService,
     @Autowired val jwtTokenFilter: JwtTokenFilter,
     @Autowired val anonymousAuthenticationFilter: AnonymousAuthenticationFilter,
     @Autowired val throttlingFilter: ThrottlingFilter,
-    @Autowired val operationNameProvider: OperationNameProvider
+    @Autowired val accessControlAuthorizationManager: AccessControlAuthorizationManager
 ) {
 
     @Bean
@@ -64,49 +61,44 @@ class SecurityConfig(
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
-        // Enable CORS and disable CSRF
-        http.cors().and().csrf().disable()
+        http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+        http.cors { it.configurationSource(corsConfigurationSource()) }
+        http.csrf { it.disable() }
 
-            // Set session management to stateless
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-
-            // Set unauthorized requests exception handler
-            // TODO handle exception DisabledException
-            .exceptionHandling()
-            .authenticationEntryPoint { _: HttpServletRequest?, response: HttpServletResponse, ex: AuthenticationException ->
-                response.sendError(
-                    HttpServletResponse.SC_UNAUTHORIZED,
-                    ex.message
-                )
-            }
+        http.exceptionHandling { it.authenticationEntryPoint {
+                _: HttpServletRequest?, response: HttpServletResponse, ex: AuthenticationException ->
+                    response.sendError(
+                        HttpServletResponse.SC_UNAUTHORIZED,
+                        ex.message
+                    )
+        }}
 
         // Set permissions on endpoints
-        http.authorizeRequests()
+        http.authorizeHttpRequests { authorize -> authorize
             // User Management
-            .antMatchers("/CreateUser").permitAll()
-            .antMatchers("/ConfirmUserCreation").permitAll()
+            .requestMatchers("/CreateUser").permitAll()
+            .requestMatchers("/ConfirmUserCreation").permitAll()
 
             // User Authentication
-            .antMatchers("/Login").permitAll()
-            .antMatchers("/RefreshAuthentication").permitAll()
-            .antMatchers("/AuthorizePasswordReset").permitAll()
-            .antMatchers("/ResetPassword").permitAll()
+            .requestMatchers("/Login").permitAll()
+            .requestMatchers("/RefreshAuthentication").permitAll()
+            .requestMatchers("/AuthorizePasswordReset").permitAll()
+            .requestMatchers("/ResetPassword").permitAll()
 
             // Examples
-            .antMatchers("/GetDeterministicOutcome").permitAll()
-            .antMatchers("/GetRandomOutcome").permitAll()
-            .antMatchers("/GetAuthenticatedHello").permitAll()
+            .requestMatchers("/GetDeterministicOutcome").permitAll()
+            .requestMatchers("/GetRandomOutcome").permitAll()
+            .requestMatchers("/GetAuthenticatedHello").permitAll()
 
             // Administration endpoints
-            .antMatchers("/ListUsers").hasRole(UserRole.ADMIN.name)
-            .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
-            .antMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
-            .antMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
+            .requestMatchers("/ListUsers").hasRole(UserRole.ADMIN.name)
+            .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
+            .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
+            .requestMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
 
             // Any other endpoint
-            .anyRequest().authenticated().accessDecisionManager(accessDecisionManager())
+            .anyRequest().access(accessDecisionManager())
+        }
 
         // Add filters
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
@@ -117,33 +109,22 @@ class SecurityConfig(
     }
 
     @Bean
-    fun corsFilter(): CorsFilter {
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("http://localhost:3000")
+        configuration.allowedMethods = listOf("*")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
         val source = UrlBasedCorsConfigurationSource()
-        val config = CorsConfiguration()
-        config.allowCredentials = true
-        config.addAllowedOrigin("*")
-        config.addAllowedHeader("*")
-        config.addAllowedMethod("*")
-        source.registerCorsConfiguration("/**", config)
-        return CorsFilter(source)
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 
     @Bean
-    fun accessDecisionManager(): AccessDecisionManager? {
-        val decisionVoters: List<AccessDecisionVoter<out Any?>> = listOf(
-            WebExpressionVoter(),
-            AuthenticatedVoter(),
-            RoleVoter(),
-//            hierarchyVoter(),
-            AccessControlVoter(operationNameProvider)
+    fun accessDecisionManager(): AuthorizationManager<RequestAuthorizationContext> {
+        return AuthorizationManagers.allOf(
+            AuthenticatedAuthorizationManager(),
+            accessControlAuthorizationManager
         )
-        return UnanimousBased(decisionVoters)
     }
-
-//    @Bean
-//    fun hierarchyVoter(): AccessDecisionVoter<*> {
-//        val hierarchy = RoleHierarchyImpl()
-//        hierarchy.setHierarchy("${UserRole.ADMIN} > ${UserRole.PROMETHEUS}\n${UserRole.ADMIN} > ${UserRole.NORMAL}")
-//        return RoleHierarchyVoter(hierarchy)
-//    }
 }

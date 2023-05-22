@@ -3,13 +3,13 @@ package com.yawa.server.api.auth
 import com.yawa.server.security.authentication.AuthenticationService
 import com.yawa.server.validators.Password
 import com.yawa.server.validators.Username
+import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
-import javax.validation.Valid
 
 private val log = KotlinLogging.logger {}
 

@@ -3,10 +3,10 @@ package com.yawa.server.validators
 import com.yawa.server.models.users.UserSubscriptionPlan
 import org.apache.commons.lang3.StringUtils
 import java.util.regex.Pattern
-import javax.validation.Constraint
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
-import javax.validation.Payload
+import jakarta.validation.Constraint
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
+import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.VALUE_PARAMETER)

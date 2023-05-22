@@ -7,6 +7,7 @@ import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.repositories.UserRepository
 import com.yawa.server.validators.Username
+import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import javax.validation.Valid
 
 private val log = KotlinLogging.logger {}
 

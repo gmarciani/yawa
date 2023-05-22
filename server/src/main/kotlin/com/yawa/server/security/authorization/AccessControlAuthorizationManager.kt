@@ -1,61 +1,50 @@
 package com.yawa.server.components.security.authorization
 
-import com.yawa.server.utils.OperationNameProvider
 import com.yawa.server.constants.Security
 import com.yawa.server.models.users.User
+import com.yawa.server.utils.OperationNameProvider
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.access.AccessDecisionVoter
-import org.springframework.security.access.ConfigAttribute
 import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.authorization.AuthorizationDecision
+import org.springframework.security.authorization.AuthorizationManager
 import org.springframework.security.core.Authentication
-import org.springframework.security.web.FilterInvocation
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext
 import org.springframework.stereotype.Component
+import java.util.function.Supplier
 
 private val log = KotlinLogging.logger {}
 
 @Component
-class AccessControlVoter(
+class AccessControlAuthorizationManager(
     @Autowired val operationNameProvider : OperationNameProvider
-): AccessDecisionVoter<FilterInvocation> {
+): AuthorizationManager<RequestAuthorizationContext> {
 
-    override fun supports(attribute: ConfigAttribute?): Boolean {
-        return false
-    }
-
-    override fun supports(clazz: Class<*>?): Boolean {
-        return FilterInvocation::class.java.isAssignableFrom(clazz!!)
-    }
-
-    override fun vote(
-        authentication: Authentication?,
-        filterInvocation: FilterInvocation?,
-        attributes: MutableCollection<ConfigAttribute>?
-    ): Int {
+    override fun check(authentication: Supplier<Authentication>, `object`: RequestAuthorizationContext): AuthorizationDecision? {
 
         if (authentication is AnonymousAuthenticationToken) {
             log.warn("AUTHORIZATION: Anonymous authentication, abstaining from authorization vote")
-            return AccessDecisionVoter.ACCESS_ABSTAIN
+            return AuthorizationDecision(true)
         }
 
-        val username = (authentication?.principal as User).username
+        val username = (authentication.get().principal as User).username
 
-        val method = filterInvocation?.request?.method
-        val requestUri = filterInvocation?.request?.requestURI
+        val method = `object`.request.method
+        val requestUri = `object`.request.requestURI
 
         if (method == null || requestUri == null) {
             log.warn("AUTHORIZATION: Cannot determine http request method and/or URI, abstaining from authorization vote")
-            return AccessDecisionVoter.ACCESS_ABSTAIN
+            return AuthorizationDecision(true)
         }
 
         val operationName = operationNameProvider.getOperationName(method, requestUri)
 
-        return if (isUserAuthorizedForOperation(username, operationName)) {
+        if (isUserAuthorizedForOperation(username, operationName)) {
             log.info("AUTHORIZATION: User $username is authorized for operation $operationName")
-            AccessDecisionVoter.ACCESS_GRANTED
+            return AuthorizationDecision(true)
         } else {
             log.warn("AUTHORIZATION: User $username is not authorized for operation $operationName")
-            AccessDecisionVoter.ACCESS_DENIED
+            return AuthorizationDecision(false)
         }
     }
 
