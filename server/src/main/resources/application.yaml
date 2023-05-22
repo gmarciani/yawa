@@ -33,6 +33,9 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
   datasource:
     url: jdbc:mysql://database:3306/dbyawa?useSSL=false
 #    username: FROM secrets.yaml
