@@ -1,6 +1,8 @@
-package com.yawa.server.components.security.authentication
+package com.yawa.server.security.authentication
 
-import com.yawa.server.security.authentication.AuthenticationService
+import jakarta.servlet.FilterChain
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import mu.KotlinLogging
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,9 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import jakarta.servlet.FilterChain
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 
 private val log = KotlinLogging.logger {}
 
@@ -21,10 +20,7 @@ class JwtTokenFilter(
     @Autowired val authenticationService: AuthenticationService
 ): OncePerRequestFilter() {
 
-    override fun doFilterInternal(request: HttpServletRequest,
-                                  response: HttpServletResponse,
-                                  chain: FilterChain
-    ) {
+    override fun doFilterInternal(request: HttpServletRequest,response: HttpServletResponse, chain: FilterChain) {
 
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (StringUtils.isBlank(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {

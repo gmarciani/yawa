@@ -1,8 +1,8 @@
 package com.yawa.server.config
 
-import com.yawa.server.components.mvc.interceptors.AccessLogger
-import com.yawa.server.components.mvc.interceptors.RequestIdAssigner
-import com.yawa.server.components.mvc.interceptors.RequestOperationNameAssigner
+import com.yawa.server.mvc.interceptors.AccessLogger
+import com.yawa.server.mvc.interceptors.RequestIdAssigner
+import com.yawa.server.mvc.interceptors.RequestOperationNameAssigner
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component

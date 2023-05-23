@@ -1,4 +1,4 @@
-package com.yawa.server.components.mvc.interceptors;
+package com.yawa.server.mvc.interceptors;
 
 import com.yawa.server.constants.MdcKeys
 import com.yawa.server.constants.RequestAttributes

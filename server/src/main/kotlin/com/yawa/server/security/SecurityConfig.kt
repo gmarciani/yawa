@@ -1,31 +1,24 @@
 package com.yawa.server.security
 
-import com.yawa.server.components.security.authentication.JwtTokenFilter
-import com.yawa.server.components.security.authentication.UserInfoService
-import com.yawa.server.components.security.authorization.AccessControlAuthorizationManager
-import com.yawa.server.components.security.throttling.ThrottlingFilter
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.security.authentication.AnonymousAuthenticationFilter
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
+import com.yawa.server.security.authentication.JwtTokenFilter
+import com.yawa.server.security.authentication.UserInfoService
+import com.yawa.server.security.authorization.AccessControlAuthorizationFilter
+import com.yawa.server.security.throttling.ThrottlingFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager
-import org.springframework.security.authorization.AuthorizationManager
-import org.springframework.security.authorization.AuthorizationManagers
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.AuthenticationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.access.intercept.RequestAuthorizationContext
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
@@ -39,8 +32,8 @@ class SecurityConfig(
     @Autowired val userInfoService: UserInfoService,
     @Autowired val jwtTokenFilter: JwtTokenFilter,
     @Autowired val anonymousAuthenticationFilter: AnonymousAuthenticationFilter,
-    @Autowired val throttlingFilter: ThrottlingFilter,
-    @Autowired val accessControlAuthorizationManager: AccessControlAuthorizationManager
+    @Autowired val accessControlAuthorizationFilter: AccessControlAuthorizationFilter,
+    @Autowired val throttlingFilter: ThrottlingFilter
 ) {
 
     @Bean
@@ -64,14 +57,6 @@ class SecurityConfig(
         http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         http.cors { it.configurationSource(corsConfigurationSource()) }
         http.csrf { it.disable() }
-
-        http.exceptionHandling { it.authenticationEntryPoint {
-                _: HttpServletRequest?, response: HttpServletResponse, ex: AuthenticationException ->
-                    response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED,
-                        ex.message
-                    )
-        }}
 
         // Set permissions on endpoints
         http.authorizeHttpRequests { authorize -> authorize
@@ -97,13 +82,15 @@ class SecurityConfig(
             .requestMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
 
             // Any other endpoint
-            .anyRequest().access(accessDecisionManager())
+            .anyRequest().denyAll()
         }
 
         // Add filters
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
         http.addFilterAfter(anonymousAuthenticationFilter, JwtTokenFilter::class.java)
-        http.addFilterAfter(throttlingFilter, AnonymousAuthenticationFilter::class.java)
+        http.addFilterAfter(accessControlAuthorizationFilter, anonymousAuthenticationFilter::class.java)
+        http.addFilterAfter(throttlingFilter, AccessControlAuthorizationFilter::class.java)
+
 
         return http.build()
     }
@@ -118,13 +105,5 @@ class SecurityConfig(
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
-    }
-
-    @Bean
-    fun accessDecisionManager(): AuthorizationManager<RequestAuthorizationContext> {
-        return AuthorizationManagers.allOf(
-            AuthenticatedAuthorizationManager(),
-            accessControlAuthorizationManager
-        )
     }
 }

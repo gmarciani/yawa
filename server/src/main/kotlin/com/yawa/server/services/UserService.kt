@@ -1,6 +1,6 @@
 package com.yawa.server.services
 
-import com.yawa.server.components.security.throttling.ThrottlingService
+import com.yawa.server.security.throttling.ThrottlingService
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole

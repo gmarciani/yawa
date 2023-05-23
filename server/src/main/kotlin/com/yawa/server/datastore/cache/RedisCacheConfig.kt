@@ -1,4 +1,4 @@
-package com.yawa.server.components.cache
+package com.yawa.server.cache
 
 import io.lettuce.core.RedisClient
 import org.springframework.context.annotation.Bean

@@ -1,7 +1,6 @@
-package com.yawa.server.constants
+package com.yawa.server.security.authorization
 
-object Security {
-
+object AccessControlConfiguration {
     val ACCESS_CONTROL_DENY_LIST = mapOf(
         "username" to listOf("GetAuthenticatedHello"),
 //        "admin" to listOf("GetAuthenticatedHello")

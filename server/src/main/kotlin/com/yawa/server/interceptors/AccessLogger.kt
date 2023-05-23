@@ -1,4 +1,4 @@
-package com.yawa.server.components.mvc.interceptors
+package com.yawa.server.mvc.interceptors
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
