@@ -1,6 +1,6 @@
 # YAWA Ops
 
-![YAWA Logo](resources/brand/yawa-logo.png)
+![YAWA Logo](../resources/brand/yawa-logo.png)
 
 ## Requirements
 

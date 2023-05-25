@@ -1,6 +1,6 @@
 # YAWA - Frontend
 
-![YAWA Logo](resources/brand/yawa-logo.png)
+![YAWA Logo](../resources/brand/yawa-logo.png)
 
 You can contact the frontend to https://localhost:8010.
 

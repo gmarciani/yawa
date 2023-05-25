@@ -1,6 +1,6 @@
 # YAWA - Server
 
-![YAWA Logo](resources/brand/yawa-logo.png)
+![YAWA Logo](../resources/brand/yawa-logo.png)
 
 You can contact the server to https://localhost:8002.
 

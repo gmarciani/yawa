@@ -1,6 +1,6 @@
 # YAWA - Cache
 
-![YAWA Logo](resources/brand/yawa-logo.png)
+![YAWA Logo](../resources/brand/yawa-logo.png)
 
 The cache service is a Redis instance.
 You can connect to the cache using the Redis client.

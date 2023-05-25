@@ -1,6 +1,6 @@
 # YAWA - Database
 
-![YAWA Logo](resources/brand/yawa-logo.png)
+![YAWA Logo](../resources/brand/yawa-logo.png)
 
 You can connect to the database using PhpMyAdmin or MySQL client.
 
