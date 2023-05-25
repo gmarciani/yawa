@@ -14,7 +14,9 @@ Install Dependencies:
 npm install --global npm@latest
 npm install --global yarn
 npm install --global gulp-cli
+pushd tools
 yarn
+popd
 ```
 
 Build the assets

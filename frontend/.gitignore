@@ -1,10 +1,13 @@
-*.iml
-
+# General
 .ignore
 
+# IDE
+*.iml
+
+# Secrets
 resources/secrets
 
-# Dependency directories
+# Build
 node_modules
 
 # Bower dependency directory (https://bower.io/)

@@ -1,0 +1,10 @@
+//
+// Content
+//
+
+// General mode
+.app-content {
+	[data-kt-app-toolbar-enabled="true"] & {
+		padding-top: 0;
+	}		
+}

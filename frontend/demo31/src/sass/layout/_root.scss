@@ -1,0 +1,27 @@
+//
+// Root
+//
+
+// Light mode
+@include color-mode(light) {
+    // Reboot
+    --#{$prefix}app-bg: #{$app-bg};
+
+    // Separator
+    --#{$prefix}app-separator-border: #{$app-separator-border};
+
+    // Sidebar primary navbar
+    --#{$prefix}app-sidebar-primary-nav-btn-active-box-shadow: #{$app-sidebar-primary-nav-btn-active-box-shadow};
+}
+
+// Dark mode
+@include color-mode(dark) {
+    // Reboot
+    --#{$prefix}app-bg: #{$app-bg-dark};
+
+	// Separator
+    --#{$prefix}app-separator-border: #{$app-separator-border-dark};
+
+    // Sidebar primary navbar
+    --#{$prefix}app-sidebar-primary-nav-btn-active-box-shadow: #{$app-sidebar-primary-nav-btn-active-box-shadow-dark};
+}
