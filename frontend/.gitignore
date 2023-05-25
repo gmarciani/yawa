@@ -2,7 +2,7 @@
 
 .ignore
 
-resources/secrets/
+resources/secrets
 
 # Dependency directories
 node_modules
