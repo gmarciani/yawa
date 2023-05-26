@@ -78,7 +78,7 @@ management:
     web:
       base-path: /manage
       exposure:
-        include: configprops,env,health,info,mappings,metrics,prometheus,shutdown
+        include: configprops,env,health,info,mappings,metrics,openapi,prometheus,shutdown,swagger-ui
   endpoint:
     configprops:
       enabled: true
@@ -133,9 +133,11 @@ management:
             enabled: true
 springdoc:
   api-docs:
+    enabled: true
     path: /manage/openapi
   swagger-ui:
-    path: /manage/swagger-ui
+    enabled: true
+    path: /manage/swagger-ui.html
   show-actuator: true
   default-consumes-media-type: "application/json"
   default-produces-media-type: "application/json"
