@@ -25,8 +25,9 @@ services:
       - "8008:9080"  # Promtail
     restart: always
     volumes:
+      - srvdata:/var/yawa
+      - ./server/.container/var/yawa:/var/yawa
       - ./server:/usr/src/yawa
-      - ./server/.container/var/yawa/logs:/var/yawa/logs
     depends_on:
       - database
       - cache
@@ -106,5 +107,6 @@ services:
       - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
 
 volumes:
+  srvdata:
   dbdata:
   cachedata:

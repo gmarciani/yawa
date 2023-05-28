@@ -30,7 +30,7 @@ class AuthenticationService(
     fun authenticate(username: String, password: String): User {
         val authenticationToken = UsernamePasswordAuthenticationToken(username, password)
         val principal = authenticationManager.authenticate(authenticationToken).principal as org.springframework.security.core.userdetails.User
-        return userRepository.findById(principal.username).orElseThrow {
+        return userRepository.findByUsername(principal.username).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided access token")
         }
     }
@@ -38,7 +38,7 @@ class AuthenticationService(
     fun authenticateAccessToken(accessToken: String): User {
         val jwt = jwtService.decode(accessToken)
         val username = jwt.getClaim(TokenField.USERNAME.name).asString()
-        return userRepository.findById(username).orElseThrow {
+        return userRepository.findByUsername(username).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided access token")
         }
     }
@@ -46,7 +46,7 @@ class AuthenticationService(
     fun authenticateRefreshToken(refreshToken: String): User {
         val jwt = jwtService.decode(refreshToken)
         val username = jwt.getClaim(TokenField.USERNAME.name).asString()
-        return userRepository.findById(username).orElseThrow {
+        return userRepository.findByUsername(username).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided refresh token")
         }
     }
@@ -68,7 +68,7 @@ class AuthenticationService(
     fun refreshAuthenticationTokens(refreshToken: String): AuthenticationTokens {
         val decodedToken: DecodedJWT = jwtService.decode(refreshToken)
         val username = decodedToken.getClaim(TokenField.USERNAME.name).asString()
-        val user: User = userRepository.findById(username).orElseThrow {
+        val user: User = userRepository.findByUsername(username).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided refresh token")
         }
         return generateAuthenticationTokens(user)

@@ -13,7 +13,7 @@ class UserInfoService(
 ): UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails {
         return userRepository
-            .findById(username!!)
+            .findByUsername(username!!)
             .orElseThrow { UsernameNotFoundException("User not found: $username") }
             .toUserDetails()
     }

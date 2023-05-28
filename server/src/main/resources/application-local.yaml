@@ -1,6 +1,8 @@
 yawa:
   stack: dev
   region: local
+  filesystem:
+    rootDir: "/usr/local/var/yawa"
 spring:
   config:
     activate:

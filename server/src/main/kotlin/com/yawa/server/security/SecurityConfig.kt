@@ -63,6 +63,13 @@ class SecurityConfig(
             // User Management
             .requestMatchers("/CreateUser").permitAll()
             .requestMatchers("/ConfirmUserCreation").permitAll()
+            .requestMatchers("/DescribeUserProfile/{username}").authenticated()
+            .requestMatchers("/UpdateUserProfile/{username}").authenticated()
+            .requestMatchers("/UpdateUserPicture/{username}").authenticated()
+            .requestMatchers("/GetUserPicture/{username}").authenticated()
+            .requestMatchers("/DeleteUserPicture/{username}").authenticated()
+            .requestMatchers("/DescribeUserSettings/{username}").authenticated()
+            .requestMatchers("/UpdateUserSettings/{username}").authenticated()
 
             // User Authentication
             .requestMatchers("/Login").permitAll()
@@ -80,6 +87,13 @@ class SecurityConfig(
             .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
             .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
             .requestMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
+
+            // Static Resources
+            .requestMatchers("/assets/**").permitAll()
+            .requestMatchers("/public/**").permitAll()
+
+            // Errors
+            .requestMatchers("/error").permitAll()
 
             // Any other endpoint
             .anyRequest().denyAll()

@@ -34,7 +34,7 @@ class UpdateUsers(
 
         val username = request.username
 
-        val user = userRepository.findById(username).orElseThrow{ ResourceNotFoundException("User not found: $username") } as User
+        val user = userRepository.findByUsername(username).orElseThrow{ ResourceNotFoundException("User not found: $username") } as User
         request.password?.let { user.password = passwordEncoder.encode(it) }
         request.email?.let { user.email = it }
         request.role?.let { user.role = UserRole.valueOf(it) }

@@ -32,7 +32,7 @@ class DeleteUser(
 
         val username = request.username
 
-        val user = userRepository.findById(username).orElseThrow {
+        val user = userRepository.findByUsername(username).orElseThrow {
             ResourceNotFoundException("User not found: $username")
         }
 

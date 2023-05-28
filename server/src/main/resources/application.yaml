@@ -3,6 +3,8 @@ yawa:
   service: server
   stack: stack
   region: region
+  filesystem:
+    rootDir: "/var/yawa"
 #  security:
 #    jwt:
 #      secret: FROM secrets.yaml
@@ -139,5 +141,3 @@ springdoc:
     enabled: true
     path: /manage/swagger-ui.html
   show-actuator: true
-  default-consumes-media-type: "application/json"
-  default-produces-media-type: "application/json"
