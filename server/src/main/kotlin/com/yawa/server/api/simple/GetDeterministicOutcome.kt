@@ -1,15 +1,14 @@
-package com.yawa.server.api.open
+package com.yawa.server.api.simple
 
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
-import com.yawa.server.exceptions.YawaDatabaseInternalException
+import com.yawa.server.exceptions.YawaBadRequestException
 import com.yawa.server.exceptions.YawaInternalException
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
-import jakarta.validation.Valid
 
 private val log = KotlinLogging.logger {}
 
@@ -17,7 +16,7 @@ private val log = KotlinLogging.logger {}
 class GetDeterministicOutcome {
 
     @GetMapping("/GetDeterministicOutcome")
-    fun getDeterministicOutcome(@Valid @RequestBody request: GetDeterministicOutcomeRequest): GetDeterministicOutcomeResponse {
+    fun getDeterministicOutcome(@RequestBody request: GetDeterministicOutcomeRequest): GetDeterministicOutcomeResponse {
         log.info("Processing request: $request")
         when (request.outcome) {
             Outcome.SUCCESS -> {
@@ -32,9 +31,9 @@ class GetDeterministicOutcome {
                 log.warn("Will return client error: resource not found")
                 throw ResourceNotFoundException("Fake client error")
             }
-            Outcome.DB_ERROR -> {
-                log.warn("Will return server error: db error")
-                throw YawaDatabaseInternalException("Fake server error")
+            Outcome.BAD_REQUEST -> {
+                log.warn("Will return client error: bad request")
+                throw YawaBadRequestException("Fake client error")
             }
             Outcome.INTERNAL_ERROR -> {
                 log.error("Will return server error: generic internal error")
@@ -47,13 +46,11 @@ class GetDeterministicOutcome {
         }
     }
 
-    data class GetDeterministicOutcomeRequest(
-        val outcome: Outcome
-    )
+    data class GetDeterministicOutcomeRequest(val outcome: Outcome)
 
     data class GetDeterministicOutcomeResponse(val message: String)
 
     enum class Outcome {
-        SUCCESS, NOT_AUTHORIZED, NOT_FOUND, DB_ERROR, INTERNAL_ERROR
+        SUCCESS, NOT_AUTHORIZED, NOT_FOUND, BAD_REQUEST, INTERNAL_ERROR
     }
 }

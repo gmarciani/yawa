@@ -1,5 +1,6 @@
 package com.yawa.server.api.open
 
+import com.yawa.server.api.simple.GetRandomOutcome
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.exceptions.YawaDatabaseInternalException

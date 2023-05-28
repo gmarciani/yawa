@@ -1,8 +1,9 @@
 package com.yawa.server.api.open
 
+import com.yawa.server.api.simple.GetDeterministicOutcome
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
-import com.yawa.server.exceptions.YawaDatabaseInternalException
+import com.yawa.server.exceptions.YawaBadRequestException
 import com.yawa.server.exceptions.YawaInternalException
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.BehaviorSpec
@@ -40,11 +41,11 @@ class GetDeterministicOutcomeTest : BehaviorSpec({
                 }
             }
 
-            and("the requested outcome is ${GetDeterministicOutcome.Outcome.DB_ERROR}") {
-                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.DB_ERROR)
+            and("the requested outcome is ${GetDeterministicOutcome.Outcome.BAD_REQUEST}") {
+                val request = GetDeterministicOutcome.GetDeterministicOutcomeRequest(outcome = GetDeterministicOutcome.Outcome.BAD_REQUEST)
 
-                then("it returns a YawaDatabaseInternalException exception") {
-                    shouldThrowExactly<YawaDatabaseInternalException> { subject.getDeterministicOutcome(request) }
+                then("it returns a YawaBadRequestException exception") {
+                    shouldThrowExactly<YawaBadRequestException> { subject.getDeterministicOutcome(request) }
                 }
             }
 

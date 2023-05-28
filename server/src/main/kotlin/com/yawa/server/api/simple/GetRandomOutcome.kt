@@ -1,4 +1,4 @@
-package com.yawa.server.api.open
+package com.yawa.server.api.simple
 
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
