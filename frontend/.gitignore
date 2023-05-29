@@ -9,6 +9,7 @@ resources/secrets
 
 # Build
 node_modules
+demo31/dist/assets
 
 # Bower dependency directory (https://bower.io/)
 bower_components
