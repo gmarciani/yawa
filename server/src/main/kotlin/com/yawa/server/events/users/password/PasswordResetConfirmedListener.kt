@@ -25,7 +25,8 @@ class PasswordResetConfirmedListener(
             mailType = MailType.PASSWORD_RESET_CONFIRMED,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username
+                "username" to user.username,
+                "action" to "Login",
             )
         )
     }

@@ -25,7 +25,8 @@ class UserCreationConfirmedListener(
             mailType = MailType.USER_CREATION_CONFIRMED,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username
+                "username" to user.username,
+                "action" to "Login",
             )
         )
     }

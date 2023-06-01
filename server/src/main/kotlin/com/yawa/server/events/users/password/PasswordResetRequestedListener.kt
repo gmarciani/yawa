@@ -31,7 +31,7 @@ class PasswordResetRequestedListener(
             attributes = mapOf(
                 "username" to user.username,
                 "token" to actionToken.token,
-                "resource" to "ResetPassword",
+                "action" to "ResetPassword",
                 "expiration" to actionToken.expiration.toString()
             )
         )

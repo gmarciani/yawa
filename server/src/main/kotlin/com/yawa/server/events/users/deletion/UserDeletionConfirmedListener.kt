@@ -28,7 +28,8 @@ class UserDeletionConfirmedListener(
             mailType = MailType.USER_DELETION_CONFIRMED,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username
+                "username" to user.username,
+                "action" to "index.html"
             )
         )
     }

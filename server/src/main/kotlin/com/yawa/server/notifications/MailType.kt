@@ -32,11 +32,6 @@ enum class MailType {
     PASSWORD_RESET_CONFIRMED {
         override fun subject(): String = "[YAWA] Confirmed: Password Reset"
         override fun templateBody(): String = "password-reset-confirmed"
-    },
-
-    TEST {
-        override fun subject(): String = "[YAWA] Test"
-        override fun templateBody(): String = "test"
     };
 
     fun body(templateEngine: TemplateEngine, attributes: Map<String, String>): String {

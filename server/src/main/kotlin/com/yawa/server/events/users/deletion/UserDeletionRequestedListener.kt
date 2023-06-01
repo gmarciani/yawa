@@ -31,7 +31,7 @@ class UserDeletionRequestedListener(
             attributes = mapOf(
                 "username" to user.username,
                 "token" to actionToken.token,
-                "resource" to "ConfirmUserDeletion",
+                "action" to "ConfirmUserDeletion",
                 "expiration" to actionToken.expiration.toString()
             )
         )

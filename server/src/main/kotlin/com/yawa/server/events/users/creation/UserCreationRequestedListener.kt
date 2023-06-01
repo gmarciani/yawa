@@ -31,7 +31,7 @@ class UserCreationRequestedListener(
             attributes = mapOf(
                 "username" to user.username,
                 "token" to actionToken.token,
-                "resource" to "ConfirmUserCreation",
+                "action" to "ConfirmUserCreation",
                 "expiration" to actionToken.expiration.toString()
             )
         )
