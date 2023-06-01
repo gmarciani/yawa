@@ -2,6 +2,7 @@ package com.yawa.server.security.authentication
 
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.yawa.server.exceptions.ResourceNotFoundException
+import com.yawa.server.exceptions.UserDisabledException
 import com.yawa.server.models.tokens.AuthenticationTokens
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Lazy
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Service
 import java.time.Instant
@@ -29,7 +31,11 @@ class AuthenticationService(
 
     fun authenticate(username: String, password: String): User {
         val authenticationToken = UsernamePasswordAuthenticationToken(username, password)
-        val principal = authenticationManager.authenticate(authenticationToken).principal as org.springframework.security.core.userdetails.User
+        val principal = try {
+            authenticationManager.authenticate(authenticationToken).principal as org.springframework.security.core.userdetails.User
+        } catch (ex: DisabledException) {
+            throw UserDisabledException("Cannot authenticate user $username because it is disabled")
+        }
         return userRepository.findByUsername(principal.username).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided access token")
         }
