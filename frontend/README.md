@@ -22,7 +22,7 @@ popd
 Build the assets
 ```
 gulp clean
-gulp
+gulp compile [--prod]
 ```
 
 Run on localhost:
