@@ -1,10 +1,10 @@
 {
   "config": {
     "path": {
-      "src": "../{demo}/src"
+      "src": "../src/assets"
     },
     "dist": [
-      "../{demo}/dist/assets"
+      "../public/assets"
     ]
   }
 }

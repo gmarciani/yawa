@@ -5,32 +5,51 @@
 You can contact the frontend to https://localhost:8010.
 
 ## Requirements
-1. NodeJs > 16.x LTS
+1. NVM >= 0.30.3
+2. NodeJs >= 18.16.x LTS
 
-## Development
-
-Install Dependencies:
 ```
+nvm install --lts=hydrogen
 npm install --global npm@latest
 npm install --global yarn
 npm install --global gulp-cli
-pushd tools
-yarn
-popd
 ```
 
-Build the assets
+## Development
+
+### Assets
+Assets are managed using tools in `tools` directory.
+
+Install dependencies:
 ```
-gulp clean
+yarn install
+```
+
+Build assets:
+```
 gulp compile [--prod]
 ```
 
-Run on localhost:
+Preview assets:
 ```
 gulp localhost
 ```
 
-Go to http://localhost:8080/demo31/dist
+Go to http://localhost:8080/public/home.html
+
+### React App
+Build the application:
+
+```
+yarn install
+```
+
+Start the application:
+```
+yarn start
+```
+
+Got to http://localhost:3000/
 
 
 ### Credits

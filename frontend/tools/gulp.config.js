@@ -23,11 +23,11 @@ const gulpConfig = {
             cssSourcemaps: false,
         },
         path: {
-            src: "../{demo}/src",
-            common_src: "../{demo}/src",
+            src: "../src/assets",
+            common_src: "../src/assets",
             node_modules: "node_modules",
         },
-        dist: ["../{demo}/dist/assets"],
+        dist: ["../public/assets"],
     },
     build: {
         base: {
@@ -94,11 +94,11 @@ const gulpConfig = {
                             styles: [
                                 "{$config.path.node_modules}/@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css",
                             ],
-                            scripts: [                                
+                            scripts: [
                                 "{$config.path.node_modules}/@eonasdan/tempus-dominus/dist/js/tempus-dominus.min.js",
                                 "{$config.path.common_src}/js/vendors/plugins/tempus-dominus.init.js",
                                 "{$config.path.node_modules}/@eonasdan/tempus-dominus/dist/locales/de.js",
-                                "{$config.path.node_modules}/@eonasdan/tempus-dominus/dist/plugins/customDateFormat.js",                                
+                                "{$config.path.node_modules}/@eonasdan/tempus-dominus/dist/plugins/customDateFormat.js",
                             ],
                         },
                         flatpickr: {
