@@ -136,8 +136,8 @@ management:
 springdoc:
   api-docs:
     enabled: true
-    path: /manage/openapi
+    path: /docs/openapi
   swagger-ui:
     enabled: true
-    path: /manage/swagger-ui.html
+    path: /docs/swagger-ui.html
   show-actuator: true
