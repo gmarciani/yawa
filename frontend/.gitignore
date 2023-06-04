@@ -10,6 +10,7 @@ resources/secrets
 
 # Build
 node_modules
+public/assets
 
 # Bower dependency directory (https://bower.io/)
 bower_components
