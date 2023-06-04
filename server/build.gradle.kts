@@ -44,7 +44,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.1.0")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("com.auth0:java-jwt:4.2.1")
 	implementation("io.micrometer:micrometer-registry-prometheus:1.10.2")
