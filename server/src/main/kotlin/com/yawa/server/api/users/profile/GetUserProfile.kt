@@ -1,11 +1,10 @@
-package com.yawa.server.api.users.settings
+package com.yawa.server.api.users.profile
 
 import com.yawa.server.exceptions.ResourceNotFoundException
-import com.yawa.server.models.users.UserSettings
+import com.yawa.server.models.users.UserProfile
 import com.yawa.server.repositories.UserRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -13,20 +12,20 @@ import org.springframework.web.bind.annotation.RestController
 private val log = KotlinLogging.logger {}
 
 @RestController
-class DescribeUserSettings(
+class GetUserProfile(
     @Autowired val userRepository: UserRepository
 ) {
 
-    @GetMapping("/DescribeUserSettings/{username}")
-    @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun describeUserSettings(@PathVariable username: String): DescribeUserSettingsResponse {
+    @GetMapping("/users/{username}/profile")
+    fun getUserProfile(@PathVariable username: String): DescribeUserProfileResponse {
+        log.info("Processing request for user $username")
 
         val user = userRepository.findByUsername(username).orElseThrow {
             ResourceNotFoundException("User not found: $username")
         }
 
-        return DescribeUserSettingsResponse(settings = user.settings)
+        return DescribeUserProfileResponse(profile = user.profile)
     }
 
-    data class DescribeUserSettingsResponse(val settings: UserSettings)
+    data class DescribeUserProfileResponse(val profile: UserProfile)
 }

@@ -17,7 +17,7 @@ class SendMail(
     @Autowired val mailService: MailService
 ) {
 
-    @PostMapping("/admin/SendMail")
+    @PostMapping("/admin/mail")
     fun sendMail(@Valid @RequestBody request: SendMailRequest): SendMailResponse {
         log.info("Processing request: $request")
 

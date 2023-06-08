@@ -8,8 +8,8 @@ import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -21,7 +21,7 @@ class UpdateUserSettings(
     @Autowired val userSettingsRepository: UserSettingsRepository,
 ) {
 
-    @PostMapping("/UpdateUserSettings/{username}")
+    @PatchMapping("/users/{username}/settings")
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun updateUserSettings(@PathVariable username: String, @Valid @RequestBody request: UpdateUserSettingsRequest): UpdateUserSettingsResponse {
         log.info("Processing request: $request")

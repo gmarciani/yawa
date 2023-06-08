@@ -10,9 +10,9 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 
-class GetAuthenticatedHelloTest : BehaviorSpec({
-    given(GetAuthenticatedHello::class.simpleName!!) {
-        val subject = GetAuthenticatedHello()
+class GetGreetingsTest : BehaviorSpec({
+    given(GetGreetings::class.simpleName!!) {
+        val subject = GetGreetings()
 
         val securityContext = mockk<SecurityContext>(relaxed = true).also {
             SecurityContextHolder.setContext(it)
@@ -24,8 +24,8 @@ class GetAuthenticatedHelloTest : BehaviorSpec({
                 every { securityContext.authentication } returns mockk<AnonymousAuthenticationToken>(relaxed = true)
 
                 then("returns the expected response") {
-                    val response = subject.getAuthenticatedHello()
-                    response shouldBe GetAuthenticatedHello.GetAuthenticatedHelloResponse(message = "Hello ANONYMOUS")
+                    val response = subject.getGreetings()
+                    response shouldBe GetGreetings.GetAuthenticatedHelloResponse(message = "Hello ANONYMOUS")
                 }
             }
 
@@ -37,8 +37,8 @@ class GetAuthenticatedHelloTest : BehaviorSpec({
                 }
 
                 then("returns the expected response") {
-                    val response = subject.getAuthenticatedHello()
-                    response shouldBe GetAuthenticatedHello.GetAuthenticatedHelloResponse(message = "Hello CONCRETE_PRINCIPAL")
+                    val response = subject.getGreetings()
+                    response shouldBe GetGreetings.GetAuthenticatedHelloResponse(message = "Hello CONCRETE_PRINCIPAL")
                 }
             }
         }

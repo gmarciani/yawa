@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController
 private val log = KotlinLogging.logger {}
 
 @RestController
-class GetAuthenticatedHello {
+class GetGreetings {
 
-    @GetMapping("/GetAuthenticatedHello")
-    fun getAuthenticatedHello(): GetAuthenticatedHelloResponse {
+    @GetMapping("/simple/greetings")
+    fun getGreetings(): GetAuthenticatedHelloResponse {
         log.info("Processing request")
 
         val authentication = SecurityContextHolder.getContext().authentication!!

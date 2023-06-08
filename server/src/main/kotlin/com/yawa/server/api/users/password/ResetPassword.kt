@@ -1,16 +1,16 @@
-package com.yawa.server.api.users
+package com.yawa.server.api.users.password
 
-import com.yawa.server.events.users.password.PasswordResetConfirmedEvent
 import com.yawa.server.models.tokens.TokenAction
+import com.yawa.server.notifications.MailService
+import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.ApplicationEventPublisher
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import jakarta.validation.Valid
 
 private val log = KotlinLogging.logger {}
 
@@ -18,27 +18,30 @@ private val log = KotlinLogging.logger {}
 class ResetPassword(
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val userService: UserService,
-    @Autowired val applicationEventPublisher: ApplicationEventPublisher
+    @Autowired val mailService: MailService
 ) {
 
-    @PostMapping("/ResetPassword")
-    fun resetPassword(@Valid @RequestBody request: ResetPasswordRequest): ResetPasswordResponse{
+    @PatchMapping("/users/{username}/password")
+    fun resetPassword(@PathVariable username: String, @RequestBody request: ResetPasswordRequest): ResetPasswordResponse {
         log.info("Processing request: $request")
 
-        val token = request.token
-
-        val grant = actionTokenService.consumeToken(token = token, action = TokenAction.RESET_PASSWORD)
-
-        val username = grant.username
-        val action = grant.action
+        val grant = actionTokenService.consumeToken(
+            token = request.token, action = TokenAction.RESET_PASSWORD, username = username)
 
         val user = userService.findUser(username = username)
 
-        log.info("Action token accepted for user $username to execute action $action")
+        log.info("Action token accepted for user $username to execute action ${grant.action}")
 
         userService.setPassword(user = user, password = request.password)
 
-        applicationEventPublisher.publishEvent(PasswordResetConfirmedEvent(user = user))
+        mailService.asyncSend(
+            mailType = MailType.PASSWORD_RESET_CONFIRMED,
+            recipient = user,
+            attributes = mapOf(
+                "username" to user.username,
+                "action" to "Login",
+            )
+        )
 
         return ResetPasswordResponse(message = "Confirmed password reset for user ${user.username}")
     }

@@ -3,11 +3,11 @@ package com.yawa.server.api.auth
 import com.yawa.server.security.authentication.AuthenticationService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
-import jakarta.validation.Valid
 
 private val log = KotlinLogging.logger {}
 
@@ -16,9 +16,10 @@ class RefreshAuthentication(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
-    @PostMapping("/RefreshAuthentication")
-    fun refreshAuthentication(@Valid @RequestBody request: RefreshAuthenticationRequest): RefreshAuthenticationResponse {
-        log.info("Processing request: $request")
+    @GetMapping("/auth/{username}/tokens")
+    fun refreshAuthentication(@PathVariable username: String, @RequestBody request: RefreshAuthenticationRequest):
+            RefreshAuthenticationResponse {
+        log.info("Processing request for user $username: $request")
 
         val refreshToken = request.refreshToken
 

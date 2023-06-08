@@ -5,15 +5,23 @@ import com.yawa.server.models.users.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
+import org.springframework.scheduling.annotation.Async
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.stereotype.Service
 import org.thymeleaf.exceptions.TemplateEngineException
 
 
 @Service
+@EnableAsync
 class MailService(
     @Autowired val mailSender: JavaMailSender,
     @Autowired val templateEngine: MailTemplateService
 ) {
+
+    @Async
+    fun asyncSend(mailType: MailType, recipient: User, attributes: Map<String, String>) {
+        send(mailType, recipient, attributes)
+    }
     fun send(mailType: MailType, recipient: User, attributes: Map<String, String>) {
         val body = try {
             mailType.body(templateEngine = templateEngine, attributes = attributes)

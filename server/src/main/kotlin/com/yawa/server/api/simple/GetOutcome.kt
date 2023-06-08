@@ -13,15 +13,29 @@ import java.util.*
 private val log = KotlinLogging.logger {}
 
 @RestController
-class GetDeterministicOutcome {
+class GetOutcome {
 
-    @GetMapping("/GetDeterministicOutcome")
-    fun getDeterministicOutcome(@RequestBody request: GetDeterministicOutcomeRequest): GetDeterministicOutcomeResponse {
+    @GetMapping("/simple/outcome")
+    fun getOutcome(@RequestBody request: GetOutcomeRequest): GetOutcomeResponse {
         log.info("Processing request: $request")
-        when (request.outcome) {
+        val outcome = if (request.outcome == Outcome.RANDOM) {
+            val dice = random()
+            if (dice <= 6.0/10) {
+                Outcome.SUCCESS
+            } else if (dice <= 7.5/10) {
+                Outcome.NOT_AUTHORIZED
+            } else if (dice <= 9.0/10) {
+                Outcome.NOT_FOUND
+            } else if (dice <= 9.5/10) {
+                Outcome.BAD_REQUEST
+            } else {
+                Outcome.INTERNAL_ERROR
+            }
+        } else request.outcome
+        when (outcome) {
             Outcome.SUCCESS -> {
                 log.info("Will return success")
-                return GetDeterministicOutcomeResponse("Success")
+                return GetOutcomeResponse("Success")
             }
             Outcome.NOT_AUTHORIZED -> {
                 log.warn("Will return client error: unauthorized")
@@ -41,16 +55,18 @@ class GetDeterministicOutcome {
             }
             else -> {
                 log.info("Will return success")
-                return GetDeterministicOutcomeResponse("Success")
+                return GetOutcomeResponse("Success")
             }
         }
     }
 
-    data class GetDeterministicOutcomeRequest(val outcome: Outcome)
+    data class GetOutcomeRequest(val outcome: Outcome)
 
-    data class GetDeterministicOutcomeResponse(val message: String)
+    data class GetOutcomeResponse(val message: String)
 
     enum class Outcome {
-        SUCCESS, NOT_AUTHORIZED, NOT_FOUND, BAD_REQUEST, INTERNAL_ERROR
+        SUCCESS, NOT_AUTHORIZED, NOT_FOUND, BAD_REQUEST, INTERNAL_ERROR, RANDOM
     }
+
+    private fun random(): Double = Random().nextDouble()
 }

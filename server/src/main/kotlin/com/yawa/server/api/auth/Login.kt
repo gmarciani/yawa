@@ -18,7 +18,7 @@ class Login(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
-    @PostMapping("/Login")
+    @PostMapping("/auth/login")
     fun login(@Valid @RequestBody request: LoginRequest): LoginResponse {
         log.info("Processing request: $request")
 

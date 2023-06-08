@@ -9,6 +9,10 @@ import com.yawa.server.security.throttling.ThrottlingFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod.DELETE
+import org.springframework.http.HttpMethod.GET
+import org.springframework.http.HttpMethod.PATCH
+import org.springframework.http.HttpMethod.POST
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
@@ -60,33 +64,43 @@ class SecurityConfig(
 
         // Set permissions on endpoints
         http.authorizeHttpRequests { authorize -> authorize
-            // User Management
-            .requestMatchers("/CreateUser").permitAll()
-            .requestMatchers("/ConfirmUserCreation").permitAll()
-            .requestMatchers("/DescribeUserProfile/{username}").authenticated()
-            .requestMatchers("/UpdateUserProfile/{username}").authenticated()
-            .requestMatchers("/UpdateUserPicture/{username}").authenticated()
-            .requestMatchers("/GetUserPicture/{username}").authenticated()
-            .requestMatchers("/DeleteUserPicture/{username}").authenticated()
-            .requestMatchers("/DescribeUserSettings/{username}").authenticated()
-            .requestMatchers("/UpdateUserSettings/{username}").authenticated()
+            // Users
+            .requestMatchers(POST, "/users").permitAll()
+            .requestMatchers(POST, "/users/{username}/activation").permitAll()
+            .requestMatchers(GET, "/users/{username}/tokens/activation").permitAll()
+            .requestMatchers(GET, "/users/{username}/tokens/deletion").authenticated()
+            .requestMatchers(DELETE, "/users/{username}").authenticated()
 
-            // User Authentication
-            .requestMatchers("/Login").permitAll()
-            .requestMatchers("/RefreshAuthentication").permitAll()
-            .requestMatchers("/AuthorizePasswordReset").permitAll()
-            .requestMatchers("/ResetPassword").permitAll()
+            // Users > Password
+            .requestMatchers(GET, "/users/{username}/tokens/password").permitAll()
+            .requestMatchers(PATCH, "/users/{username}/password").permitAll()
 
-            // Examples
-            .requestMatchers("/GetDeterministicOutcome").permitAll()
-            .requestMatchers("/GetRandomOutcome").permitAll()
-            .requestMatchers("/GetAuthenticatedHello").permitAll()
+            // Users > Profile
+            .requestMatchers(GET, "/users/{username}/profile").permitAll()
+            .requestMatchers(PATCH, "/users/{username}/profile").authenticated()
+            .requestMatchers(PATCH, "/users/{username}/profile/picture").authenticated()
+            .requestMatchers(DELETE, "/users/{username}/profile/picture").authenticated()
 
-            // Administration endpoints
-            .requestMatchers("/ListUsers").hasRole(UserRole.ADMIN.name)
+            // Users > Settings
+            .requestMatchers(GET, "/users/{username}/settings").authenticated()
+            .requestMatchers(PATCH, "/users/{username}/settings").authenticated()
+
+            // Authentication
+            .requestMatchers("/auth/login").permitAll()
+            .requestMatchers("/auth/logout").authenticated()
+            .requestMatchers("/auth/{username}/tokens").authenticated()
+
+            // Administration
             .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
             .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
             .requestMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
+
+            // Simple
+            .requestMatchers("/simple/*").permitAll()
+
+            // Documentation
+            .requestMatchers("/docs/openapi/**").permitAll()
+            .requestMatchers("/docs/swagger-ui.html").permitAll()
 
             // Static Resources
             .requestMatchers("/assets/**").permitAll()

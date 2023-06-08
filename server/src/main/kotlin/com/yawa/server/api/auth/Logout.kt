@@ -11,7 +11,7 @@ private val log = KotlinLogging.logger {}
 @RestController
 class Logout {
 
-    @PostMapping("/Logout")
+    @PostMapping("/auth/logout")
     fun logout(): LogoutResponse {
         log.info("Processing request")
 

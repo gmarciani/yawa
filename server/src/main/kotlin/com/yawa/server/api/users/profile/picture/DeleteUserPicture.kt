@@ -1,4 +1,4 @@
-package com.yawa.server.api.users.profile
+package com.yawa.server.api.users.profile.picture
 
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
@@ -15,9 +15,9 @@ class DeleteUserPicture(
     @Autowired val userService: UserService,
 ) {
 
-    @DeleteMapping("/DeleteUserPicture/{username}")
+    @DeleteMapping("/users/{username}/profile/picture")
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun updateUserPicture(@PathVariable username: String): DeleteUserPictureResponse {
+    fun deleteUserPicture(@PathVariable username: String): DeleteUserPictureResponse {
         log.info("Processing request for user $username")
 
         userService.deleteUserPicture(username = username)
