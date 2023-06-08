@@ -66,20 +66,6 @@ services:
       - cachedata:/var/redis
       - ./cache/.container/var/redis/logs:/var/redis/logs
 
-  prometheus:
-    container_name: prometheus
-    build:
-      context: prometheus
-    env_file: prometheus/docker.env
-    restart: always
-    ports:
-      - "8004:9090"
-    volumes:
-      - ./prometheus/config/prometheus.yaml:/etc/prometheus/prometheus.yml
-      - ./prometheus/config/secrets/yawa-credentials.txt:/etc/prometheus/yawa-credentials.txt
-    depends_on:
-      - server
-
   grafana:
     container_name: grafana
     build:
@@ -95,6 +81,20 @@ services:
     depends_on:
       - prometheus
       - loki
+
+  prometheus:
+    container_name: prometheus
+    build:
+      context: prometheus
+    env_file: prometheus/docker.env
+    restart: always
+    ports:
+      - "8004:9090"
+    volumes:
+      - ./prometheus/config/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./prometheus/config/secrets/yawa-credentials.txt:/etc/prometheus/yawa-credentials.txt
+    depends_on:
+      - server
 
   loki:
     container_name: loki
