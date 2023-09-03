@@ -37,7 +37,8 @@ class OperationNameProvider {
         Pair(HttpMethod.PATCH.name(), "/api/users/updateUsers") to "UpdateUsers",
 
         // Simple
-        Pair(HttpMethod.GET.name(), "/GetAuthenticatedHello") to "GetAuthenticatedHello",
+        Pair(HttpMethod.GET.name(), "/simple/outcome") to "GetOutcome",
+        Pair(HttpMethod.GET.name(), "/simple/greetings") to "GetGreetings",
     )
 
     fun getOperationName(method: String, uri: String): String {
