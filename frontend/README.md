@@ -19,6 +19,7 @@ npm install --global gulp-cli
 
 ### Assets
 Assets are managed using tools in `tools` directory.
+So, you need to run the below commands from within that directory.
 
 Install dependencies:
 ```
