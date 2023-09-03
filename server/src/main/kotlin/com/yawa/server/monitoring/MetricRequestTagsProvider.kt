@@ -22,9 +22,9 @@ class MetricRequestTagsProvider(
         handler: Any?,
         exception: Throwable?
     ): MutableIterable<Tag>? {
-        val tags = Tags.empty()
+        var tags = Tags.empty()
         if (request != null) {
-            tags.and(MetricTags.OPERATION,
+            tags = tags.and(MetricTags.OPERATION,
                     operationNameProvider.getOperationName(request.method!!, request.requestURI!!))
         }
         return tags
