@@ -355,7 +355,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(increase(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\"}[$__rate_interval]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
