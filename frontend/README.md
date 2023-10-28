@@ -15,31 +15,8 @@ npm install --global yarn
 npm install --global gulp-cli
 ```
 
-## Development
-
-### Assets
-Assets are managed using tools in `tools` directory.
-So, you need to run the below commands from within that directory.
-
-Install dependencies:
-```
-yarn install
-```
-
-Build assets:
-```
-gulp compile [--prod]
-```
-
-Preview assets:
-```
-gulp localhost
-```
-
-Go to http://localhost:8080/public/home.html
-
 ### React App
-Build the application:
+Install dependencies:
 
 ```
 yarn install
@@ -51,6 +28,26 @@ yarn start
 ```
 
 Got to http://localhost:3000/
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
+
+Test the application:
+```
+yarn test
+```
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+Build the application for production:
+```
+yarn build
+```
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
 ### Credits
