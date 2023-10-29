@@ -1,6 +1,6 @@
 {
-  "name": "demo3",
-  "version": "8.2.0",
+  "name": "yawa-frontend",
+  "version": "1.0.0-8.2.0",
   "private": true,
   "homepage": "/metronic8/react/demo3",
   "dependencies": {
