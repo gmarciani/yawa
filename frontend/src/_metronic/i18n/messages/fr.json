@@ -65,5 +65,7 @@
   "ECOMMERCE.CUSTOMERS.UPDATE_STATUS.TITLE": "Le statut a été mis à jour pour les clients sélectionnés",
   "ECOMMERCE.CUSTOMERS.UPDATE_STATUS.MESSAGE": "Le statut des clients sélectionnés a été mis à jour avec succès",
   "ECOMMERCE.CUSTOMERS.EDIT.UPDATE_MESSAGE": "Le client a été mis à jour",
-  "ECOMMERCE.CUSTOMERS.EDIT.ADD_MESSAGE": "Le client a été créé"
+  "ECOMMERCE.CUSTOMERS.EDIT.ADD_MESSAGE": "Le client a été créé",
+
+  "DASHBOARD.GREETINGS": "こんにちは, {name}"
 }

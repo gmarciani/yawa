@@ -7,6 +7,7 @@ import {
   MixedWidget14,
   MixedWidget15,
 } from '../../../_metronic/partials/widgets'
+import {useIntl} from 'react-intl'
 
 const DashboardPage = () => (
   <>
@@ -59,10 +60,12 @@ const DashboardPage = () => (
 )
 
 const DashboardWrapper = () => {
+  const intl = useIntl()
+  const name = 'Paul'
   return (
     <EnableSidebar>
       <PageTitle description='You’ve got 24 New Sales' breadcrumbs={[]}>
-        Hello, Paul
+          {intl.formatMessage({id: 'DASHBOARD.GREETINGS'}, {name})}
       </PageTitle>
       <DashboardPage />
     </EnableSidebar>
