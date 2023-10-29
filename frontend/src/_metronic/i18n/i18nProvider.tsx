@@ -15,8 +15,6 @@ import enMessages from './messages/en.json'
 import esMessages from './messages/es.json'
 import frMessages from './messages/fr.json'
 import itMessages from './messages/it.json'
-import jaMessages from './messages/ja.json'
-import zhMessages from './messages/zh.json'
 import {WithChildren} from '../helpers'
 
 const allMessages = {
@@ -25,8 +23,6 @@ const allMessages = {
   es: esMessages,
   fr: frMessages,
   it: itMessages,
-  ja: jaMessages,
-  zh: zhMessages,
 }
 
 const I18nProvider: FC<WithChildren> = ({children}) => {
