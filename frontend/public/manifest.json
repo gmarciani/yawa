@@ -1,5 +1,15 @@
 {
-  "short_name": "Metronic React App",
-  "name": "Metronic React App demo3",
-  "start_url": "."
+  "name": "YAWA",
+  "short_name": "YAWA",
+  "description": "Yet Another Web Application",
+  "version": "1.0.0",
+  "start_url": ".",
+  "author": "Giacomo Marciani",
+  "developer": {
+    "name": "Giacomo Marciani",
+    "url": "https://github.com/gmarciani"
+  },
+  "display": "standalone",
+  "orientation": "landscape",
+  "manifest_version": 3
 }
