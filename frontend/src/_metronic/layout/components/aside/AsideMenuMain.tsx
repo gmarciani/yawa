@@ -7,6 +7,8 @@ import {AsideMenuItem} from './AsideMenuItem'
 export function AsideMenuMain() {
   const intl = useIntl()
 
+    const showLayoutBuilder = process.env.REACT_APP_LAYOUT_BUILDER_ENABLED === 'true'
+
   return (
     <>
       <AsideMenuItem
@@ -15,7 +17,7 @@ export function AsideMenuMain() {
         title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
       />
-      <AsideMenuItem to='/builder' icon='black-right' title='Layout Builder' fontIcon='bi-layers' />
+      {showLayoutBuilder && <AsideMenuItem to='/builder' icon='black-right' title='Layout Builder' fontIcon='bi-layers' /> }
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
           <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
