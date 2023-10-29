@@ -4,7 +4,7 @@ export const DefaultLayoutConfig: ILayout = {
   main: {
     type: 'default', // Set layout type: default|blank|none
     primaryColor: '#04C8C8', // Primary color used in email templates
-    darkSkinEnabled: true, // Enable optioanl dark mode mode
+    darkSkinEnabled: true, // Enable optional dark mode mode
     pageBgWhite: false, // Set true if page background color is white
     iconType: 'duotone',
   },
