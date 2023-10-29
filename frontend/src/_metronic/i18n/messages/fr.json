@@ -67,5 +67,5 @@
   "ECOMMERCE.CUSTOMERS.EDIT.UPDATE_MESSAGE": "Le client a été mis à jour",
   "ECOMMERCE.CUSTOMERS.EDIT.ADD_MESSAGE": "Le client a été créé",
 
-  "DASHBOARD.GREETINGS": "こんにちは, {name}"
+  "DASHBOARD.GREETINGS": "Bonjour, {name}"
 }
