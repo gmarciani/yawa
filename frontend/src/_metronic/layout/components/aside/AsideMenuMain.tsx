@@ -99,7 +99,7 @@ export function AsideMenuMain() {
         <a
           target='_blank'
           className='menu-link'
-          href={process.env.REACT_APP_PREVIEW_DOCS_URL + '/docs/changelog'}
+          href={process.env.YAWA_CHANGELOG_URL}
         >
           <span className='menu-icon'>
             <KTIcon iconName='document' className='fs-2' />
