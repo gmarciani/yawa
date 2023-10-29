@@ -29,7 +29,7 @@ const AsideDefault = () => {
             <img
               alt='Logo'
               className='h-20px logo theme-light-show'
-              src={toAbsoluteUrl('/media/logos/demo3.svg')}
+              src={toAbsoluteUrl(process.env.REACT_APP_LOGO_DIR + '/logo-sidebar-light.png')}
             />
           )}
 
@@ -37,7 +37,7 @@ const AsideDefault = () => {
             <img
               alt='Logo'
               className='h-20px logo theme-dark-show'
-              src={toAbsoluteUrl('/media/logos/demo3-dark.svg')}
+              src={toAbsoluteUrl(process.env.REACT_APP_LOGO_DIR + '/logo-sidebar-dark.png')}
             />
           )}
         </Link>
