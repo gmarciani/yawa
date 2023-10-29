@@ -56,7 +56,7 @@ export interface UserModel {
   phone?: string
   roles?: Array<number>
   pic?: string
-  language?: 'en' | 'de' | 'es' | 'fr' | 'ja' | 'zh' | 'ru'
+  language?: 'en' | 'de' | 'es' | 'fr' | 'it' | 'ja' | 'zh' | 'ru'
   timeZone?: string
   website?: 'https://keenthemes.com'
   emailSettings?: UserEmailSettingsModel

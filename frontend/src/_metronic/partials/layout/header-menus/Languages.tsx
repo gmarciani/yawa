@@ -35,6 +35,11 @@ const languages = [
     name: 'French',
     flag: toAbsoluteUrl('/media/flags/france.svg'),
   },
+  {
+    lang: 'it',
+    name: 'Italian',
+    flag: toAbsoluteUrl('/media/flags/italy.svg'),
+  },
 ]
 
 type Props = {
