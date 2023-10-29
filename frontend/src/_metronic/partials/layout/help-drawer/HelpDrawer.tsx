@@ -53,8 +53,8 @@ const HelpDrawer = () => {
               {/* begin::Heading */}
               <h2 className='fw-bolder mb-5'>
                 Support at{' '}
-                <a href='https://devs.keenthemes.com' className=''>
-                  devs.keenthemes.com
+                <a href={process.env.REACT_APP_SUPPORT_URL} className=''>
+                  support.yawa.com
                 </a>
               </h2>
               {/* end::Heading */}
@@ -72,7 +72,7 @@ const HelpDrawer = () => {
 
               {/* begin::Link */}
               <a
-                href='https://devs.keenthemes.com'
+                href={process.env.REACT_APP_SUPPORT_URL}
                 className='btn btn-lg explore-btn-primary w-100'
               >
                 Get Support
@@ -80,6 +80,38 @@ const HelpDrawer = () => {
               {/* end::Link */}
             </div>
             {/* end::Support */}
+
+            {/* begin::Link */}
+            <div className='d-flex align-items-center mb-7'>
+              {/* begin::Icon */}
+              <div className='d-flex flex-center w-50px h-50px w-lg-75px h-lg-75px flex-shrink-0 rounded bg-light-danger'>
+                <KTIcon iconName='phone' className='text-danger fs-2x text-lg-3x' />
+              </div>
+              {/* end::Icon */}
+              {/* begin::Info */}
+              <div className='d-flex flex-stack flex-grow-1 ms-4 ms-lg-6'>
+                {/* begin::Wrapper */}
+                <div className='d-flex flex-column me-2 me-lg-5'>
+                  {/* begin::Title */}
+                  <a
+                      href='https://preview.keenthemes.com/metronic8/react/docs/docs/changelog'
+                      className='text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1'
+                  >
+                    What's New
+                  </a>
+                  {/* end::Title */}
+                  {/* begin::Description */}
+                  <div className='text-muted fw-bold fs-7 fs-lg-6'>
+                    Latest features and improvements added with our users feedback in mind.
+                  </div>
+                  {/* end::Description */}
+                </div>
+                {/* end::Wrapper */}
+                <KTIcon iconName='arrow-right' className='text-gray-400 fs-2' />
+              </div>
+              {/* end::Info */}
+            </div>
+            {/* end::Link */}
 
             {/* begin::Link */}
             <div className='d-flex align-items-center mb-7'>
@@ -97,7 +129,7 @@ const HelpDrawer = () => {
                     href='https://preview.keenthemes.com/metronic8/react/docs/docs/quick-start'
                     className='text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1'
                   >
-                    Documentation &amp; Videos
+                    Documentation
                   </a>
                   {/* end::Title */}
                   {/* begin::Description */}
@@ -128,7 +160,7 @@ const HelpDrawer = () => {
                     href='https://preview.keenthemes.com/metronic8/react/docs/docs/utilities'
                     className='text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1'
                   >
-                    Plugins &amp; Components
+                    Plugins
                   </a>
                   {/* end::Title */}
                   {/* begin::Description */}
@@ -143,6 +175,7 @@ const HelpDrawer = () => {
               {/* end::Info */}
             </div>
             {/* end::Link */}
+
             {/* begin::Link */}
             <div className='d-flex align-items-center mb-7'>
               {/* begin::Icon */}
@@ -159,43 +192,12 @@ const HelpDrawer = () => {
                     to='/builder'
                     className='text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1'
                   >
-                    Layout Builder
+                    Case Studies
                   </Link>
                   {/* end::Title */}
                   {/* begin::Description */}
                   <div className='text-muted fw-bold fs-7 fs-lg-6'>
-                    Dynamically modify and preview layout
-                  </div>
-                  {/* end::Description */}
-                </div>
-                {/* end::Wrapper */}
-                <KTIcon iconName='arrow-right' className='text-gray-400 fs-2' />
-              </div>
-              {/* end::Info */}
-            </div>
-            {/* end::Link */}
-            {/* begin::Link */}
-            <div className='d-flex align-items-center mb-7'>
-              {/* begin::Icon */}
-              <div className='d-flex flex-center w-50px h-50px w-lg-75px h-lg-75px flex-shrink-0 rounded bg-light-danger'>
-                <KTIcon iconName='phone' className='text-danger fs-2x text-lg-3x' />
-              </div>
-              {/* end::Icon */}
-              {/* begin::Info */}
-              <div className='d-flex flex-stack flex-grow-1 ms-4 ms-lg-6'>
-                {/* begin::Wrapper */}
-                <div className='d-flex flex-column me-2 me-lg-5'>
-                  {/* begin::Title */}
-                  <a
-                    href='https://preview.keenthemes.com/metronic8/react/docs/docs/changelog'
-                    className='text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1'
-                  >
-                    What's New
-                  </a>
-                  {/* end::Title */}
-                  {/* begin::Description */}
-                  <div className='text-muted fw-bold fs-7 fs-lg-6'>
-                    Latest features and improvements added with our users feedback in mind.
+                    Explore successful case studies from our customers.
                   </div>
                   {/* end::Description */}
                 </div>
