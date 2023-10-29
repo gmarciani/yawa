@@ -91,7 +91,7 @@ export function Registration() {
         <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
         {/* end::Title */}
 
-        <div className='text-gray-500 fw-semibold fs-6'>Your Social Campaigns</div>
+        <div className='text-gray-500 fw-semibold fs-6'>From your favourite third party</div>
       </div>
       {/* end::Heading */}
 
@@ -317,7 +317,7 @@ export function Registration() {
           <span>
             I Accept the{' '}
             <a
-              href='https://keenthemes.com/metronic/?page=faq'
+              href={process.env.REACT_APP_LEGAL_TERMS_URL}
               target='_blank'
               className='ms-1 link-primary'
             >

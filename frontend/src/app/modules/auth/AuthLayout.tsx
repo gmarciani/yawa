@@ -34,7 +34,7 @@ const AuthLayout = () => {
         <div className='d-flex flex-center flex-wrap px-5'>
           {/* begin::Links */}
           <div className='d-flex fw-semibold text-primary fs-base'>
-            <a href='#' className='px-5' target='_blank'>
+            <a href={process.env.REACT_APP_LEGAL_TERMS_URL} className='px-5' target='_blank' rel='noreferrer'>
               Terms
             </a>
 
@@ -42,7 +42,7 @@ const AuthLayout = () => {
               Plans
             </a>
 
-            <a href='#' className='px-5' target='_blank'>
+            <a href={process.env.REACT_APP_CONTACT_US_FORM_URL} className='px-5' target='_blank' rel='noreferrer'>
               Contact Us
             </a>
           </div>
