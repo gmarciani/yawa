@@ -1,15 +1,15 @@
 import {FC, useState, useEffect, createContext, useContext, Dispatch, SetStateAction} from 'react'
 import {LayoutSplashScreen} from '../../../../_metronic/layout/core'
-import {AuthModel, UserModel} from './_models'
+import {AuthModel, UserProfileModel} from './_models'
 import * as authHelper from './AuthHelpers'
-import {getUserByToken} from './_requests'
+import {getUserProfile} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
 
 type AuthContextProps = {
   auth: AuthModel | undefined
   saveAuth: (auth: AuthModel | undefined) => void
-  currentUser: UserModel | undefined
-  setCurrentUser: Dispatch<SetStateAction<UserModel | undefined>>
+  currentUser: UserProfileModel | undefined
+  setCurrentUser: Dispatch<SetStateAction<UserProfileModel | undefined>>
   logout: () => void
 }
 
@@ -29,7 +29,7 @@ const useAuth = () => {
 
 const AuthProvider: FC<WithChildren> = ({children}) => {
   const [auth, setAuth] = useState<AuthModel | undefined>(authHelper.getAuth())
-  const [currentUser, setCurrentUser] = useState<UserModel | undefined>()
+  const [currentUser, setCurrentUser] = useState<UserProfileModel | undefined>()
   const saveAuth = (auth: AuthModel | undefined) => {
     setAuth(auth)
     if (auth) {
@@ -57,12 +57,12 @@ const AuthInit: FC<WithChildren> = ({children}) => {
 
   // We should request user by authToken (IN OUR EXAMPLE IT'S API_TOKEN) before rendering the application
   useEffect(() => {
-    const requestUser = async (apiToken: string) => {
+    const requestUser = async (username: string) => {
       try {
         if (!currentUser) {
-          const {data} = await getUserByToken(apiToken)
-          if (data) {
-            setCurrentUser(data)
+          const userProfile = await getUserProfile(username)
+          if (userProfile) {
+            setCurrentUser(userProfile)
           }
         }
       } catch (error) {
@@ -75,8 +75,8 @@ const AuthInit: FC<WithChildren> = ({children}) => {
       }
     }
 
-    if (auth && auth.api_token) {
-      requestUser(auth.api_token)
+    if (auth && auth.accessToken) {
+      requestUser(auth.username)
     } else {
       logout()
       setShowSplashScreen(false)

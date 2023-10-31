@@ -4,25 +4,30 @@ import * as Yup from 'yup'
 import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
-import {getUserByToken, login} from '../core/_requests'
+import {getUserProfile, login} from '../core/_requests'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {useAuth} from '../core/Auth'
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required'),
+  // email: Yup.string()
+  //   .email('Wrong email format')
+  //   .min(3, 'Minimum 3 symbols')
+  //   .max(50, 'Maximum 50 symbols')
+  //   .required('Email is required'),
+  username: Yup.string()
+      .min(3, 'Minimum 3 symbols')
+      .max(30, 'Maximum 30 symbols')
+      .required('Username is required'),
   password: Yup.string()
     .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
+    .max(30, 'Maximum 50 symbols')
     .required('Password is required'),
 })
 
 const initialValues = {
-  email: 'admin@demo.com',
-  password: 'demo',
+  // email: '',
+  username: '',
+  password: '',
 }
 
 /*
@@ -41,14 +46,19 @@ export function Login() {
     onSubmit: async (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       try {
-        const {data: auth} = await login(values.email, values.password)
+        const auth = await login(values.username, values.password)
+        console.log(`auth = ${JSON.stringify(auth)}`)
         saveAuth(auth)
-        const {data: user} = await getUserByToken(auth.api_token)
-        setCurrentUser(user)
+        const userProfile = await getUserProfile(auth.username)
+        console.log(`userProfile = ${JSON.stringify(userProfile)}`)
+        setCurrentUser(userProfile)
       } catch (error) {
         console.error(error)
         saveAuth(undefined)
-        setStatus('The login details are incorrect')
+        setStatus({
+          level: 'danger',
+          message: 'The login details are incorrect'}
+        )
         setSubmitting(false)
         setLoading(false)
       }
@@ -116,45 +126,48 @@ export function Login() {
 
       {/* begin::Separator */}
       <div className='separator separator-content my-14'>
-        <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
+        <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with</span>
       </div>
       {/* end::Separator */}
 
       {formik.status && (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>{formik.status}</div>
+        <div className={`mb-lg-15 alert alert-${formik.status.level}`}>
+          <div className='alert-text font-weight-bold'>{formik.status.message}</div>
         </div>
       )}
 
-      {/* begin::Form group */}
+      {/* begin::Form group Username */}
       <div className='fv-row mb-8'>
-        <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
+        <label className='form-label fs-6 fw-bolder text-dark'>Username</label>
         <input
-          placeholder='Email'
-          {...formik.getFieldProps('email')}
+          placeholder='Username'
+          {...formik.getFieldProps('username')}
           className={clsx(
             'form-control bg-transparent',
-            {'is-invalid': formik.touched.email && formik.errors.email},
+            {'is-invalid': formik.touched.username && formik.errors.username},
             {
-              'is-valid': formik.touched.email && !formik.errors.email,
+              'is-valid': formik.touched.username && !formik.errors.username,
             }
           )}
-          type='email'
-          name='email'
+          type='username'
+          name='username'
           autoComplete='off'
         />
-        {formik.touched.email && formik.errors.email && (
+        {formik.touched.username && formik.errors.username && (
           <div className='fv-plugins-message-container'>
-            <span role='alert'>{formik.errors.email}</span>
+            <div className='fv-help-block'>
+              <span role='alert'>{formik.errors.username}</span>
+            </div>
           </div>
         )}
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Username */}
 
-      {/* begin::Form group */}
+      {/* begin::Form group Password */}
       <div className='fv-row mb-3'>
         <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label>
         <input
+          placeholder='Password'
           type='password'
           autoComplete='off'
           {...formik.getFieldProps('password')}
@@ -176,7 +189,7 @@ export function Login() {
           </div>
         )}
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Password */}
 
       {/* begin::Wrapper */}
       <div className='d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8'>

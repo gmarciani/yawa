@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {Link} from 'react-router-dom'
 import {useAuth} from '../../../../app/modules/auth'
-import {toAbsoluteUrl} from '../../../helpers'
+import {toAbsoluteApiUrl, toAbsoluteUrl} from '../../../helpers'
 import {Languages} from '../header-menus/Languages'
 
 const UserMenu = () => {
@@ -16,18 +16,18 @@ const UserMenu = () => {
         <div className='menu-content d-flex align-items-center px-3'>
           {/* begin::Avatar */}
           <div className='symbol symbol-50px me-5'>
-            <img alt='Logo' src={toAbsoluteUrl('/media/avatars/300-1.jpg')} />
+            <img src={(currentUser?.picture && toAbsoluteApiUrl(currentUser?.picture)) || toAbsoluteUrl('/media/avatars/blank.png')} alt='avatar' />
           </div>
           {/* end::Avatar */}
 
           {/* begin::Username */}
           <div className='d-flex flex-column'>
             <div className='fw-bolder d-flex align-items-center fs-5'>
-              {currentUser?.first_name} {currentUser?.last_name}
+              {currentUser?.firstname} {currentUser?.lastname}
               <span className='badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2'>Pro</span>
             </div>
             <a href='#' className='fw-bold text-muted text-hover-primary fs-7'>
-              {currentUser?.email}
+              {currentUser?.role}
             </a>
           </div>
           {/* end::Username */}

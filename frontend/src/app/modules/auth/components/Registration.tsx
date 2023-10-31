@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {useState, useEffect} from 'react'
+import {AxiosError} from 'axios'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import {getUserByToken, register} from '../core/_requests'
+import {register} from '../core/_requests'
 import {Link} from 'react-router-dom'
+import {useIntl} from 'react-intl'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
@@ -13,6 +15,7 @@ import {useAuth} from '../core/Auth'
 const initialValues = {
   firstname: '',
   lastname: '',
+  username: '',
   email: '',
   password: '',
   changepassword: '',
@@ -24,15 +27,19 @@ const registrationSchema = Yup.object().shape({
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('First name is required'),
-  email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required'),
   lastname: Yup.string()
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Last name is required'),
+  username: Yup.string()
+      .min(3, 'Minimum 3 symbols')
+      .max(30, 'Maximum 30 symbols')
+      .required('Username is required'),
+  email: Yup.string()
+      .email('Wrong email format')
+      .min(3, 'Minimum 3 symbols')
+      .max(50, 'Maximum 50 symbols')
+      .required('Email is required'),
   password: Yup.string()
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
@@ -47,27 +54,39 @@ const registrationSchema = Yup.object().shape({
 
 export function Registration() {
   const [loading, setLoading] = useState(false)
-  const {saveAuth, setCurrentUser} = useAuth()
+  const {saveAuth} = useAuth()
+  const intl = useIntl()
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
     onSubmit: async (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       try {
-        const {data: auth} = await register(
-          values.email,
+        await register(
           values.firstname,
           values.lastname,
+          values.username,
+          values.email,
           values.password,
-          values.changepassword
         )
-        saveAuth(auth)
-        const {data: user} = await getUserByToken(auth.api_token)
-        setCurrentUser(user)
-      } catch (error) {
+        setStatus({
+          level: 'success',
+          message: 'Check your email to activate your account'
+        })
+        setSubmitting(false)
+        setLoading(false)
+      } catch (exc: any) {
+        const error = exc as AxiosError
         console.error(error)
         saveAuth(undefined)
-        setStatus('The registration details is incorrect')
+        const errorMessage = (error.response!.status === 409) ?
+          intl.formatMessage({id: 'AUTH.REGISTER.ERROR.USER_EXISTS'})
+        :
+          intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
+        setStatus({
+          level: 'danger',
+          message: errorMessage
+        })
         setSubmitting(false)
         setLoading(false)
       }
@@ -141,20 +160,20 @@ export function Registration() {
       {/* end::Login options */}
 
       <div className='separator separator-content my-14'>
-        <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
+        <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with</span>
       </div>
 
       {formik.status && (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>{formik.status}</div>
+        <div className={`mb-lg-15 alert alert-${formik.status.level}`}>
+          <div className='alert-text font-weight-bold'>{formik.status.message}</div>
         </div>
       )}
 
       {/* begin::Form group Firstname */}
       <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>First name</label>
+        <label className='form-label fw-bolder text-dark fs-6'>First Name</label>
         <input
-          placeholder='First name'
+          placeholder='First Name'
           type='text'
           autoComplete='off'
           {...formik.getFieldProps('firstname')}
@@ -177,11 +196,12 @@ export function Registration() {
         )}
       </div>
       {/* end::Form group */}
+
+      {/* begin::Form group Lastname */}
       <div className='fv-row mb-8'>
-        {/* begin::Form group Lastname */}
-        <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
+        <label className='form-label fw-bolder text-dark fs-6'>Last Name</label>
         <input
-          placeholder='Last name'
+          placeholder='Last Name'
           type='text'
           autoComplete='off'
           {...formik.getFieldProps('lastname')}
@@ -202,8 +222,34 @@ export function Registration() {
             </div>
           </div>
         )}
-        {/* end::Form group */}
       </div>
+      {/* end::Form group */}
+
+      {/* begin::Form group Username */}
+      <div className='fv-row mb-8'>
+        <label className='form-label fw-bolder text-dark fs-6'>Username</label>
+        <input
+            placeholder='Username'
+            type='username'
+            autoComplete='off'
+            {...formik.getFieldProps('username')}
+            className={clsx(
+                'form-control bg-transparent',
+                {'is-invalid': formik.touched.username && formik.errors.username},
+                {
+                  'is-valid': formik.touched.username && !formik.errors.username,
+                }
+            )}
+        />
+        {formik.touched.username && formik.errors.username && (
+            <div className='fv-plugins-message-container'>
+              <div className='fv-help-block'>
+                <span role='alert'>{formik.errors.username}</span>
+              </div>
+            </div>
+        )}
+      </div>
+      {/* end::Form group Username */}
 
       {/* begin::Form group Email */}
       <div className='fv-row mb-8'>
@@ -229,7 +275,7 @@ export function Registration() {
           </div>
         )}
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Email */}
 
       {/* begin::Form group Password */}
       <div className='fv-row mb-8' data-kt-password-meter='true'>
@@ -275,9 +321,9 @@ export function Registration() {
           Use 8 or more characters with a mix of letters, numbers & symbols.
         </div>
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Password */}
 
-      {/* begin::Form group Confirm password */}
+      {/* begin::Form group Confirm Password */}
       <div className='fv-row mb-5'>
         <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
         <input
@@ -303,9 +349,9 @@ export function Registration() {
           </div>
         )}
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Confirm Password */}
 
-      {/* begin::Form group */}
+      {/* begin::Form group Accept Terms*/}
       <div className='fv-row mb-8'>
         <label className='form-check form-check-inline' htmlFor='kt_login_toc_agree'>
           <input
@@ -334,9 +380,9 @@ export function Registration() {
           </div>
         )}
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Accept Terms */}
 
-      {/* begin::Form group */}
+      {/* begin::Form group Submit */}
       <div className='text-center'>
         <button
           type='submit'
@@ -362,7 +408,7 @@ export function Registration() {
           </button>
         </Link>
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Submit */}
     </form>
   )
 }

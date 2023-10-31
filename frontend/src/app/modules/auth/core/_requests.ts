@@ -1,47 +1,52 @@
-import axios from 'axios'
-import {AuthModel, UserModel} from './_models'
+import {CreateUserApi, GetUserProfileApi, LoginApi, SendPasswordResetTokenApi} from '../../clients/yawa'
+import {AuthModel, UserProfileModel} from './_models'
 
-const API_URL = process.env.REACT_APP_API_URL
-
-export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`
-export const LOGIN_URL = `${API_URL}/login`
-export const REGISTER_URL = `${API_URL}/register`
-export const REQUEST_PASSWORD_URL = `${API_URL}/forgot_password`
-
-// Server should return AuthModel
-export function login(email: string, password: string) {
-  return axios.post<AuthModel>(LOGIN_URL, {
-    email,
-    password,
+export async function login(username: string, password: string): Promise<AuthModel> {
+  const response = await new LoginApi().login({
+    username: username,
+    password: password,
+    neverExpire: false, // TODO Add support for remember me
   })
+  const data = response.data
+  return {
+    username: data.username,
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
+  } as AuthModel
 }
 
-// Server should return AuthModel
-export function register(
-  email: string,
-  firstname: string,
-  lastname: string,
-  password: string,
-  password_confirmation: string
+export async function getUserProfile(username: string): Promise<UserProfileModel> {
+  const response = await new GetUserProfileApi().getUserProfile(
+      username
+  )
+  const data = response.data
+  return {
+    firstname: data.profile.firstname,
+    lastname: data.profile.lastname,
+    gender: data.profile.gender,
+    dateOfBirth: data.profile.dateOfBirth,
+    picture: data.profile.picture,
+    email: 'giacomo.marciani+tofix@gmail.com',
+    role: data.profile.role,
+  } as UserProfileModel
+}
+
+export async function register(
+    firstname: string,
+    lastname: string,
+    username: string,
+    email: string,
+    password: string,
 ) {
-  return axios.post(REGISTER_URL, {
-    email,
-    first_name: firstname,
-    last_name: lastname,
-    password,
-    password_confirmation,
+  return await new CreateUserApi().createUser({
+    username: email,
+    email: email,
+    password: password,
   })
 }
 
-// Server should return object => { result: boolean } (Is Email in DB)
-export function requestPassword(email: string) {
-  return axios.post<{result: boolean}>(REQUEST_PASSWORD_URL, {
-    email,
-  })
-}
-
-export function getUserByToken(token: string) {
-  return axios.post<UserModel>(GET_USER_BY_ACCESSTOKEN_URL, {
-    api_token: token,
-  })
+export async function requestPassword(email: string) {
+  return await new SendPasswordResetTokenApi().sendPasswordResetToken(
+      email
+  )
 }

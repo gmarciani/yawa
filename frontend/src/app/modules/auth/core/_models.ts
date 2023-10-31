@@ -1,6 +1,17 @@
 export interface AuthModel {
-  api_token: string
-  refreshToken?: string
+  username: string,
+  accessToken: string
+  refreshToken: string
+}
+
+export interface UserProfileModel {
+  firstname: string
+  lastname: string
+  gender: string
+  dateOfBirth: string
+  picture: string | undefined
+  email: string
+  role: string
 }
 
 export interface UserAddressModel {
@@ -43,25 +54,26 @@ export interface UserSocialNetworksModel {
   instagram: string
 }
 
-export interface UserModel {
-  id: number
-  username: string
-  password: string | undefined
-  email: string
-  first_name: string
-  last_name: string
-  fullname?: string
-  occupation?: string
-  companyName?: string
-  phone?: string
-  roles?: Array<number>
-  pic?: string
-  language?: 'en' | 'de' | 'es' | 'fr' | 'it' | 'ja' | 'zh' | 'ru'
-  timeZone?: string
-  website?: 'https://keenthemes.com'
-  emailSettings?: UserEmailSettingsModel
-  auth?: AuthModel
-  communication?: UserCommunicationModel
-  address?: UserAddressModel
-  socialNetworks?: UserSocialNetworksModel
-}
+// export interface UserModel {
+//   id: number
+//   username: string
+//   password: string | undefined
+//   email: string
+//   firstname: string
+//   lastname: string
+//   gender: string
+//   dateOfBirth: string
+//   occupation?: string
+//   companyName?: string
+//   phone?: string
+//   roles?: Array<number>
+//   pic?: string
+//   language?: 'en' | 'de' | 'es' | 'fr' | 'it' | 'ja' | 'zh' | 'ru'
+//   timeZone?: string
+//   website?: 'https://keenthemes.com'
+//   emailSettings?: UserEmailSettingsModel
+//   auth?: AuthModel
+//   communication?: UserCommunicationModel
+//   address?: UserAddressModel
+//   socialNetworks?: UserSocialNetworksModel
+// }

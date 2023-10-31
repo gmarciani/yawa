@@ -2,7 +2,7 @@ import {useLayout} from '../layout/core'
 import {ThemeModeComponent} from '../assets/ts/layout'
 
 export const toAbsoluteUrl = (pathname: string) => process.env.PUBLIC_URL + pathname
-export const toAbsoluteApiPublicUrl = (pathname: string) => `${process.env.REACT_APP_API_URL}/public/${pathname}`
+export const toAbsoluteApiUrl = (pathname: string) => `${process.env.REACT_APP_API_URL}/${pathname}`
 
 export const useIllustrationsPath = (illustrationName: string): string => {
   const {config} = useLayout()

@@ -24,6 +24,8 @@
   "AUTH.REGISTER.TITLE": "Sign Up",
   "AUTH.REGISTER.DESC": "Enter your details to create your account",
   "AUTH.REGISTER.SUCCESS": "Your account has been successfuly registered.",
+  "AUTH.REGISTER.ERROR.USER_EXISTS": "User already exists.",
+  "AUTH.REGISTER.ERROR.UNKNOWN": "Errore sconosciuto.",
   "AUTH.INPUT.EMAIL": "Email",
   "AUTH.INPUT.FULLNAME": "Fullname",
   "AUTH.INPUT.PASSWORD": "Mot de passe",

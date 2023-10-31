@@ -8,6 +8,7 @@ import {
   MixedWidget15,
 } from '../../../_metronic/partials/widgets'
 import {useIntl} from 'react-intl'
+import {useAuth} from "../../modules/auth";
 
 const DashboardPage = () => (
   <>
@@ -60,12 +61,12 @@ const DashboardPage = () => (
 )
 
 const DashboardWrapper = () => {
+  const {currentUser} = useAuth()
   const intl = useIntl()
-  const name = 'Paul'
   return (
     <EnableSidebar>
       <PageTitle description='You’ve got 24 New Sales' breadcrumbs={[]}>
-          {intl.formatMessage({id: 'DASHBOARD.GREETINGS'}, {name})}
+          {intl.formatMessage({id: 'DASHBOARD.GREETINGS'}, {name: currentUser?.firstname})}
       </PageTitle>
       <DashboardPage />
     </EnableSidebar>

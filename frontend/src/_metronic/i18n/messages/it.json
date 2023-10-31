@@ -24,6 +24,8 @@
   "AUTH.REGISTER.TITLE": "Iscrizione",
   "AUTH.REGISTER.DESC": "Inserisci i tuoi dati per creare il tuo account",
   "AUTH.REGISTER.SUCCESS": "Il tuo account è stato registrato con successo.",
+  "AUTH.REGISTER.ERROR.USER_EXISTS": "L'utente già esistente.",
+  "AUTH.REGISTER.ERROR.UNKNOWN": "Errore sconosciuto.",
   "AUTH.INPUT.EMAIL": "E-mail",
   "AUTH.INPUT.FULLNAME": "Nome e Cognome",
   "AUTH.INPUT.PASSWORD": "Password",
