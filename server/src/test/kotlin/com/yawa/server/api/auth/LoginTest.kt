@@ -43,6 +43,7 @@ class LoginTest : BehaviorSpec({
                     then("returns the expected response") {
                         val response = subject.login(loginRequest)
                         response shouldBe Login.LoginResponse(
+                            username = loginRequest.username,
                             accessToken = authenticationTokens.accessToken,
                             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
                             refreshToken = authenticationTokens.refreshToken,

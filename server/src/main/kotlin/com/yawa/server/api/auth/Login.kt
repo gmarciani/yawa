@@ -33,6 +33,7 @@ class Login(
         log.info("Authentication tokens generated for user: ${user.username}")
 
         return LoginResponse(
+            username = user.username,
             accessToken = authenticationTokens.accessToken,
             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
             refreshToken = authenticationTokens.refreshToken,
@@ -47,6 +48,7 @@ class Login(
     )
 
     data class LoginResponse(
+        val username: String,
         val accessToken: String,
         val accessTokenExpiration: Instant,
         val refreshToken: String,
