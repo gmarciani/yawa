@@ -37,6 +37,9 @@ class UserProfile(
     @Column(name = "picture")
     var picture: String? = null,
 
+    @Column(name = "role")
+    var role: String? = null,
+
     @OneToOne(mappedBy = "profile", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JsonBackReference
     var user: User? = null,
