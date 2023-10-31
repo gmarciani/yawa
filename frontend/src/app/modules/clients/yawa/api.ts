@@ -623,6 +623,12 @@ export interface User {
     'isCredentialsNonExpired': boolean;
     /**
      *
+     * @type {string}
+     * @memberof User
+     */
+    'createdAt': string;
+    /**
+     *
      * @type {UserProfile}
      * @memberof User
      */
@@ -694,6 +700,12 @@ export interface UserProfile {
      * @memberof UserProfile
      */
     'picture'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'role'?: string;
     /**
      *
      * @type {User}
