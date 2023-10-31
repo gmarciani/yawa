@@ -21,6 +21,76 @@
     }
   ],
   "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "create-user"
+        ],
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/activation": {
+      "post": {
+        "tags": [
+          "activate-user"
+        ],
+        "operationId": "activateUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivateUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/manage/shutdown": {
       "post": {
         "tags": [
@@ -52,67 +122,7 @@
         }
       }
     },
-    "/admin/SendMail": {
-      "post": {
-        "tags": [
-          "send-mail"
-        ],
-        "operationId": "sendMail",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SendMailRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SendMailResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/RefreshAuthentication": {
-      "post": {
-        "tags": [
-          "refresh-authentication"
-        ],
-        "operationId": "refreshAuthentication",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshAuthenticationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RefreshAuthenticationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Logout": {
+    "/auth/logout": {
       "post": {
         "tags": [
           "logout"
@@ -122,7 +132,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/LogoutResponse"
                 }
@@ -132,7 +142,7 @@
         }
       }
     },
-    "/Login": {
+    "/auth/login": {
       "post": {
         "tags": [
           "login"
@@ -152,7 +162,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/LoginResponse"
                 }
@@ -162,17 +172,17 @@
         }
       }
     },
-    "/CreateUser": {
+    "/admin/mail": {
       "post": {
         "tags": [
-          "create-user"
+          "send-mail"
         ],
-        "operationId": "createUser",
+        "operationId": "sendMail",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUserRequest"
+                "$ref": "#/components/schemas/SendMailRequest"
               }
             }
           },
@@ -182,9 +192,9 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateUserResponse"
+                  "$ref": "#/components/schemas/SendMailResponse"
                 }
               }
             }
@@ -192,77 +202,55 @@
         }
       }
     },
-    "/ConfirmUserDeletion": {
-      "post": {
+    "/users/{username}/settings": {
+      "get": {
         "tags": [
-          "confirm-user-deletion"
+          "get-user-settings"
         ],
-        "operationId": "confirmUserDeletion",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmUserDeletionRequest"
-              }
+        "operationId": "getUserSettings",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
-          },
-          "required": true
-        },
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConfirmUserDeletionResponse"
+                  "$ref": "#/components/schemas/DescribeUserSettingsResponse"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/ConfirmUserCreation": {
-      "post": {
-        "tags": [
-          "confirm-user-creation"
-        ],
-        "operationId": "confirmUserCreation",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmUserCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfirmUserCreationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/UpdateUsers": {
+      },
       "patch": {
         "tags": [
-          "update-users"
+          "update-user-settings"
         ],
-        "operationId": "updateUsers",
+        "operationId": "updateUserSettings",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUsersRequest"
+                "$ref": "#/components/schemas/UpdateUserSettingsRequest"
               }
             }
           },
@@ -272,9 +260,324 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateUsersResponse"
+                  "$ref": "#/components/schemas/UpdateUserSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/profile": {
+      "get": {
+        "tags": [
+          "get-user-profile"
+        ],
+        "operationId": "getUserProfile",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DescribeUserProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "update-user-profile"
+        ],
+        "operationId": "updateUserProfile",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/profile/picture": {
+      "delete": {
+        "tags": [
+          "delete-user-picture"
+        ],
+        "operationId": "deleteUserPicture",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteUserPictureResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "update-user-picture"
+        ],
+        "operationId": "updateUserPicture",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPictureRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserPictureResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/password": {
+      "patch": {
+        "tags": [
+          "reset-password"
+        ],
+        "operationId": "resetPassword",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetPasswordResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/tokens/password": {
+      "get": {
+        "tags": [
+          "send-password-reset-token"
+        ],
+        "operationId": "sendPasswordResetToken",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendPasswordResetTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/tokens/deletion": {
+      "get": {
+        "tags": [
+          "send-user-deletion-token"
+        ],
+        "operationId": "sendUserDeletionToken",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendUserDeletionTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/tokens/activation": {
+      "get": {
+        "tags": [
+          "send-user-activation-token"
+        ],
+        "operationId": "sendUserActivationToken",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendUserActivationTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/simple/outcome": {
+      "get": {
+        "tags": [
+          "get-outcome"
+        ],
+        "operationId": "getOutcome",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/GetOutcomeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOutcomeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/simple/greetings": {
+      "get": {
+        "tags": [
+          "get-greetings"
+        ],
+        "operationId": "getGreetings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAuthenticatedHelloResponse"
                 }
               }
             }
@@ -697,19 +1000,27 @@
         }
       }
     },
-    "/ListUsers": {
+    "/auth/{username}/tokens": {
       "get": {
         "tags": [
-          "list-users"
+          "refresh-authentication"
         ],
-        "operationId": "listUsers",
+        "operationId": "refreshAuthentication",
         "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "request",
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/ListUsersRequest"
+              "$ref": "#/components/schemas/RefreshAuthenticationRequest"
             }
           }
         ],
@@ -717,9 +1028,9 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListUsersResponse"
+                  "$ref": "#/components/schemas/RefreshAuthenticationResponse"
                 }
               }
             }
@@ -727,112 +1038,22 @@
         }
       }
     },
-    "/GetRandomOutcome": {
-      "get": {
-        "tags": [
-          "get-random-outcome"
-        ],
-        "operationId": "getRandomOutcome",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetRandomOutcomeResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/GetDeterministicOutcome": {
-      "get": {
-        "tags": [
-          "get-deterministic-outcome"
-        ],
-        "operationId": "getDeterministicOutcome",
-        "parameters": [
-          {
-            "name": "request",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/GetDeterministicOutcomeRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDeterministicOutcomeResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/GetAuthenticatedHello": {
-      "get": {
-        "tags": [
-          "get-authenticated-hello"
-        ],
-        "operationId": "getAuthenticatedHello",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAuthenticatedHelloResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/DescribeUsers": {
-      "get": {
-        "tags": [
-          "describe-users"
-        ],
-        "operationId": "describeUsers",
-        "parameters": [
-          {
-            "name": "request",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/DescribeUsersRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DescribeUsersResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/DeleteUser": {
+    "/users/{username}": {
       "delete": {
         "tags": [
           "delete-user"
         ],
         "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -847,7 +1068,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/DeleteUserResponse"
                 }
@@ -860,8 +1081,238 @@
   },
   "components": {
     "schemas": {
+      "CreateUserRequest": {
+        "required": [
+          "email",
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateUserResponse": {
+        "required": [
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "email",
+          "isAccountNonExpired",
+          "isAccountNonLocked",
+          "isCredentialsNonExpired",
+          "isEnabled",
+          "password",
+          "profile",
+          "role",
+          "settings",
+          "subscriptionPlan",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "PROMETHEUS",
+              "NORMAL",
+              "ANONYMOUS"
+            ]
+          },
+          "subscriptionPlan": {
+            "type": "string",
+            "enum": [
+              "FREE",
+              "BASIC",
+              "PROFESSIONAL",
+              "SYSTEM"
+            ]
+          },
+          "isEnabled": {
+            "type": "boolean"
+          },
+          "isAccountNonExpired": {
+            "type": "boolean"
+          },
+          "isAccountNonLocked": {
+            "type": "boolean"
+          },
+          "isCredentialsNonExpired": {
+            "type": "boolean"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/UserProfile"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/UserSettings"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "UNSPECIFIED"
+            ]
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UserSettings": {
+        "required": [
+          "isMfaEnabled"
+        ],
+        "type": "object",
+        "properties": {
+          "isMfaEnabled": {
+            "type": "boolean"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ActivateUserRequest": {
+        "required": [
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "ActivateUserResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "LogoutResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": [
+          "neverExpire",
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "neverExpire": {
+            "type": "boolean"
+          }
+        }
+      },
+      "LoginResponse": {
+        "required": [
+          "accessToken",
+          "accessTokenExpiration",
+          "refreshToken",
+          "refreshTokenExpiration",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "accessTokenExpiration": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "refreshTokenExpiration": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "SendMailRequest": {
         "required": [
+          "attributes",
           "mailType"
         ],
         "type": "object",
@@ -869,10 +1320,19 @@
           "mailType": {
             "type": "string",
             "enum": [
-              "TEST_PLAIN",
-              "TEST_TEMPLATE",
-              "TEST_TEMPLATE_HTML"
+              "USER_CREATION_PENDING",
+              "USER_CREATION_CONFIRMED",
+              "USER_DELETION_PENDING",
+              "USER_DELETION_CONFIRMED",
+              "PASSWORD_RESET_PENDING",
+              "PASSWORD_RESET_CONFIRMED"
             ]
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       },
@@ -884,6 +1344,215 @@
         "properties": {
           "message": {
             "type": "string"
+          }
+        }
+      },
+      "UpdateUserSettingsRequest": {
+        "type": "object",
+        "properties": {
+          "isMfaEnabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateUserSettingsResponse": {
+        "required": [
+          "settings"
+        ],
+        "type": "object",
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/UserSettings"
+          }
+        }
+      },
+      "UpdateUserProfileRequest": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "UNSPECIFIED"
+            ]
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateUserProfileResponse": {
+        "required": [
+          "profile"
+        ],
+        "type": "object",
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/UserProfile"
+          }
+        }
+      },
+      "UpdateUserPictureRequest": {
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "UpdateUserPictureResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ResetPasswordRequest": {
+        "required": [
+          "password",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ResetPasswordResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SendPasswordResetTokenResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SendUserDeletionTokenResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SendUserActivationTokenResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "DescribeUserSettingsResponse": {
+        "required": [
+          "settings"
+        ],
+        "type": "object",
+        "properties": {
+          "settings": {
+            "$ref": "#/components/schemas/UserSettings"
+          }
+        }
+      },
+      "DescribeUserProfileResponse": {
+        "required": [
+          "profile"
+        ],
+        "type": "object",
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/UserProfile"
+          }
+        }
+      },
+      "GetOutcomeRequest": {
+        "required": [
+          "outcome"
+        ],
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "NOT_AUTHORIZED",
+              "NOT_FOUND",
+              "BAD_REQUEST",
+              "INTERNAL_ERROR",
+              "RANDOM"
+            ]
+          }
+        }
+      },
+      "GetOutcomeResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAuthenticatedHelloResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "templated": {
+            "type": "boolean"
           }
         }
       },
@@ -923,342 +1592,36 @@
           }
         }
       },
-      "LogoutResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginRequest": {
-        "required": [
-          "password",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginResponse": {
-        "required": [
-          "accessToken",
-          "accessTokenExpiration",
-          "refreshToken",
-          "refreshTokenExpiration"
-        ],
-        "type": "object",
-        "properties": {
-          "accessToken": {
-            "type": "string"
-          },
-          "accessTokenExpiration": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "refreshToken": {
-            "type": "string"
-          },
-          "refreshTokenExpiration": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "CreateUserRequest": {
-        "required": [
-          "email",
-          "password",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          }
-        }
-      },
-      "CreateUserResponse": {
-        "required": [
-          "user"
-        ],
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
-          }
-        }
-      },
-      "User": {
-        "required": [
-          "email",
-          "isAccountNonExpired",
-          "isAccountNonLocked",
-          "isCredentialsNonExpired",
-          "isEnabled",
-          "password",
-          "role",
-          "subscriptionPlan",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "ADMIN",
-              "PROMETHEUS",
-              "NORMAL",
-              "ANONYMOUS"
-            ]
-          },
-          "subscriptionPlan": {
-            "type": "string",
-            "enum": [
-              "FREE",
-              "BASIC",
-              "PROFESSIONAL",
-              "SYSTEM"
-            ]
-          },
-          "isEnabled": {
-            "type": "boolean"
-          },
-          "isAccountNonExpired": {
-            "type": "boolean"
-          },
-          "isCredentialsNonExpired": {
-            "type": "boolean"
-          },
-          "isAccountNonLocked": {
-            "type": "boolean"
-          }
-        }
-      },
-      "ConfirmUserDeletionRequest": {
-        "required": [
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
-          }
-        }
-      },
-      "ConfirmUserDeletionResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "ConfirmUserCreationRequest": {
-        "required": [
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
-          }
-        }
-      },
-      "ConfirmUserCreationResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdateUsersRequest": {
-        "required": [
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdateUsersResponse": {
-        "required": [
-          "user"
-        ],
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
-          }
-        }
-      },
-      "Link": {
-        "type": "object",
-        "properties": {
-          "href": {
-            "type": "string"
-          },
-          "templated": {
-            "type": "boolean"
-          }
-        }
-      },
-      "ListUsersRequest": {
-        "type": "object",
-        "properties": {
-          "filter": {
-            "type": "string"
-          }
-        }
-      },
-      "ListUsersResponse": {
-        "required": [
-          "users"
-        ],
-        "type": "object",
-        "properties": {
-          "users": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/User"
-            }
-          }
-        }
-      },
-      "GetRandomOutcomeResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "GetDeterministicOutcomeRequest": {
-        "required": [
-          "outcome"
-        ],
-        "type": "object",
-        "properties": {
-          "outcome": {
-            "type": "string",
-            "enum": [
-              "SUCCESS",
-              "NOT_AUTHORIZED",
-              "NOT_FOUND",
-              "DB_ERROR",
-              "INTERNAL_ERROR"
-            ]
-          }
-        }
-      },
-      "GetDeterministicOutcomeResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "GetAuthenticatedHelloResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "DescribeUsersRequest": {
-        "required": [
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          }
-        }
-      },
-      "DescribeUsersResponse": {
-        "required": [
-          "user"
-        ],
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
-          }
-        }
-      },
       "DeleteUserRequest": {
         "required": [
-          "username"
+          "token"
         ],
         "type": "object",
         "properties": {
-          "username": {
+          "token": {
             "type": "string"
           }
         }
       },
       "DeleteUserResponse": {
         "required": [
-          "user"
+          "message"
         ],
         "type": "object",
         "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUserPictureResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
           }
         }
       }
