@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
+import java.time.Instant
 import java.util.*
 
 private val log = KotlinLogging.logger {}
@@ -30,7 +31,8 @@ class UserService(
             email = email,
             role = UserRole.NORMAL,
             subscriptionPlan = UserSubscriptionPlan.FREE,
-            isEnabled = false
+            isEnabled = false,
+            createdAt = Instant.now(),
         )
         userRepository.save(user)
         return user
@@ -59,8 +61,8 @@ class UserService(
     fun setUserPicture(username: String, file: MultipartFile) {
         val user = findUser(username)
         val path = "profiles/$username-${UUID.randomUUID()}.${StringUtils.getFilenameExtension(file.originalFilename)}"
-        fileSystemService.savePublicFile(path = path, content = file.bytes)
-        user.profile.picture = path
+        val absolutePath = fileSystemService.savePublicFile(path = path, content = file.bytes)
+        user.profile.picture = fileSystemService.getPathRelativeToRootDir(path = absolutePath).toString()
         userRepository.save(user)
     }
 
@@ -80,7 +82,8 @@ class UserService(
             email = "giacomo.marciani+$username@gmail.com",
             role = UserRole.ADMIN,
             subscriptionPlan = UserSubscriptionPlan.SYSTEM,
-            isEnabled = true
+            isEnabled = true,
+            createdAt = Instant.now(),
         )
         this.createIfNotExists(user)
     }
@@ -93,7 +96,8 @@ class UserService(
             email = "giacomo.marciani+$username@gmail.com",
             role = UserRole.PROMETHEUS,
             subscriptionPlan = UserSubscriptionPlan.SYSTEM,
-            isEnabled = true
+            isEnabled = true,
+            createdAt = Instant.now(),
         )
         this.createIfNotExists(user)
     }
@@ -106,7 +110,8 @@ class UserService(
             email = "giacomo.marciani+$username@gmail.com",
             role = role,
             subscriptionPlan = userSubscriptionPlan,
-            isEnabled = true
+            isEnabled = true,
+            createdAt = Instant.now(),
         )
         this.createIfNotExists(user)
     }

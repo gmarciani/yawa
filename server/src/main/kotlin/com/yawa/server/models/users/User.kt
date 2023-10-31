@@ -17,6 +17,7 @@ import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.UuidGenerator
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.Instant
 import java.util.*
 
 @Entity
@@ -53,6 +54,9 @@ class User(
 
     @Column(name = "is_credentials_not_expired")
     var isCredentialsNonExpired: Boolean = true,
+
+    @Column(name = "created_at")
+    var createdAt: Instant,
 
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
