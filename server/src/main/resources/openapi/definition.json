@@ -1113,6 +1113,7 @@
       },
       "User": {
         "required": [
+          "createdAt",
           "email",
           "isAccountNonExpired",
           "isAccountNonLocked",
@@ -1166,6 +1167,10 @@
           "isCredentialsNonExpired": {
             "type": "boolean"
           },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
           "profile": {
             "$ref": "#/components/schemas/UserProfile"
           },
@@ -1200,6 +1205,9 @@
             "format": "date-time"
           },
           "picture": {
+            "type": "string"
+          },
+          "role": {
             "type": "string"
           },
           "user": {
