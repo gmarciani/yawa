@@ -39,7 +39,7 @@ export async function register(
     password: string,
 ) {
   return await new CreateUserApi().createUser({
-    username: email,
+    username: username,
     email: email,
     password: password,
   })
