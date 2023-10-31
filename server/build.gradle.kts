@@ -207,3 +207,11 @@ configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
 configure<com.gorylenko.GitPropertiesPluginExtension> {
 	this.failOnNoGitDirectory = false
 }
+
+val frontendProjectDir = "$rootDir/../frontend"
+val frontendClientDir = "$frontendProjectDir/src/app/modules/clients/yawa"
+
+tasks.register<Sync>("copyClientToFrontend") {
+	from("$generateClientsDir/typescript")
+	into(frontendClientDir)
+}
