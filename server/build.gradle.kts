@@ -99,7 +99,9 @@ tasks.bootRun {
 }
 
 task("buildClients") {
-	this.dependsOn("buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient")
+	this.dependsOn(
+		"buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient", "buildTypeScriptClient"
+	)
 }
 
 val openapiDefinition = "$mainResourcesDir/openapi/definition.json"
@@ -161,6 +163,26 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinCl
 	this.generatorName.set("kotlin")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/kotlin")
+	this.apiPackage.set("yawac.api")
+	this.invokerPackage.set("yawac.invoker")
+	this.modelPackage.set("yawac.model")
+	this.packageName.set("yawac")
+	this.configOptions.set(mapOf(
+		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+		"curlOptions" to "--insecure",
+		"generateBashCompletion" to "true",
+		"generateZshCompletion" to "true",
+		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+		"scriptName" to "yawac"
+	))
+	this.generateApiDocumentation.set(true)
+	this.validateSpec.set(true)
+}
+
+task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildTypeScriptClient") {
+	this.generatorName.set("typescript-axios")
+	this.inputSpec.set(openapiDefinition)
+	this.outputDir.set("$generateClientsDir/typescript")
 	this.apiPackage.set("yawac.api")
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
