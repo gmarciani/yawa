@@ -30,4 +30,8 @@ class FileSystemService(
         Files.createDirectories(Path.of(fileSystemConfiguration.rootDir))
         Files.createDirectories(Path.of(fileSystemConfiguration.publicDir))
     }
+
+    fun getPathRelativeToRootDir(path: Path): Path {
+        return Path.of(fileSystemConfiguration.rootDir).relativize(path)
+    }
 }
