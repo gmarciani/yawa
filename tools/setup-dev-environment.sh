@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-JAVA_VERSION="17.0.7-amzn"
+JAVA_VERSION="17.0.9-amzn"
 
 # Gradle 7.6.0 is the maximum version supported by the Kotlin Gradle Plugin.
 # If you are considering to upgrade Gradle, you first need to check the compatibility.
