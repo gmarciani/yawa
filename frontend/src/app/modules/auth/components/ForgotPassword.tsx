@@ -28,7 +28,7 @@ export function ForgotPassword() {
       setHasErrors(undefined)
       setTimeout(() => {
         requestPassword(values.email)
-          .then(({data: {result}}) => {
+          .then(response => {
             setHasErrors(false)
             setLoading(false)
           })
