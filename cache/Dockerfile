@@ -1,13 +1,13 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 EXPOSE 6379
 
 USER root
 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+SHELL ["/bin/bash", "-lc"]
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y sudo vim curl wget less lsof dnsutils gpg lsb-release
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y sudo vim curl wget less lsof dnsutils gpg lsb-release dnsutils
 
 RUN curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
 
