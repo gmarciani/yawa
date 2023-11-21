@@ -1,6 +1,7 @@
 *.iml
 build
 .container
+.local
 .gradle
 gradle
 gradlew
