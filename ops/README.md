@@ -4,17 +4,31 @@
 
 ## Requirements
 
+Setup Python virtual environment:
+
 ```shell
 brew install pyenv
 
-pyenv install 3.9.10 --skip-existing
-pyenv virtualenv 3.9.10 yawa-ops
+pyenv install 3.9.18 --skip-existing
+pyenv virtualenv 3.9.18 yawa-ops
 pyenv local yawa-ops
 pyenv activate yawa-ops
 
-gradle -p ../server buildClients
-pip install -r requirements.txt
+
+Install yawa-ops:
+
 ```
+gradle -p ../server buildClients
+pip install --upgrade pip
+pip install .
+```
+
+Check installation:
+
+```
+
+```
+
 
 ## Operations
 TBD
