@@ -3,7 +3,7 @@
 
     <property name="PATTERN" value="%date{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;, UTC} %-5level %X{requestId} %logger{36} %msg%n" />
     <springProfile name="local">
-        <property name="LOG_FILE" value="application.log" />
+        <property name="LOG_FILE" value=".local/var/yawa/application.log" />
     </springProfile>
     <springProfile name="!local">
         <property name="LOG_FILE" value="/var/yawa/logs/application.log" />
