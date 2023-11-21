@@ -1,6 +1,8 @@
-FROM mariadb:10.11.5
+FROM mysql:8.2.0
 
 EXPOSE 3306
 
-RUN apt-get update
-RUN apt-get install -y --force-yes vim less lsof
+COPY init/ /docker-entrypoint-initdb.d/
+
+RUN microdnf update
+RUN microdnf install -y vim less lsof dnsutils
