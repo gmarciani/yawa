@@ -5,12 +5,12 @@
 You can contact the frontend to https://localhost:8010.
 
 ## Requirements
-1. NVM >= 0.30.3
-2. NodeJs >= 18.16.x LTS
+1. NVM >= 0.39.5
+2. NodeJs >= 18.18.x LTS
 
 ```
 nvm install --lts=hydrogen
-npm install --global npm@latest
+npm install --global npm
 npm install --global yarn
 npm install --global gulp-cli
 ```
