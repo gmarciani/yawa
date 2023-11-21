@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV JAVA_VERSION 17.0.7
@@ -21,7 +21,7 @@ EXPOSE $PROMTAIL_PORT
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update && \
-    apt-get install -y sudo systemctl vim curl wget less lsof zip unzip default-mysql-client
+    apt-get install -y sudo systemctl vim curl wget less lsof zip unzip default-mysql-client dnsutils
 
 RUN curl -s "https://get.sdkman.io" | bash
 RUN source "$SDKMAN_DIR/bin/sdkman-init.sh" && \
@@ -57,3 +57,11 @@ CMD systemctl start promtail && \
         -Pregion=$REGION \
         -PdebugEnabled=$DEBUG_ENABLED \
         -PdebugPort=$DEBUG_PORT
+# To troubleshoot bootstrap issues,
+# comment out the CMD instruction and replace it with the below ENTRYPOINT:
+#
+#CMD /bin/bash
+#
+# Log into the container and run the command:
+#
+#    systemctl start promtail && gradle bootRun -Pprofile=docker -Pstack=dev -Pregion=docker
