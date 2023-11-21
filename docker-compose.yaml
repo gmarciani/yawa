@@ -14,6 +14,8 @@ services:
     stdin_open: true #https://github.com/docker/compose/issues/5016
     depends_on:
       - server
+    networks:
+      - frontend-network
 
   server:
     container_name: server
@@ -31,6 +33,9 @@ services:
     depends_on:
       - database
       - cache
+    networks:
+      - frontend-network
+      - backend-network
 
   database:
     container_name: database
@@ -42,6 +47,8 @@ services:
     restart: always
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - backend-network
 
   dbadmin:
     container_name: dbadmin
@@ -53,6 +60,8 @@ services:
       - PMA_ARBITRARY=1
     depends_on:
       - database
+    networks:
+      - backend-network
 
   cache:
     container_name: cache
@@ -65,6 +74,8 @@ services:
     volumes:
       - cachedata:/var/redis
       - ./cache/.container/var/redis/logs:/var/redis/logs
+    networks:
+      - backend-network
 
   grafana:
     container_name: grafana
@@ -81,6 +92,8 @@ services:
     depends_on:
       - prometheus
       - loki
+    networks:
+      - backend-network
 
   prometheus:
     container_name: prometheus
@@ -95,6 +108,8 @@ services:
       - ./prometheus/config/secrets/yawa-credentials.txt:/etc/prometheus/yawa-credentials.txt
     depends_on:
       - server
+    networks:
+      - backend-network
 
   loki:
     container_name: loki
@@ -105,8 +120,14 @@ services:
       - "8007:3100"
     volumes:
       - ./loki/config/loki.yaml:/etc/loki/local-config.yaml
+    networks:
+      - backend-network
 
 volumes:
   srvdata:
   dbdata:
   cachedata:
+
+networks:
+  frontend-network:
+  backend-network:
