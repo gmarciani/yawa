@@ -2,15 +2,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("java")
-	id("org.springframework.boot") version "3.1.0"
-	id("io.spring.dependency-management") version "1.1.0"
+	id("org.springframework.boot") version "3.1.1"
+	id("io.spring.dependency-management") version "1.1.4"
 	id("org.openapi.generator") version "6.5.0"
 	id("com.github.ben-manes.versions") version "0.46.0"
-	id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
 	id("com.gorylenko.gradle-git-properties") version "2.4.1"
-	kotlin("jvm") version "1.8.20"
-	kotlin("plugin.spring") version "1.8.20"
-	kotlin("plugin.jpa") version "1.8.20"
+	kotlin("jvm") version "1.9.20"
+	kotlin("plugin.spring") version "1.9.20"
+	kotlin("plugin.jpa") version "1.9.20"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -18,9 +18,9 @@ apply(plugin = "io.spring.dependency-management")
 ext {
 	set("debugEnabled", project.properties.getOrDefault("debugEnabled", false))
 	set("debugPort", project.properties.getOrDefault("debugPort", 8001))
-	set("profile", project.properties["profile"])
-	set("stack", project.properties["stack"])
-	set("region", project.properties["region"])
+	set("profile", project.properties.getOrDefault("profile", "local"))
+	set("stack", project.properties.getOrDefault("stack", "localStack"))
+	set("region", project.properties.getOrDefault("region", "localRegion"))
 }
 
 val mainResourcesDir = "$rootDir/src/main/resources"
