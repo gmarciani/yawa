@@ -5,10 +5,10 @@ import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.models.users.UserSubscriptionPlan
 import com.yawa.server.repositories.UserRepository
+import com.yawa.server.security.encryption.PasswordEncodeService
 import com.yawa.server.security.throttling.ThrottlingService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
@@ -19,7 +19,7 @@ private val log = KotlinLogging.logger {}
 @Service
 class UserService(
     @Autowired val userRepository: UserRepository,
-    @Autowired val passwordEncoder: PasswordEncoder,
+    @Autowired val passwordEncoder: PasswordEncodeService,
     @Autowired val throttlingService: ThrottlingService,
     @Autowired val fileSystemService: FileSystemService,
 ) {
@@ -78,8 +78,8 @@ class UserService(
         val username = "admin"
         val user = User(
             username = username,
-            password = passwordEncoder.encode("P@ssw0rd-$username"),
-            email = "giacomo.marciani+$username@gmail.com",
+            password = passwordEncoder.encode("password"),
+            email = "giacomo.marciani+yawa-$username@gmail.com",
             role = UserRole.ADMIN,
             subscriptionPlan = UserSubscriptionPlan.SYSTEM,
             isEnabled = true,
@@ -92,8 +92,8 @@ class UserService(
         val username = "prometheus"
         val user = User(
             username = username,
-            password = passwordEncoder.encode("P@ssw0rd-$username"),
-            email = "giacomo.marciani+$username@gmail.com",
+            password = passwordEncoder.encode("password"),
+            email = "giacomo.marciani+yawa-$username@gmail.com",
             role = UserRole.PROMETHEUS,
             subscriptionPlan = UserSubscriptionPlan.SYSTEM,
             isEnabled = true,
@@ -106,8 +106,8 @@ class UserService(
         val username = "test-${role.name.lowercase()}-${userSubscriptionPlan.name.lowercase()}"
         val user = User(
             username = username,
-            password = passwordEncoder.encode("P@ssw0rd-$username"),
-            email = "giacomo.marciani+$username@gmail.com",
+            password = passwordEncoder.encode("password"),
+            email = "giacomo.marciani+yawa-$username@gmail.com",
             role = role,
             subscriptionPlan = userSubscriptionPlan,
             isEnabled = true,
