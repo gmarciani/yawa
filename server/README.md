@@ -16,15 +16,59 @@ curl --request GET --url https://localhost:8000 --insecure
 ```
 
 ### Certificates
-Create a Certificate Authority (CA) on KeyChain, following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2686/mac) enabling SAN extension.
-Create a Certificate Signing Request (CSR), following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2793/mac).
+Create a Certificate Authority (CA) on KeyChain, following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2686/mac):
+* Name: GMARCIANI Root CA
+* Identity Type: Self-Signed Root CA
+* User Certificate: SSL Server
+* Email from: firstname.lastname+gmarciani-root-ca@gmail.com
+* Let me override defaults: true
+* Serial Number: 1
+* Validity Period (days): 3650
+* Sign your invitation: true
+* Common Name: GMARCIANI Root CA
+* Organizational Unit: GMARCIANI Certification Authority
+* Country: IT
+* Key Size (CA): 4098
+* Algorithm (CA): RSA
+* Key Size (Users): 4098
+* Algorithm (Users): RSA
+* Key Usage Extension (CA): Signature, Certificate Signing
+* Key Usage Extension (Users): Signature, Key Encipherment
+* Extended Key Usage Extension (CA): Any
+* Extended Key Usage Extension (Users): SSL Server Authentication
+* Basic Constraints Extensions (CA): Use this certificate as certificate authority
+* Basic Constraints Extensions (Users): none
+* SAN (CA): true
+* SAN (Users): true
+* Keychain: login
+* Trust certificates signed by this CA: true
+
+Create a Certificate Signing Request (CSR), following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2793/mac):
+* User Email: firstname.lastname+yawa@gmail.com
+* CA Email: firstname.lastname+gmarciani-root-ca@gmail.com
+* Save to disk: true
+
 Create the server certificate, by KeyChain > Certificate Assistant > Create a Certificate For Someone Else > Select the above CA and CSR.
-Export the server certificate from KeyChain in P12 format.
-Export the CA certificate from KeyChain in CER format.
-Convert the CA certificate from CER to PEM format: `openssl x509 -inform der -in gmarciani-root-ca.cer -out gmarciani-root-ca.pem`
-Check the content of the P12 keystore: `openssl pkcs12 -info -in yawa.p12 -nodes`
+
+Export the CA certificate and the server certificate as PEM from Keychain: `GMARCIANI-Root-CA.pem` and `YAWA.pem`.
+Export the server CA and private key as a single P12 keystore from Keychain `YAWA.p12`, providing the password that will be in `server.key-store-password`.
+
+Inspect the certificates and keystore:
+```
+openssl x509 -in GMARCIANI-Root-CA.pem -text
+openssl x509 -in YAWA.pem -text
+openssl pkcs12 -in YAWA.p12 -info -nodes -legacy
+```
+
+Verify the server certificate:
+```
+openssl verify -verbose -CAfile GMARCIANI-Root-CA.pem YAWA.pem
+```
+
+Copy the CA certificate to `server/src/main/yawa_ops/config/GMARCIANI-Root-CA.pem` to make the Ops module it trust the root CA.
+Copy the CA certificate to `ops/src/yawa_ops/config/GMARCIANI-Root-CA.pem` to make the Ops module it trust the root CA.
+
 Check the returned certificate from the server: `openssl s_client -connect localhost:8002 -CAfile gmarciani-root-ca.pem`
-Copy the CA certificate to the Ops module at `ops/src/yawa_ops/config/gmarciani-root-ca.pem` to make it trust the root CA
 
 ## Clients
 Clients are built as part of the server build process.
