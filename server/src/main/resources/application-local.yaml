@@ -2,7 +2,10 @@ yawa:
   stack: dev
   region: local
   filesystem:
-    rootDir: "/usr/local/var/yawa"
+    rootDir: .local/var/yawa
+  cache:
+    host: localhost
+    port: 6000
 spring:
   config:
     activate:
@@ -14,9 +17,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://127.0.0.1:3307/dbyawa?useSSL=false
+    url: jdbc:mysql://127.0.0.1:3307/dbyawa?useSSL=false&allowPublicKeyRetrieval=true
   pid:
-    file: yawa.pid
+    file: .local/yawa.pid
 server:
   error:
     include-message: always

@@ -1,6 +1,9 @@
 yawa:
   stack: dev
   region: docker
+  cache:
+    host: cache
+    port: 6379
 spring:
   config:
     activate:

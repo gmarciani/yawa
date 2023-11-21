@@ -7,16 +7,21 @@ yawa:
     rootDir: "/var/yawa"
 #  security:
 #    jwt:
-#      secret: FROM secrets.yaml
+#      secret: FROM classpath:secrets/application.yaml
+  cache:
+    host: cache-host
+    port: 1234
+#    username: FROM classpath:secrets/application.yaml
+#    password: FROM classpath:secrets/application.yaml
 server:
   port: 8000
   ssl:
     enabled: true
-    key-store: classpath:secrets/certificates/yawa.p12
+    key-store: classpath:secrets/certificates/YAWA.p12
     key-store-type: pkcs12
-#    key-alias: FROM secrets.yaml
-#    key-store-password: FROM secrets.yaml
-#    key-password: FROM secrets.yaml
+  #    key-alias: FROM classpath:secrets/application.yaml
+#    key-store-password: FROM classpath:secrets/application.yaml
+#    key-password: FROM classpath:secrets/application.yaml
   error:
     include-message: always
     include-stacktrace: never
@@ -39,9 +44,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   datasource:
-    url: jdbc:mysql://database:3306/dbyawa?useSSL=false
-#    username: FROM secrets.yaml
-#    password: FROM secrets.yaml
+    url: jdbc:mysql://database:3306/dbyawa?useSSL=false&allowPublicKeyRetrieval=true
+#   username: FROM classpath:secrets/application.yaml
+#   password: FROM classpath:secrets/application.yaml
   output:
     ansi:
       enabled: detect
@@ -57,13 +62,13 @@ spring:
 #      client:
 #        registration:
 #          google:
-#            client-id: FROM secrets.yaml
-#            client-secret: FROM secrets.yaml
+#            client-id: FROM classpath:secrets/application.yaml
+#            client-secret: FROM classpath:secrets/application.yaml
   mail:
     host: smtp.gmail.com
     port: 587
-#    username: FROM secrets.yaml
-#    password: FROM secrets.yaml
+#    username: FROM classpath:secrets/application.yaml
+#    password: FROM classpath:secrets/application.yaml
     properties:
       mail:
         smtp:
