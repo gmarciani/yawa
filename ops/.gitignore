@@ -4,3 +4,5 @@ build
 .ignore
 .python-version
 *.egg-info
+*.pyc
+__pycache__
