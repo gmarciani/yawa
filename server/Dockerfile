@@ -39,10 +39,10 @@ COPY . .
 
 # Promtail
 RUN mkdir -p /opt/promptail
-RUN curl -fSL -o /opt/promptail/promtail.gz "https://github.com/grafana/loki/releases/download/v1.6.1/promtail-linux-amd64.zip"
+RUN curl -fSL -o /opt/promptail/promtail.gz "https://github.com/grafana/loki/releases/download/v2.9.8/promtail-linux-arm64.zip"
 RUN unzip /opt/promptail/promtail.gz -d /opt/promptail
 RUN rm /opt/promptail/promtail.gz
-RUN chmod a+x /opt/promptail/promtail-linux-amd64
+RUN chmod a+x /opt/promptail/promtail-linux-arm64
 RUN useradd --system promtail
 RUN cp $YAWA_DIR/tools/promtail/promtail.service /etc/systemd/system/promtail.service
 RUN systemctl enable promtail.service
