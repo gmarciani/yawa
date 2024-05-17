@@ -6,6 +6,7 @@ import com.yawa.server.validators.Username
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -18,7 +19,7 @@ class Login(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
-    @PostMapping("/auth/login")
+    @PostMapping("/auth/login", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun login(@Valid @RequestBody request: LoginRequest): LoginResponse {
         log.info("Processing request: $request")
 
