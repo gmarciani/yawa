@@ -25,10 +25,7 @@ class ConsoleHandler(logging.StreamHandler):
         self.setFormatter(formatter)
 
     def emit(self, record):
-        if record.levelno >= logging.ERROR:
-            self.__emit(record, sys.stderr)
-        else:
-            self.__emit(record, sys.stdout)
+        self.__emit(record, sys.stdout)
 
     def __emit(self, record, strm):
         self.stream = strm
