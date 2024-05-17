@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import sys
 
 import click
 
@@ -17,7 +18,7 @@ log = logutils.get_logger(__name__)
 @click.pass_context
 @click.version_option(version=VERSION)
 def main(ctx, debug=False):
-    print(guiutils.get_splash(NAME))
+    print(guiutils.get_splash(NAME), file=sys.stderr)
     if ctx.invoked_subcommand is None:
         print(ctx.get_help())
     else:
