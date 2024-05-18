@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("java")
 	id("org.springframework.boot") version "3.1.1"
-	id("io.spring.dependency-management") version "1.1.4"
+	id("io.spring.dependency-management") version "1.1.5"
 	id("org.openapi.generator") version "6.5.0"
 	id("com.github.ben-manes.versions") version "0.46.0"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
