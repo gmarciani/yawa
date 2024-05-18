@@ -105,3 +105,12 @@ You can debug YAWA server from IntelliJ, as follows:
 5. Set your breakpoints
 6. Start the debugger in IntelliJ
 7. Send requests to the server
+
+## Build
+
+### Dependency Management
+
+Generate a report with all the suggested dependencies updates:
+```
+gradle dependencyUpdates
+```

@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -214,4 +215,26 @@ val frontendClientDir = "$frontendProjectDir/src/app/modules/clients/yawa"
 tasks.register<Sync>("copyClientToFrontend") {
 	from("$generateClientsDir/typescript")
 	into(frontendClientDir)
+}
+
+/* Dependency Management */
+
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+	gradleReleaseChannel = "current"
+	checkConstraints = true
+	checkBuildEnvironmentConstraints = true
+	checkForGradleUpdate = true
+	outputFormatter = "html"
+	outputDir = "$buildDir/dependencyManagement"
+	reportfileName = "dependencyUpdatesReport"
+	rejectVersionIf {
+		isNonStable(this.candidate.version) && !isNonStable(this.currentVersion)
+	}
+}
+
+fun isNonStable(version: String): Boolean {
+	val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+	val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+	val isStable = stableKeyword || regex.matches(version)
+	return isStable.not()
 }
