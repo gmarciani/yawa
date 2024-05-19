@@ -8,3 +8,4 @@ build
 __pycache__
 
 resources/secrets
+resources/profiles/*
