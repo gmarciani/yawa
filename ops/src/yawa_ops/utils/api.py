@@ -2,11 +2,21 @@ import json
 
 import yawac
 
+from yawa_ops.config.profiles import Profile
+from yawa_ops.utils import logutils
 
-def build_client(debug=False, verify_ssl=True, ca_file=None, access_token=None, endpoint=None):
+log = logutils.get_logger(__name__)
+
+
+def build_client(
+        endpoint: str,
+        profile: str = None,
+        ca_file: str = None,
+        verify_ssl: bool = True,
+        debug: bool = False):
     config = build_client_config(
         endpoint=endpoint,
-        access_token=access_token,
+        profile=profile,
         debug=debug,
         verify_ssl=verify_ssl,
         ca_file=ca_file,
@@ -14,9 +24,21 @@ def build_client(debug=False, verify_ssl=True, ca_file=None, access_token=None, 
     return yawac.ApiClient(config)
 
 
-def build_client_config(endpoint=None, access_token=None, verify_ssl=True, ca_file=None, debug=False):
+def build_client_config(
+        endpoint: str,
+        profile: Profile = None,
+        ca_file: str = None,
+        verify_ssl: bool = True,
+        debug: bool = False):
+    log.debug(f"Building client configuration with "
+              f"endpoint={endpoint}, "
+              f"profile={profile}, "
+              f"verify_ssl={verify_ssl}, "
+              f"ca_file={ca_file}, "
+              f"debug={debug}"
+    )
     configuration = yawac.Configuration(host=endpoint)
-    configuration.access_token = access_token
+    configuration.access_token = profile.credentials.access_token if profile else None
     configuration.verify_ssl = verify_ssl
     configuration.ssl_ca_cert = ca_file
     configuration.debug = debug
