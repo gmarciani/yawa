@@ -7,6 +7,7 @@ import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,7 +23,7 @@ class DeleteUser(
     @Autowired val mailService: MailService
 ) {
 
-    @DeleteMapping("/users/{username}")
+    @DeleteMapping("/users/{username}", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun deleteUser(@PathVariable username: String, @RequestBody request: DeleteUserRequest): DeleteUserResponse {
         log.info("Processing request: $request")

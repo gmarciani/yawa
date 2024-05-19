@@ -7,6 +7,7 @@ import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
@@ -21,7 +22,7 @@ class ResetPassword(
     @Autowired val mailService: MailService
 ) {
 
-    @PatchMapping("/users/{username}/password")
+    @PatchMapping("/users/{username}/password", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun resetPassword(@PathVariable username: String, @RequestBody request: ResetPasswordRequest): ResetPasswordResponse {
         log.info("Processing request: $request")
 

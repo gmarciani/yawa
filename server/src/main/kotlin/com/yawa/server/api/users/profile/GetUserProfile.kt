@@ -5,6 +5,7 @@ import com.yawa.server.models.users.UserProfile
 import com.yawa.server.repositories.UserRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -16,7 +17,7 @@ class GetUserProfile(
     @Autowired val userRepository: UserRepository
 ) {
 
-    @GetMapping("/users/{username}/profile")
+    @GetMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getUserProfile(@PathVariable username: String): DescribeUserProfileResponse {
         log.info("Processing request for user $username")
 

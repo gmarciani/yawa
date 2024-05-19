@@ -5,6 +5,7 @@ import com.yawa.server.models.users.UserSettings
 import com.yawa.server.repositories.UserRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,7 +18,7 @@ class GetUserSettings(
     @Autowired val userRepository: UserRepository
 ) {
 
-    @GetMapping("/users/{username}/settings")
+    @GetMapping("/users/{username}/settings", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun getUserSettings(@PathVariable username: String): DescribeUserSettingsResponse {
 

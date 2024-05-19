@@ -5,6 +5,7 @@ import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.exceptions.YawaBadRequestException
 import com.yawa.server.exceptions.YawaInternalException
 import mu.KotlinLogging
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -15,7 +16,7 @@ private val log = KotlinLogging.logger {}
 @RestController
 class GetOutcome {
 
-    @GetMapping("/simple/outcome")
+    @GetMapping("/simple/outcome", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getOutcome(@RequestBody request: GetOutcomeRequest): GetOutcomeResponse {
         log.info("Processing request: $request")
         val outcome = if (request.outcome == Outcome.RANDOM) {

@@ -2,6 +2,7 @@ package com.yawa.server.api.simple
 
 import com.yawa.server.models.users.User
 import mu.KotlinLogging
+import org.springframework.http.MediaType
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,7 +13,7 @@ private val log = KotlinLogging.logger {}
 @RestController
 class GetGreetings {
 
-    @GetMapping("/simple/greetings")
+    @GetMapping("/simple/greetings", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getGreetings(): GetAuthenticatedHelloResponse {
         log.info("Processing request")
 

@@ -3,6 +3,7 @@ package com.yawa.server.api.auth
 import com.yawa.server.security.authentication.AuthenticationService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,7 +17,7 @@ class RefreshAuthentication(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
-    @GetMapping("/auth/{username}/tokens")
+    @GetMapping("/auth/{username}/tokens", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun refreshAuthentication(@PathVariable username: String, @RequestBody request: RefreshAuthenticationRequest):
             RefreshAuthenticationResponse {
         log.info("Processing request for user $username: $request")

@@ -8,6 +8,7 @@ import com.yawa.server.repositories.UserRepository
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,7 +24,7 @@ class UpdateUserProfile(
     @Autowired val userProfileRepository: UserProfileRepository
 ) {
 
-    @PatchMapping("/users/{username}/profile")
+    @PatchMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun updateUserProfile(@PathVariable username: String, @Valid @RequestBody request: UpdateUserProfileRequest): UpdateUserProfileResponse {
         log.info("Processing request: $request")

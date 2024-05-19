@@ -3,6 +3,7 @@ package com.yawa.server.api.users.profile.picture
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PatchMapping
@@ -17,7 +18,7 @@ class UpdateUserPicture(
     @Autowired val userService: UserService,
 ) {
 
-    @PatchMapping("/users/{username}/profile/picture")
+    @PatchMapping("/users/{username}/profile/picture", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun updateUserPicture(@PathVariable username: String, @ModelAttribute request: UpdateUserPictureRequest): UpdateUserPictureResponse {
         log.info("Processing request for user $username: $request")

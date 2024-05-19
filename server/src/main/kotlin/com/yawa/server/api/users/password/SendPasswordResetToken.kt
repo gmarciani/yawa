@@ -7,6 +7,7 @@ import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -20,7 +21,7 @@ class SendPasswordResetToken(
     @Autowired val mailService: MailService
 ) {
 
-    @GetMapping("/users/{username}/tokens/password")
+    @GetMapping("/users/{username}/tokens/password", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendPasswordResetToken(@PathVariable username: String): SendPasswordResetTokenResponse {
         log.info("Processing request")
 

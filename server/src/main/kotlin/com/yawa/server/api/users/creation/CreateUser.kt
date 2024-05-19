@@ -14,6 +14,7 @@ import com.yawa.server.validators.Username
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -29,7 +30,7 @@ class CreateUser(
     @Autowired val mailService: MailService
 ) {
 
-    @PostMapping("/users")
+    @PostMapping("/users", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun createUser(@Valid @RequestBody request: CreateUserRequest, authentication: Authentication?): CreateUserResponse {
         log.info("Processing request: $request")
 

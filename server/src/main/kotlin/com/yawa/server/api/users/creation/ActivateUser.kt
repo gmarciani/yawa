@@ -7,6 +7,7 @@ import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -22,7 +23,7 @@ class ActivateUser(
     @Autowired val mailService: MailService
 ) {
 
-    @PostMapping("/users/{username}/activation")
+    @PostMapping("/users/{username}/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun activateUser(@PathVariable username: String, @RequestBody request: ActivateUserRequest): ActivateUserResponse {
         log.info("Processing request: $request")
 
