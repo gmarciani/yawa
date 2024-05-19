@@ -7,6 +7,7 @@ from yawa_ops.commands.admin import send_mail
 from yawa_ops.commands.auth.login import login
 from yawa_ops.commands.auth.logout import logout
 from yawa_ops.commands.management import info, shutdown, health
+from yawa_ops.commands.simple.get_outcome import get_outcome
 from yawa_ops.commands.simple.get_greetings import get_greetings
 from yawa_ops.config.metadata import NAME, VERSION
 from yawa_ops.utils import guiutils, logutils
@@ -41,6 +42,7 @@ main.add_command(logout)
 
 # Simple
 main.add_command(get_greetings)
+main.add_command(get_outcome)
 
 
 if __name__ == "__main__":
