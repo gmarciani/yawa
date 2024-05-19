@@ -73,6 +73,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+/* BUILD */
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -92,6 +94,12 @@ tasks.bootJar {
 	this.mainClass.set("com.yawa.server.Application")
 }
 
+tasks.build {
+	this.dependsOn("buildClients")
+}
+
+/* SPRING - BOOT */
+
 tasks.bootRun {
 	if (ext.get("profile") != null) { systemProperty("spring.profiles.active", ext.get("profile")!!) }
 	if (ext.get("stack") != null) { systemProperty("yawa.stack", ext.get("stack")!!) }
@@ -99,7 +107,22 @@ tasks.bootRun {
 	if (ext.get("debugEnabled") != null) { jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${ext.get("debugPort")}") }
 }
 
+/* SPRING - BUILD INFO */
+
+configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
+	buildInfo()
+}
+
+// TODO We must ignore the failures because the Git folder is not copied into the container.
+configure<com.gorylenko.GitPropertiesPluginExtension> {
+	this.failOnNoGitDirectory = false
+}
+
+/* CLIENTS */
+
 task("buildClients") {
+	this.description = "Build all clients."
+	this.group = "Clients"
 	this.dependsOn(
 		"buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient", "buildTypeScriptClient"
 	)
@@ -109,6 +132,8 @@ val openapiDefinition = "$mainResourcesDir/openapi/definition.json"
 val generateClientsDir = "$buildDir/generated/clients"
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClient") {
+	this.description = "Build BASH client."
+	this.group = "Clients"
 	this.generatorName.set("bash")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/bash")
@@ -125,6 +150,8 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClie
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildPythonClient") {
+	this.description = "Build Python client"
+	this.group = "Clients"
 	this.generatorName.set("python")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/python")
@@ -141,6 +168,8 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildPythonCl
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildJavaClient") {
+	this.description = "Build Java client."
+	this.group = "Clients"
 	this.generatorName.set("java")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/java")
@@ -161,6 +190,8 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildJavaClie
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinClient") {
+	this.description = "Build Kotlin client"
+	this.group = "Clients"
 	this.generatorName.set("kotlin")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/kotlin")
@@ -181,6 +212,8 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinCl
 }
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildTypeScriptClient") {
+	this.description = "Build TypeScript client."
+	this.group = "Clients"
 	this.generatorName.set("typescript-axios")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/typescript")
@@ -200,24 +233,18 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildTypeScri
 	this.validateSpec.set(true)
 }
 
-configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
-	buildInfo()
-}
-
-// TODO We must ignore the failures because the Git folder is not copied into the container.
-configure<com.gorylenko.GitPropertiesPluginExtension> {
-	this.failOnNoGitDirectory = false
-}
-
 val frontendProjectDir = "$rootDir/../frontend"
 val frontendClientDir = "$frontendProjectDir/src/app/modules/clients/yawa"
 
 tasks.register<Sync>("copyClientToFrontend") {
+	this.description = "Copy TypeScript client to the frontend project."
+	this.group = "Clients"
+	this.dependsOn.add("buildTypeScriptClient")
 	from("$generateClientsDir/typescript")
 	into(frontendClientDir)
 }
 
-/* Dependency Management */
+/* DEPENDENCY MANAGEMENT */
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
 	gradleReleaseChannel = "current"
