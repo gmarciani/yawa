@@ -543,11 +543,19 @@
         "operationId": "getOutcome",
         "parameters": [
           {
-            "name": "request",
+            "name": "outcome",
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/GetOutcomeRequest"
+              "type": "string",
+              "enum": [
+                "SUCCESS",
+                "NOT_AUTHORIZED",
+                "NOT_FOUND",
+                "BAD_REQUEST",
+                "INTERNAL_ERROR",
+                "RANDOM"
+              ]
             }
           }
         ],
@@ -1509,25 +1517,6 @@
         "properties": {
           "profile": {
             "$ref": "#/components/schemas/UserProfile"
-          }
-        }
-      },
-      "GetOutcomeRequest": {
-        "required": [
-          "outcome"
-        ],
-        "type": "object",
-        "properties": {
-          "outcome": {
-            "type": "string",
-            "enum": [
-              "SUCCESS",
-              "NOT_AUTHORIZED",
-              "NOT_FOUND",
-              "BAD_REQUEST",
-              "INTERNAL_ERROR",
-              "RANDOM"
-            ]
           }
         }
       },

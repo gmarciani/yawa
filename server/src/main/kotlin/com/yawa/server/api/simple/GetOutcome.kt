@@ -8,6 +8,7 @@ import mu.KotlinLogging
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -17,9 +18,9 @@ private val log = KotlinLogging.logger {}
 class GetOutcome {
 
     @GetMapping("/simple/outcome", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getOutcome(@RequestBody request: GetOutcomeRequest): GetOutcomeResponse {
-        log.info("Processing request: $request")
-        val outcome = if (request.outcome == Outcome.RANDOM) {
+    fun getOutcome(@RequestParam outcome: Outcome): GetOutcomeResponse {
+        log.info("Processing request: outcome=$outcome")
+        val _outcome = if (outcome == Outcome.RANDOM) {
             val dice = random()
             if (dice <= 6.0/10) {
                 Outcome.SUCCESS
@@ -32,8 +33,8 @@ class GetOutcome {
             } else {
                 Outcome.INTERNAL_ERROR
             }
-        } else request.outcome
-        when (outcome) {
+        } else outcome
+        when (_outcome) {
             Outcome.SUCCESS -> {
                 log.info("Will return success")
                 return GetOutcomeResponse("Success")

@@ -17,54 +17,54 @@ class GetOutcomeTest : BehaviorSpec({
         `when`("GetDeterministicOutcome is called") {
 
             and("the requested outcome is ${GetOutcome.Outcome.SUCCESS}") {
-                val request = GetOutcome.GetOutcomeRequest(outcome = GetOutcome.Outcome.SUCCESS)
+                val outcome = GetOutcome.Outcome.SUCCESS
 
                 then("it returns a successful response") {
-                    val response = subject.getOutcome(request)
+                    val response = subject.getOutcome(outcome = outcome)
                     response shouldBe GetOutcome.GetOutcomeResponse("Success")
                 }
             }
 
             and("the requested outcome is ${GetOutcome.Outcome.NOT_AUTHORIZED}") {
-                val request = GetOutcome.GetOutcomeRequest(outcome = GetOutcome.Outcome.NOT_AUTHORIZED)
+                val outcome = GetOutcome.Outcome.NOT_AUTHORIZED
 
                 then("it returns a NotAuthorizedException exception") {
-                    shouldThrowExactly<NotAuthorizedException> { subject.getOutcome(request) }
+                    shouldThrowExactly<NotAuthorizedException> { subject.getOutcome(outcome = outcome) }
                 }
             }
 
             and("the requested outcome is ${GetOutcome.Outcome.NOT_FOUND}") {
-                val request = GetOutcome.GetOutcomeRequest(outcome = GetOutcome.Outcome.NOT_FOUND)
+                val outcome = GetOutcome.Outcome.NOT_FOUND
 
                 then("it returns a ResourceNotFoundException exception") {
-                    shouldThrowExactly<ResourceNotFoundException> { subject.getOutcome(request) }
+                    shouldThrowExactly<ResourceNotFoundException> { subject.getOutcome(outcome = outcome) }
                 }
             }
 
             and("the requested outcome is ${GetOutcome.Outcome.BAD_REQUEST}") {
-                val request = GetOutcome.GetOutcomeRequest(outcome = GetOutcome.Outcome.BAD_REQUEST)
+                val outcome = GetOutcome.Outcome.BAD_REQUEST
 
                 then("it returns a YawaBadRequestException exception") {
-                    shouldThrowExactly<YawaBadRequestException> { subject.getOutcome(request) }
+                    shouldThrowExactly<YawaBadRequestException> { subject.getOutcome(outcome = outcome) }
                 }
             }
 
             and("the requested outcome is ${GetOutcome.Outcome.INTERNAL_ERROR}") {
-                val request = GetOutcome.GetOutcomeRequest(outcome = GetOutcome.Outcome.INTERNAL_ERROR)
+                val outcome = GetOutcome.Outcome.INTERNAL_ERROR
 
                 then("it returns a YawaInternalException exception") {
-                    shouldThrowExactly<YawaInternalException> { subject.getOutcome(request) }
+                    shouldThrowExactly<YawaInternalException> { subject.getOutcome(outcome = outcome) }
                 }
             }
 
             and("the requested outcome is ${GetOutcome.Outcome.RANDOM}") {
-                val request = GetOutcome.GetOutcomeRequest(outcome = GetOutcome.Outcome.RANDOM)
+                val outcome = GetOutcome.Outcome.RANDOM
 
                 and("the random number is <= ${6.0/10}") {
                     every { subject["random"]() } returns 6.0/10
 
                     then("it returns a successful response") {
-                        val response = subject.getOutcome(request)
+                        val response = subject.getOutcome(outcome = outcome)
                         response shouldBe GetOutcome.GetOutcomeResponse("Success")
                     }
                 }
@@ -73,7 +73,7 @@ class GetOutcomeTest : BehaviorSpec({
                     every { subject["random"]() } returns 7.5/10
 
                     then("it returns a NotAuthorizedException exception") {
-                        shouldThrowExactly<NotAuthorizedException> { subject.getOutcome(request) }
+                        shouldThrowExactly<NotAuthorizedException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
 
@@ -81,7 +81,7 @@ class GetOutcomeTest : BehaviorSpec({
                     every { subject["random"]() } returns 9.0/10
 
                     then("it returns a ResourceNotFoundException exception") {
-                        shouldThrowExactly<ResourceNotFoundException> { subject.getOutcome(request) }
+                        shouldThrowExactly<ResourceNotFoundException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
 
@@ -89,7 +89,7 @@ class GetOutcomeTest : BehaviorSpec({
                     every { subject["random"]() } returns 9.5/10
 
                     then("it returns a YawaBadRequestException exception") {
-                        shouldThrowExactly<YawaBadRequestException> { subject.getOutcome(request) }
+                        shouldThrowExactly<YawaBadRequestException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
 
@@ -97,7 +97,7 @@ class GetOutcomeTest : BehaviorSpec({
                     every { subject["random"]() } returns 9.6/10
 
                     then("it returns a YawaInternalException exception") {
-                        shouldThrowExactly<YawaInternalException> { subject.getOutcome(request) }
+                        shouldThrowExactly<YawaInternalException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
             }
