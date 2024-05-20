@@ -2,7 +2,7 @@ package com.yawa.server.api.users.profile
 
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.UserProfile
-import com.yawa.server.repositories.UserRepository
+import com.yawa.server.datastore.repositories.UserRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType

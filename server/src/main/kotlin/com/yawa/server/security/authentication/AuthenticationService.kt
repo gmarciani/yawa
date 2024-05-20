@@ -7,7 +7,7 @@ import com.yawa.server.models.tokens.AuthenticationTokens
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
-import com.yawa.server.repositories.UserRepository
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.security.encryption.JwtService
 import com.yawa.server.security.tokens.TokenField
 import org.springframework.beans.factory.annotation.Autowired

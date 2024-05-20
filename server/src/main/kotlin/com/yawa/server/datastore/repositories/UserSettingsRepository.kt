@@ -1,4 +1,4 @@
-package com.yawa.server.repositories;
+package com.yawa.server.datastore.repositories;
 
 import com.yawa.server.models.users.UserSettings
 import org.springframework.data.repository.CrudRepository

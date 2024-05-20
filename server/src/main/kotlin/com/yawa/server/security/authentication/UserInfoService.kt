@@ -1,6 +1,6 @@
 package com.yawa.server.security.authentication
 
-import com.yawa.server.repositories.UserRepository
+import com.yawa.server.datastore.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

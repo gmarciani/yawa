@@ -4,7 +4,7 @@ import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.models.users.UserSubscriptionPlan
-import com.yawa.server.repositories.UserRepository
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.security.encryption.PasswordEncodeService
 import com.yawa.server.security.throttling.ThrottlingService
 import mu.KotlinLogging

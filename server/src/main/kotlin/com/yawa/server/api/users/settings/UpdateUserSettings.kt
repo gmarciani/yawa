@@ -2,8 +2,8 @@ package com.yawa.server.api.users.settings
 
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.UserSettings
-import com.yawa.server.repositories.UserRepository
-import com.yawa.server.repositories.UserSettingsRepository
+import com.yawa.server.datastore.repositories.UserRepository
+import com.yawa.server.datastore.repositories.UserSettingsRepository
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired

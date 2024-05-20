@@ -5,7 +5,7 @@ import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
-import com.yawa.server.repositories.UserRepository
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import com.yawa.server.validators.Email
