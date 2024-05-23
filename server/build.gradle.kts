@@ -1,5 +1,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.ByteArrayOutputStream
 
 plugins {
 	id("java")
@@ -9,6 +12,7 @@ plugins {
 	id("com.github.ben-manes.versions") version "0.51.0"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
 	id("com.gorylenko.gradle-git-properties") version "2.4.1"
+	id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
 	kotlin("jvm") version "1.9.20"
 	kotlin("plugin.spring") version "1.9.20"
 	kotlin("plugin.jpa") version "1.9.20"
@@ -116,6 +120,31 @@ configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
 // TODO We must ignore the failures because the Git folder is not copied into the container.
 configure<com.gorylenko.GitPropertiesPluginExtension> {
 	this.failOnNoGitDirectory = false
+}
+
+/* OPENAPI */
+
+task("getOpenApiDefinition") {
+	this.description = "Get OpenAPI documentation."
+	this.group = "OpenAPI"
+
+	doLast {
+		val definitionFile = "$mainResourcesDir/openapi/definition.json"
+		val securityDefinitionFile = "$mainResourcesDir/openapi/security.json"
+
+		val stdout = ByteArrayOutputStream()
+		exec {
+			commandLine = listOf("curl", "-k", "https://localhost:8002/docs/openapi")
+			standardOutput = stdout
+		}
+
+		val definition = Gson().fromJson(stdout.toString(), mutableMapOf<String, Any>().javaClass)
+		val securityDefinition = Gson().fromJson(File(securityDefinitionFile).readText(), mutableMapOf<String, Any>().javaClass)
+
+		definition +=  securityDefinition
+		val prettyDefinition = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(definition)
+		File(definitionFile).writeText(prettyDefinition)
+	}
 }
 
 /* CLIENTS */
