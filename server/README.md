@@ -81,12 +81,11 @@ gradle buildClients
 Examples:
 ```shell
 export YAWA_ENDPOINT="https://localhost:8002" # Server running in Docker
-export YAWA_ENDPOINT="https://localhost:8000" # Server running locally
-export YAWA_USERNAME="mgiacomo"
+export YAWA_USERNAME="admin"
 export YAWA_PASSWORD="password"
-./yawac getRandomOutcome
-token=$(./yawac login username==$YAWA_USERNAME password==$YAWA_PASSWORD | jq -r '.token')
-./yawac login getAuthenticatedHello Authorization:"Bearer $token"
+./yawac getGreetings
+token=$(./yawac login username==$YAWA_USERNAME password==$YAWA_PASSWORD | jq -r '.accessToken')
+./yawac getGreetings Authorization:"Bearer $token"
 ```
 
 ### Debugging
@@ -113,4 +112,13 @@ You can debug YAWA server from IntelliJ, as follows:
 Generate a report with all the suggested dependencies updates:
 ```
 gradle dependencyUpdates
+```
+
+## Run
+
+### Locally
+
+```
+gradle bootRun \
+  -Pprofile=local-h2
 ```
