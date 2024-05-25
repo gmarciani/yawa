@@ -50,25 +50,50 @@ Create a Certificate Signing Request (CSR), following [this guide](https://suppo
 
 Create the server certificate, by KeyChain > Certificate Assistant > Create a Certificate For Someone Else > Select the above CA and CSR.
 
-Export the CA certificate and the server certificate as PEM from Keychain: `GMARCIANI-Root-CA.pem` and `YAWA.pem`.
-Export the server CA and private key as a single P12 keystore from Keychain `YAWA.p12`, providing the password that will be in `server.key-store-password`.
+* Let me override defaults: true
+* Serial Number: 1
+* Validity Period (days): 3650
+* Common Name: YAWA
+* Organization: YAWA Corp
+* Organizational Unit: Security
+* City: Cagliari
+* State/Province: CA
+* Country: IT
+* Extension: All
+* Capabilities: All
+* Subject Alternative Names
+  * rfc822Name: giacomo.marciani+yawa@gmail.com
+  * dnsName: localhost
+
+Export the CA certificate and the server certificate as separated PEM files from Keychain: `GMARCIANI-Root-CA.pem` and `YAWA.pem`.
+Export the server certificate and the private key as a single P12 keystore from Keychain `YAWA.p12`,
+providing the password that will be in `server.key-store-password`.
 
 Inspect the certificates and keystore:
 ```
-openssl x509 -in GMARCIANI-Root-CA.pem -text
-openssl x509 -in YAWA.pem -text
-openssl pkcs12 -in YAWA.p12 -info -nodes -legacy
+ROOT_CA_PEM="server/src/main/resources/secrets/certificates/GMARCIANI-Root-CA.pem"
+SERVER_CERT_PEM="server/src/main/resources/secrets/certificates/YAWA.pem"
+SERVER_CERT_P12="server/src/main/resources/secrets/certificates/YAWA.p12"
+
+openssl x509 -in $ROOT_CA_PEM -text
+openssl x509 -in $SERVER_CERT_PEM -text
+openssl pkcs12 -in $SERVER_CERT_P12 -info -nodes -legacy
 ```
 
 Verify the server certificate:
 ```
-openssl verify -verbose -CAfile GMARCIANI-Root-CA.pem YAWA.pem
+openssl verify -verbose -CAfile $ROOT_CA_PEM $SERVER_CERT_PEM
 ```
 
-Copy the CA certificate to `server/src/main/yawa_ops/config/GMARCIANI-Root-CA.pem` to make the Ops module it trust the root CA.
-Copy the CA certificate to `ops/src/yawa_ops/config/GMARCIANI-Root-CA.pem` to make the Ops module it trust the root CA.
+Copy the CA certificate to the Ops module to make it trust the root CA.
+```
+cp $ROOT_CA_PEM ops/resources/certificates/
+```
 
-Check the returned certificate from the server: `openssl s_client -connect localhost:8002 -CAfile gmarciani-root-ca.pem`
+Check the returned certificate from the server:
+```
+openssl s_client -connect localhost:8002 -CAfile $ROOT_CA_PEM
+```
 
 ## Clients
 Clients are built as part of the server build process.
