@@ -6,4 +6,4 @@ DEFAULT_ENDPOINT = "https://localhost:8002"
 
 DEFAULT_PROFILE = None
 
-CA_FILE = path.abspath(f"{RESOURCES_DIR}/certificates/GMARCIANI-Root-CA.pem")
+CA_FILE = path.abspath(f"{RESOURCES_DIR}/certificates/GMARCIANI-Root-CA-Cert.pem")
