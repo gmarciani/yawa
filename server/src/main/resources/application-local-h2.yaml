@@ -1,0 +1,40 @@
+yawa:
+  stack: dev
+  region: local
+  filesystem:
+    rootDir: .local/var/yawa
+  cache:
+    host: localhost
+    port: 6000
+spring:
+  config:
+    activate:
+      on-profile: local-h2
+  devtools:
+    restart:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:h2:mem:dbyawa
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+  pid:
+    file: .local/yawa.pid
+server:
+  error:
+    include-message: always
+    include-stacktrace: always
+    include-exception: true
+    include-binding-errors: always
+    whitelabel:
+      enabled: false
