@@ -17,15 +17,16 @@ curl --request GET --url https://localhost:8000 --insecure
 
 ### Certificates
 Create a Certificate Authority (CA) on KeyChain, following [this guide](https://support.apple.com/en-gb/guide/keychain-access/kyca2686/mac):
-* Name: GMARCIANI Root CA
+* Common Name: GMARCIANI Root CA
 * Identity Type: Self-Signed Root CA
 * User Certificate: SSL Server
-* Email from: firstname.lastname+gmarciani-root-ca@gmail.com
+* Email from: giacomo.marciani+gmarciani-root-ca@gmail.com
 * Let me override defaults: true
 * Serial Number: 1
 * Validity Period (days): 3650
 * Sign your invitation: true
 * Common Name: GMARCIANI Root CA
+* Organization Name: GMARCIANI CORP
 * Organizational Unit: GMARCIANI Certification Authority
 * Country: IT
 * Key Size (CA): 4098
@@ -68,6 +69,40 @@ Create the server certificate, by KeyChain > Certificate Assistant > Create a Ce
 Export the CA certificate and the server certificate as separated PEM files from Keychain: `GMARCIANI-Root-CA.pem` and `YAWA.pem`.
 Export the server certificate and the private key as a single P12 keystore from Keychain `YAWA.p12`,
 providing the password that will be in `server.key-store-password`.
+
+```
+# rbaServerCertReq.config
+[req]
+req_extensions = v3_req
+distinguished_name = dn
+prompt = no
+
+[dn]
+CN = yawa.com
+C = IT
+L = Cagliari
+O = YAWA CORP
+OU = Security
+
+[v3_req]
+subjectAltName = DNS:localhost
+```
+
+
+```
+# v3.ext
+subjectAltName = DNS:localhost
+```
+
+```
+openssl genrsa -out rootCAKey.pem 2048
+openssl req -x509 -sha256 -new -nodes -key rootCAKey.pem -days 3650 -out rootCACert.pem
+openssl genrsa -out rbaServerKey.pem 2048
+openssl req -new -key rbaServerKey.pem -sha256 -out rbaServerCert.csr -config rbaServerCertReq.config
+openssl x509 -req -sha256 -in rbaServerCert.csr -CA rootCACert.pem -CAkey rootCAKey.pem -CAcreateserial -out rbaServerCert.pem -days 3650 -extfile v3.ext
+openssl pkcs12 -export -out rbaServer.p12 -inkey rbaServerKey.pem -in rbaServerCert.pem -name "YAWA"
+```
+
 
 Inspect the certificates and keystore:
 ```
