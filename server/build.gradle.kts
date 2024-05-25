@@ -129,8 +129,9 @@ task("getOpenApiDefinition") {
 	this.group = "OpenAPI"
 
 	doLast {
-		val definitionFile = "$mainResourcesDir/openapi/definition.json"
-		val securityDefinitionFile = "$mainResourcesDir/openapi/security.json"
+		val definitionFile = File("$mainResourcesDir/openapi/definition.json")
+		val securitySchemesDefinitionFile = File("$mainResourcesDir/openapi/security-schemes.json")
+		val securityDefinitionFile = File("$mainResourcesDir/openapi/security.json")
 
 		val stdout = ByteArrayOutputStream()
 		exec {
@@ -138,12 +139,13 @@ task("getOpenApiDefinition") {
 			standardOutput = stdout
 		}
 
-		val definition = Gson().fromJson(stdout.toString(), mutableMapOf<String, Any>().javaClass)
-		val securityDefinition = Gson().fromJson(File(securityDefinitionFile).readText(), mutableMapOf<String, Any>().javaClass)
+		val mapClass = mutableMapOf<String, Any>().javaClass
+		val definition = Gson().fromJson(stdout.toString(), mapClass)
+		definition += Gson().fromJson(securitySchemesDefinitionFile.readText(), mapClass)
+		definition += Gson().fromJson(securityDefinitionFile.readText(), mapClass)
 
-		definition +=  securityDefinition
 		val prettyDefinition = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(definition)
-		File(definitionFile).writeText(prettyDefinition)
+		definitionFile.writeText(prettyDefinition)
 	}
 }
 
