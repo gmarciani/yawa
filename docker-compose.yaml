@@ -1,3 +1,4 @@
+name: yawa
 services:
   frontend:
     container_name: frontend
