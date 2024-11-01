@@ -13,12 +13,14 @@ plugins {
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
 	id("com.gorylenko.gradle-git-properties") version "2.4.1"
 	id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
+	id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 	kotlin("jvm") version "1.9.20"
 	kotlin("plugin.spring") version "1.9.20"
 	kotlin("plugin.jpa") version "1.9.20"
 }
 
 apply(plugin = "io.spring.dependency-management")
+apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
 ext {
 	set("debugEnabled", project.properties.getOrDefault("debugEnabled", false))
@@ -44,7 +46,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-//	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
@@ -295,4 +297,23 @@ fun isNonStable(version: String): Boolean {
 	val regex = "^[0-9,.v-]+(-r)?$".toRegex()
 	val isStable = stableKeyword || regex.matches(version)
 	return isStable.not()
+}
+
+// Linters
+ktlint {
+	version.set("1.4.0")
+	debug.set(false)
+	verbose.set(true)
+	ignoreFailures.set(false)
+	enableExperimentalRules.set(false)
+	additionalEditorconfig.set(
+		mapOf(
+			"max_line_length" to "40",
+			"indent_style" to "tab",
+			"ktlint_standard_comment-spacing" to
+					"disabled",
+			"ktlint_standard_no-consecutive-blank-lines" to
+					"disabled",
+		),
+	)
 }
