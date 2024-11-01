@@ -1,7 +1,7 @@
-package com.yawa.server.datastore.repositories;
+package com.yawa.server.datastore.repositories
 
 import com.yawa.server.models.users.UserSettings
 import org.springframework.data.repository.CrudRepository
-import java.util.*
+import java.util.UUID
 
-interface UserSettingsRepository: CrudRepository<UserSettings, UUID>
+interface UserSettingsRepository : CrudRepository<UserSettings, UUID>

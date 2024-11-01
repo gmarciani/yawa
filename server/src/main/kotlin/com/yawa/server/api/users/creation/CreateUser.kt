@@ -31,7 +31,10 @@ class CreateUser(
 ) {
 
     @PostMapping("/users", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun createUser(@Valid @RequestBody request: CreateUserRequest, authentication: Authentication?): CreateUserResponse {
+    fun createUser(
+        @Valid @RequestBody request: CreateUserRequest,
+        authentication: Authentication?,
+    ): CreateUserResponse {
         log.info("Processing request: $request")
 
         if (userRepository.existsByUsername(request.username)) {

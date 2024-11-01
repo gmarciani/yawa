@@ -20,7 +20,10 @@ class UpdateUserPicture(
 
     @PatchMapping("/users/{username}/profile/picture", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun updateUserPicture(@PathVariable username: String, @ModelAttribute request: UpdateUserPictureRequest): UpdateUserPictureResponse {
+    fun updateUserPicture(
+        @PathVariable username: String,
+        @ModelAttribute request: UpdateUserPictureRequest,
+    ): UpdateUserPictureResponse {
         log.info("Processing request for user $username: $request")
 
         userService.setUserPicture(username = username, file = request.file)

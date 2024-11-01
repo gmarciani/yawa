@@ -18,7 +18,7 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.UuidGenerator
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "users")
@@ -72,11 +72,12 @@ class User(
     @GeneratedValue
     @UuidGenerator
     @Column(name = "id", updatable = false)
-    val id: UUID? = null
+    val id: UUID? = null,
 ) {
 
     fun toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User(
         username, password,
         isEnabled, isAccountNonExpired, isCredentialsNonExpired, isAccountNonLocked,
-        role.toAuthorities())
+        role.toAuthorities(),
+    )
 }

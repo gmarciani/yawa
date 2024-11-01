@@ -12,7 +12,7 @@ import java.time.Instant
 
 @Service
 class JwtService(
-    @Autowired val securityJwtConfiguration: SecurityJwtConfiguration
+    @Autowired val securityJwtConfiguration: SecurityJwtConfiguration,
 ) {
 
     fun issue(attributes: Map<String, String>, expiration: Instant): String {

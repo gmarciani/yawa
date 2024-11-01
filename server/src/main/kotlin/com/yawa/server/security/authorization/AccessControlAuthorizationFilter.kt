@@ -19,11 +19,10 @@ private val log = KotlinLogging.logger {}
 
 @Component
 class AccessControlAuthorizationFilter(
-    @Autowired val operationNameProvider : OperationNameProvider
-): OncePerRequestFilter() {
+    @Autowired val operationNameProvider: OperationNameProvider,
+) : OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
-
         val authentication = SecurityContextHolder.getContext().authentication
 
         if (authentication is AnonymousAuthenticationToken) {
@@ -38,7 +37,9 @@ class AccessControlAuthorizationFilter(
         val requestUri = request.requestURI
 
         if (method == null || requestUri == null) {
-            log.warn("AUTHORIZATION: Cannot determine http request method and/or URI, abstaining from authorization vote")
+            log.warn(
+                "AUTHORIZATION: Cannot determine http request method and/or URI, abstaining from authorization vote",
+            )
             chain.doFilter(request, response)
             return
         }

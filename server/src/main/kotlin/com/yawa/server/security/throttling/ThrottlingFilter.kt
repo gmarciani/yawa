@@ -18,11 +18,12 @@ private val log = KotlinLogging.logger {}
 @Component
 class ThrottlingFilter(
     @Autowired val throttlingService: ThrottlingService,
-): OncePerRequestFilter() {
+) : OncePerRequestFilter() {
 
-    override fun doFilterInternal(request: HttpServletRequest,
-                                  response: HttpServletResponse,
-                                  chain: FilterChain
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        chain: FilterChain,
     ) {
         val authentication = SecurityContextHolder.getContext().authentication!!
 
@@ -42,7 +43,8 @@ class ThrottlingFilter(
         if (!probe.isConsumed) {
             response.sendError(
                 HttpStatus.TOO_MANY_REQUESTS.value(),
-                "Request limit linked to your account has been exhausted. Please retry later")
+                "Request limit linked to your account has been exhausted. Please retry later",
+            )
         }
 
         chain.doFilter(request, response)

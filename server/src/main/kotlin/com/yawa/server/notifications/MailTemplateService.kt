@@ -8,7 +8,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver
 
 
 @Service
-class MailTemplateService: TemplateEngine() {
+class MailTemplateService : TemplateEngine() {
 
     init {
         this.addTemplateResolver(htmlTemplateResolver())

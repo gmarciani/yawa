@@ -15,7 +15,7 @@ private val log = KotlinLogging.logger {}
 @Component
 class AccessLogger : HandlerInterceptor {
 
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse , handler: Any): Boolean {
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         if (request.requestURI == "/error") {
             return true
         }
@@ -30,7 +30,7 @@ class AccessLogger : HandlerInterceptor {
         request: HttpServletRequest,
         response: HttpServletResponse,
         handler: Any,
-        @Nullable ex: Exception?
+        @Nullable ex: Exception?,
     ) {
         if (request.requestURI == "/error") {
             return

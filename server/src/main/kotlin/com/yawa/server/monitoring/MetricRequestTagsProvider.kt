@@ -1,31 +1,32 @@
 package com.yawa.server.monitoring
 
-import com.yawa.server.utils.OperationNameProvider
 import com.yawa.server.constants.MetricTags
+import com.yawa.server.utils.OperationNameProvider
 import io.micrometer.core.instrument.Tag
 import io.micrometer.core.instrument.Tags
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.actuate.metrics.web.servlet.WebMvcTagsContributor
 import org.springframework.stereotype.Component
 
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
-
 @Component
 class MetricRequestTagsProvider(
-    @Autowired val operationNameProvider: OperationNameProvider
-): WebMvcTagsContributor {
+    @Autowired val operationNameProvider: OperationNameProvider,
+) : WebMvcTagsContributor {
 
     override fun getTags(
         request: HttpServletRequest?,
         response: HttpServletResponse?,
         handler: Any?,
-        exception: Throwable?
+        exception: Throwable?,
     ): MutableIterable<Tag>? {
         var tags = Tags.empty()
         if (request != null) {
-            tags = tags.and(MetricTags.OPERATION,
-                    operationNameProvider.getOperationName(request.method!!, request.requestURI!!))
+            tags = tags.and(
+                MetricTags.OPERATION,
+                operationNameProvider.getOperationName(request.method!!, request.requestURI!!),
+            )
         }
         return tags
     }

@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter
 
 class InstantSerializer : JsonSerializer<Instant>() {
     companion object {
-        private val DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault())
+        private val DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            .withZone(ZoneId.systemDefault())
     }
 
     override fun serialize(value: Instant?, gen: JsonGenerator?, serializers: SerializerProvider?) {

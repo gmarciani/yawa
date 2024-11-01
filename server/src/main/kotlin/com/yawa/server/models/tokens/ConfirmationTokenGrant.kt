@@ -5,5 +5,5 @@ import java.time.Instant
 class ConfirmationTokenGrant(
     val username: String,
     val action: TokenAction,
-    val expiration: Instant
+    val expiration: Instant,
 )

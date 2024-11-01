@@ -10,7 +10,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.UuidGenerator
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "user_settings")
@@ -26,5 +26,5 @@ class UserSettings(
     @GeneratedValue
     @UuidGenerator
     @Column(name = "id", updatable = false)
-    val id: UUID? = null
+    val id: UUID? = null,
 )

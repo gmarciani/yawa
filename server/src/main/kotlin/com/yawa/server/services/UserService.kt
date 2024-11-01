@@ -1,10 +1,10 @@
 package com.yawa.server.services
 
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.models.users.UserSubscriptionPlan
-import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.security.encryption.PasswordEncodeService
 import com.yawa.server.security.throttling.ThrottlingService
 import mu.KotlinLogging
@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 private val log = KotlinLogging.logger {}
+
 @Service
 class UserService(
     @Autowired val userRepository: UserRepository,

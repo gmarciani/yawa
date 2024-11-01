@@ -16,5 +16,5 @@ class AppEnvironmentConfiguration(
     val application: String,
 
     @Value("\${yawa.service}")
-    val service: String
+    val service: String,
 )

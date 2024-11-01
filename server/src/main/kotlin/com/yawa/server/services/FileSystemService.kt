@@ -8,13 +8,14 @@ import java.nio.file.StandardOpenOption
 
 @Service
 class FileSystemService(
-    @Autowired var fileSystemConfiguration: FileSystemConfiguration
+    @Autowired var fileSystemConfiguration: FileSystemConfiguration,
 ) {
 
     fun savePublicFile(path: String, content: ByteArray): Path {
         return this.saveFile(
             path = Path.of(fileSystemConfiguration.publicDir, path),
-            content = content)
+            content = content,
+        )
     }
 
     private fun saveFile(path: Path, content: ByteArray): Path {

@@ -8,5 +8,5 @@ import java.security.SecureRandom
 class PasswordEncodeService : BCryptPasswordEncoder(
     BCryptVersion.`$2A`,
     10,
-    SecureRandom("270690".toByteArray())
+    SecureRandom("270690".toByteArray()),
 )

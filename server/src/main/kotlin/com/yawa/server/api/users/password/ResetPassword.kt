@@ -23,7 +23,10 @@ class ResetPassword(
 ) {
 
     @PatchMapping("/users/{username}/password", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun resetPassword(@PathVariable username: String, @RequestBody request: ResetPasswordRequest): ResetPasswordResponse {
+    fun resetPassword(
+        @PathVariable username: String,
+        @RequestBody request: ResetPasswordRequest,
+    ): ResetPasswordResponse {
         log.info("Processing request: $request")
 
         val grant = actionTokenService.consumeToken(

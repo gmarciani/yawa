@@ -37,7 +37,7 @@ class SecurityConfig(
     @Autowired val jwtTokenFilter: JwtTokenFilter,
     @Autowired val anonymousAuthenticationFilter: AnonymousAuthenticationFilter,
     @Autowired val accessControlAuthorizationFilter: AccessControlAuthorizationFilter,
-    @Autowired val throttlingFilter: ThrottlingFilter
+    @Autowired val throttlingFilter: ThrottlingFilter,
 ) {
 
     @Bean
@@ -54,7 +54,7 @@ class SecurityConfig(
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder =  PasswordEncodeService()
+    fun passwordEncoder(): PasswordEncoder = PasswordEncodeService()
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain? {
@@ -63,54 +63,45 @@ class SecurityConfig(
         http.csrf { it.disable() }
 
         // Set permissions on endpoints
-        http.authorizeHttpRequests { authorize -> authorize
-            // Users
-            .requestMatchers(POST, "/users").permitAll()
-            .requestMatchers(POST, "/users/{username}/activation").permitAll()
-            .requestMatchers(GET, "/users/{username}/tokens/activation").permitAll()
-            .requestMatchers(GET, "/users/{username}/tokens/deletion").authenticated()
-            .requestMatchers(DELETE, "/users/{username}").authenticated()
-
-            // Users > Password
-            .requestMatchers(GET, "/users/{username}/tokens/password").permitAll()
-            .requestMatchers(PATCH, "/users/{username}/password").permitAll()
-
-            // Users > Profile
-            .requestMatchers(GET, "/users/{username}/profile").permitAll()
-            .requestMatchers(PATCH, "/users/{username}/profile").authenticated()
-            .requestMatchers(PATCH, "/users/{username}/profile/picture").authenticated()
-            .requestMatchers(DELETE, "/users/{username}/profile/picture").authenticated()
-
-            // Users > Settings
-            .requestMatchers(GET, "/users/{username}/settings").authenticated()
-            .requestMatchers(PATCH, "/users/{username}/settings").authenticated()
-
-            // Authentication
-            .requestMatchers("/auth/login").permitAll()
-            .requestMatchers("/auth/logout").authenticated()
-            .requestMatchers("/auth/{username}/tokens").authenticated()
-
-            // Administration
-            .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
-            .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
-            .requestMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
-
-            // Simple
-            .requestMatchers("/simple/*").permitAll()
-
-            // Documentation
-            .requestMatchers("/docs/openapi/**").permitAll()
-            .requestMatchers("/docs/swagger-ui.html").permitAll()
-
-            // Static Resources
-            .requestMatchers("/assets/**").permitAll()
-            .requestMatchers("/public/**").permitAll()
-
-            // Errors
-            .requestMatchers("/error").permitAll()
-
-            // Any other endpoint
-            .anyRequest().denyAll()
+        http.authorizeHttpRequests { authorize ->
+            authorize
+                // Users
+                .requestMatchers(POST, "/users").permitAll()
+                .requestMatchers(POST, "/users/{username}/activation").permitAll()
+                .requestMatchers(GET, "/users/{username}/tokens/activation").permitAll()
+                .requestMatchers(GET, "/users/{username}/tokens/deletion").authenticated()
+                .requestMatchers(DELETE, "/users/{username}").authenticated()
+                // Users > Password
+                .requestMatchers(GET, "/users/{username}/tokens/password").permitAll()
+                .requestMatchers(PATCH, "/users/{username}/password").permitAll()
+                // Users > Profile
+                .requestMatchers(GET, "/users/{username}/profile").permitAll()
+                .requestMatchers(PATCH, "/users/{username}/profile").authenticated()
+                .requestMatchers(PATCH, "/users/{username}/profile/picture").authenticated()
+                .requestMatchers(DELETE, "/users/{username}/profile/picture").authenticated()
+                // Users > Settings
+                .requestMatchers(GET, "/users/{username}/settings").authenticated()
+                .requestMatchers(PATCH, "/users/{username}/settings").authenticated()
+                // Authentication
+                .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/auth/logout").authenticated()
+                .requestMatchers("/auth/{username}/tokens").authenticated()
+                // Administration
+                .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
+                .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
+                .requestMatchers("/manage/**").hasRole(UserRole.ADMIN.name)
+                // Simple
+                .requestMatchers("/simple/*").permitAll()
+                // Documentation
+                .requestMatchers("/docs/openapi/**").permitAll()
+                .requestMatchers("/docs/swagger-ui.html").permitAll()
+                // Static Resources
+                .requestMatchers("/assets/**").permitAll()
+                .requestMatchers("/public/**").permitAll()
+                // Errors
+                .requestMatchers("/error").permitAll()
+                // Any other endpoint
+                .anyRequest().denyAll()
         }
 
         // Add filters

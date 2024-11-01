@@ -18,5 +18,4 @@ class RedisCacheConfig(
     fun redisClient(): RedisClient {
         return RedisClient.create("redis://$username:$password@$host:$port")
     }
-
 }

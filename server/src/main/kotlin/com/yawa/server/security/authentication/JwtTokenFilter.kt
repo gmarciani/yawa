@@ -17,11 +17,10 @@ private val log = KotlinLogging.logger {}
 
 @Component
 class JwtTokenFilter(
-    @Autowired val authenticationService: AuthenticationService
-): OncePerRequestFilter() {
+    @Autowired val authenticationService: AuthenticationService,
+) : OncePerRequestFilter() {
 
-    override fun doFilterInternal(request: HttpServletRequest,response: HttpServletResponse, chain: FilterChain) {
-
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
         if (StringUtils.isBlank(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
             log.warn("AUTHENTICATION: Cannot find access token in request, setting anonymous authentication")

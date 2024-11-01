@@ -15,24 +15,26 @@ import org.thymeleaf.exceptions.TemplateEngineException
 @EnableAsync
 class MailService(
     @Autowired val mailSender: JavaMailSender,
-    @Autowired val templateEngine: MailTemplateService
+    @Autowired val templateEngine: MailTemplateService,
 ) {
 
     @Async
     fun asyncSend(mailType: MailType, recipient: User, attributes: Map<String, String>) {
         send(mailType, recipient, attributes)
     }
+
     fun send(mailType: MailType, recipient: User, attributes: Map<String, String>) {
         val body = try {
             mailType.body(templateEngine = templateEngine, attributes = attributes)
         } catch (ex: TemplateEngineException) {
             throw MailServiceExcpetion(
-                "Could not send email $mailType to ${recipient.username}: ${ex.message}")
+                "Could not send email $mailType to ${recipient.username}: ${ex.message}",
+            )
         }
         this.send(
             recipient = recipient,
             subject = mailType.subject(),
-            body = body
+            body = body,
         )
     }
 

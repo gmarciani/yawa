@@ -16,8 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class AppMvcConfig(
     @Autowired val requestIdAssigner: RequestIdAssigner,
     @Autowired val requestOperationNameAssigner: RequestOperationNameAssigner,
-    @Autowired val accessLogger: AccessLogger
-): WebMvcConfigurer {
+    @Autowired val accessLogger: AccessLogger,
+) : WebMvcConfigurer {
 
     override fun configureContentNegotiation(configurer: ContentNegotiationConfigurer) {
         super.configureContentNegotiation(configurer)

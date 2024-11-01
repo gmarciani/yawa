@@ -6,5 +6,5 @@ class AuthenticationTokens(
     val accessToken: String,
     val accessTokenExpiration: Instant,
     val refreshToken: String,
-    val refreshTokenExpiration: Instant
+    val refreshTokenExpiration: Instant,
 )

@@ -42,8 +42,10 @@ class OperationNameProvider {
     )
 
     fun getOperationName(method: String, uri: String): String {
-        return OPERATIONS.getOrDefault(Pair(method, uri),
-            getDefaultOperationName(method = method, uri = uri))
+        return OPERATIONS.getOrDefault(
+            Pair(method, uri),
+            getDefaultOperationName(method = method, uri = uri),
+        )
     }
 
     private fun getDefaultOperationName(method: String, uri: String): String = "$method:$uri"

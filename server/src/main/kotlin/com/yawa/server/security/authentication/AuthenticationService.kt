@@ -1,13 +1,13 @@
 package com.yawa.server.security.authentication
 
 import com.auth0.jwt.interfaces.DecodedJWT
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.exceptions.UserDisabledException
 import com.yawa.server.models.tokens.AuthenticationTokens
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserRole
-import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.security.encryption.JwtService
 import com.yawa.server.security.tokens.TokenField
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +23,7 @@ import java.time.temporal.ChronoUnit
 @Service
 class AuthenticationService(
     @Autowired val userRepository: UserRepository,
-    @Autowired val jwtService: JwtService
+    @Autowired val jwtService: JwtService,
 ) {
 
     @Autowired @Lazy // Lazy initialization is required to avoid circular dependencies
@@ -32,7 +32,8 @@ class AuthenticationService(
     fun authenticate(username: String, password: String): User {
         val authenticationToken = UsernamePasswordAuthenticationToken(username, password)
         val principal = try {
-            authenticationManager.authenticate(authenticationToken).principal as org.springframework.security.core.userdetails.User
+            authenticationManager.authenticate(authenticationToken)
+                .principal as org.springframework.security.core.userdetails.User
         } catch (ex: DisabledException) {
             throw UserDisabledException("Cannot authenticate user $username because it is disabled")
         }
@@ -67,7 +68,7 @@ class AuthenticationService(
             accessToken = accessToken,
             accessTokenExpiration = accessTokenExpiration,
             refreshToken = refreshToken,
-            refreshTokenExpiration = refreshTokenExpiration
+            refreshTokenExpiration = refreshTokenExpiration,
         )
     }
 
@@ -82,7 +83,7 @@ class AuthenticationService(
 
     fun getAnonymousAuthentication(): AnonymousAuthenticationToken {
         return AnonymousAuthenticationToken(
-            "anonymousKey", "anonymous", UserRole.ANONYMOUS.toAuthorities()
+            "anonymousKey", "anonymous", UserRole.ANONYMOUS.toAuthorities(),
         )
     }
 
@@ -90,9 +91,9 @@ class AuthenticationService(
         return jwtService.issue(
             attributes = mapOf(
                 TokenField.USERNAME.name to user.username,
-                TokenField.ACTION.name to TokenAction.ACCESS.name
+                TokenField.ACTION.name to TokenAction.ACCESS.name,
             ),
-            expiration = expiration
+            expiration = expiration,
         )
     }
 
@@ -100,9 +101,9 @@ class AuthenticationService(
         return jwtService.issue(
             attributes = mapOf(
                 TokenField.USERNAME.name to user.username,
-                TokenField.ACTION.name to TokenAction.REFRESH_AUTHENTICATION_TOKENS.name
+                TokenField.ACTION.name to TokenAction.REFRESH_AUTHENTICATION_TOKENS.name,
             ),
-            expiration = expiration
+            expiration = expiration,
         )
     }
 }

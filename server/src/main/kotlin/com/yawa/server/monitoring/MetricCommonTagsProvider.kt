@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class MetricCommonTagsProvider(
-    @Autowired val appEnvironmentConfiguration: AppEnvironmentConfiguration
-): MeterRegistryCustomizer<MeterRegistry> {
+    @Autowired val appEnvironmentConfiguration: AppEnvironmentConfiguration,
+) : MeterRegistryCustomizer<MeterRegistry> {
 
     override fun customize(registry: MeterRegistry) {
         val tags = Tags.empty()
-                .and(MetricTags.STACK, appEnvironmentConfiguration.stack)
-                .and(MetricTags.REGION, appEnvironmentConfiguration.region)
-                .and(MetricTags.APPLICATION, appEnvironmentConfiguration.application)
-                .and(MetricTags.SERVICE, appEnvironmentConfiguration.service)
+            .and(MetricTags.STACK, appEnvironmentConfiguration.stack)
+            .and(MetricTags.REGION, appEnvironmentConfiguration.region)
+            .and(MetricTags.APPLICATION, appEnvironmentConfiguration.application)
+            .and(MetricTags.SERVICE, appEnvironmentConfiguration.service)
 
         registry.config().commonTags(tags)
     }

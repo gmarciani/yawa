@@ -22,5 +22,4 @@ class BucketsCacheConfig {
             .withExpirationStrategy(EXPIRATION_STRATEGY)
             .build()
     }
-
 }

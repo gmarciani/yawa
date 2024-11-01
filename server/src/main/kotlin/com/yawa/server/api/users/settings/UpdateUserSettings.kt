@@ -24,7 +24,10 @@ class UpdateUserSettings(
 
     @PatchMapping("/users/{username}/settings", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun updateUserSettings(@PathVariable username: String, @Valid @RequestBody request: UpdateUserSettingsRequest): UpdateUserSettingsResponse {
+    fun updateUserSettings(
+        @PathVariable username: String,
+        @Valid @RequestBody request: UpdateUserSettingsRequest,
+    ): UpdateUserSettingsResponse {
         log.info("Processing request: $request")
 
         val user = userRepository.findByUsername(username).orElseThrow {

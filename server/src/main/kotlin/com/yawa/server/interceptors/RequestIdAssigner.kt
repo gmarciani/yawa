@@ -14,8 +14,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 
 @Component
 class RequestIdAssigner(
-    @Autowired val requestIdGenerator: RequestIdGenerator
-): HandlerInterceptor {
+    @Autowired val requestIdGenerator: RequestIdGenerator,
+) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val requestId = requestIdGenerator.generateRequestId()

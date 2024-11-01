@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit
 @Service
 class ActionTokenService(
     @Autowired val jwtService: JwtService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     fun generateToken(user: User, action: TokenAction): ActionToken {
@@ -23,14 +23,14 @@ class ActionTokenService(
         val token = jwtService.issue(
             attributes = mapOf(
                 TokenField.USERNAME.name to user.username,
-                TokenField.ACTION.name to action.name
+                TokenField.ACTION.name to action.name,
             ),
-            expiration = expiration
+            expiration = expiration,
         )
         return ActionToken(
             token = token,
             action = action,
-            expiration = expiration
+            expiration = expiration,
         )
     }
 
@@ -45,7 +45,7 @@ class ActionTokenService(
         return ConfirmationTokenGrant(
             username = username,
             action = action,
-            expiration = expiration
+            expiration = expiration,
         )
     }
 }

@@ -1,12 +1,12 @@
 package com.yawa.server.validators
 
 import com.yawa.server.models.users.UserRole
-import org.apache.commons.lang3.StringUtils
-import java.util.regex.Pattern
 import jakarta.validation.Constraint
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import jakarta.validation.Payload
+import org.apache.commons.lang3.StringUtils
+import java.util.regex.Pattern
 import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.PROPERTY, AnnotationTarget.VALUE_PARAMETER)
@@ -15,12 +15,12 @@ import kotlin.reflect.KClass
 annotation class Role(
     val message: String = "{com.yawa.server.validators.RoleValidator.VALIDATION_ERROR_MESSAGE}",
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )
 
 class RoleValidator : ConstraintValidator<Role, String> {
 
-    val PATTERN : Pattern = Pattern.compile("^${StringUtils.join(UserRole.values(), "|")}$")
+    val PATTERN: Pattern = Pattern.compile("^${StringUtils.join(UserRole.values(), "|")}$")
     val VALIDATION_ERROR_MESSAGE = "Invalid role: must be one of ${UserRole.values()}"
 
     override fun isValid(value: String, context: ConstraintValidatorContext): Boolean =
