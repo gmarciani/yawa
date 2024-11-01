@@ -18,7 +18,7 @@ private val log = KotlinLogging.logger {}
 class SendPasswordResetToken(
     @Autowired val userService: UserService,
     @Autowired val actionTokenService: ActionTokenService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @GetMapping("/users/{username}/tokens/password", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -36,8 +36,8 @@ class SendPasswordResetToken(
                 "username" to user.username,
                 "token" to actionToken.token,
                 "action" to "PATCH:users/${user.username}/password",
-                "expiration" to actionToken.expiration.toString()
-            )
+                "expiration" to actionToken.expiration.toString(),
+            ),
         )
 
         return SendPasswordResetTokenResponse("Password reset token for user $username will be sent to user email")

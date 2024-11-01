@@ -28,7 +28,7 @@ class Login(
         log.info("Authenticated user: ${user.username}")
 
         val authenticationTokens = authenticationService.generateAuthenticationTokens(
-            user = user, neverExpire = request.neverExpire
+            user = user, neverExpire = request.neverExpire,
         )
 
         log.info("Authentication tokens generated for user: ${user.username}")
@@ -38,7 +38,7 @@ class Login(
             accessToken = authenticationTokens.accessToken,
             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
             refreshToken = authenticationTokens.refreshToken,
-            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration
+            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration,
         )
     }
 
@@ -53,6 +53,6 @@ class Login(
         val accessToken: String,
         val accessTokenExpiration: Instant,
         val refreshToken: String,
-        val refreshTokenExpiration: Instant
+        val refreshTokenExpiration: Instant,
     )
 }

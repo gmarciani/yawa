@@ -19,7 +19,7 @@ private val log = KotlinLogging.logger {}
 class SendUserDeletionToken(
     @Autowired val userService: UserService,
     @Autowired val actionTokenService: ActionTokenService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @GetMapping("/users/{username}/tokens/deletion", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -38,8 +38,8 @@ class SendUserDeletionToken(
                 "username" to user.username,
                 "token" to actionToken.token,
                 "action" to "DELETE:users/${user.username}",
-                "expiration" to actionToken.expiration.toString()
-            )
+                "expiration" to actionToken.expiration.toString(),
+            ),
         )
 
         return SendUserDeletionTokenResponse("Deletion token for user $username will be sent to user email")

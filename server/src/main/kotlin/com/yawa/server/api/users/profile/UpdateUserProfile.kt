@@ -1,10 +1,10 @@
 package com.yawa.server.api.users.profile
 
+import com.yawa.server.datastore.repositories.UserProfileRepository
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.Gender
 import com.yawa.server.models.users.UserProfile
-import com.yawa.server.datastore.repositories.UserProfileRepository
-import com.yawa.server.datastore.repositories.UserRepository
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +21,7 @@ private val log = KotlinLogging.logger {}
 @RestController
 class UpdateUserProfile(
     @Autowired val userRepository: UserRepository,
-    @Autowired val userProfileRepository: UserProfileRepository
+    @Autowired val userProfileRepository: UserProfileRepository,
 ) {
 
     @PatchMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])

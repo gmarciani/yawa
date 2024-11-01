@@ -19,7 +19,7 @@ class RefreshAuthentication(
 
     @GetMapping("/auth/{username}/tokens", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun refreshAuthentication(@PathVariable username: String, @RequestBody request: RefreshAuthenticationRequest):
-            RefreshAuthenticationResponse {
+        RefreshAuthenticationResponse {
         log.info("Processing request for user $username: $request")
 
         val refreshToken = request.refreshToken
@@ -36,7 +36,7 @@ class RefreshAuthentication(
             accessToken = authenticationTokens.accessToken,
             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
             refreshToken = authenticationTokens.refreshToken,
-            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration
+            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration,
         )
     }
 
@@ -46,6 +46,6 @@ class RefreshAuthentication(
         val accessToken: String,
         val accessTokenExpiration: Instant,
         val refreshToken: String,
-        val refreshTokenExpiration: Instant
+        val refreshTokenExpiration: Instant,
     )
 }

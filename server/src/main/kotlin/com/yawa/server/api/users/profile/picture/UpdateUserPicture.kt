@@ -29,7 +29,7 @@ class UpdateUserPicture(
     }
 
     data class UpdateUserPictureRequest(
-        val file: MultipartFile
+        val file: MultipartFile,
     )
 
     data class UpdateUserPictureResponse(val message: String)

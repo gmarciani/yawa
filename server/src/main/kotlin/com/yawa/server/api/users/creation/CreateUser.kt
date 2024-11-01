@@ -1,11 +1,11 @@
 package com.yawa.server.api.users.creation
 
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.DuplicatedResourceException
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
-import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import com.yawa.server.validators.Email
@@ -27,7 +27,7 @@ class CreateUser(
     @Autowired val userService: UserService,
     @Autowired val userRepository: UserRepository,
     @Autowired val actionTokenService: ActionTokenService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @PostMapping("/users", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -41,7 +41,7 @@ class CreateUser(
         val user = userService.createUser(
             username = request.username,
             password = request.password,
-            email = request.email
+            email = request.email,
         )
 
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.ACTIVATE_USER)
@@ -53,8 +53,8 @@ class CreateUser(
                 "username" to user.username,
                 "token" to actionToken.token,
                 "action" to "ActivateUser",
-                "expiration" to actionToken.expiration.toString()
-            )
+                "expiration" to actionToken.expiration.toString(),
+            ),
         )
 
         return CreateUserResponse(user = user)

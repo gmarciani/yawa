@@ -20,7 +20,7 @@ private val log = KotlinLogging.logger {}
 class ActivateUser(
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val userService: UserService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @PostMapping("/users/{username}/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -28,7 +28,8 @@ class ActivateUser(
         log.info("Processing request: $request")
 
         val grant = actionTokenService.consumeToken(
-            token = request.token, action = TokenAction.ACTIVATE_USER, username = username)
+            token = request.token, action = TokenAction.ACTIVATE_USER, username = username,
+        )
 
         val user = userService.findUser(username = username)
 
@@ -42,7 +43,7 @@ class ActivateUser(
             attributes = mapOf(
                 "username" to user.username,
                 "action" to "Login",
-            )
+            ),
         )
 
         return ActivateUserResponse(message = "Confirmed creation of user ${user.username}")

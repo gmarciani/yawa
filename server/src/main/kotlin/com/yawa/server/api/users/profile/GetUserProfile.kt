@@ -1,8 +1,8 @@
 package com.yawa.server.api.users.profile
 
+import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.UserProfile
-import com.yawa.server.datastore.repositories.UserRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -14,7 +14,7 @@ private val log = KotlinLogging.logger {}
 
 @RestController
 class GetUserProfile(
-    @Autowired val userRepository: UserRepository
+    @Autowired val userRepository: UserRepository,
 ) {
 
     @GetMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])

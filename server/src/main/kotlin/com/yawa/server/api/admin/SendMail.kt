@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 private val log = KotlinLogging.logger {}
+
 @RestController
 class SendMail(
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @PostMapping("/admin/mail", produces = [MediaType.APPLICATION_JSON_VALUE])

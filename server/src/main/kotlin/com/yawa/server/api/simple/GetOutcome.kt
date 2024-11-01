@@ -7,7 +7,6 @@ import com.yawa.server.exceptions.YawaInternalException
 import mu.KotlinLogging
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
@@ -22,18 +21,20 @@ class GetOutcome {
         log.info("Processing request: outcome=$outcome")
         val _outcome = if (outcome == Outcome.RANDOM) {
             val dice = random()
-            if (dice <= 6.0/10) {
+            if (dice <= 6.0 / 10) {
                 Outcome.SUCCESS
-            } else if (dice <= 7.5/10) {
+            } else if (dice <= 7.5 / 10) {
                 Outcome.NOT_AUTHORIZED
-            } else if (dice <= 9.0/10) {
+            } else if (dice <= 9.0 / 10) {
                 Outcome.NOT_FOUND
-            } else if (dice <= 9.5/10) {
+            } else if (dice <= 9.5 / 10) {
                 Outcome.BAD_REQUEST
             } else {
                 Outcome.INTERNAL_ERROR
             }
-        } else outcome
+        } else {
+            outcome
+        }
         when (_outcome) {
             Outcome.SUCCESS -> {
                 log.info("Will return success")
@@ -67,7 +68,12 @@ class GetOutcome {
     data class GetOutcomeResponse(val message: String)
 
     enum class Outcome {
-        SUCCESS, NOT_AUTHORIZED, NOT_FOUND, BAD_REQUEST, INTERNAL_ERROR, RANDOM
+        SUCCESS,
+        NOT_AUTHORIZED,
+        NOT_FOUND,
+        BAD_REQUEST,
+        INTERNAL_ERROR,
+        RANDOM,
     }
 
     private fun random(): Double = Random().nextDouble()

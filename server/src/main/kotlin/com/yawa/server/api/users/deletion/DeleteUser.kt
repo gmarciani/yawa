@@ -20,7 +20,7 @@ private val log = KotlinLogging.logger {}
 class DeleteUser(
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val userService: UserService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @DeleteMapping("/users/{username}", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -29,7 +29,8 @@ class DeleteUser(
         log.info("Processing request: $request")
 
         val grant = actionTokenService.consumeToken(
-            token = request.token, action = TokenAction.CONFIRM_USER_DELETION, username = username)
+            token = request.token, action = TokenAction.CONFIRM_USER_DELETION, username = username,
+        )
 
         val user = userService.findUser(username = username)
 
@@ -42,8 +43,8 @@ class DeleteUser(
             recipient = user,
             attributes = mapOf(
                 "username" to user.username,
-                "action" to "index.html"
-            )
+                "action" to "index.html",
+            ),
         )
 
         return DeleteUserResponse(message = "Confirmed deletion of user ${user.username}")

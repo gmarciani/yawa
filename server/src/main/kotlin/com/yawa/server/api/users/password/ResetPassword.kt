@@ -19,7 +19,7 @@ private val log = KotlinLogging.logger {}
 class ResetPassword(
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val userService: UserService,
-    @Autowired val mailService: MailService
+    @Autowired val mailService: MailService,
 ) {
 
     @PatchMapping("/users/{username}/password", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -27,7 +27,8 @@ class ResetPassword(
         log.info("Processing request: $request")
 
         val grant = actionTokenService.consumeToken(
-            token = request.token, action = TokenAction.RESET_PASSWORD, username = username)
+            token = request.token, action = TokenAction.RESET_PASSWORD, username = username,
+        )
 
         val user = userService.findUser(username = username)
 
@@ -41,7 +42,7 @@ class ResetPassword(
             attributes = mapOf(
                 "username" to user.username,
                 "action" to "Login",
-            )
+            ),
         )
 
         return ResetPasswordResponse(message = "Confirmed password reset for user ${user.username}")
