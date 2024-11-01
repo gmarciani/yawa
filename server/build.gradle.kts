@@ -321,22 +321,9 @@ fun isNonStable(version: String): Boolean {
 
 // Linters
 ktlint {
-    version.set("1.3.1")
+    version.set("1.4.0")
     debug.set(false)
     verbose.set(true)
     ignoreFailures.set(false)
     enableExperimentalRules.set(false)
-    additionalEditorconfig.set(
-        mapOf(
-            "max_line_length" to "120",
-            "indent_style" to "space",
-            "indent_size" to "4",
-            "ktlint_standard_comment-spacing" to "disabled",
-            "ktlint_standard_chain-method-continuation" to "disabled",
-            "ktlint_standard_argument-list-wrapping" to "disabled",
-            "ktlint_standard_no-consecutive-blank-lines" to "disabled",
-            "ktlint_standard_class-signature" to "disabled",
-            "ktlint_standard_multiline-expression-wrapping" to "disabled",
-        ),
-    )
 }
