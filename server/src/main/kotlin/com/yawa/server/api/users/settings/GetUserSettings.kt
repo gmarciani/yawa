@@ -20,7 +20,9 @@ class GetUserSettings(
 
     @GetMapping("/users/{username}/settings", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun getUserSettings(@PathVariable username: String): DescribeUserSettingsResponse {
+    fun getUserSettings(
+        @PathVariable username: String,
+    ): DescribeUserSettingsResponse {
         val user = userRepository.findByUsername(username).orElseThrow {
             ResourceNotFoundException("User not found: $username")
         }

@@ -20,7 +20,9 @@ class Login(
 ) {
 
     @PostMapping("/auth/login", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun login(@Valid @RequestBody request: LoginRequest): LoginResponse {
+    fun login(
+        @Valid @RequestBody request: LoginRequest,
+    ): LoginResponse {
         log.info("Processing request: $request")
 
         val user = authenticationService.authenticate(username = request.username, password = request.password)

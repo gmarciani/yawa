@@ -17,7 +17,9 @@ private val log = KotlinLogging.logger {}
 class GetOutcome {
 
     @GetMapping("/simple/outcome", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getOutcome(@RequestParam outcome: Outcome): GetOutcomeResponse {
+    fun getOutcome(
+        @RequestParam outcome: Outcome,
+    ): GetOutcomeResponse {
         log.info("Processing request: outcome=$outcome")
         val _outcome = if (outcome == Outcome.RANDOM) {
             val dice = random()

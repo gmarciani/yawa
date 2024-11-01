@@ -25,7 +25,10 @@ class DeleteUser(
 
     @DeleteMapping("/users/{username}", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun deleteUser(@PathVariable username: String, @RequestBody request: DeleteUserRequest): DeleteUserResponse {
+    fun deleteUser(
+        @PathVariable username: String,
+        @RequestBody request: DeleteUserRequest,
+    ): DeleteUserResponse {
         log.info("Processing request: $request")
 
         val grant = actionTokenService.consumeToken(

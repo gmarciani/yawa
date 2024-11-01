@@ -12,7 +12,6 @@ ktlint_standard_argument-list-wrapping = disabled
 ktlint_standard_no-consecutive-blank-lines = disabled
 ktlint_standard_class-signature = disabled
 ktlint_standard_multiline-expression-wrapping = disabled
-ktlint_standard_parameter-list-wrapping = disabled
 ktlint_standard_property-naming = disabled
 ktlint_standard_function-signature = disabled
 ktlint_standard_no-empty-first-line-in-class-body = disabled

@@ -24,7 +24,9 @@ class SendUserDeletionToken(
 
     @GetMapping("/users/{username}/tokens/deletion", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun sendUserDeletionToken(@PathVariable username: String): SendUserDeletionTokenResponse {
+    fun sendUserDeletionToken(
+        @PathVariable username: String,
+    ): SendUserDeletionTokenResponse {
         log.info("Processing request")
 
         val user = userService.findUser(username = username)

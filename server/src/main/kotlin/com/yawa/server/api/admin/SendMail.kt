@@ -20,7 +20,9 @@ class SendMail(
 ) {
 
     @PostMapping("/admin/mail", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun sendMail(@Valid @RequestBody request: SendMailRequest): SendMailResponse {
+    fun sendMail(
+        @Valid @RequestBody request: SendMailRequest,
+    ): SendMailResponse {
         log.info("Processing request: $request")
 
         val user = SecurityContextHolder.getContext().authentication.principal as User

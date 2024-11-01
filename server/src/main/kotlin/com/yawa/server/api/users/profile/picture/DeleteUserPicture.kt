@@ -18,7 +18,9 @@ class DeleteUserPicture(
 
     @DeleteMapping("/users/{username}/profile/picture", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun deleteUserPicture(@PathVariable username: String): DeleteUserPictureResponse {
+    fun deleteUserPicture(
+        @PathVariable username: String,
+    ): DeleteUserPictureResponse {
         log.info("Processing request for user $username")
 
         userService.deleteUserPicture(username = username)

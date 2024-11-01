@@ -18,7 +18,9 @@ class GetUserProfile(
 ) {
 
     @GetMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getUserProfile(@PathVariable username: String): DescribeUserProfileResponse {
+    fun getUserProfile(
+        @PathVariable username: String,
+    ): DescribeUserProfileResponse {
         log.info("Processing request for user $username")
 
         val user = userRepository.findByUsername(username).orElseThrow {

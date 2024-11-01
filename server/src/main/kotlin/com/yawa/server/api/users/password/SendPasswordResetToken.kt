@@ -22,7 +22,9 @@ class SendPasswordResetToken(
 ) {
 
     @GetMapping("/users/{username}/tokens/password", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun sendPasswordResetToken(@PathVariable username: String): SendPasswordResetTokenResponse {
+    fun sendPasswordResetToken(
+        @PathVariable username: String,
+    ): SendPasswordResetTokenResponse {
         log.info("Processing request")
 
         val user = userService.findUser(username = username)

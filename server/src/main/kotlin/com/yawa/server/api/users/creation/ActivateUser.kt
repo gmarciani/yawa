@@ -23,7 +23,10 @@ class ActivateUser(
 ) {
 
     @PostMapping("/users/{username}/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun activateUser(@PathVariable username: String, @RequestBody request: ActivateUserRequest): ActivateUserResponse {
+    fun activateUser(
+        @PathVariable username: String,
+        @RequestBody request: ActivateUserRequest,
+    ): ActivateUserResponse {
         log.info("Processing request: $request")
 
         val grant = actionTokenService.consumeToken(

@@ -25,7 +25,9 @@ class SendUserActivationToken(
 
     @GetMapping("/users/{username}/tokens/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
-    fun sendUserActivationToken(@PathVariable username: String): SendUserActivationTokenResponse {
+    fun sendUserActivationToken(
+        @PathVariable username: String,
+    ): SendUserActivationTokenResponse {
         log.info("Processing request")
 
         val user = userService.findUser(username = username)
