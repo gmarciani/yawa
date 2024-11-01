@@ -321,7 +321,7 @@ fun isNonStable(version: String): Boolean {
 
 // Linters
 ktlint {
-    version.set("1.4.0")
+    version.set("1.3.1")
     debug.set(false)
     verbose.set(true)
     ignoreFailures.set(false)
@@ -335,6 +335,8 @@ ktlint {
             "ktlint_standard_chain-method-continuation" to "disabled",
             "ktlint_standard_argument-list-wrapping" to "disabled",
             "ktlint_standard_no-consecutive-blank-lines" to "disabled",
+            "ktlint_standard_class-signature" to "disabled",
+            "ktlint_standard_multiline-expression-wrapping" to "disabled",
         ),
     )
 }
