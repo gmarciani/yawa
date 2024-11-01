@@ -60,8 +60,8 @@ class GetOutcomeTest : BehaviorSpec({
             and("the requested outcome is ${GetOutcome.Outcome.RANDOM}") {
                 val outcome = GetOutcome.Outcome.RANDOM
 
-                and("the random number is <= ${6.0/10}") {
-                    every { subject["random"]() } returns 6.0/10
+                and("the random number is <= ${6.0 / 10}") {
+                    every { subject["random"]() } returns 6.0 / 10
 
                     then("it returns a successful response") {
                         val response = subject.getOutcome(outcome = outcome)
@@ -69,32 +69,32 @@ class GetOutcomeTest : BehaviorSpec({
                     }
                 }
 
-                and("the random number is <= ${7.5/10}") {
-                    every { subject["random"]() } returns 7.5/10
+                and("the random number is <= ${7.5 / 10}") {
+                    every { subject["random"]() } returns 7.5 / 10
 
                     then("it returns a NotAuthorizedException exception") {
                         shouldThrowExactly<NotAuthorizedException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
 
-                and("the random number is <= ${9.0/10}") {
-                    every { subject["random"]() } returns 9.0/10
+                and("the random number is <= ${9.0 / 10}") {
+                    every { subject["random"]() } returns 9.0 / 10
 
                     then("it returns a ResourceNotFoundException exception") {
                         shouldThrowExactly<ResourceNotFoundException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
 
-                and("the random number is <= ${9.5/10}") {
-                    every { subject["random"]() } returns 9.5/10
+                and("the random number is <= ${9.5 / 10}") {
+                    every { subject["random"]() } returns 9.5 / 10
 
                     then("it returns a YawaBadRequestException exception") {
                         shouldThrowExactly<YawaBadRequestException> { subject.getOutcome(outcome = outcome) }
                     }
                 }
 
-                and("the random number is > ${9.5/10}") {
-                    every { subject["random"]() } returns 9.6/10
+                and("the random number is > ${9.5 / 10}") {
+                    every { subject["random"]() } returns 9.6 / 10
 
                     then("it returns a YawaInternalException exception") {
                         shouldThrowExactly<YawaInternalException> { subject.getOutcome(outcome = outcome) }

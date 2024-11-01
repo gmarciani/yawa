@@ -25,10 +25,11 @@ class LoginTest : BehaviorSpec({
 
             and("caller is authenticated") {
                 val user = mockk<User>(relaxed = true)
-                every { authenticationService.authenticate(username = username, password = password) } returns user.also {
-                    every { it.username } returns username
-                    every { it.password } returns password
-                }
+                every { authenticationService.authenticate(username = username, password = password) } returns
+                    user.also {
+                        every { it.username } returns username
+                        every { it.password } returns password
+                    }
 
                 and("authentication tokens generated") {
                     val authenticationTokens = mockk<AuthenticationTokens>(relaxed = true).also {
@@ -36,9 +37,9 @@ class LoginTest : BehaviorSpec({
                         every { it.accessTokenExpiration } returns Instant.ofEpochMilli(1)
                         every { it.refreshToken } returns "REFRESH_TOKEN"
                         every { it.refreshTokenExpiration } returns Instant.ofEpochMilli(100)
-
                     }
-                    every { authenticationService.generateAuthenticationTokens(user = user) } returns authenticationTokens
+                    every { authenticationService.generateAuthenticationTokens(user = user) } returns
+                        authenticationTokens
 
                     then("returns the expected response") {
                         val response = subject.login(loginRequest)
@@ -47,7 +48,7 @@ class LoginTest : BehaviorSpec({
                             accessToken = authenticationTokens.accessToken,
                             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
                             refreshToken = authenticationTokens.refreshToken,
-                            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration
+                            refreshTokenExpiration = authenticationTokens.refreshTokenExpiration,
                         )
                     }
                 }
@@ -57,7 +58,8 @@ class LoginTest : BehaviorSpec({
                 val authenticationException = mockk<AuthenticationException>().also {
                     every { it.message } returns "EXCEPTION_MESSAGE"
                 }
-                every { authenticationService.authenticate(username = username, password = password) } throws authenticationException
+                every { authenticationService.authenticate(username = username, password = password) } throws
+                    authenticationException
 
                 then("returns failure") {
                     val exception = shouldThrow<AuthenticationException> {

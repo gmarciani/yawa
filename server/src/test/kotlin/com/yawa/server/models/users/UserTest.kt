@@ -23,7 +23,7 @@ class UserTest : BehaviorSpec({
             isAccountNonExpired = true,
             isCredentialsNonExpired = true,
             isAccountNonLocked = true,
-            createdAt = Instant.parse("1990-06-27T15:30:00.00Z")
+            createdAt = Instant.parse("1990-06-27T15:30:00.00Z"),
         )
 
         `when`("toUserDetails is called") {
