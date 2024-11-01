@@ -321,7 +321,7 @@ fun isNonStable(version: String): Boolean {
 
 // Linters
 ktlint {
-    version.set("1.4.0")
+    version.set("1.3.1")
     debug.set(false)
     verbose.set(true)
     ignoreFailures.set(false)
