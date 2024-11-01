@@ -79,7 +79,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-/* BUILD */
+// BUILD
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
@@ -104,16 +104,26 @@ tasks.build {
 	this.dependsOn("buildClients")
 }
 
-/* SPRING - BOOT */
+// SPRING - BOOT
 
 tasks.bootRun {
-	if (ext.get("profile") != null) { systemProperty("spring.profiles.active", ext.get("profile")!!) }
-	if (ext.get("stack") != null) { systemProperty("yawa.stack", ext.get("stack")!!) }
-	if (ext.get("region") != null) { systemProperty("yawa.region", ext.get("region")!!) }
-	if (ext.get("debugEnabled") != null) { jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${ext.get("debugPort")}") }
+	if (ext.get("profile") != null) {
+		systemProperty("spring.profiles.active", ext.get("profile")!!)
+	}
+	if (ext.get("stack") != null) {
+		systemProperty("yawa.stack", ext.get("stack")!!)
+	}
+	if (ext.get("region") != null) {
+		systemProperty("yawa.region", ext.get("region")!!)
+	}
+	if (ext.get("debugEnabled") !=
+		null
+	) {
+		jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${ext.get("debugPort")}")
+	}
 }
 
-/* SPRING - BUILD INFO */
+// SPRING - BUILD INFO
 
 configure<org.springframework.boot.gradle.dsl.SpringBootExtension> {
 	buildInfo()
@@ -124,7 +134,7 @@ configure<com.gorylenko.GitPropertiesPluginExtension> {
 	this.failOnNoGitDirectory = false
 }
 
-/* OPENAPI */
+// OPENAPI
 
 task("getOpenApiDefinition") {
 	this.description = "Get OpenAPI documentation."
@@ -151,13 +161,13 @@ task("getOpenApiDefinition") {
 	}
 }
 
-/* CLIENTS */
+// CLIENTS
 
 task("buildClients") {
 	this.description = "Build all clients."
 	this.group = "Clients"
 	this.dependsOn(
-		"buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient", "buildTypeScriptClient"
+		"buildBashClient", "buildPythonClient", "buildJavaClient", "buildKotlinClient", "buildTypeScriptClient",
 	)
 }
 
@@ -170,14 +180,16 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClie
 	this.generatorName.set("bash")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/bash")
-	this.configOptions.set(mapOf(
-		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
-		"curlOptions" to "--insecure",
-		"generateBashCompletion" to "true",
-		"generateZshCompletion" to "true",
-		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
-		"scriptName" to "yawac"
-	))
+	this.configOptions.set(
+		mapOf(
+			"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+			"curlOptions" to "--insecure",
+			"generateBashCompletion" to "true",
+			"generateZshCompletion" to "true",
+			"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+			"scriptName" to "yawac",
+		),
+	)
 	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
@@ -188,14 +200,16 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildPythonCl
 	this.generatorName.set("python")
 	this.inputSpec.set(openapiDefinition)
 	this.outputDir.set("$generateClientsDir/python")
-	this.configOptions.set(mapOf(
-		"library" to "urllib3",
-		"packageName" to "yawac",
-		"packageUrl" to "https://github.com/gmarciani/yawa",
-		"packageVersion" to "1.0.0",
-		"projectName" to "yawac",
-		"scriptName" to "yawac"
-	))
+	this.configOptions.set(
+		mapOf(
+			"library" to "urllib3",
+			"packageName" to "yawac",
+			"packageUrl" to "https://github.com/gmarciani/yawa",
+			"packageVersion" to "1.0.0",
+			"projectName" to "yawac",
+			"scriptName" to "yawac",
+		),
+	)
 	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
@@ -210,14 +224,16 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildJavaClie
 	this.invokerPackage.set("com.yawa.client.invoker")
 	this.modelPackage.set("com.yawa.client.model")
 	this.packageName.set("yawac")
-	this.configOptions.set(mapOf(
-		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
-		"curlOptions" to "--insecure",
-		"generateBashCompletion" to "true",
-		"generateZshCompletion" to "true",
-		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
-		"scriptName" to "yawac"
-	))
+	this.configOptions.set(
+		mapOf(
+			"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+			"curlOptions" to "--insecure",
+			"generateBashCompletion" to "true",
+			"generateZshCompletion" to "true",
+			"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+			"scriptName" to "yawac",
+		),
+	)
 	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
@@ -232,14 +248,16 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildKotlinCl
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
 	this.packageName.set("yawac")
-	this.configOptions.set(mapOf(
-		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
-		"curlOptions" to "--insecure",
-		"generateBashCompletion" to "true",
-		"generateZshCompletion" to "true",
-		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
-		"scriptName" to "yawac"
-	))
+	this.configOptions.set(
+		mapOf(
+			"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+			"curlOptions" to "--insecure",
+			"generateBashCompletion" to "true",
+			"generateZshCompletion" to "true",
+			"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+			"scriptName" to "yawac",
+		),
+	)
 	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
@@ -254,14 +272,16 @@ task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildTypeScri
 	this.invokerPackage.set("yawac.invoker")
 	this.modelPackage.set("yawac.model")
 	this.packageName.set("yawac")
-	this.configOptions.set(mapOf(
-		"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
-		"curlOptions" to "--insecure",
-		"generateBashCompletion" to "true",
-		"generateZshCompletion" to "true",
-		"hostEnvironmentVariable" to "YAWA_ENDPOINT",
-		"scriptName" to "yawac"
-	))
+	this.configOptions.set(
+		mapOf(
+			"apiKeyAuthEnvironmentVariable" to "YAWA_API_KEY",
+			"curlOptions" to "--insecure",
+			"generateBashCompletion" to "true",
+			"generateZshCompletion" to "true",
+			"hostEnvironmentVariable" to "YAWA_ENDPOINT",
+			"scriptName" to "yawac",
+		),
+	)
 	this.generateApiDocumentation.set(true)
 	this.validateSpec.set(true)
 }
@@ -277,7 +297,7 @@ tasks.register<Sync>("copyClientToFrontend") {
 	into(frontendClientDir)
 }
 
-/* DEPENDENCY MANAGEMENT */
+// DEPENDENCY MANAGEMENT
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
 	gradleReleaseChannel = "current"
@@ -308,12 +328,12 @@ ktlint {
 	enableExperimentalRules.set(false)
 	additionalEditorconfig.set(
 		mapOf(
-			"max_line_length" to "40",
+			"max_line_length" to "120",
 			"indent_style" to "tab",
-			"ktlint_standard_comment-spacing" to
-					"disabled",
-			"ktlint_standard_no-consecutive-blank-lines" to
-					"disabled",
+			"ktlint_standard_comment-spacing" to "disabled",
+			"ktlint_standard_chain-method-continuation" to "disabled",
+			"ktlint_standard_argument-list-wrapping" to "disabled",
+			"ktlint_standard_no-consecutive-blank-lines" to "disabled",
 		),
 	)
 }
