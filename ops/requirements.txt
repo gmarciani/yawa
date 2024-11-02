@@ -1,5 +1,5 @@
 click~=8.1.3
 colored~=1.4.3
-pyfiglet~=0.8.post1
+pyfiglet~=1.0.2
 yawac @ file:///Users/mgiacomo/workplace/personal/yawa/server/build/generated/clients/python
 redis~=4.5.4
