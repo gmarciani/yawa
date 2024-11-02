@@ -3,6 +3,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
+import java.util.Locale
 
 plugins {
     id("java")
@@ -313,7 +314,7 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
 }
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase(Locale.getDefault()).contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
