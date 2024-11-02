@@ -10,7 +10,7 @@ run:
 clean:
 	docker compose -f ${COMPOSE_FILE} rm --force --stop --volumes
 	docker rmi --force $$(docker compose -f ${COMPOSE_FILE} config --images) || true
-	docker volume rm yawa_dbdata yawa_cachedata yawa_srvdata || true
+	docker volume rm --force yawa_dbdata yawa_cachedata yawa_srvdata || true
 describe:
 	docker compose -f ${COMPOSE_FILE} ps
 login:
