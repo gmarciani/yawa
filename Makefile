@@ -15,3 +15,5 @@ describe:
 	docker compose -f ${COMPOSE_FILE} ps
 login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
+check_server:
+	yawa-ops health --profile admin --no-verify-ssl
