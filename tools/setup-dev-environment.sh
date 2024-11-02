@@ -12,7 +12,7 @@ GRADLE_VERSION="7.6"
 
 # Python is used for YAWA Ops tools
 PYTHON_VERSION="3.12.0"
-PYTHON_VENV="yawa-ops"
+PYTHON_VENV="yawa-ops-dev"
 
 # Install SDKMAN; see https://sdkman.io/install
 curl -s "https://get.sdkman.io" | bash
@@ -43,3 +43,5 @@ pre-commit install
 pyenv install $PYTHON_VERSION --skip-existing
 pyenv virtualenv $PYTHON_VERSION $PYTHON_VENV --force
 echo "$PYTHON_VENV" > "$PROJECT_PATH/ops/.python-version"
+"$(pyenv virtualenv-prefix $PYTHON_VENV)/envs/$PYTHON_VENV/bin/python" -m pip install --upgrade pip
+"$(pyenv virtualenv-prefix $PYTHON_VENV)/envs/$PYTHON_VENV/bin/python" -m pip install -e "$PROJECT_PATH/ops"

@@ -6,7 +6,7 @@
 * Configure the local development environment
 
 ```shell
-tools/setup-dev-environment.sh
+make setup
 ```
 
 * Start Docker

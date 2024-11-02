@@ -2,6 +2,8 @@ default: build
 
 COMPOSE_FILE="docker-compose.yaml"
 
+setup:
+	bash tools/setup-dev-environment.sh
 build:
 	docker compose -f ${COMPOSE_FILE} pull $(container)
 	docker compose -f ${COMPOSE_FILE} build $(container)
@@ -16,4 +18,4 @@ describe:
 login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
 check_server:
-	yawa-ops health --profile admin --no-verify-ssl
+	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$PATH" yawa-ops health --profile admin
