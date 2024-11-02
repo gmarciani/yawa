@@ -13,9 +13,35 @@ tools/setup-dev-environment.sh
 
 ## Quick Start
 
-Run all containers
+Build containers
 ```shell
-docker-compose up --detach
+make build
+
+# Or a specific container
+make build container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
+```
+
+Run containers
+```shell
+make run
+
+# Or a specific container
+make run container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
+```
+
+Describe containers
+```shell
+make describe
+```
+
+Login to a container
+```shell
+make login container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
+```
+
+Cleanup everything (containers, images, volumes)
+```shell
+make clean
 ```
 
 ## Containers
@@ -29,30 +55,6 @@ The application is made of the containers below.
 | dbadmin    | https://localhost:8003 | [README](database/README.md) |
 | grafana    | http://localhost:8005  | [README](grafana/README.md) |
 | prometheus | http://localhost:8004  | [README](prometheus/README.md) |
-
-### Run
-Run all containers
-```shell
-docker-compose up --detach
-```
-
-Run specific containers
-```shell
-docker-compose up --detach [frontend|server|database|dbadmin|grafana|loki|prometheus]
-```
-
-### Login
-```shell
-docker exec -it [container-name] /bin/bash
-```
-
-## Contribute
-Before submitting your code, configure Pre-Commit in your local repo:
-
-```shell
-brew install pre-commit
-pre-commit install
-```
 
 ## References
 1. [Spring Boot Reference](https://docs.spring.io/spring-boot/docs/2.7.8/reference/html/)
