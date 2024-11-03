@@ -17,7 +17,7 @@ plugins {
     id("com.gorylenko.gradle-git-properties") version "2.4.2"
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "2.0.21"
     kotlin("plugin.spring") version "2.0.21"
     kotlin("plugin.jpa") version "2.0.21"
 }
@@ -75,7 +75,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 //    runtimeOnly("com.h2database:h2:2.1.214")
-    runtimeOnly("mysql:mysql-connector-java:8.0.31")
+    runtimeOnly("mysql:mysql-connector-java:8.0.33")
 
     testImplementation("io.kotest:kotest-framework-api-jvm:5.9.1")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
