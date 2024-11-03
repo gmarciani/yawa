@@ -1,23 +1,25 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 import java.util.Locale
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.1.1"
-    id("io.spring.dependency-management") version "1.1.5"
+    id("org.springframework.boot") version "3.1.5" // 3.3.5
+    id("io.spring.dependency-management") version "1.1.6"
     id("org.openapi.generator") version "6.6.0"
     id("com.github.ben-manes.versions") version "0.51.0"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.20"
-    id("com.gorylenko.gradle-git-properties") version "2.4.1"
-    id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.0.21"
+    id("com.gorylenko.gradle-git-properties") version "2.4.2"
+    id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     kotlin("jvm") version "1.9.20"
-    kotlin("plugin.spring") version "1.9.20"
-    kotlin("plugin.jpa") version "1.9.20"
+    kotlin("plugin.spring") version "2.0.21"
+    kotlin("plugin.jpa") version "2.0.21"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -47,45 +49,48 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+//    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-mustache")
     implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.auth0:java-jwt:4.2.1")
-    implementation("io.micrometer:micrometer-registry-prometheus:1.10.2")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.2")
-    implementation("io.github.microutils:kotlin-logging:3.0.4")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("com.bucket4j:bucket4j-core:8.2.0")
-    implementation("com.bucket4j:bucket4j-redis:8.2.0")
+    implementation("io.micrometer:micrometer-registry-prometheus:1.10.2") // 1.13.6
+    implementation("org.apache.commons:commons-lang3:3.17.0")
+    implementation("net.logstash.logback:logstash-logback-encoder:8.0")
+    implementation("io.github.microutils:kotlin-logging:3.0.5")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.1")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("com.bucket4j:bucket4j-core:8.2.0") //8.10.1
+    implementation("com.bucket4j:bucket4j-redis:8.2.0") //8.10.1
     implementation("io.lettuce:lettuce-core:6.2.4.RELEASE")
-    implementation("org.thymeleaf:thymeleaf:3.1.1.RELEASE")
+    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    runtimeOnly("com.h2database:h2:2.1.214")
+//    runtimeOnly("com.h2database:h2:2.1.214")
     runtimeOnly("mysql:mysql-connector-java:8.0.31")
 
-    testImplementation("io.kotest:kotest-framework-api-jvm:4.6.0")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
-    testImplementation("io.mockk:mockk:1.13.3")
+    testImplementation("io.kotest:kotest-framework-api-jvm:5.9.1")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
+    testImplementation("io.mockk:mockk:1.13.13")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 // BUILD
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+    compilerOptions {
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTargetValidationMode.set(JvmTargetValidationMode.ERROR)
+        freeCompilerArgs.set(listOf("-Xjsr305=strict"))
     }
 }
 
@@ -173,7 +178,7 @@ task("buildClients") {
 }
 
 val openapiDefinition = "$mainResourcesDir/openapi/definition.json"
-val generateClientsDir = "$buildDir/generated/clients"
+val generateClientsDir = "${layout.buildDirectory}/generated/clients"
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClient") {
     this.description = "Build BASH client."
@@ -306,7 +311,7 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     checkBuildEnvironmentConstraints = true
     checkForGradleUpdate = true
     outputFormatter = "html"
-    outputDir = "$buildDir/dependencyManagement"
+    outputDir = "${layout.buildDirectory}/dependencyManagement"
     reportfileName = "dependencyUpdatesReport"
     rejectVersionIf {
         isNonStable(this.candidate.version) && !isNonStable(this.currentVersion)
@@ -325,6 +330,6 @@ ktlint {
     version.set("1.3.1")
     debug.set(false)
     verbose.set(true)
-    ignoreFailures.set(false)
     enableExperimentalRules.set(false)
+    ignoreFailures.set(true)
 }

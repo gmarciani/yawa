@@ -62,8 +62,13 @@ spring:
 #      client:
 #        registration:
 #          google:
-#            client-id: FROM classpath:secrets/application.yaml
-#            client-secret: FROM classpath:secrets/application.yaml
+#            scope: openid,profile,email
+##            client-id: FROM classpath:secrets/application.yaml
+##            client-secret: FROM classpath:secrets/application.yaml
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://accounts.google.com
+#          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
   mail:
     host: smtp.gmail.com
     port: 587

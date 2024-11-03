@@ -16,6 +16,16 @@ class BucketsCacheConfig {
             ExpirationAfterWriteStrategy.fixedTimeToLive(Duration.ofHours(1))
     }
 
+//    @Bean
+//    fun bucketsCacheProxyManager(redisClient: RedisClient): ProxyManager<ByteArray> {
+//        return LettuceBasedProxyManager.builderFor(redisClient)
+//            .withClientSideConfig(
+//                ClientSideConfig.getDefault()
+//                    .withExpirationAfterWriteStrategy(EXPIRATION_STRATEGY)
+//            )
+//            .build()
+//    }
+
     @Bean
     fun bucketsCacheProxyManager(redisClient: RedisClient): LettuceBasedProxyManager {
         return LettuceBasedProxyManager.builderFor(redisClient)

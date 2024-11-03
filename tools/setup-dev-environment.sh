@@ -8,7 +8,7 @@ JAVA_VERSION="17.0.9-amzn"
 # Gradle 7.6.0 is the maximum version supported by the Kotlin Gradle Plugin.
 # If you are considering to upgrade Gradle, you first need to check the compatibility.
 # See https://kotlinlang.org/docs/gradle-configure-project.html#check-for-jvm-target-compatibility-of-related-compile-tasks
-GRADLE_VERSION="7.6"
+GRADLE_VERSION="8.10.2"
 
 # Python is used for YAWA Ops tools
 PYTHON_VERSION="3.12.0"

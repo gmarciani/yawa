@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service
 @Service
 class ThrottlingService(
     @Autowired val bucketsCacheProxyManager: LettuceBasedProxyManager,
+//    @Autowired val bucketsCacheProxyManager: ProxyManager<ByteArray>,
 ) {
 
     fun resolveBucket(user: User): Bucket {

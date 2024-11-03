@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV JAVA_VERSION 17.0.11
-ENV GRADLE_VERSION 7.6.4
+ENV GRADLE_VERSION 8.10.2
 ENV SDKMAN_DIR /usr/local/sdkman
 ENV YAWA_DIR /usr/src/yawa
 ENV LOG_DIR /var/yawa/logs
