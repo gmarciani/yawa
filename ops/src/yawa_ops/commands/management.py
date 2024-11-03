@@ -14,7 +14,7 @@ log = logutils.get_logger(__name__)
 
 @click.command(help="Describe the server health.", cls=BaseCommand)
 @click.pass_context
-def health(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug):
+def health(ctx, endpoint, profile, verify_ssl, ca_file, debug):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         try:
             response = Health(api_client).health()
@@ -25,7 +25,7 @@ def health(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug):
 
 @click.command(help="Describe the server info.", cls=BaseCommand)
 @click.pass_context
-def info(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug):
+def info(ctx, endpoint, profile, verify_ssl, ca_file, debug):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         try:
             response = Info(api_client).info()
@@ -36,7 +36,7 @@ def info(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug):
 
 @click.command(help="Shuts the server down.", cls=BaseCommand)
 @click.pass_context
-def shutdown(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug):
+def shutdown(ctx, endpoint, profile, verify_ssl, ca_file, debug):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         try:
             response = Shutdown(api_client).shutdown()
