@@ -18,4 +18,4 @@ describe:
 login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
 check_server:
-	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$PATH" yawa-ops health --profile admin
+	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" yawa-ops health --profile admin
