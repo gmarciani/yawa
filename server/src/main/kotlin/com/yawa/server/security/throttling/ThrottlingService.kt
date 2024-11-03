@@ -4,15 +4,14 @@ import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserSubscriptionPlan
 import io.github.bucket4j.Bucket
 import io.github.bucket4j.BucketConfiguration
-import io.github.bucket4j.redis.lettuce.cas.LettuceBasedProxyManager
+import io.github.bucket4j.distributed.proxy.ProxyManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 
 @Service
 class ThrottlingService(
-    @Autowired val bucketsCacheProxyManager: LettuceBasedProxyManager,
-//    @Autowired val bucketsCacheProxyManager: ProxyManager<ByteArray>,
+    @Autowired val bucketsCacheProxyManager: ProxyManager<ByteArray>,
 ) {
 
     fun resolveBucket(user: User): Bucket {

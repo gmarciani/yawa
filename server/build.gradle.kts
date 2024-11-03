@@ -67,8 +67,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-    implementation("com.bucket4j:bucket4j-core:8.2.0") //8.10.1
-    implementation("com.bucket4j:bucket4j-redis:8.2.0") //8.10.1
+    implementation("com.bucket4j:bucket4j-core:8.10.1") //8.10.1
+    implementation("com.bucket4j:bucket4j-redis:8.10.1") //8.10.1
     implementation("io.lettuce:lettuce-core:6.2.4.RELEASE")
     implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
 
