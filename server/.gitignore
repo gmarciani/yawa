@@ -9,4 +9,5 @@ gradlew.bat
 *.log
 .ignore
 .python-version
+.kotlin
 src/main/resources/secrets/
