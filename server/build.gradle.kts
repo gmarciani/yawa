@@ -55,7 +55,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.auth0:java-jwt:4.2.1")
+    implementation("com.auth0:java-jwt:4.4.0")
     implementation("io.micrometer:micrometer-registry-prometheus:1.10.2") // 1.13.6
     implementation("org.apache.commons:commons-lang3:3.17.0")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
