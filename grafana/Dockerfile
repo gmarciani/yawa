@@ -1,4 +1,4 @@
-FROM grafana/grafana:10.2.2-ubuntu
+FROM grafana/grafana:11.3.0-ubuntu
 
 EXPOSE 3000
 
