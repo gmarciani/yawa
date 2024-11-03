@@ -178,7 +178,7 @@ task("buildClients") {
 }
 
 val openapiDefinition = "$mainResourcesDir/openapi/definition.json"
-val generateClientsDir = "${layout.buildDirectory}/generated/clients"
+val generateClientsDir = "${layout.buildDirectory.get()}/generated/clients"
 
 task<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("buildBashClient") {
     this.description = "Build BASH client."
@@ -311,7 +311,7 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     checkBuildEnvironmentConstraints = true
     checkForGradleUpdate = true
     outputFormatter = "html"
-    outputDir = "${layout.buildDirectory}/dependencyManagement"
+    outputDir = "${layout.buildDirectory.get()}/dependencyManagement"
     reportfileName = "dependencyUpdatesReport"
     rejectVersionIf {
         isNonStable(this.candidate.version) && !isNonStable(this.currentVersion)
