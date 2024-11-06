@@ -1,7 +1,11 @@
+import json
+
 import click.core
+import yawac
 
 from yawa_ops.config.constants import DEFAULT_ENDPOINT, CA_FILE, DEFAULT_PROFILE
 from yawa_ops.config.profiles import load_profile
+from yawa_ops.exceptions.cli_exceptions import ClientError
 from yawa_ops.utils import logutils
 
 ENDPOINT_OPTION = click.Option(
@@ -51,4 +55,10 @@ class BaseCommand(click.core.Command):
             ca_file=ctx.params.get(CA_FILE.name),
             debug=ctx.params.get(DEBUG_OPTION.name)
         )
-        super().invoke(ctx)
+        try:
+            super().invoke(ctx)
+        except yawac.ApiException as e:
+            log.error("API error: %s" % e)
+            print(json.dumps(ClientError(e).__dict__, indent=4))
+        else:
+            log.error("Unknown error")
