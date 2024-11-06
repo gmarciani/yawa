@@ -1,5 +1,4 @@
 import click
-import yawac
 from yawac.paths.simple_greetings.get import GetGreetings
 
 from yawa_ops.commands.base_command import BaseCommand
@@ -13,8 +12,5 @@ log = logutils.get_logger(__name__)
 @click.pass_context
 def get_greetings(ctx, endpoint, profile, verify_ssl, ca_file, debug):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        try:
-            response = GetGreetings(api_client).get_greetings()
-            print_response(response)
-        except yawac.ApiException as e:
-            log.error("Request failed:\n%s" % e)
+        response = GetGreetings(api_client).get_greetings()
+        print_response(response)

@@ -60,5 +60,5 @@ class BaseCommand(click.core.Command):
         except yawac.ApiException as e:
             log.error("API error: %s" % e)
             print(json.dumps(ClientError(e).__dict__, indent=4))
-        else:
-            log.error("Unknown error")
+        except RuntimeError as e:
+            log.error("Unknown error: %s" % e)

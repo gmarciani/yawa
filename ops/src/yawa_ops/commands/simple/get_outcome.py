@@ -1,5 +1,4 @@
 import click
-import yawac
 from yawac.apis.tags.get_outcome_api import GetOutcomeApi
 from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
@@ -17,12 +16,9 @@ log = logutils.get_logger(__name__)
 )
 def get_outcome(ctx, endpoint, profile, verify_ssl, ca_file, debug, outcome):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        try:
-            response = GetOutcomeApi(api_client).get_outcome(
-                query_params={
-                    "outcome": outcome,
-                }
-            )
-            print_response(response)
-        except yawac.ApiException as e:
-            log.error("Request failed:\n%s" % e)
+        response = GetOutcomeApi(api_client).get_outcome(
+            query_params={
+                "outcome": outcome,
+            }
+        )
+        print_response(response)
