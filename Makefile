@@ -7,7 +7,7 @@ setup:
 build:
 	docker compose -f ${COMPOSE_FILE} pull $(container)
 	docker compose -f ${COMPOSE_FILE} build $(container)
-run:
+run: build
 	docker compose -f ${COMPOSE_FILE} up --detach $(container)
 clean:
 	docker compose -f ${COMPOSE_FILE} rm --force --stop --volumes
