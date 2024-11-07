@@ -7,7 +7,7 @@ from yawa_ops.commands.admin import send_mail
 from yawa_ops.commands.auth.login import login
 from yawa_ops.commands.auth.logout import logout
 from yawa_ops.commands.docs.openapi import openapi
-from yawa_ops.commands.management import info, shutdown, health
+from yawa_ops.commands.admin.management import info, shutdown, health
 from yawa_ops.commands.simple.get_outcome import get_outcome
 from yawa_ops.commands.simple.get_greetings import get_greetings
 from yawa_ops.config.metadata import NAME, VERSION
