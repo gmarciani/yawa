@@ -6,6 +6,7 @@ import click
 from yawa_ops.commands.admin import send_mail
 from yawa_ops.commands.auth.login import login
 from yawa_ops.commands.auth.logout import logout
+from yawa_ops.commands.docs.openapi import openapi
 from yawa_ops.commands.management import info, shutdown, health
 from yawa_ops.commands.simple.get_outcome import get_outcome
 from yawa_ops.commands.simple.get_greetings import get_greetings
@@ -32,6 +33,9 @@ def main(ctx, debug=False):
 main.add_command(info)
 main.add_command(health)
 main.add_command(shutdown)
+
+# Docs
+main.add_command(openapi)
 
 # Admin
 main.add_command(send_mail)
