@@ -1,49 +1,43 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "OpenAPI definition",
+    "version" : "v0"
   },
-  "servers": [
-    {
-      "url": "https://localhost:8002",
-      "description": "Generated server url"
+  "servers" : [ {
+    "url" : "https://localhost:8002",
+    "description" : "Generated server url"
+  } ],
+  "tags" : [ {
+    "name" : "Actuator",
+    "description" : "Monitor and interact",
+    "externalDocs" : {
+      "description" : "Spring Boot Actuator Web API Documentation",
+      "url" : "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
     }
-  ],
-  "tags": [
-    {
-      "name": "Actuator",
-      "description": "Monitor and interact",
-      "externalDocs": {
-        "description": "Spring Boot Actuator Web API Documentation",
-        "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
-      }
-    }
-  ],
-  "paths": {
-    "/users": {
-      "post": {
-        "tags": [
-          "create-user"
-        ],
-        "operationId": "createUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserRequest"
+  } ],
+  "paths" : {
+    "/users" : {
+      "post" : {
+        "tags" : [ "create-user" ],
+        "operationId" : "createUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateUserRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateUserResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateUserResponse"
                 }
               }
             }
@@ -51,39 +45,35 @@
         }
       }
     },
-    "/users/{username}/activation": {
-      "post": {
-        "tags": [
-          "activate-user"
-        ],
-        "operationId": "activateUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/activation" : {
+      "post" : {
+        "tags" : [ "activate-user" ],
+        "operationId" : "activateUser",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActivateUserRequest"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ActivateUserRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActivateUserResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ActivateUserResponse"
                 }
               }
             }
@@ -91,30 +81,28 @@
         }
       }
     },
-    "/manage/shutdown": {
-      "post": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'shutdown'",
-        "operationId": "shutdown",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/shutdown" : {
+      "post" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'shutdown'",
+        "operationId" : "shutdown",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -122,19 +110,17 @@
         }
       }
     },
-    "/auth/logout": {
-      "post": {
-        "tags": [
-          "logout"
-        ],
-        "operationId": "logout",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
+    "/auth/logout" : {
+      "post" : {
+        "tags" : [ "logout" ],
+        "operationId" : "logout",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LogoutResponse"
                 }
               }
             }
@@ -142,29 +128,27 @@
         }
       }
     },
-    "/auth/login": {
-      "post": {
-        "tags": [
-          "login"
-        ],
-        "operationId": "login",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+    "/auth/login" : {
+      "post" : {
+        "tags" : [ "login" ],
+        "operationId" : "login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/LoginResponse"
                 }
               }
             }
@@ -172,29 +156,27 @@
         }
       }
     },
-    "/admin/mail": {
-      "post": {
-        "tags": [
-          "send-mail"
-        ],
-        "operationId": "sendMail",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SendMailRequest"
+    "/admin/mail" : {
+      "post" : {
+        "tags" : [ "send-mail" ],
+        "operationId" : "sendMail",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendMailRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SendMailResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendMailResponse"
                 }
               }
             }
@@ -202,67 +184,59 @@
         }
       }
     },
-    "/users/{username}/settings": {
-      "get": {
-        "tags": [
-          "get-user-settings"
-        ],
-        "operationId": "getUserSettings",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/settings" : {
+      "get" : {
+        "tags" : [ "get-user-settings" ],
+        "operationId" : "getUserSettings",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DescribeUserSettingsResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DescribeUserSettingsResponse"
                 }
               }
             }
           }
         }
       },
-      "patch": {
-        "tags": [
-          "update-user-settings"
-        ],
-        "operationId": "updateUserSettings",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+      "patch" : {
+        "tags" : [ "update-user-settings" ],
+        "operationId" : "updateUserSettings",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserSettingsRequest"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserSettingsRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateUserSettingsResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateUserSettingsResponse"
                 }
               }
             }
@@ -270,67 +244,59 @@
         }
       }
     },
-    "/users/{username}/profile": {
-      "get": {
-        "tags": [
-          "get-user-profile"
-        ],
-        "operationId": "getUserProfile",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/profile" : {
+      "get" : {
+        "tags" : [ "get-user-profile" ],
+        "operationId" : "getUserProfile",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DescribeUserProfileResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DescribeUserProfileResponse"
                 }
               }
             }
           }
         }
       },
-      "patch": {
-        "tags": [
-          "update-user-profile"
-        ],
-        "operationId": "updateUserProfile",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+      "patch" : {
+        "tags" : [ "update-user-profile" ],
+        "operationId" : "updateUserProfile",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserProfileRequest"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserProfileRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateUserProfileResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateUserProfileResponse"
                 }
               }
             }
@@ -338,66 +304,56 @@
         }
       }
     },
-    "/users/{username}/profile/picture": {
-      "delete": {
-        "tags": [
-          "delete-user-picture"
-        ],
-        "operationId": "deleteUserPicture",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/profile/picture" : {
+      "delete" : {
+        "tags" : [ "delete-user-picture" ],
+        "operationId" : "deleteUserPicture",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteUserPictureResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteUserPictureResponse"
                 }
               }
             }
           }
         }
       },
-      "patch": {
-        "tags": [
-          "update-user-picture"
-        ],
-        "operationId": "updateUserPicture",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+      "patch" : {
+        "tags" : [ "update-user-picture" ],
+        "operationId" : "updateUserPicture",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserPictureRequest"
-              }
-            }
+        }, {
+          "name" : "request",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UpdateUserPictureRequest"
           }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateUserPictureResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateUserPictureResponse"
                 }
               }
             }
@@ -405,39 +361,35 @@
         }
       }
     },
-    "/users/{username}/password": {
-      "patch": {
-        "tags": [
-          "reset-password"
-        ],
-        "operationId": "resetPassword",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/password" : {
+      "patch" : {
+        "tags" : [ "reset-password" ],
+        "operationId" : "resetPassword",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordRequest"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResetPasswordRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResetPasswordResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResetPasswordResponse"
                 }
               }
             }
@@ -445,29 +397,25 @@
         }
       }
     },
-    "/users/{username}/tokens/password": {
-      "get": {
-        "tags": [
-          "send-password-reset-token"
-        ],
-        "operationId": "sendPasswordResetToken",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/tokens/password" : {
+      "get" : {
+        "tags" : [ "send-password-reset-token" ],
+        "operationId" : "sendPasswordResetToken",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SendPasswordResetTokenResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendPasswordResetTokenResponse"
                 }
               }
             }
@@ -475,29 +423,25 @@
         }
       }
     },
-    "/users/{username}/tokens/deletion": {
-      "get": {
-        "tags": [
-          "send-user-deletion-token"
-        ],
-        "operationId": "sendUserDeletionToken",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/tokens/deletion" : {
+      "get" : {
+        "tags" : [ "send-user-deletion-token" ],
+        "operationId" : "sendUserDeletionToken",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SendUserDeletionTokenResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserDeletionTokenResponse"
                 }
               }
             }
@@ -505,29 +449,25 @@
         }
       }
     },
-    "/users/{username}/tokens/activation": {
-      "get": {
-        "tags": [
-          "send-user-activation-token"
-        ],
-        "operationId": "sendUserActivationToken",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}/tokens/activation" : {
+      "get" : {
+        "tags" : [ "send-user-activation-token" ],
+        "operationId" : "sendUserActivationToken",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SendUserActivationTokenResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
                 }
               }
             }
@@ -535,37 +475,26 @@
         }
       }
     },
-    "/simple/outcome": {
-      "get": {
-        "tags": [
-          "get-outcome"
-        ],
-        "operationId": "getOutcome",
-        "parameters": [
-          {
-            "name": "outcome",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "SUCCESS",
-                "NOT_AUTHORIZED",
-                "NOT_FOUND",
-                "BAD_REQUEST",
-                "INTERNAL_ERROR",
-                "RANDOM"
-              ]
-            }
+    "/simple/outcome" : {
+      "get" : {
+        "tags" : [ "get-outcome" ],
+        "operationId" : "getOutcome",
+        "parameters" : [ {
+          "name" : "outcome",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "SUCCESS", "NOT_AUTHORIZED", "NOT_FOUND", "BAD_REQUEST", "INTERNAL_ERROR", "RANDOM" ]
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOutcomeResponse"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetOutcomeResponse"
                 }
               }
             }
@@ -573,19 +502,17 @@
         }
       }
     },
-    "/simple/greetings": {
-      "get": {
-        "tags": [
-          "get-greetings"
-        ],
-        "operationId": "getGreetings",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAuthenticatedHelloResponse"
+    "/simple/greetings" : {
+      "get" : {
+        "tags" : [ "get-greetings" ],
+        "operationId" : "getGreetings",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAuthenticatedHelloResponse"
                 }
               }
             }
@@ -593,46 +520,44 @@
         }
       }
     },
-    "/manage": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator root web endpoint",
-        "operationId": "links",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "$ref": "#/components/schemas/Link"
+    "/manage" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator root web endpoint",
+        "operationId" : "links",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
                     }
                   }
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "$ref": "#/components/schemas/Link"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
                     }
                   }
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "object",
-                    "additionalProperties": {
-                      "$ref": "#/components/schemas/Link"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
                     }
                   }
                 }
@@ -642,25 +567,23 @@
         }
       }
     },
-    "/manage/prometheus": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'prometheus'",
-        "operationId": "prometheus",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain;version=0.0.4;charset=utf-8": {
-                "schema": {
-                  "type": "object"
+    "/manage/prometheus" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'prometheus'",
+        "operationId" : "prometheus",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "text/plain;version=0.0.4;charset=utf-8" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/openmetrics-text;version=1.0.0;charset=utf-8": {
-                "schema": {
-                  "type": "object"
+              "application/openmetrics-text;version=1.0.0;charset=utf-8" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -668,30 +591,28 @@
         }
       }
     },
-    "/manage/metrics": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'metrics'",
-        "operationId": "metrics",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/metrics" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'metrics'",
+        "operationId" : "metrics",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -699,40 +620,36 @@
         }
       }
     },
-    "/manage/metrics/{requiredMetricName}": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'metrics-requiredMetricName'",
-        "operationId": "metrics-requiredMetricName",
-        "parameters": [
-          {
-            "name": "requiredMetricName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/manage/metrics/{requiredMetricName}" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'metrics-requiredMetricName'",
+        "operationId" : "metrics-requiredMetricName",
+        "parameters" : [ {
+          "name" : "requiredMetricName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -740,30 +657,28 @@
         }
       }
     },
-    "/manage/mappings": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'mappings'",
-        "operationId": "mappings",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/mappings" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'mappings'",
+        "operationId" : "mappings",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -771,30 +686,28 @@
         }
       }
     },
-    "/manage/info": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'info'",
-        "operationId": "info",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/info" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'info'",
+        "operationId" : "info",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -802,30 +715,28 @@
         }
       }
     },
-    "/manage/health": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'health'",
-        "operationId": "health",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/health" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'health'",
+        "operationId" : "health",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -833,30 +744,28 @@
         }
       }
     },
-    "/manage/health/**": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'health-path'",
-        "operationId": "health-path",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/health/**" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'health-path'",
+        "operationId" : "health-path",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -864,30 +773,28 @@
         }
       }
     },
-    "/manage/env": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'env'",
-        "operationId": "env",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/env" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'env'",
+        "operationId" : "env",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -895,40 +802,36 @@
         }
       }
     },
-    "/manage/env/{toMatch}": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'env-toMatch'",
-        "operationId": "env-toMatch",
-        "parameters": [
-          {
-            "name": "toMatch",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/manage/env/{toMatch}" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'env-toMatch'",
+        "operationId" : "env-toMatch",
+        "parameters" : [ {
+          "name" : "toMatch",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -936,30 +839,28 @@
         }
       }
     },
-    "/manage/configprops": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'configprops'",
-        "operationId": "configprops",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+    "/manage/configprops" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'configprops'",
+        "operationId" : "configprops",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -967,40 +868,36 @@
         }
       }
     },
-    "/manage/configprops/{prefix}": {
-      "get": {
-        "tags": [
-          "Actuator"
-        ],
-        "summary": "Actuator web endpoint 'configprops-prefix'",
-        "operationId": "configprops-prefix",
-        "parameters": [
-          {
-            "name": "prefix",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/manage/configprops/{prefix}" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'configprops-prefix'",
+        "operationId" : "configprops-prefix",
+        "parameters" : [ {
+          "name" : "prefix",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/vnd.spring-boot.actuator.v3+json": {
-                "schema": {
-                  "type": "object"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/vnd.spring-boot.actuator.v2+json": {
-                "schema": {
-                  "type": "object"
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               },
-              "application/json": {
-                "schema": {
-                  "type": "object"
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -1008,37 +905,32 @@
         }
       }
     },
-    "/auth/{username}/tokens": {
-      "get": {
-        "tags": [
-          "refresh-authentication"
-        ],
-        "operationId": "refreshAuthentication",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "request",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/RefreshAuthenticationRequest"
-            }
+    "/auth/{username}/tokens" : {
+      "get" : {
+        "tags" : [ "refresh-authentication" ],
+        "operationId" : "refreshAuthentication",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RefreshAuthenticationResponse"
+        }, {
+          "name" : "request",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/RefreshAuthenticationRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RefreshAuthenticationResponse"
                 }
               }
             }
@@ -1046,39 +938,54 @@
         }
       }
     },
-    "/users/{username}": {
-      "delete": {
-        "tags": [
-          "delete-user"
-        ],
-        "operationId": "deleteUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+    "/users/{username}" : {
+      "delete" : {
+        "tags" : [ "delete-user" ],
+        "operationId" : "deleteUser",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
           }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteUserRequest"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeleteUserRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteUserResponse"
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/docs/openapi" : {
+      "get" : {
+        "tags" : [ "Actuator" ],
+        "summary" : "Actuator web endpoint 'docs/openapi'",
+        "operationId" : "openapi",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
             }
@@ -1087,551 +994,464 @@
       }
     }
   },
-  "components": {
-    "schemas": {
-      "CreateUserRequest": {
-        "required": [
-          "email",
-          "password",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
+  "components" : {
+    "schemas" : {
+      "CreateUserRequest" : {
+        "required" : [ "email", "password", "username" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
           },
-          "password": {
-            "type": "string"
+          "password" : {
+            "type" : "string"
           },
-          "email": {
-            "type": "string"
+          "email" : {
+            "type" : "string"
           }
         }
       },
-      "CreateUserResponse": {
-        "required": [
-          "user"
-        ],
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
+      "CreateUserResponse" : {
+        "required" : [ "user" ],
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "$ref" : "#/components/schemas/User"
           }
         }
       },
-      "User": {
-        "required": [
-          "createdAt",
-          "email",
-          "isAccountNonExpired",
-          "isAccountNonLocked",
-          "isCredentialsNonExpired",
-          "isEnabled",
-          "password",
-          "profile",
-          "role",
-          "settings",
-          "subscriptionPlan",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
+      "User" : {
+        "required" : [ "createdAt", "email", "isAccountNonExpired", "isAccountNonLocked", "isCredentialsNonExpired", "isEnabled", "password", "profile", "role", "settings", "subscriptionPlan", "username" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
           },
-          "password": {
-            "type": "string"
+          "password" : {
+            "type" : "string"
           },
-          "email": {
-            "type": "string"
+          "email" : {
+            "type" : "string"
           },
-          "role": {
-            "type": "string",
-            "enum": [
-              "ADMIN",
-              "PROMETHEUS",
-              "NORMAL",
-              "ANONYMOUS"
-            ]
+          "role" : {
+            "type" : "string",
+            "enum" : [ "ADMIN", "PROMETHEUS", "NORMAL", "ANONYMOUS" ]
           },
-          "subscriptionPlan": {
-            "type": "string",
-            "enum": [
-              "FREE",
-              "BASIC",
-              "PROFESSIONAL",
-              "SYSTEM"
-            ]
+          "subscriptionPlan" : {
+            "type" : "string",
+            "enum" : [ "FREE", "BASIC", "PROFESSIONAL", "SYSTEM" ]
           },
-          "isEnabled": {
-            "type": "boolean"
+          "isEnabled" : {
+            "type" : "boolean"
           },
-          "isAccountNonExpired": {
-            "type": "boolean"
+          "isAccountNonExpired" : {
+            "type" : "boolean"
           },
-          "isAccountNonLocked": {
-            "type": "boolean"
+          "isAccountNonLocked" : {
+            "type" : "boolean"
           },
-          "isCredentialsNonExpired": {
-            "type": "boolean"
+          "isCredentialsNonExpired" : {
+            "type" : "boolean"
           },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "profile": {
-            "$ref": "#/components/schemas/UserProfile"
+          "profile" : {
+            "$ref" : "#/components/schemas/UserProfile"
           },
-          "settings": {
-            "$ref": "#/components/schemas/UserSettings"
+          "settings" : {
+            "$ref" : "#/components/schemas/UserSettings"
           },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "accountNonExpired" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "accountNonLocked" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "credentialsNonExpired" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "enabled" : {
+            "type" : "boolean",
+            "writeOnly" : true
           }
         }
       },
-      "UserProfile": {
-        "type": "object",
-        "properties": {
-          "firstname": {
-            "type": "string"
+      "UserProfile" : {
+        "type" : "object",
+        "properties" : {
+          "firstname" : {
+            "type" : "string"
           },
-          "lastname": {
-            "type": "string"
+          "lastname" : {
+            "type" : "string"
           },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "UNSPECIFIED"
-            ]
+          "gender" : {
+            "type" : "string",
+            "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
-          "dateOfBirth": {
-            "type": "string",
-            "format": "date-time"
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "picture": {
-            "type": "string"
+          "picture" : {
+            "type" : "string"
           },
-          "role": {
-            "type": "string"
+          "role" : {
+            "type" : "string"
           },
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "user" : {
+            "$ref" : "#/components/schemas/User"
           },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
           }
         }
       },
-      "UserSettings": {
-        "required": [
-          "isMfaEnabled"
-        ],
-        "type": "object",
-        "properties": {
-          "isMfaEnabled": {
-            "type": "boolean"
+      "UserSettings" : {
+        "required" : [ "isMfaEnabled" ],
+        "type" : "object",
+        "properties" : {
+          "isMfaEnabled" : {
+            "type" : "boolean"
           },
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "user" : {
+            "$ref" : "#/components/schemas/User"
           },
-          "id": {
-            "type": "string",
-            "format": "uuid"
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "mfaEnabled" : {
+            "type" : "boolean",
+            "writeOnly" : true
           }
         }
       },
-      "ActivateUserRequest": {
-        "required": [
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
+      "ActivateUserRequest" : {
+        "required" : [ "token" ],
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
           }
         }
       },
-      "ActivateUserResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "ActivateUserResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "LogoutResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "LogoutResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "LoginRequest": {
-        "required": [
-          "neverExpire",
-          "password",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
+      "LoginRequest" : {
+        "required" : [ "neverExpire", "password", "username" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
           },
-          "password": {
-            "type": "string"
+          "password" : {
+            "type" : "string"
           },
-          "neverExpire": {
-            "type": "boolean"
+          "neverExpire" : {
+            "type" : "boolean"
           }
         }
       },
-      "LoginResponse": {
-        "required": [
-          "accessToken",
-          "accessTokenExpiration",
-          "refreshToken",
-          "refreshTokenExpiration",
-          "username"
-        ],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
+      "LoginResponse" : {
+        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration", "username" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
           },
-          "accessToken": {
-            "type": "string"
+          "accessToken" : {
+            "type" : "string"
           },
-          "accessTokenExpiration": {
-            "type": "string",
-            "format": "date-time"
+          "accessTokenExpiration" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "refreshToken": {
-            "type": "string"
+          "refreshToken" : {
+            "type" : "string"
           },
-          "refreshTokenExpiration": {
-            "type": "string",
-            "format": "date-time"
+          "refreshTokenExpiration" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },
-      "SendMailRequest": {
-        "required": [
-          "attributes",
-          "mailType"
-        ],
-        "type": "object",
-        "properties": {
-          "mailType": {
-            "type": "string",
-            "enum": [
-              "USER_CREATION_PENDING",
-              "USER_CREATION_CONFIRMED",
-              "USER_DELETION_PENDING",
-              "USER_DELETION_CONFIRMED",
-              "PASSWORD_RESET_PENDING",
-              "PASSWORD_RESET_CONFIRMED"
-            ]
+      "SendMailRequest" : {
+        "required" : [ "attributes", "mailType" ],
+        "type" : "object",
+        "properties" : {
+          "mailType" : {
+            "type" : "string",
+            "enum" : [ "USER_CREATION_PENDING", "USER_CREATION_CONFIRMED", "USER_DELETION_PENDING", "USER_DELETION_CONFIRMED", "PASSWORD_RESET_PENDING", "PASSWORD_RESET_CONFIRMED" ]
           },
-          "attributes": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
+          "attributes" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
             }
           }
         }
       },
-      "SendMailResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "SendMailResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "UpdateUserSettingsRequest": {
-        "type": "object",
-        "properties": {
-          "isMfaEnabled": {
-            "type": "boolean"
+      "UpdateUserSettingsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "isMfaEnabled" : {
+            "type" : "boolean"
           }
         }
       },
-      "UpdateUserSettingsResponse": {
-        "required": [
-          "settings"
-        ],
-        "type": "object",
-        "properties": {
-          "settings": {
-            "$ref": "#/components/schemas/UserSettings"
+      "UpdateUserSettingsResponse" : {
+        "required" : [ "settings" ],
+        "type" : "object",
+        "properties" : {
+          "settings" : {
+            "$ref" : "#/components/schemas/UserSettings"
           }
         }
       },
-      "UpdateUserProfileRequest": {
-        "type": "object",
-        "properties": {
-          "firstname": {
-            "type": "string"
+      "UpdateUserProfileRequest" : {
+        "type" : "object",
+        "properties" : {
+          "firstname" : {
+            "type" : "string"
           },
-          "lastname": {
-            "type": "string"
+          "lastname" : {
+            "type" : "string"
           },
-          "gender": {
-            "type": "string",
-            "enum": [
-              "MALE",
-              "FEMALE",
-              "UNSPECIFIED"
-            ]
+          "gender" : {
+            "type" : "string",
+            "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
-          "dateOfBirth": {
-            "type": "string",
-            "format": "date-time"
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },
-      "UpdateUserProfileResponse": {
-        "required": [
-          "profile"
-        ],
-        "type": "object",
-        "properties": {
-          "profile": {
-            "$ref": "#/components/schemas/UserProfile"
+      "UpdateUserProfileResponse" : {
+        "required" : [ "profile" ],
+        "type" : "object",
+        "properties" : {
+          "profile" : {
+            "$ref" : "#/components/schemas/UserProfile"
           }
         }
       },
-      "UpdateUserPictureRequest": {
-        "required": [
-          "file"
-        ],
-        "type": "object",
-        "properties": {
-          "file": {
-            "type": "string",
-            "format": "binary"
+      "UpdateUserPictureRequest" : {
+        "required" : [ "file" ],
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "type" : "string",
+            "format" : "binary"
           }
         }
       },
-      "UpdateUserPictureResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "UpdateUserPictureResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "ResetPasswordRequest": {
-        "required": [
-          "password",
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
+      "ResetPasswordRequest" : {
+        "required" : [ "password", "token" ],
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
           },
-          "password": {
-            "type": "string"
+          "password" : {
+            "type" : "string"
           }
         }
       },
-      "ResetPasswordResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "ResetPasswordResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "SendPasswordResetTokenResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "SendPasswordResetTokenResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "SendUserDeletionTokenResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "SendUserDeletionTokenResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "SendUserActivationTokenResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "SendUserActivationTokenResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "DescribeUserSettingsResponse": {
-        "required": [
-          "settings"
-        ],
-        "type": "object",
-        "properties": {
-          "settings": {
-            "$ref": "#/components/schemas/UserSettings"
+      "DescribeUserSettingsResponse" : {
+        "required" : [ "settings" ],
+        "type" : "object",
+        "properties" : {
+          "settings" : {
+            "$ref" : "#/components/schemas/UserSettings"
           }
         }
       },
-      "DescribeUserProfileResponse": {
-        "required": [
-          "profile"
-        ],
-        "type": "object",
-        "properties": {
-          "profile": {
-            "$ref": "#/components/schemas/UserProfile"
+      "DescribeUserProfileResponse" : {
+        "required" : [ "profile" ],
+        "type" : "object",
+        "properties" : {
+          "profile" : {
+            "$ref" : "#/components/schemas/UserProfile"
           }
         }
       },
-      "GetOutcomeResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "GetOutcomeResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "GetAuthenticatedHelloResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "GetAuthenticatedHelloResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "Link": {
-        "type": "object",
-        "properties": {
-          "href": {
-            "type": "string"
+      "Link" : {
+        "type" : "object",
+        "properties" : {
+          "href" : {
+            "type" : "string"
           },
-          "templated": {
-            "type": "boolean"
+          "templated" : {
+            "type" : "boolean"
           }
         }
       },
-      "RefreshAuthenticationRequest": {
-        "required": [
-          "refreshToken"
-        ],
-        "type": "object",
-        "properties": {
-          "refreshToken": {
-            "type": "string"
+      "RefreshAuthenticationRequest" : {
+        "required" : [ "refreshToken" ],
+        "type" : "object",
+        "properties" : {
+          "refreshToken" : {
+            "type" : "string"
           }
         }
       },
-      "RefreshAuthenticationResponse": {
-        "required": [
-          "accessToken",
-          "accessTokenExpiration",
-          "refreshToken",
-          "refreshTokenExpiration"
-        ],
-        "type": "object",
-        "properties": {
-          "accessToken": {
-            "type": "string"
+      "RefreshAuthenticationResponse" : {
+        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration" ],
+        "type" : "object",
+        "properties" : {
+          "accessToken" : {
+            "type" : "string"
           },
-          "accessTokenExpiration": {
-            "type": "string",
-            "format": "date-time"
+          "accessTokenExpiration" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "refreshToken": {
-            "type": "string"
+          "refreshToken" : {
+            "type" : "string"
           },
-          "refreshTokenExpiration": {
-            "type": "string",
-            "format": "date-time"
+          "refreshTokenExpiration" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },
-      "DeleteUserRequest": {
-        "required": [
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
+      "DeleteUserRequest" : {
+        "required" : [ "token" ],
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
           }
         }
       },
-      "DeleteUserResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "DeleteUserResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
-      "DeleteUserPictureResponse": {
-        "required": [
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
+      "DeleteUserPictureResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
       }
     }
   },
-  "security": [
-    {"bearerAuth":  []}
-  ]
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ]
 }
