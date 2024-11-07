@@ -1,6 +1,10 @@
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -148,8 +152,9 @@ task("getOpenApiDefinition") {
 
     doLast {
         val definitionFile = File("$mainResourcesDir/openapi/definition.json")
-        val securitySchemesDefinitionFile = File("$mainResourcesDir/openapi/security-schemes.json")
-        val securityDefinitionFile = File("$mainResourcesDir/openapi/security.json")
+        val securitySchemesDefinitionFile = File("$mainResourcesDir/openapi/extras/security-schemes.json")
+        val securityDefinitionFile = File("$mainResourcesDir/openapi/extras/security.json")
+        val pathsDefinitionFile = File("$mainResourcesDir/openapi/extras/paths.json")
 
         val stdout = ByteArrayOutputStream()
         exec {
@@ -157,13 +162,33 @@ task("getOpenApiDefinition") {
             standardOutput = stdout
         }
 
-        val mapClass = mutableMapOf<String, Any>().javaClass
-        val definition = Gson().fromJson(stdout.toString(), mapClass)
-        definition += Gson().fromJson(securitySchemesDefinitionFile.readText(), mapClass)
-        definition += Gson().fromJson(securityDefinitionFile.readText(), mapClass)
+        val mapper = ObjectMapper()
+        val definition = mapper.readTree(stdout.toString()) as ObjectNode
+        val securitySchemesJson = mapper.readTree(securitySchemesDefinitionFile) as ObjectNode
+        val securityJson = mapper.readTree(securityDefinitionFile) as ObjectNode
+        val pathsJson = mapper.readTree(pathsDefinitionFile) as ObjectNode
 
-        val prettyDefinition = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(definition)
-        definitionFile.writeText(prettyDefinition)
+        definition.deepMerge(securitySchemesJson)
+        definition.deepMerge(securityJson)
+        definition.deepMerge(pathsJson)
+
+        mapper.writerWithDefaultPrettyPrinter().writeValue(definitionFile, definition)
+    }
+}
+
+fun ObjectNode.deepMerge(source: JsonNode) {
+    val fields = source.fields()
+    while (fields.hasNext()) {
+        val (key, sourceValue) = fields.next()
+        val targetValue = this.get(key)
+
+        if (targetValue != null && targetValue.isObject && sourceValue.isObject) {
+            // Recursively merge nested objects
+            (targetValue as ObjectNode).deepMerge(sourceValue)
+        } else {
+            // Overwrite target value with source value or add new field
+            this.set<JsonNode>(key, sourceValue)
+        }
     }
 }
 
