@@ -1,51 +1,32 @@
 import click
-import yawac
-from yawac.apis.paths.users_username_tokens_activation import UsersUsernameTokensActivation
-from yawac.apis.paths.users import Users
-from yawac.model.activate_user_request import ConfirmUserCreationRequest
-from yawac.model.create_user_request import CreateUserRequest
 
-from yawa_ops.commands.base_command import BaseCommand
-from yawa_ops.utils import logutils
-from yawa_ops.utils.api import print_response, build_client
+from yawa_ops.commands.users.creation import create_user, activate_user, send_user_activation_token
+from yawa_ops.commands.users.deletion import delete_user, send_user_deletion_token
+from yawa_ops.commands.users.password import reset_password, send_password_reset_token
+from yawa_ops.utils import logutils, guiutils
+from yawa_ops.cli import main
 
 log = logutils.get_logger(__name__)
 
 
-@click.command(help="Register a new user.", cls=BaseCommand)
-@click.pass_context
-@click.option(
-    "--username",
-    required=True,
-    help="Username.",
-)
-@click.option(
-    "--password",
-    required=True,
-    help="Password.",
-)
-@click.option(
-    "--email",
-    required=True,
-    help="Email.",
-)
-def create_user(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug, username, password, email):
-    with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        request = CreateUserRequest(username=username, password=password, email=email)
-        response = CreateUser(api_client).post(body=request)
-        print_response(response)
-
-
-@click.command(help="Confirm user creation.", cls=BaseCommand)
-@click.pass_context
-@click.option(
-    "--token-id",
-    required=True,
-    type=str,
-    help="Token id.",
-)
-def confirm_user_creation(ctx, endpoint, identity, access_token, verify_ssl, ca_file, debug, token_id):
-    with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        request = ConfirmUserCreationRequest(tokenId=token_id)
-        response = ConfirmUserCreation(api_client).post(body=request)
-        print_response(response)
+# @main.group(
+#     help="Users management.",
+#     invoke_without_command=True
+# )
+# @click.pass_context
+# def users(ctx, debug=False):
+#     if ctx.invoked_subcommand is None:
+#         print(ctx.get_help())
+#     else:
+#         ctx.ensure_object(dict)
+#         ctx.obj["DEBUG"] = debug
+#         logutils.set_level("DEBUG" if debug else "INFO")
+#
+#
+# users.add_command(create_user)
+# users.add_command(activate_user)
+# users.add_command(send_user_activation_token)
+# users.add_command(delete_user)
+# users.add_command(send_user_deletion_token)
+# users.add_command(reset_password)
+# users.add_command(send_password_reset_token)
