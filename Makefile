@@ -9,6 +9,8 @@ build:
 	docker compose -f ${COMPOSE_FILE} build $(container)
 run: build
 	docker compose -f ${COMPOSE_FILE} up --detach $(container)
+restart:
+	docker compose -f ${COMPOSE_FILE} restart $(container)
 clean:
 	docker compose -f ${COMPOSE_FILE} rm --force --stop --volumes
 	docker rmi --force $$(docker compose -f ${COMPOSE_FILE} config --images) || true

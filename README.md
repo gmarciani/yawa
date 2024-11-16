@@ -29,6 +29,14 @@ make run
 make run container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
 ```
 
+Restart containers
+```shell
+make restart
+
+# Or a specific container
+make restart container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
+```
+
 Describe containers
 ```shell
 make describe
