@@ -152,3 +152,4 @@ springdoc:
     enabled: true
     path: /docs/swagger-ui.html
   show-actuator: true
+  remove-broken-reference-definitions: true
