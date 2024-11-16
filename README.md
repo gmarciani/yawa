@@ -52,6 +52,11 @@ Cleanup everything (containers, images, volumes)
 make clean
 ```
 
+Open web interfaces on browser:
+```shell
+make open target=[frontend|server|server_swagger|database|dbadmin|grafana|loki|prometheus]
+```
+
 ## Containers
 The application is made of the containers below.
 

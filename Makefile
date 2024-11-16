@@ -22,16 +22,18 @@ login:
 check_server:
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" yawa-ops health --profile admin
 open:
-	@if [ $(container) == "frontend" ]; then\
+	@if [ $(target) == "frontend" ]; then\
 		python3 -m webbrowser "https://localhost:8010" ;\
-	elif [ $(container) == "server" ]; then\
+	elif [ $(target) == "server" ]; then\
     	python3 -m webbrowser "https://localhost:8002" ;\
-   	elif [ $(container) == "grafana" ]; then\
+	elif [ $(target) == "server_swagger" ]; then\
+        	python3 -m webbrowser "https://localhost:8002/docs/swagger-ui/index.html" ;\
+   	elif [ $(target) == "grafana" ]; then\
        	python3 -m webbrowser "http://localhost:8005" ;\
-	elif [ $(container) == "prometheus" ]; then\
+	elif [ $(target) == "prometheus" ]; then\
 		python3 -m webbrowser "http://localhost:8004" ;\
-	elif [ $(container) == "dbadmin" ]; then\
+	elif [ $(target) == "dbadmin" ]; then\
 		python3 -m webbrowser "https://localhost:8003" ;\
 	else \
-		echo "Unknown container ${container}" ;\
+		echo "Unknown target ${target}" ;\
 	fi
