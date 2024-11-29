@@ -150,6 +150,12 @@ springdoc:
     path: /docs/openapi
   swagger-ui:
     enabled: true
-    path: /docs/swagger-ui.html
+    path: /docs/openapi-ui.html
+    layout: BaseLayout
   show-actuator: true
   remove-broken-reference-definitions: true
+  writer-with-order-by-keys: true
+  show-login-endpoint: true
+  show-oauth2-endpoints: true
+  trim-kotlin-indent: true
+  enable-kotlin: true
