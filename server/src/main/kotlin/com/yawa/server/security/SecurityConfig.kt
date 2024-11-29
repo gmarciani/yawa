@@ -93,8 +93,7 @@ class SecurityConfig(
                 // Simple
                 .requestMatchers("/simple/*").permitAll()
                 // Documentation
-                .requestMatchers("/docs/openapi/**").permitAll()
-                .requestMatchers("/docs/swagger-ui.html").permitAll()
+                .requestMatchers("/docs/**").permitAll()
                 // Static Resources
                 .requestMatchers("/assets/**").permitAll()
                 .requestMatchers("/public/**").permitAll()
