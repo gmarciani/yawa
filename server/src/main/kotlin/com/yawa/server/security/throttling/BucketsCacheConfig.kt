@@ -23,7 +23,7 @@ class BucketsCacheConfig {
         return LettuceBasedProxyManager.builderFor(redisClient)
             .withClientSideConfig(
                 ClientSideConfig.getDefault()
-                    .withExpirationAfterWriteStrategy(EXPIRATION_STRATEGY)
+                    .withExpirationAfterWriteStrategy(EXPIRATION_STRATEGY),
             )
             .build()
     }
