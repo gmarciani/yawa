@@ -1,164 +1,36 @@
 {
   "openapi" : "3.0.1",
   "info" : {
-    "title" : "OpenAPI definition",
-    "version" : "v0"
+    "contact" : {
+      "name" : "Giacomo Marciani",
+      "url" : "https://github.com/gmarciani/yawa"
+    },
+    "description" : "Yet another Web Application",
+    "license" : {
+      "name" : "MIT License",
+      "url" : "https://opensource.org/license/mit"
+    },
+    "title" : "YAWA",
+    "version" : "1.0.0"
   },
   "servers" : [ {
     "url" : "https://localhost:8002",
     "description" : "Generated server url"
   } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
   "tags" : [ {
-    "name" : "Actuator",
     "description" : "Monitor and interact",
     "externalDocs" : {
       "description" : "Spring Boot Actuator Web API Documentation",
       "url" : "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
-    }
+    },
+    "name" : "Actuator"
   } ],
   "paths" : {
-    "/users" : {
-      "post" : {
-        "tags" : [ "create-user" ],
-        "operationId" : "createUser",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/CreateUserRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/CreateUserResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{username}/activation" : {
-      "post" : {
-        "tags" : [ "activate-user" ],
-        "operationId" : "activateUser",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ActivateUserRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ActivateUserResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/shutdown" : {
-      "post" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'shutdown'",
-        "operationId" : "shutdown",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/logout" : {
-      "post" : {
-        "tags" : [ "logout" ],
-        "operationId" : "logout",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/LogoutResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/login" : {
-      "post" : {
-        "tags" : [ "login" ],
-        "operationId" : "login",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/LoginRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/mail" : {
       "post" : {
-        "tags" : [ "send-mail" ],
         "operationId" : "sendMail",
         "requestBody" : {
           "content" : {
@@ -172,59 +44,27 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/SendMailResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "tags" : [ "send-mail" ]
       }
     },
-    "/users/{username}/settings" : {
-      "get" : {
-        "tags" : [ "get-user-settings" ],
-        "operationId" : "getUserSettings",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/DescribeUserSettingsResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch" : {
-        "tags" : [ "update-user-settings" ],
-        "operationId" : "updateUserSettings",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
+    "/auth/login" : {
+      "post" : {
+        "operationId" : "login",
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/UpdateUserSettingsRequest"
+                "$ref" : "#/components/schemas/LoginRequest"
               }
             }
           },
@@ -232,178 +72,171 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/UpdateUserSettingsResponse"
+                  "$ref" : "#/components/schemas/LoginResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
-      }
-    },
-    "/users/{username}/profile" : {
-      "get" : {
-        "tags" : [ "get-user-profile" ],
-        "operationId" : "getUserProfile",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/DescribeUserProfileResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch" : {
-        "tags" : [ "update-user-profile" ],
-        "operationId" : "updateUserProfile",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UpdateUserProfileRequest"
-              }
-            }
-          },
-          "required" : true
         },
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/UpdateUserProfileResponse"
-                }
-              }
-            }
-          }
-        }
+        "tags" : [ "login" ]
       }
     },
-    "/users/{username}/profile/picture" : {
-      "delete" : {
-        "tags" : [ "delete-user-picture" ],
-        "operationId" : "deleteUserPicture",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
+    "/auth/logout" : {
+      "post" : {
+        "operationId" : "logout",
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DeleteUserPictureResponse"
+                  "$ref" : "#/components/schemas/LogoutResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
-      },
-      "patch" : {
-        "tags" : [ "update-user-picture" ],
-        "operationId" : "updateUserPicture",
+        },
+        "tags" : [ "logout" ]
+      }
+    },
+    "/auth/{username}/tokens" : {
+      "get" : {
+        "operationId" : "refreshAuthentication",
         "parameters" : [ {
-          "name" : "username",
           "in" : "path",
+          "name" : "username",
           "required" : true,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "request",
           "in" : "query",
+          "name" : "request",
           "required" : true,
           "schema" : {
-            "$ref" : "#/components/schemas/UpdateUserPictureRequest"
+            "$ref" : "#/components/schemas/RefreshAuthenticationRequest"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/UpdateUserPictureResponse"
+                  "$ref" : "#/components/schemas/RefreshAuthenticationResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
-      }
-    },
-    "/users/{username}/password" : {
-      "patch" : {
-        "tags" : [ "reset-password" ],
-        "operationId" : "resetPassword",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ResetPasswordRequest"
-              }
-            }
-          },
-          "required" : true
         },
+        "tags" : [ "refresh-authentication" ]
+      }
+    },
+    "/docs/openapi" : {
+      "get" : {
+        "operationId" : "openapi",
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ResetPasswordResponse"
+                  "type" : "object"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "summary" : "Actuator web endpoint 'docs/openapi'",
+        "tags" : [ "Actuator" ]
       }
     },
-    "/users/{username}/tokens/password" : {
+    "/manage" : {
       "get" : {
-        "tags" : [ "send-password-reset-token" ],
-        "operationId" : "sendPasswordResetToken",
+        "operationId" : "links",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    }
+                  }
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    }
+                  }
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/Link"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator root web endpoint",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/configprops" : {
+      "get" : {
+        "operationId" : "configprops",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'configprops'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/configprops/{prefix}" : {
+      "get" : {
+        "operationId" : "configprops-prefix",
         "parameters" : [ {
-          "name" : "username",
           "in" : "path",
+          "name" : "prefix",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -411,25 +244,65 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendPasswordResetTokenResponse"
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "summary" : "Actuator web endpoint 'configprops-prefix'",
+        "tags" : [ "Actuator" ]
       }
     },
-    "/users/{username}/tokens/deletion" : {
+    "/manage/env" : {
       "get" : {
-        "tags" : [ "send-user-deletion-token" ],
-        "operationId" : "sendUserDeletionToken",
+        "operationId" : "env",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'env'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/env/{toMatch}" : {
+      "get" : {
+        "operationId" : "env-toMatch",
         "parameters" : [ {
-          "name" : "username",
           "in" : "path",
+          "name" : "toMatch",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -437,25 +310,181 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendUserDeletionTokenResponse"
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "summary" : "Actuator web endpoint 'env-toMatch'",
+        "tags" : [ "Actuator" ]
       }
     },
-    "/users/{username}/tokens/activation" : {
+    "/manage/health" : {
       "get" : {
-        "tags" : [ "send-user-activation-token" ],
-        "operationId" : "sendUserActivationToken",
+        "operationId" : "health",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'health'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/health/**" : {
+      "get" : {
+        "operationId" : "health-path",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'health-path'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/info" : {
+      "get" : {
+        "operationId" : "info",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'info'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/mappings" : {
+      "get" : {
+        "operationId" : "mappings",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'mappings'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/metrics" : {
+      "get" : {
+        "operationId" : "metrics",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'metrics'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/metrics/{requiredMetricName}" : {
+      "get" : {
+        "operationId" : "metrics-requiredMetricName",
         "parameters" : [ {
-          "name" : "username",
           "in" : "path",
+          "name" : "requiredMetricName",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -463,25 +492,107 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "summary" : "Actuator web endpoint 'metrics-requiredMetricName'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/prometheus" : {
+      "get" : {
+        "operationId" : "prometheus",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/openmetrics-text;version=1.0.0;charset=utf-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "text/plain;version=0.0.4;charset=utf-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'prometheus'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/manage/shutdown" : {
+      "post" : {
+        "operationId" : "shutdown",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "summary" : "Actuator web endpoint 'shutdown'",
+        "tags" : [ "Actuator" ]
+      }
+    },
+    "/simple/greetings" : {
+      "get" : {
+        "operationId" : "getGreetings",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAuthenticatedHelloResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "get-greetings" ]
       }
     },
     "/simple/outcome" : {
       "get" : {
-        "tags" : [ "get-outcome" ],
         "operationId" : "getOutcome",
         "parameters" : [ {
-          "name" : "outcome",
           "in" : "query",
+          "name" : "outcome",
           "required" : true,
           "schema" : {
             "type" : "string",
@@ -490,461 +601,53 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/GetOutcomeResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "tags" : [ "get-outcome" ]
       }
     },
-    "/simple/greetings" : {
-      "get" : {
-        "tags" : [ "get-greetings" ],
-        "operationId" : "getGreetings",
+    "/users" : {
+      "post" : {
+        "operationId" : "createUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateUserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/GetAuthenticatedHelloResponse"
+                  "$ref" : "#/components/schemas/CreateUserResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
-      }
-    },
-    "/manage" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator root web endpoint",
-        "operationId" : "links",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object",
-                  "additionalProperties" : {
-                    "type" : "object",
-                    "additionalProperties" : {
-                      "$ref" : "#/components/schemas/Link"
-                    }
-                  }
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object",
-                  "additionalProperties" : {
-                    "type" : "object",
-                    "additionalProperties" : {
-                      "$ref" : "#/components/schemas/Link"
-                    }
-                  }
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object",
-                  "additionalProperties" : {
-                    "type" : "object",
-                    "additionalProperties" : {
-                      "$ref" : "#/components/schemas/Link"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/prometheus" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'prometheus'",
-        "operationId" : "prometheus",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "text/plain;version=0.0.4;charset=utf-8" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/openmetrics-text;version=1.0.0;charset=utf-8" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/metrics" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'metrics'",
-        "operationId" : "metrics",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/metrics/{requiredMetricName}" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'metrics-requiredMetricName'",
-        "operationId" : "metrics-requiredMetricName",
-        "parameters" : [ {
-          "name" : "requiredMetricName",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/mappings" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'mappings'",
-        "operationId" : "mappings",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/info" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'info'",
-        "operationId" : "info",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/health" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'health'",
-        "operationId" : "health",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/health/**" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'health-path'",
-        "operationId" : "health-path",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/env" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'env'",
-        "operationId" : "env",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/env/{toMatch}" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'env-toMatch'",
-        "operationId" : "env-toMatch",
-        "parameters" : [ {
-          "name" : "toMatch",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/configprops" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'configprops'",
-        "operationId" : "configprops",
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/manage/configprops/{prefix}" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'configprops-prefix'",
-        "operationId" : "configprops-prefix",
-        "parameters" : [ {
-          "name" : "prefix",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/{username}/tokens" : {
-      "get" : {
-        "tags" : [ "refresh-authentication" ],
-        "operationId" : "refreshAuthentication",
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "request",
-          "in" : "query",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/RefreshAuthenticationRequest"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RefreshAuthenticationResponse"
-                }
-              }
-            }
-          }
-        }
+        },
+        "tags" : [ "create-user" ]
       }
     },
     "/users/{username}" : {
       "delete" : {
-        "tags" : [ "delete-user" ],
         "operationId" : "deleteUser",
         "parameters" : [ {
-          "name" : "username",
           "in" : "path",
+          "name" : "username",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -962,181 +665,349 @@
         },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/DeleteUserResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "tags" : [ "delete-user" ]
       }
     },
-    "/docs/openapi" : {
-      "get" : {
-        "tags" : [ "Actuator" ],
-        "summary" : "Actuator web endpoint 'docs/openapi'",
-        "operationId" : "openapi",
+    "/users/{username}/activation" : {
+      "post" : {
+        "operationId" : "activateUser",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ActivateUserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "object"
+                  "$ref" : "#/components/schemas/ActivateUserResponse"
                 }
               }
-            }
+            },
+            "description" : "OK"
           }
-        }
+        },
+        "tags" : [ "activate-user" ]
+      }
+    },
+    "/users/{username}/password" : {
+      "patch" : {
+        "operationId" : "resetPassword",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResetPasswordResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "reset-password" ]
+      }
+    },
+    "/users/{username}/profile" : {
+      "get" : {
+        "operationId" : "getUserProfile",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DescribeUserProfileResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "get-user-profile" ]
+      },
+      "patch" : {
+        "operationId" : "updateUserProfile",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserProfileRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateUserProfileResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "update-user-profile" ]
+      }
+    },
+    "/users/{username}/profile/picture" : {
+      "delete" : {
+        "operationId" : "deleteUserPicture",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteUserPictureResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "delete-user-picture" ]
+      },
+      "patch" : {
+        "operationId" : "updateUserPicture",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UpdateUserPictureRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateUserPictureResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "update-user-picture" ]
+      }
+    },
+    "/users/{username}/settings" : {
+      "get" : {
+        "operationId" : "getUserSettings",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DescribeUserSettingsResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "get-user-settings" ]
+      },
+      "patch" : {
+        "operationId" : "updateUserSettings",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserSettingsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateUserSettingsResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "update-user-settings" ]
+      }
+    },
+    "/users/{username}/tokens/activation" : {
+      "get" : {
+        "operationId" : "sendUserActivationToken",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "send-user-activation-token" ]
+      }
+    },
+    "/users/{username}/tokens/deletion" : {
+      "get" : {
+        "operationId" : "sendUserDeletionToken",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserDeletionTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "send-user-deletion-token" ]
+      }
+    },
+    "/users/{username}/tokens/password" : {
+      "get" : {
+        "operationId" : "sendPasswordResetToken",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "username",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendPasswordResetTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "send-password-reset-token" ]
       }
     }
   },
   "components" : {
     "schemas" : {
-      "CreateUserRequest" : {
-        "required" : [ "email", "password", "username" ],
-        "type" : "object",
-        "properties" : {
-          "username" : {
-            "type" : "string"
-          },
-          "password" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          }
-        }
-      },
-      "CreateUserResponse" : {
-        "required" : [ "user" ],
-        "type" : "object",
-        "properties" : {
-          "user" : {
-            "$ref" : "#/components/schemas/User"
-          }
-        }
-      },
-      "User" : {
-        "required" : [ "createdAt", "email", "isAccountNonExpired", "isAccountNonLocked", "isCredentialsNonExpired", "isEnabled", "password", "profile", "role", "settings", "subscriptionPlan", "username" ],
-        "type" : "object",
-        "properties" : {
-          "username" : {
-            "type" : "string"
-          },
-          "password" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "role" : {
-            "type" : "string",
-            "enum" : [ "ADMIN", "PROMETHEUS", "NORMAL", "ANONYMOUS" ]
-          },
-          "subscriptionPlan" : {
-            "type" : "string",
-            "enum" : [ "FREE", "BASIC", "PROFESSIONAL", "SYSTEM" ]
-          },
-          "isEnabled" : {
-            "type" : "boolean"
-          },
-          "isAccountNonExpired" : {
-            "type" : "boolean"
-          },
-          "isAccountNonLocked" : {
-            "type" : "boolean"
-          },
-          "isCredentialsNonExpired" : {
-            "type" : "boolean"
-          },
-          "createdAt" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "profile" : {
-            "$ref" : "#/components/schemas/UserProfile"
-          },
-          "settings" : {
-            "$ref" : "#/components/schemas/UserSettings"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "accountNonExpired" : {
-            "type" : "boolean",
-            "writeOnly" : true
-          },
-          "accountNonLocked" : {
-            "type" : "boolean",
-            "writeOnly" : true
-          },
-          "credentialsNonExpired" : {
-            "type" : "boolean",
-            "writeOnly" : true
-          },
-          "enabled" : {
-            "type" : "boolean",
-            "writeOnly" : true
-          }
-        }
-      },
-      "UserProfile" : {
-        "type" : "object",
-        "properties" : {
-          "firstname" : {
-            "type" : "string"
-          },
-          "lastname" : {
-            "type" : "string"
-          },
-          "gender" : {
-            "type" : "string",
-            "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
-          },
-          "dateOfBirth" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "picture" : {
-            "type" : "string"
-          },
-          "role" : {
-            "type" : "string"
-          },
-          "user" : {
-            "$ref" : "#/components/schemas/User"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }
-      },
-      "UserSettings" : {
-        "required" : [ "isMfaEnabled" ],
-        "type" : "object",
-        "properties" : {
-          "isMfaEnabled" : {
-            "type" : "boolean"
-          },
-          "user" : {
-            "$ref" : "#/components/schemas/User"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "mfaEnabled" : {
-            "type" : "boolean",
-            "writeOnly" : true
-          }
-        }
-      },
       "ActivateUserRequest" : {
         "required" : [ "token" ],
         "type" : "object",
@@ -1155,70 +1026,31 @@
           }
         }
       },
-      "LogoutResponse" : {
-        "required" : [ "message" ],
+      "CreateUserRequest" : {
+        "required" : [ "email", "password", "username" ],
         "type" : "object",
         "properties" : {
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "LoginRequest" : {
-        "required" : [ "neverExpire", "password", "username" ],
-        "type" : "object",
-        "properties" : {
-          "username" : {
+          "email" : {
             "type" : "string"
           },
           "password" : {
             "type" : "string"
           },
-          "neverExpire" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "LoginResponse" : {
-        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration", "username" ],
-        "type" : "object",
-        "properties" : {
           "username" : {
             "type" : "string"
-          },
-          "accessToken" : {
-            "type" : "string"
-          },
-          "accessTokenExpiration" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "refreshToken" : {
-            "type" : "string"
-          },
-          "refreshTokenExpiration" : {
-            "type" : "string",
-            "format" : "date-time"
           }
         }
       },
-      "SendMailRequest" : {
-        "required" : [ "attributes", "mailType" ],
+      "CreateUserResponse" : {
+        "required" : [ "user" ],
         "type" : "object",
         "properties" : {
-          "mailType" : {
-            "type" : "string",
-            "enum" : [ "USER_CREATION_PENDING", "USER_CREATION_CONFIRMED", "USER_DELETION_PENDING", "USER_DELETION_CONFIRMED", "PASSWORD_RESET_PENDING", "PASSWORD_RESET_CONFIRMED" ]
-          },
-          "attributes" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "string"
-            }
+          "user" : {
+            "$ref" : "#/components/schemas/User"
           }
         }
       },
-      "SendMailResponse" : {
+      "DeleteUserPictureResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
@@ -1227,124 +1059,21 @@
           }
         }
       },
-      "UpdateUserSettingsRequest" : {
-        "type" : "object",
-        "properties" : {
-          "isMfaEnabled" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "UpdateUserSettingsResponse" : {
-        "required" : [ "settings" ],
-        "type" : "object",
-        "properties" : {
-          "settings" : {
-            "$ref" : "#/components/schemas/UserSettings"
-          }
-        }
-      },
-      "UpdateUserProfileRequest" : {
-        "type" : "object",
-        "properties" : {
-          "firstname" : {
-            "type" : "string"
-          },
-          "lastname" : {
-            "type" : "string"
-          },
-          "gender" : {
-            "type" : "string",
-            "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
-          },
-          "dateOfBirth" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
-      "UpdateUserProfileResponse" : {
-        "required" : [ "profile" ],
-        "type" : "object",
-        "properties" : {
-          "profile" : {
-            "$ref" : "#/components/schemas/UserProfile"
-          }
-        }
-      },
-      "UpdateUserPictureRequest" : {
-        "required" : [ "file" ],
-        "type" : "object",
-        "properties" : {
-          "file" : {
-            "type" : "string",
-            "format" : "binary"
-          }
-        }
-      },
-      "UpdateUserPictureResponse" : {
-        "required" : [ "message" ],
-        "type" : "object",
-        "properties" : {
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "ResetPasswordRequest" : {
-        "required" : [ "password", "token" ],
+      "DeleteUserRequest" : {
+        "required" : [ "token" ],
         "type" : "object",
         "properties" : {
           "token" : {
             "type" : "string"
-          },
-          "password" : {
-            "type" : "string"
           }
         }
       },
-      "ResetPasswordResponse" : {
+      "DeleteUserResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
           "message" : {
             "type" : "string"
-          }
-        }
-      },
-      "SendPasswordResetTokenResponse" : {
-        "required" : [ "message" ],
-        "type" : "object",
-        "properties" : {
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "SendUserDeletionTokenResponse" : {
-        "required" : [ "message" ],
-        "type" : "object",
-        "properties" : {
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "SendUserActivationTokenResponse" : {
-        "required" : [ "message" ],
-        "type" : "object",
-        "properties" : {
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "DescribeUserSettingsResponse" : {
-        "required" : [ "settings" ],
-        "type" : "object",
-        "properties" : {
-          "settings" : {
-            "$ref" : "#/components/schemas/UserSettings"
           }
         }
       },
@@ -1357,7 +1086,16 @@
           }
         }
       },
-      "GetOutcomeResponse" : {
+      "DescribeUserSettingsResponse" : {
+        "required" : [ "settings" ],
+        "type" : "object",
+        "properties" : {
+          "settings" : {
+            "$ref" : "#/components/schemas/UserSettings"
+          }
+        }
+      },
+      "GetAuthenticatedHelloResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
@@ -1366,7 +1104,7 @@
           }
         }
       },
-      "GetAuthenticatedHelloResponse" : {
+      "GetOutcomeResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
@@ -1383,6 +1121,53 @@
           },
           "templated" : {
             "type" : "boolean"
+          }
+        }
+      },
+      "LoginRequest" : {
+        "required" : [ "neverExpire", "password", "username" ],
+        "type" : "object",
+        "properties" : {
+          "neverExpire" : {
+            "type" : "boolean"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "username" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LoginResponse" : {
+        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration", "username" ],
+        "type" : "object",
+        "properties" : {
+          "accessToken" : {
+            "type" : "string"
+          },
+          "accessTokenExpiration" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "refreshToken" : {
+            "type" : "string"
+          },
+          "refreshTokenExpiration" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "username" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LogoutResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
           }
         }
       },
@@ -1415,16 +1200,19 @@
           }
         }
       },
-      "DeleteUserRequest" : {
-        "required" : [ "token" ],
+      "ResetPasswordRequest" : {
+        "required" : [ "password", "token" ],
         "type" : "object",
         "properties" : {
+          "password" : {
+            "type" : "string"
+          },
           "token" : {
             "type" : "string"
           }
         }
       },
-      "DeleteUserResponse" : {
+      "ResetPasswordResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
@@ -1433,25 +1221,246 @@
           }
         }
       },
-      "DeleteUserPictureResponse" : {
+      "SendMailRequest" : {
+        "required" : [ "attributes", "mailType" ],
+        "type" : "object",
+        "properties" : {
+          "attributes" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "mailType" : {
+            "type" : "string",
+            "enum" : [ "USER_CREATION_PENDING", "USER_CREATION_CONFIRMED", "USER_DELETION_PENDING", "USER_DELETION_CONFIRMED", "PASSWORD_RESET_PENDING", "PASSWORD_RESET_CONFIRMED" ]
+          }
+        }
+      },
+      "SendMailResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
           "message" : {
             "type" : "string"
+          }
+        }
+      },
+      "SendPasswordResetTokenResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SendUserActivationTokenResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SendUserDeletionTokenResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpdateUserPictureRequest" : {
+        "required" : [ "file" ],
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "type" : "string",
+            "format" : "binary"
+          }
+        }
+      },
+      "UpdateUserPictureResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpdateUserProfileRequest" : {
+        "type" : "object",
+        "properties" : {
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "firstname" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string",
+            "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
+          },
+          "lastname" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpdateUserProfileResponse" : {
+        "required" : [ "profile" ],
+        "type" : "object",
+        "properties" : {
+          "profile" : {
+            "$ref" : "#/components/schemas/UserProfile"
+          }
+        }
+      },
+      "UpdateUserSettingsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "isMfaEnabled" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "UpdateUserSettingsResponse" : {
+        "required" : [ "settings" ],
+        "type" : "object",
+        "properties" : {
+          "settings" : {
+            "$ref" : "#/components/schemas/UserSettings"
+          }
+        }
+      },
+      "User" : {
+        "required" : [ "createdAt", "email", "isAccountNonExpired", "isAccountNonLocked", "isCredentialsNonExpired", "isEnabled", "password", "profile", "role", "settings", "subscriptionPlan", "username" ],
+        "type" : "object",
+        "properties" : {
+          "accountNonExpired" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "accountNonLocked" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "credentialsNonExpired" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "enabled" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "isAccountNonExpired" : {
+            "type" : "boolean"
+          },
+          "isAccountNonLocked" : {
+            "type" : "boolean"
+          },
+          "isCredentialsNonExpired" : {
+            "type" : "boolean"
+          },
+          "isEnabled" : {
+            "type" : "boolean"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "profile" : {
+            "$ref" : "#/components/schemas/UserProfile"
+          },
+          "role" : {
+            "type" : "string",
+            "enum" : [ "ADMIN", "PROMETHEUS", "NORMAL", "ANONYMOUS" ]
+          },
+          "settings" : {
+            "$ref" : "#/components/schemas/UserSettings"
+          },
+          "subscriptionPlan" : {
+            "type" : "string",
+            "enum" : [ "FREE", "BASIC", "PROFESSIONAL", "SYSTEM" ]
+          },
+          "username" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UserProfile" : {
+        "type" : "object",
+        "properties" : {
+          "dateOfBirth" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "firstname" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string",
+            "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "lastname" : {
+            "type" : "string"
+          },
+          "picture" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/User"
+          }
+        }
+      },
+      "UserSettings" : {
+        "required" : [ "isMfaEnabled" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "isMfaEnabled" : {
+            "type" : "boolean"
+          },
+          "mfaEnabled" : {
+            "type" : "boolean",
+            "writeOnly" : true
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/User"
           }
         }
       }
     },
     "securitySchemes" : {
       "bearerAuth" : {
-        "type" : "http",
+        "bearerFormat" : "JWT",
         "scheme" : "bearer",
-        "bearerFormat" : "JWT"
+        "type" : "http"
       }
     }
-  },
-  "security" : [ {
-    "bearerAuth" : [ ]
-  } ]
+  }
 }

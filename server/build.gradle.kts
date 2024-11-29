@@ -2,9 +2,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -58,6 +55,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mustache")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+//    implementation("org.springdoc:springdoc-openapi-data-rest:1.8.0")
+//    implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
+//    implementation("org.springdoc:springdoc-openapi-kotlin:1.8.0")
+//    implementation("org.springdoc:springdoc-openapi-common:1.8.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("io.micrometer:micrometer-registry-prometheus:1.10.2") // 1.13.6
@@ -80,6 +81,7 @@ dependencies {
 
 //    runtimeOnly("com.h2database:h2:2.1.214")
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
+//    runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.8.0")
 
     testImplementation("io.kotest:kotest-framework-api-jvm:5.9.1")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
@@ -152,9 +154,6 @@ task("getOpenApiDefinition") {
 
     doLast {
         val definitionFile = File("$mainResourcesDir/openapi/definition.json")
-        val securitySchemesDefinitionFile = File("$mainResourcesDir/openapi/extras/security-schemes.json")
-        val securityDefinitionFile = File("$mainResourcesDir/openapi/extras/security.json")
-        val pathsDefinitionFile = File("$mainResourcesDir/openapi/extras/paths.json")
 
         val stdout = ByteArrayOutputStream()
         exec {
@@ -164,13 +163,6 @@ task("getOpenApiDefinition") {
 
         val mapper = ObjectMapper()
         val definition = mapper.readTree(stdout.toString()) as ObjectNode
-        val securitySchemesJson = mapper.readTree(securitySchemesDefinitionFile) as ObjectNode
-        val securityJson = mapper.readTree(securityDefinitionFile) as ObjectNode
-        val pathsJson = mapper.readTree(pathsDefinitionFile) as ObjectNode
-
-        definition.deepMerge(securitySchemesJson)
-        definition.deepMerge(securityJson)
-        definition.deepMerge(pathsJson)
 
         mapper.writerWithDefaultPrettyPrinter().writeValue(definitionFile, definition)
     }
