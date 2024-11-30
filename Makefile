@@ -21,6 +21,9 @@ login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
 check_server:
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" yawa-ops health --profile admin
+build_ops:
+	gradle -p server getOpenApiDefinition buildClients
+	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" pip install -e ops/
 open:
 	@if [ $(target) == "frontend" ]; then\
 		python3 -m webbrowser "https://localhost:8010" ;\
