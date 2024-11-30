@@ -69,15 +69,14 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
     implementation("io.github.microutils:kotlin-logging:3.0.5")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.21")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.21")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("com.bucket4j:bucket4j-core:8.10.1") //8.10.1
     implementation("com.bucket4j:bucket4j-redis:8.10.1") //8.10.1
-    implementation("io.lettuce:lettuce-core:6.2.4.RELEASE")
+    implementation("io.lettuce:lettuce-core:6.5.0.RELEASE")
     implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
