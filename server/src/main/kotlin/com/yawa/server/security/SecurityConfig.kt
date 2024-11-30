@@ -83,9 +83,9 @@ class SecurityConfig(
                 .requestMatchers(GET, "/users/{username}/settings").authenticated()
                 .requestMatchers(PATCH, "/users/{username}/settings").authenticated()
                 // Authentication
-                .requestMatchers("/auth/login").permitAll()
-                .requestMatchers("/auth/logout").authenticated()
-                .requestMatchers("/auth/{username}/tokens").authenticated()
+                .requestMatchers(POST,"/auth/login").permitAll()
+                .requestMatchers(POST,"/auth/logout").authenticated()
+                .requestMatchers(POST, "/auth/{username}/tokens").authenticated()
                 // Administration
                 .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
                 .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
