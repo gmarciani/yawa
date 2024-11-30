@@ -80,6 +80,7 @@ services:
     container_name: grafana
     build:
       context: grafana
+    env_file: grafana/docker.env
     restart: always
     ports:
       - "8005:3000"
