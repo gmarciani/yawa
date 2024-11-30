@@ -5,7 +5,7 @@ from yawac.paths.auth_logout.post import Logout
 from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
 
-from yawa_ops.utils.api import print_response, build_client, print_error
+from yawa_ops.utils.api import build_client
 
 log = logutils.get_logger(__name__)
 

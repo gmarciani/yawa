@@ -2,7 +2,7 @@ import click
 from yawac.apis.tags.get_outcome_api import GetOutcomeApi
 from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
-from yawa_ops.utils.api import build_client, print_response
+from yawa_ops.utils.api import build_client
 
 log = logutils.get_logger(__name__)
 

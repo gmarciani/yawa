@@ -3,7 +3,7 @@ from yawac.paths.simple_greetings.get import GetGreetings
 
 from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
-from yawa_ops.utils.api import build_client, print_response
+from yawa_ops.utils.api import build_client
 
 log = logutils.get_logger(__name__)
 

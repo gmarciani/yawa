@@ -1,17 +1,11 @@
 import click
-from yawac.api_client import PathParameter
-from yawac.model.activate_user_request import ActivateUserRequest
-from yawac.model.create_user_request import CreateUserRequest
 from yawac.model.delete_user_request import DeleteUserRequest
-from yawac.paths.users.post import CreateUser
 from yawac.paths.users_username.delete import DeleteUser
-from yawac.paths.users_username_activation.post import ActivateUser
-from yawac.paths.users_username_tokens_activation.get import SendUserActivationToken
 from yawac.paths.users_username_tokens_deletion.get import SendUserDeletionToken, RequestPathParams
 
 from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
-from yawa_ops.utils.api import print_response, build_client
+from yawa_ops.utils.api import build_client
 
 log = logutils.get_logger(__name__)
 

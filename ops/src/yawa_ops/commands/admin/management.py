@@ -6,7 +6,7 @@ from yawa_ops.utils import logutils
 from yawac.paths.manage_info.get import Info
 from yawac.paths.manage_shutdown.post import Shutdown
 
-from yawa_ops.utils.api import print_response, build_client
+from yawa_ops.utils.api import build_client
 
 log = logutils.get_logger(__name__)
 

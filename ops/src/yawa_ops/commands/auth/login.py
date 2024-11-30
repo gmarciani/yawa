@@ -5,7 +5,7 @@ from yawa_ops.commands.base_command import BaseCommand
 from yawa_ops.utils import logutils
 from yawac.model.login_request import LoginRequest
 
-from yawa_ops.utils.api import print_response, build_client
+from yawa_ops.utils.api import build_client
 
 log = logutils.get_logger(__name__)
 
