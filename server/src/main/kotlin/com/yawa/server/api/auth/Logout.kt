@@ -1,6 +1,8 @@
 package com.yawa.server.api.auth
 
+import com.yawa.server.constants.OpenApiTags.AUTHENTICATION
 import com.yawa.server.models.users.User
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
@@ -12,6 +14,7 @@ private val log = KotlinLogging.logger {}
 @RestController
 class Logout {
 
+    @Operation(tags = [AUTHENTICATION])
     @PostMapping("/auth/logout", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun logout(): LogoutResponse {
         log.info("Processing request")

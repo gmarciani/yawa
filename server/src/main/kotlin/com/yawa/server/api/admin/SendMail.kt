@@ -1,8 +1,10 @@
 package com.yawa.server.api.admin
 
+import com.yawa.server.constants.OpenApiTags.ADMINISTRATION
 import com.yawa.server.models.users.User
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +21,7 @@ class SendMail(
     @Autowired val mailService: MailService,
 ) {
 
+    @Operation(tags = [ADMINISTRATION])
     @PostMapping("/admin/mail", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendMail(
         @Valid @RequestBody request: SendMailRequest,

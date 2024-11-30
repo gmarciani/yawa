@@ -1,9 +1,11 @@
 package com.yawa.server.api.users.settings
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.datastore.repositories.UserSettingsRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.UserSettings
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,6 +24,7 @@ class UpdateUserSettings(
     @Autowired val userSettingsRepository: UserSettingsRepository,
 ) {
 
+    @Operation(tags = [USERS])
     @PatchMapping("/users/{username}/settings", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun updateUserSettings(

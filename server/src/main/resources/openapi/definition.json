@@ -31,7 +31,7 @@
   "paths" : {
     "/admin/mail" : {
       "post" : {
-        "operationId" : "sendMail",
+        "operationId" : "send-mail",
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -54,7 +54,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "send-mail" ]
+        "tags" : [ "Administration" ]
       }
     },
     "/auth/login" : {
@@ -82,7 +82,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "login" ]
+        "tags" : [ "Authentication" ]
       }
     },
     "/auth/logout" : {
@@ -100,7 +100,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "logout" ]
+        "tags" : [ "Authentication" ]
       }
     },
     "/auth/{username}/tokens" : {
@@ -133,7 +133,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "refresh-authentication" ]
+        "tags" : [ "Authentication" ]
       }
     },
     "/docs/openapi" : {
@@ -152,7 +152,7 @@
           }
         },
         "summary" : "Actuator web endpoint 'docs/openapi'",
-        "tags" : [ "Actuator" ]
+        "tags" : [ "Documentation" ]
       }
     },
     "/manage" : {
@@ -584,7 +584,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "get-greetings" ]
+        "tags" : [ "Simple" ]
       }
     },
     "/simple/outcome" : {
@@ -611,7 +611,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "get-outcome" ]
+        "tags" : [ "Simple" ]
       }
     },
     "/users" : {
@@ -639,7 +639,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "create-user" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}" : {
@@ -675,7 +675,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "delete-user" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/activation" : {
@@ -711,7 +711,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "activate-user" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/password" : {
@@ -747,7 +747,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "reset-password" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/profile" : {
@@ -773,7 +773,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "get-user-profile" ]
+        "tags" : [ "Users" ]
       },
       "patch" : {
         "operationId" : "updateUserProfile",
@@ -807,7 +807,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "update-user-profile" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/profile/picture" : {
@@ -833,7 +833,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "delete-user-picture" ]
+        "tags" : [ "Users" ]
       },
       "patch" : {
         "operationId" : "updateUserPicture",
@@ -864,7 +864,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "update-user-picture" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/settings" : {
@@ -890,7 +890,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "get-user-settings" ]
+        "tags" : [ "Users" ]
       },
       "patch" : {
         "operationId" : "updateUserSettings",
@@ -924,7 +924,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "update-user-settings" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/tokens/activation" : {
@@ -950,7 +950,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "send-user-activation-token" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/tokens/deletion" : {
@@ -976,7 +976,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "send-user-deletion-token" ]
+        "tags" : [ "Users" ]
       }
     },
     "/users/{username}/tokens/password" : {
@@ -1002,7 +1002,7 @@
             "description" : "OK"
           }
         },
-        "tags" : [ "send-password-reset-token" ]
+        "tags" : [ "Users" ]
       }
     }
   },

@@ -152,6 +152,7 @@ springdoc:
     enabled: true
     path: /docs/openapi-ui.html
     layout: BaseLayout
+    display-operation-id: true
   show-actuator: true
   remove-broken-reference-definitions: true
   writer-with-order-by-keys: true

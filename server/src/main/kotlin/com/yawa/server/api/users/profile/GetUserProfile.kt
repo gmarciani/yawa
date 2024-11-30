@@ -1,8 +1,10 @@
 package com.yawa.server.api.users.profile
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.UserProfile
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -17,6 +19,7 @@ class GetUserProfile(
     @Autowired val userRepository: UserRepository,
 ) {
 
+    @Operation(tags = [USERS])
     @GetMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getUserProfile(
         @PathVariable username: String,

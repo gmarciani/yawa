@@ -1,6 +1,8 @@
 package com.yawa.server.api.auth
 
+import com.yawa.server.constants.OpenApiTags.AUTHENTICATION
 import com.yawa.server.security.authentication.AuthenticationService
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -17,6 +19,7 @@ class RefreshAuthentication(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
+    @Operation(tags = [AUTHENTICATION])
     @GetMapping("/auth/{username}/tokens", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun refreshAuthentication(
         @PathVariable username: String,

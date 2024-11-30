@@ -1,10 +1,12 @@
 package com.yawa.server.api.users.profile
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserProfileRepository
 import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.Gender
 import com.yawa.server.models.users.UserProfile
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +26,7 @@ class UpdateUserProfile(
     @Autowired val userProfileRepository: UserProfileRepository,
 ) {
 
+    @Operation(tags = [USERS])
     @PatchMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun updateUserProfile(

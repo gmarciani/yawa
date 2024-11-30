@@ -1,5 +1,6 @@
 package com.yawa.server.api.users.creation
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.DuplicatedResourceException
 import com.yawa.server.models.tokens.TokenAction
@@ -11,6 +12,7 @@ import com.yawa.server.services.UserService
 import com.yawa.server.validators.Email
 import com.yawa.server.validators.Password
 import com.yawa.server.validators.Username
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +32,7 @@ class CreateUser(
     @Autowired val mailService: MailService,
 ) {
 
+    @Operation(tags = [USERS])
     @PostMapping("/users", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun createUser(
         @Valid @RequestBody request: CreateUserRequest,

@@ -1,6 +1,8 @@
 package com.yawa.server.api.users.profile.picture
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.services.UserService
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -18,6 +20,7 @@ class UpdateUserPicture(
     @Autowired val userService: UserService,
 ) {
 
+    @Operation(tags = [USERS])
     @PatchMapping("/users/{username}/profile/picture", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun updateUserPicture(

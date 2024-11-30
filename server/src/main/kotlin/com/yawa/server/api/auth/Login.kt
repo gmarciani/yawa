@@ -1,8 +1,10 @@
 package com.yawa.server.api.auth
 
+import com.yawa.server.constants.OpenApiTags.AUTHENTICATION
 import com.yawa.server.security.authentication.AuthenticationService
 import com.yawa.server.validators.Password
 import com.yawa.server.validators.Username
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +21,7 @@ class Login(
     @Autowired val authenticationService: AuthenticationService,
 ) {
 
+    @Operation(tags = [AUTHENTICATION])
     @PostMapping("/auth/login", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun login(
         @Valid @RequestBody request: LoginRequest,

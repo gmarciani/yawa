@@ -1,10 +1,12 @@
 package com.yawa.server.api.users.password
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -22,6 +24,7 @@ class ResetPassword(
     @Autowired val mailService: MailService,
 ) {
 
+    @Operation(tags = [USERS])
     @PatchMapping("/users/{username}/password", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun resetPassword(
         @PathVariable username: String,

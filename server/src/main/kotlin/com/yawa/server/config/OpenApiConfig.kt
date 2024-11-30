@@ -63,7 +63,7 @@ class OpenApiConfig {
                         Operation()
                             .summary("Actuator web endpoint 'docs/openapi'")
                             .operationId("openapi")
-                            .tags(listOf("Actuator"))
+                            .tags(listOf("Documentation"))
                             .responses(
                                 ApiResponses().addApiResponse(
                                     "200",

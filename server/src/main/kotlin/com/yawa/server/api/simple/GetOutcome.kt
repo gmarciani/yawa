@@ -1,9 +1,11 @@
 package com.yawa.server.api.simple
 
+import com.yawa.server.constants.OpenApiTags.SIMPLE
 import com.yawa.server.exceptions.NotAuthorizedException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.exceptions.YawaBadRequestException
 import com.yawa.server.exceptions.YawaInternalException
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +18,7 @@ private val log = KotlinLogging.logger {}
 @RestController
 class GetOutcome {
 
+    @Operation(tags = [SIMPLE])
     @GetMapping("/simple/outcome", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getOutcome(
         @RequestParam outcome: Outcome,

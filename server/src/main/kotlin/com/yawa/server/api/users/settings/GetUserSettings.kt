@@ -1,8 +1,10 @@
 package com.yawa.server.api.users.settings
 
+import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.UserSettings
+import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -18,6 +20,7 @@ class GetUserSettings(
     @Autowired val userRepository: UserRepository,
 ) {
 
+    @Operation(tags = [USERS])
     @GetMapping("/users/{username}/settings", produces = [MediaType.APPLICATION_JSON_VALUE])
     @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
     fun getUserSettings(
