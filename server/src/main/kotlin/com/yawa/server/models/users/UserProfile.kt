@@ -29,7 +29,7 @@ class UserProfile(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    var gender: Gender? = null,
+    var gender: Gender? = Gender.UNSPECIFIED,
 
     @Column(name = "date_of_birth")
     var dateOfBirth: Instant? = null,
