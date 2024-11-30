@@ -10,7 +10,7 @@ import java.util.Locale
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.1.5" // 3.3.5
+    id("org.springframework.boot") version "3.1.12" // 3.3.5
     id("io.spring.dependency-management") version "1.1.6"
     id("org.openapi.generator") version "6.6.0"
     id("com.github.ben-manes.versions") version "0.51.0"
