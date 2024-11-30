@@ -39,5 +39,4 @@ MAIL_TYPES = [
 def send_mail(ctx, endpoint, profile, verify_ssl, ca_file, debug, mail_type, attributes):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         request = SendMailRequest(mailType=mail_type, attributes=string_to_dict(attributes))
-        response = SendMail(api_client).send_mail(body=request)
-        print_response(response)
+        return SendMail(api_client).send_mail(body=request)

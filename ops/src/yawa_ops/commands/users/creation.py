@@ -57,8 +57,7 @@ def activate_user(ctx, endpoint, profile, verify_ssl, ca_file, debug, username, 
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         path_params = RequestPathParams(username=username)
         body = ActivateUserRequest(token=token)
-        response = ActivateUser(api_client).activate_user(body=body, path_params=path_params)
-        print_response(response)
+        return ActivateUser(api_client).activate_user(body=body, path_params=path_params)
 
 
 @click.command(help="Send user activation token.", cls=BaseCommand)
@@ -72,5 +71,4 @@ def activate_user(ctx, endpoint, profile, verify_ssl, ca_file, debug, username, 
 def send_user_activation_token(ctx, endpoint, profile, verify_ssl, ca_file, debug, username):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         path_params = RequestPathParams(username=username)
-        response = SendUserActivationToken(api_client).send_user_activation_token(path_params=path_params)
-        print_response(response)
+        return SendUserActivationToken(api_client).send_user_activation_token(path_params=path_params)

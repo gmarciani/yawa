@@ -16,9 +16,8 @@ log = logutils.get_logger(__name__)
 )
 def get_outcome(ctx, endpoint, profile, verify_ssl, ca_file, debug, outcome):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        response = GetOutcomeApi(api_client).get_outcome(
+        return GetOutcomeApi(api_client).get_outcome(
             query_params={
                 "outcome": outcome,
             }
         )
-        print_response(response)

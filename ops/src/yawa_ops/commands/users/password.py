@@ -42,8 +42,7 @@ def reset_password(ctx, endpoint, profile, verify_ssl, ca_file, debug, username,
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         path_params = RequestPathParams(username=username)
         body = ResetPasswordRequest(password=password, token=token)
-        response = ResetPassword(api_client).reset_password(body=body, path_params=path_params)
-        print_response(response)
+        return ResetPassword(api_client).reset_password(body=body, path_params=path_params)
 
 
 @click.command(help="Send password reset token.", cls=BaseCommand)
@@ -57,5 +56,4 @@ def reset_password(ctx, endpoint, profile, verify_ssl, ca_file, debug, username,
 def send_password_reset_token(ctx, endpoint, profile, verify_ssl, ca_file, debug, username):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
         path_params = RequestPathParams(username=username)
-        response = SendPasswordResetToken(api_client).send_password_reset_token(path_params=path_params)
-        print_response(response)
+        return SendPasswordResetToken(api_client).send_password_reset_token(path_params=path_params)

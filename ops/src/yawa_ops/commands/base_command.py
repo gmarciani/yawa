@@ -7,6 +7,7 @@ from yawa_ops.config.constants import DEFAULT_ENDPOINT, CA_FILE, DEFAULT_PROFILE
 from yawa_ops.config.profiles import load_profile
 from yawa_ops.exceptions.cli_exceptions import ClientError
 from yawa_ops.utils import logutils
+from yawa_ops.utils.api import print_error, print_response
 
 ENDPOINT_OPTION = click.Option(
     ("--endpoint",), default=DEFAULT_ENDPOINT, show_default=True, type=str, help="Service endpoint."
@@ -56,9 +57,9 @@ class BaseCommand(click.core.Command):
             debug=ctx.params.get(DEBUG_OPTION.name)
         )
         try:
-            super().invoke(ctx)
+            response = super().invoke(ctx)
+            print_response(response)
         except yawac.ApiException as e:
-            log.error("API error: %s" % e)
-            print(json.dumps(ClientError(e).__dict__, indent=4))
+            print_error(e)
         except RuntimeError as e:
             log.error("Unknown error: %s" % e)

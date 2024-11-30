@@ -1,6 +1,7 @@
 import json
 
 import yawac
+from yawac import api_client
 
 from yawa_ops.config.profiles import Profile
 from yawa_ops.utils import logutils
@@ -45,6 +46,11 @@ def build_client_config(
     return configuration
 
 
-def print_response(api_response):
+def print_response(api_response: api_client.ApiResponse):
     j = json.loads(api_response.response.data.decode("utf-8"))
+    print(json.dumps(j, indent=2))
+
+
+def print_error(error: yawac.ApiException):
+    j = json.loads(error.body.decode("utf-8"))
     print(json.dumps(j, indent=2))

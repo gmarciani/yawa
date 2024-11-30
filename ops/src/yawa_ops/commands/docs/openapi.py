@@ -13,5 +13,4 @@ log = logutils.get_logger(__name__)
 @click.pass_context
 def openapi(ctx, endpoint, profile, verify_ssl, ca_file, debug):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        response = DocsOpenapi(api_client).get()
-        print_response(response)
+        return DocsOpenapi(api_client).get()

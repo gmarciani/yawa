@@ -1,5 +1,4 @@
 import click
-import yawac
 from yawac.paths.auth_login.post import Login
 
 from yawa_ops.commands.base_command import BaseCommand
@@ -32,9 +31,5 @@ log = logutils.get_logger(__name__)
 )
 def login(ctx, endpoint, profile, verify_ssl, ca_file, debug, username, password, never_expire):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        try:
-            request = LoginRequest(username=username, password=password, neverExpire=never_expire)
-            response = Login(api_client).login(body=request)
-            print_response(response)
-        except yawac.ApiException as e:
-            log.error("Request failed:\n%s" % e)
+        request = LoginRequest(username=username, password=password, neverExpire=never_expire)
+        return Login(api_client).login(body=request)

@@ -12,5 +12,4 @@ log = logutils.get_logger(__name__)
 @click.pass_context
 def get_greetings(ctx, endpoint, profile, verify_ssl, ca_file, debug):
     with build_client(**ctx.obj.get("CLIENT_CONFIG")) as api_client:
-        response = GetGreetings(api_client).get_greetings()
-        print_response(response)
+        return GetGreetings(api_client).get_greetings()
