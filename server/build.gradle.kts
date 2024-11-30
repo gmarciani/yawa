@@ -84,7 +84,6 @@ dependencies {
 
 //    runtimeOnly("com.h2database:h2:2.1.214")
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
-//    runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.8.0")
 
     testImplementation("io.kotest:kotest-framework-api-jvm:5.9.1")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
