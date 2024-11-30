@@ -1117,10 +1117,12 @@
         "type" : "object",
         "properties" : {
           "href" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "templated" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           }
         }
       },
@@ -1297,17 +1299,21 @@
         "properties" : {
           "dateOfBirth" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "firstname" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "gender" : {
             "type" : "string",
+            "nullable" : true,
             "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
           "lastname" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           }
         }
       },
@@ -1324,7 +1330,8 @@
         "type" : "object",
         "properties" : {
           "isMfaEnabled" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "nullable" : true
           }
         }
       },
@@ -1343,10 +1350,12 @@
         "properties" : {
           "accountNonExpired" : {
             "type" : "boolean",
+            "nullable" : true,
             "writeOnly" : true
           },
           "accountNonLocked" : {
             "type" : "boolean",
+            "nullable" : true,
             "writeOnly" : true
           },
           "createdAt" : {
@@ -1355,6 +1364,7 @@
           },
           "credentialsNonExpired" : {
             "type" : "boolean",
+            "nullable" : true,
             "writeOnly" : true
           },
           "email" : {
@@ -1362,11 +1372,13 @@
           },
           "enabled" : {
             "type" : "boolean",
+            "nullable" : true,
             "writeOnly" : true
           },
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "nullable" : true
           },
           "isAccountNonExpired" : {
             "type" : "boolean"
@@ -1407,27 +1419,34 @@
         "properties" : {
           "dateOfBirth" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "nullable" : true
           },
           "firstname" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "gender" : {
             "type" : "string",
+            "nullable" : true,
             "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "nullable" : true
           },
           "lastname" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "picture" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "role" : {
-            "type" : "string"
+            "type" : "string",
+            "nullable" : true
           },
           "user" : {
             "$ref" : "#/components/schemas/User"
@@ -1440,13 +1459,15 @@
         "properties" : {
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "nullable" : true
           },
           "isMfaEnabled" : {
             "type" : "boolean"
           },
           "mfaEnabled" : {
             "type" : "boolean",
+            "nullable" : true,
             "writeOnly" : true
           },
           "user" : {
