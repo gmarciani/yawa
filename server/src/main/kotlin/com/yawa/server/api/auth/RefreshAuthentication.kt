@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
@@ -20,7 +20,7 @@ class RefreshAuthentication(
 ) {
 
     @Operation(tags = [AUTHENTICATION])
-    @GetMapping("/auth/{username}/tokens", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/auth/{username}/tokens", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun refreshAuthentication(
         @PathVariable username: String,
         @RequestBody request: RefreshAuthenticationRequest,
@@ -45,7 +45,9 @@ class RefreshAuthentication(
         )
     }
 
-    data class RefreshAuthenticationRequest(val refreshToken: String)
+    data class RefreshAuthenticationRequest(
+        val refreshToken: String = ""
+    )
 
     data class RefreshAuthenticationResponse(
         val accessToken: String,

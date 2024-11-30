@@ -104,7 +104,7 @@
       }
     },
     "/auth/{username}/tokens" : {
-      "get" : {
+      "post" : {
         "operationId" : "refreshAuthentication",
         "parameters" : [ {
           "in" : "path",
@@ -113,14 +113,17 @@
           "schema" : {
             "type" : "string"
           }
-        }, {
-          "in" : "query",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/RefreshAuthenticationRequest"
-          }
         } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RefreshAuthenticationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
             "content" : {
