@@ -55,10 +55,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mustache")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-//    implementation("org.springdoc:springdoc-openapi-data-rest:1.8.0")
-//    implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
-//    implementation("org.springdoc:springdoc-openapi-kotlin:1.8.0")
-//    implementation("org.springdoc:springdoc-openapi-common:1.8.0")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.8.0") {
+        /* org.springdoc:springdoc-openapi-common must be excluded because it conflicts with
+         * org.springdoc:springdoc-openapi-starter-common:2.6.0
+         * carried by org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0
+         */
+        exclude(group = "org.springdoc", module = "springdoc-openapi-common")
+    }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("io.micrometer:micrometer-registry-prometheus:1.10.2") // 1.13.6

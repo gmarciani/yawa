@@ -10,10 +10,12 @@ import io.swagger.v3.oas.models.info.License
 import io.swagger.v3.oas.models.media.Content
 import io.swagger.v3.oas.models.media.MediaType
 import io.swagger.v3.oas.models.media.ObjectSchema
+import io.swagger.v3.oas.models.media.Schema
 import io.swagger.v3.oas.models.responses.ApiResponse
 import io.swagger.v3.oas.models.responses.ApiResponses
 import io.swagger.v3.oas.models.security.SecurityRequirement
 import io.swagger.v3.oas.models.security.SecurityScheme
+import org.springdoc.core.customizers.OpenApiCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -77,5 +79,26 @@ class OpenApiConfig {
                             ),
                     ),
             )
+    }
+
+    @Bean
+    fun nullableCustomizer(): OpenApiCustomizer? {
+        /* This customizer is required because nullable attributes in Kotlin are not processed correctly by SpringDoc.
+         * The customizer sets 'nullable = true' in OpenAPI for those properties corresponding to nullable attributes in Kotlin.
+         * Without this customizer, all nullable Kotlin attribute must be annotated with @field:Schema(nullable = true)
+         * to be considered nullable in OpenAPI.
+         * See https://github.com/springdoc/springdoc-openapi/issues/906
+         */
+        return OpenApiCustomizer { openAPI: OpenAPI ->
+            openAPI.components.schemas.values.stream().filter { schema: Schema<*> -> "object" == schema.type }
+                .forEach { schema: Schema<*> ->
+                    schema.properties.entries.stream()
+                        .filter { prop: Map.Entry<String, Schema<*>> ->
+                            schema.required == null ||
+                                !schema.required.contains(prop.key)
+                        }
+                        .forEach { entry: Map.Entry<String, Schema<*>> -> entry.value.setNullable(true) }
+                }
+        }
     }
 }
