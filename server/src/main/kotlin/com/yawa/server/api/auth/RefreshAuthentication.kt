@@ -46,7 +46,7 @@ class RefreshAuthentication(
     }
 
     data class RefreshAuthenticationRequest(
-        val refreshToken: String = ""
+        val refreshToken: String = "",
     )
 
     data class RefreshAuthenticationResponse(
