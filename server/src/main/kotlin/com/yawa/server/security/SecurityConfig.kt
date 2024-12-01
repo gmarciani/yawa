@@ -83,8 +83,8 @@ class SecurityConfig(
                 .requestMatchers(GET, "/users/{username}/settings").authenticated()
                 .requestMatchers(PATCH, "/users/{username}/settings").authenticated()
                 // Authentication
-                .requestMatchers(POST,"/auth/login").permitAll()
-                .requestMatchers(POST,"/auth/logout").authenticated()
+                .requestMatchers(POST, "/auth/login").permitAll()
+                .requestMatchers(POST, "/auth/logout").authenticated()
                 .requestMatchers(POST, "/auth/{username}/tokens").authenticated()
                 // Administration
                 .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)

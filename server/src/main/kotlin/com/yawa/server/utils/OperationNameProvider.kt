@@ -74,7 +74,8 @@ class OperationNameProvider {
 
 class OperationQualifier(
     val method: HttpMethod,
-    val uri: String) {
+    val uri: String,
+) {
     fun matches(method: String, uri: String): Boolean {
         return this.method.name() == method && Regex(this.uri).matches(uri)
     }
