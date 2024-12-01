@@ -6,4 +6,6 @@ object MetricTags {
     const val APPLICATION = "application"
     const val SERVICE = "service"
     const val OPERATION = "operation"
+    const val PRINCIPAL = "principal"
+    const val USER_AGENT = "user_agent"
 }

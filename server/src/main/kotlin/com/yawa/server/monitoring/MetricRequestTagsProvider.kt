@@ -2,34 +2,39 @@ package com.yawa.server.monitoring
 
 import com.yawa.server.constants.MetricTags
 import com.yawa.server.utils.OperationNameProvider
-import io.micrometer.core.instrument.Tag
-import io.micrometer.core.instrument.Tags
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
+import io.micrometer.common.KeyValue
+import io.micrometer.common.KeyValues
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.actuate.metrics.web.servlet.WebMvcTagsContributor
+import org.springframework.http.server.observation.DefaultServerRequestObservationConvention
+import org.springframework.http.server.observation.ServerRequestObservationContext
 import org.springframework.stereotype.Component
 
 @Component
 class MetricRequestTagsProvider(
     @Autowired val operationNameProvider: OperationNameProvider,
-) : WebMvcTagsContributor {
+) : DefaultServerRequestObservationConvention() {
 
-    override fun getTags(
-        request: HttpServletRequest?,
-        response: HttpServletResponse?,
-        handler: Any?,
-        exception: Throwable?,
-    ): MutableIterable<Tag>? {
-        var tags = Tags.empty()
-        if (request != null) {
-            tags = tags.and(
-                MetricTags.OPERATION,
-                operationNameProvider.getOperationName(request.method!!, request.requestURI!!),
-            )
-        }
-        return tags
+    override fun getLowCardinalityKeyValues(context: ServerRequestObservationContext): KeyValues {
+        return super.getLowCardinalityKeyValues(context).and(additionalTags(context))
     }
 
-    override fun getLongRequestTags(request: HttpServletRequest?, handler: Any?): MutableIterable<Tag>? = null
+    protected fun additionalTags(context: ServerRequestObservationContext): KeyValues {
+        var tags = KeyValues.empty()
+
+        val request = context.carrier
+
+        request.userPrincipal?.let {
+            tags = tags.and(KeyValue.of(MetricTags.PRINCIPAL, it.name))
+        }
+
+        context.carrier.getHeader("user-agent")?.let {
+            tags = tags.and(KeyValue.of(MetricTags.USER_AGENT, it))
+        }
+
+        operationNameProvider.getOperationName(request.method!!, request.requestURI!!).let {
+            tags = tags.and(KeyValue.of(MetricTags.OPERATION, it))
+        }
+
+        return tags
+    }
 }
