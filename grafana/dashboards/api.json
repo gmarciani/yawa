@@ -764,7 +764,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[1m])*60)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -780,7 +780,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[1m])*60)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -796,7 +796,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[1m])*60)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -922,7 +922,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) by(exception)",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[1m])*60) by(exception)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1048,7 +1048,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) by(exception)",
+          "expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[1m])*60) by(exception)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1178,7 +1178,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[1m])*60) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SUCCESS\"}[1m])*60)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1192,7 +1192,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[1m])*60) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"SERVER_ERROR\"}[1m])*60)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1206,7 +1206,7 @@
             "uid": "PF1524B2611758E37"
           },
           "exemplar": true,
-          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[1m])*60) / sum(rate(http_server_requests_seconds_count{application=\"$application\", stack=\"$stack\", region=\"$region\", operation=\"$operation\", outcome=\"CLIENT_ERROR\"}[1m])*60)",
           "format": "time_series",
           "hide": false,
           "interval": "",
