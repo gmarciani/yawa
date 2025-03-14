@@ -14,6 +14,15 @@ You can connect to the database using PhpMyAdmin.
 2. Connect to server: database
 3. Loging with the database credentials
 
+### IntelliJ
+* Dialect: MySQL
+* Host: localhost
+* Port: 3307
+* User: dbuser
+* Password: dbpassword
+* Database: dbyawa
+* Use SSL: false
+
 ### MySQL client
 From host:
 ```shell
