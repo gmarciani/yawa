@@ -31,7 +31,7 @@
   "paths" : {
     "/admin/mail" : {
       "post" : {
-        "operationId" : "send-mail",
+        "operationId" : "sendMail",
         "requestBody" : {
           "content" : {
             "application/json" : {
