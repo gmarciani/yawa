@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 EXPOSE 3000
 
@@ -7,8 +7,8 @@ USER root
 SHELL ["/bin/bash", "-lc"]
 
 ENV NVM_DIR /usr/local/nvm
-ENV NVM_VERSION 0.39.5
-ENV NODE_VERSION 18.18.2
+ENV NVM_VERSION 0.40.2
+ENV NODE_VERSION 20.19.0
 
 WORKDIR /usr/src/yawa/frontend
 COPY . .
