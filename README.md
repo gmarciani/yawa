@@ -57,7 +57,7 @@ Open web interfaces on browser:
 make open target=[frontend|server|server_swagger|database|dbadmin|grafana|loki|prometheus]
 ```
 
-Build yawa-ops (the server to be running to update the OpenAPI spec used by the Python client)
+Build yawa-ops (the server must be running to update the OpenAPI spec used by the Python client)
 ```shell
 make build_ops
 ```
