@@ -11,7 +11,7 @@ JAVA_VERSION="17.0.9-amzn"
 GRADLE_VERSION="8.10.2"
 
 # Python is used for YAWA Ops tools
-PYTHON_VERSION="3.12.0"
+PYTHON_VERSION="3.12.8"
 PYTHON_VENV="yawa-ops-dev"
 
 # Install SDKMAN; see https://sdkman.io/install
@@ -44,4 +44,11 @@ pyenv install $PYTHON_VERSION --skip-existing
 pyenv virtualenv $PYTHON_VERSION $PYTHON_VENV --force
 echo "$PYTHON_VENV" > "$PROJECT_PATH/ops/.python-version"
 "$(pyenv virtualenv-prefix $PYTHON_VENV)/envs/$PYTHON_VENV/bin/python" -m pip install --upgrade pip
-"$(pyenv virtualenv-prefix $PYTHON_VENV)/envs/$PYTHON_VENV/bin/python" -m pip install -e "$PROJECT_PATH/ops"
+
+# Fronted
+#TODO Install nvm
+nvm install --lts=iron
+npm install --global npm
+npm install --global yarn
+npm install --global gulp-cli
+yarn install --modules-folder "$PROJECT_PATH/frontend"
