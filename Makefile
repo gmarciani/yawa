@@ -4,10 +4,11 @@ COMPOSE_FILE="docker-compose.yaml"
 
 setup:
 	bash tools/setup-dev-environment.sh
+	echo 'Your dev environment is ready! Now reload your shell'
 build:
 	docker compose -f ${COMPOSE_FILE} pull $(container)
 	docker compose -f ${COMPOSE_FILE} build $(container)
-run: build
+run:
 	docker compose -f ${COMPOSE_FILE} up --detach $(container)
 restart:
 	docker compose -f ${COMPOSE_FILE} restart $(container)
