@@ -23,7 +23,7 @@
   "AUTH.FORGOT.SUCCESS": "Your account has been successfully reset.",
   "AUTH.REGISTER.TITLE": "Sign Up",
   "AUTH.REGISTER.DESC": "Enter your details to create your account",
-  "AUTH.REGISTER.SUCCESS": "Your account has been successfuly registered.",
+  "AUTH.REGISTER.SUCCESS": "Your account has been successfully registered. Check your email to activate your account.",
   "AUTH.REGISTER.ERROR.USER_EXISTS": "User already exists.",
   "AUTH.REGISTER.ERROR.UNKNOWN": "Errore sconosciuto.",
   "AUTH.INPUT.EMAIL": "Email",
