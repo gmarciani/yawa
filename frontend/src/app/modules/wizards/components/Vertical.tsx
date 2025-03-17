@@ -200,7 +200,14 @@ const Vertical = () => {
       <div className='d-flex flex-row-fluid flex-center bg-body rounded'>
         <Formik validationSchema={currentSchema} initialValues={initValues} onSubmit={submitStep}>
           {() => (
-            <Form className='py-20 w-100 w-xl-700px px-9' noValidate id='kt_create_account_form'>
+            <Form
+              className='py-20 w-100 w-xl-700px px-9'
+              noValidate
+              id='kt_create_account_form'
+              placeholder={undefined}
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+            >
               <div className='current' data-kt-stepper-element='content'>
                 <Step1 />
               </div>
@@ -237,10 +244,8 @@ const Vertical = () => {
                 <div>
                   <button type='submit' className='btn btn-lg btn-primary me-3'>
                     <span className='indicator-label'>
-                      {stepper?.currentStepIndex !==
-                        stepper?.totalStepsNumber! - 1 && 'Continue'}
-                      {stepper?.currentStepIndex ===
-                        stepper?.totalStepsNumber! - 1 && 'Submit'}
+                      {stepper?.currentStepIndex !== stepper?.totalStepsNumber! - 1 && 'Continue'}
+                      {stepper?.currentStepIndex === stepper?.totalStepsNumber! - 1 && 'Submit'}
                       <KTIcon iconName='arrow-right' className='fs-3 ms-2 me-0' />
                     </span>
                   </button>
