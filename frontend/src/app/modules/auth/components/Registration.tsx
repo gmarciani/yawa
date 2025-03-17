@@ -71,7 +71,7 @@ export function Registration() {
         )
         setStatus({
           level: 'success',
-          message: 'Check your email to activate your account'
+          message: intl.formatMessage({id: 'AUTH.REGISTER.SUCCESS'})
         })
         setSubmitting(false)
         setLoading(false)
@@ -404,7 +404,7 @@ export function Registration() {
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg btn-light-primary w-100 mb-5'
           >
-            Cancel
+            Back to Login
           </button>
         </Link>
       </div>
