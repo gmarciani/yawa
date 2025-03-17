@@ -4,7 +4,6 @@ COMPOSE_FILE="docker-compose.yaml"
 
 setup:
 	bash tools/setup-dev-environment.sh
-	echo 'Your dev environment is ready! Now reload your shell'
 build:
 	docker compose -f ${COMPOSE_FILE} pull $(container)
 	docker compose -f ${COMPOSE_FILE} build $(container)
@@ -22,9 +21,12 @@ login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
 check_server:
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" yawa-ops health --profile admin
-build_ops:
+build_ops: build_openapi
 	gradle -p server getOpenApiDefinition buildClients
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" pip install -e ops/
+build_openapi:
+	gradle -p server getOpenApiDefinition
+	@echo '[INFO] Check the OpenAPI definition at server/src/main/resources/openapi/definition.json'
 open:
 	@if [ $(target) == "frontend" ]; then\
 		python3 -m webbrowser "https://localhost:8010" ;\
