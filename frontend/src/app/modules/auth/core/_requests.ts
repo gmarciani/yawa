@@ -1,11 +1,14 @@
-import {CreateUserApi, GetUserProfileApi, LoginApi, SendPasswordResetTokenApi} from '../../clients/yawa'
+import {
+  AuthenticationApi,
+  UsersApi,
+} from '../../clients/yawa'
 import {AuthModel, UserProfileModel} from './_models'
 
 export async function login(username: string, password: string): Promise<AuthModel> {
-  const response = await new LoginApi().login({
+  const response = await new AuthenticationApi().login({
     username: username,
     password: password,
-    neverExpire: false, // TODO Add support for remember me
+    neverExpire: true, // TODO Add support for remember me
   })
   const data = response.data
   return {
@@ -16,7 +19,7 @@ export async function login(username: string, password: string): Promise<AuthMod
 }
 
 export async function getUserProfile(username: string): Promise<UserProfileModel> {
-  const response = await new GetUserProfileApi().getUserProfile(
+  const response = await new UsersApi().getUserProfile(
       username
   )
   const data = response.data
@@ -38,7 +41,7 @@ export async function register(
     email: string,
     password: string,
 ) {
-  return await new CreateUserApi().createUser({
+  return await new UsersApi().createUser({
     username: username,
     email: email,
     password: password,
@@ -46,7 +49,7 @@ export async function register(
 }
 
 export async function requestPassword(email: string) {
-  return await new SendPasswordResetTokenApi().sendPasswordResetToken(
+  return await new UsersApi().sendPasswordResetToken(
       email
   )
 }
