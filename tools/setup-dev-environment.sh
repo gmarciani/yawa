@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 
 PROJECT_PATH="$(realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/..")"
+
+source "${PROJECT_PATH}/tools/common.sh"
 
 JAVA_VERSION="17.0.9-amzn"
 
@@ -14,18 +16,22 @@ GRADLE_VERSION="8.10.2"
 PYTHON_VERSION="3.12.8"
 PYTHON_VENV="yawa-ops-dev"
 
-# Install SDKMAN; see https://sdkman.io/install
+NVM_VERSION="0.40.2"
+NODE_VERSION="20.19.0"
+
+info "Installing SDKMAN"
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# Install Java and set as default version
+info "Installing Java"
 sdk install java $JAVA_VERSION
 sdk default java $JAVA_VERSION
 
-# Install Gradle and set as default version
+info "Installing Gradle"
 sdk install gradle $GRADLE_VERSION
 sdk default gradle $GRADLE_VERSION
 
+info "Installing tools"
 brew install docker docker-compose # Docker environment
 brew install openapi-generator # OpenAPI generator
 brew install mysql # MySQL client
@@ -35,20 +41,31 @@ brew install jq # Required by some of our scripts
 brew install ktlint # Kotlin linter
 brew install pyenv # Python Virtual Environments
 
-# Install Pre-Commit, which is required to contribute to the repository
+info "Installing pre-commit"
 brew install pre-commit
 pre-commit install
 
-# Create Python Virtual Environment for YAWA Ops
+info "Creating Python virtual environment for yawa-ops"
 pyenv install $PYTHON_VERSION --skip-existing
 pyenv virtualenv $PYTHON_VERSION $PYTHON_VENV --force
 echo "$PYTHON_VENV" > "$PROJECT_PATH/ops/.python-version"
 "$(pyenv virtualenv-prefix $PYTHON_VENV)/envs/$PYTHON_VENV/bin/python" -m pip install --upgrade pip
 
-# Fronted
-#TODO Install nvm
-nvm install --lts=iron
+info "Installing NVM"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+export NVM_DIR="${HOME}/.nvm"
+[ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"  # This loads nvm
+[ -s "${NVM_DIR}/bash_completion" ] && \. "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
+
+info "Installing Node.js and fronted dependencies"
+nvm install ${NODE_VERSION}
 npm install --global npm
 npm install --global yarn
 npm install --global gulp-cli
-yarn install --modules-folder "$PROJECT_PATH/frontend"
+pushd  "${PROJECT_PATH}/frontend"
+yarn install
+popd
+
+warn "TODO Setting up certificates"
+
+info "Your dev environment is ready! Now reload your shell"
