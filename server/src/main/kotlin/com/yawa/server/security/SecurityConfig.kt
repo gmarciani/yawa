@@ -116,7 +116,12 @@ class SecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000")
+        configuration.allowedOrigins = listOf(
+            "https://localhost:8010", // Frontend running on Docker with HTTPS
+            "http://localhost:8010", // Frontend running on Docker with HTTP
+            "https://localhost:3000", // Frontend running locally with HTTPS
+            "http://localhost:3000", // Frontend running locally with HTTP
+        )
         configuration.allowedMethods = listOf("*")
         configuration.allowedHeaders = listOf("*")
         configuration.allowCredentials = true
