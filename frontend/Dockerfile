@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 
 EXPOSE 3000
 
-USER root
+#USER root
 
 SHELL ["/bin/bash", "-lc"]
 
@@ -14,19 +14,21 @@ WORKDIR /usr/src/yawa/frontend
 COPY . .
 
 RUN apt-get update
-RUN apt-get install -y vim curl lsof dnsutils
+RUN apt-get install -y vim curl lsof dnsutils ca-certificates
 
-RUN mkdir -p $NVM_DIR
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+RUN mkdir -p ${NVM_DIR}
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
+    && . ${NVM_DIR}/nvm.sh \
+    && nvm install ${NODE_VERSION} \
+    && nvm alias default ${NODE_VERSION} \
+    && nvm use default
 
-RUN source $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default \
-    && npm install --global npm@latest \
-    && npm install --global yarn
+ENV PATH ${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}
 
-RUN yarn install \
-    && yarn start &
+RUN node --version
 
-ENTRYPOINT /bin/bash
+RUN npm install --global npm@latest
+RUN npm install --global yarn
+
+RUN yarn install
+CMD yarn run start
