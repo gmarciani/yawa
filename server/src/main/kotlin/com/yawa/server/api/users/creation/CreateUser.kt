@@ -44,6 +44,10 @@ class CreateUser(
             throw DuplicatedResourceException("User already exists: ${request.username}")
         }
 
+        if (userRepository.existsByEmail(request.email)) {
+            throw DuplicatedResourceException("Email already in use: ${request.email}")
+        }
+
         val user = userService.createUser(
             username = request.username,
             password = request.password,

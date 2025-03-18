@@ -79,10 +79,20 @@ export function Registration() {
         const error = exc as AxiosError
         console.error(error)
         saveAuth(undefined)
-        const errorMessage = (error.response!.status === 409) ?
-          intl.formatMessage({id: 'AUTH.REGISTER.ERROR.USER_EXISTS'})
-        :
-          intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
+        const errorMessage = (function () {
+          switch (error.response!.status) {
+            case 409:
+              if (error.response!.data.message.includes('User already exists')) {
+                return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.USERNAME_EXISTS'})
+              } else if (error.response!.data.message.includes('Email already in use')) {
+                return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.EMAIL_EXISTS'})
+              } else {
+                return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
+              }
+            default:
+              return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
+          }
+        })();
         setStatus({
           level: 'danger',
           message: errorMessage
