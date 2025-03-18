@@ -13,6 +13,8 @@ yawa:
     port: 1234
 #    username: FROM classpath:secrets/application.yaml
 #    password: FROM classpath:secrets/application.yaml
+  frontend:
+    endpoint: "https://localhost:8010"
 server:
   port: 8000
   ssl:

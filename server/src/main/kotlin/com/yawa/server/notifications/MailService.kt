@@ -1,5 +1,6 @@
 package com.yawa.server.notifications
 
+import com.yawa.server.config.AppEnvironmentConfiguration
 import com.yawa.server.exceptions.MailServiceExcpetion
 import com.yawa.server.models.users.User
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,6 +17,7 @@ import org.thymeleaf.exceptions.TemplateEngineException
 class MailService(
     @Autowired val mailSender: JavaMailSender,
     @Autowired val templateEngine: MailTemplateService,
+    @Autowired val appEnvironmentConfiguration: AppEnvironmentConfiguration,
 ) {
 
     @Async
@@ -25,7 +27,8 @@ class MailService(
 
     fun send(mailType: MailType, recipient: User, attributes: Map<String, String>) {
         val body = try {
-            mailType.body(templateEngine = templateEngine, attributes = attributes)
+            val defaultAttributes = mapOf("frontendEndpoint" to appEnvironmentConfiguration.frontendEndpoint)
+            mailType.body(templateEngine = templateEngine, attributes = attributes + defaultAttributes)
         } catch (ex: TemplateEngineException) {
             throw MailServiceExcpetion(
                 "Could not send email $mailType to ${recipient.username}: ${ex.message}",

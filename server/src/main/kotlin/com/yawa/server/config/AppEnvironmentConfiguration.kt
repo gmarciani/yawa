@@ -17,4 +17,7 @@ class AppEnvironmentConfiguration(
 
     @Value("\${yawa.service}")
     val service: String,
+
+    @Value("\${yawa.frontend.endpoint}")
+    val frontendEndpoint: String,
 )
