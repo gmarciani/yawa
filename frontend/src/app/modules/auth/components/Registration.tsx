@@ -80,11 +80,15 @@ export function Registration() {
         console.error(error)
         saveAuth(undefined)
         const errorMessage = (function () {
-          switch (error.response!.status) {
+          if (!error.response) {
+            return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
+          }
+          const { status, data }: { status: number, data: any } = error.response
+          switch (status) {
             case 409:
-              if (error.response!.data.message.includes('User already exists')) {
+              if (data.message.includes('User already exists')) {
                 return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.USERNAME_EXISTS'})
-              } else if (error.response!.data.message.includes('Email already in use')) {
+              } else if (data.message.includes('Email already in use')) {
                 return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.EMAIL_EXISTS'})
               } else {
                 return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
