@@ -1,8 +1,15 @@
-import {FC} from 'react'
-import {Link} from 'react-router-dom'
+import {FC, useState} from 'react'
+import {Link, useSearchParams} from 'react-router-dom'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 
 const ActivateUser: FC = () => {
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Extract token from URL query parameters
+  const token = searchParams.get('token');
+
   return (
     <>
       {/* begin::Title */}
@@ -10,6 +17,7 @@ const ActivateUser: FC = () => {
       {/* end::Title */}
 
       {/* begin::Text */}
+      <div className='fw-semibold fs-6 text-gray-500 mb-7'>Token: {token}</div>
       <div className='fw-semibold fs-6 text-gray-500 mb-7'>Outcome Message</div>
       {/* end::Text */}
 
