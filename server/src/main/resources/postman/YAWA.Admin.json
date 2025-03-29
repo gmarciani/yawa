@@ -1,0 +1,18 @@
+{
+	"name": "YAWA.Admin",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:8002",
+			"enabled": true
+		},
+		{
+			"key": "bearerToken",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBQ1RJT04iOiJBQ0NFU1MiLCJpc3MiOiJZQVdBIiwiVVNFUk5BTUUiOiJhZG1pbiIsImV4cCI6NDg2OTQ5NzIwM30.Dz_Xv2c5NqAzev08k4OgIVbB_wHwELIBGYY7HReHZI8",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-03-28T17:19:55.520Z",
+	"_postman_exported_using": "Postman/11.37.5"
+}

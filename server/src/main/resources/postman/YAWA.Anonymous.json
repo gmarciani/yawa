@@ -1,0 +1,19 @@
+{
+	"name": "YAWA.NoAuth",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:8002",
+			"enabled": true
+		},
+		{
+			"key": "bearerToken",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-03-28T17:21:23.690Z",
+	"_postman_exported_using": "Postman/11.37.5"
+}
