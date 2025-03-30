@@ -1,6 +1,7 @@
 package com.yawa.server.api.users.creation
 
 import com.yawa.server.constants.OpenApiTags.USERS
+import com.yawa.server.datastore.repositories.UserProfileRepository
 import com.yawa.server.datastore.repositories.UserRepository
 import com.yawa.server.exceptions.DuplicatedResourceException
 import com.yawa.server.models.tokens.TokenAction
@@ -28,6 +29,7 @@ private val log = KotlinLogging.logger {}
 class CreateUser(
     @Autowired val userService: UserService,
     @Autowired val userRepository: UserRepository,
+    @Autowired val userProfileRepository: UserProfileRepository,
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val mailService: MailService,
 ) {
@@ -54,6 +56,13 @@ class CreateUser(
             email = request.email,
         )
 
+        val updatedProfile = user.profile.also { profile ->
+            request.firstname.let { profile.firstname = it }
+            request.lastname.let { profile.lastname = it }
+        }
+
+        userProfileRepository.save(updatedProfile)
+
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.ACTIVATE_USER)
 
         mailService.asyncSend(
@@ -74,6 +83,8 @@ class CreateUser(
         @Username val username: String,
         @Password val password: String,
         @Email val email: String,
+        val firstname: String = "",
+        val lastname: String = "",
     )
 
     data class CreateUserResponse(val user: User)

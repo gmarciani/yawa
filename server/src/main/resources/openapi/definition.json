@@ -1030,10 +1030,16 @@
         }
       },
       "CreateUserRequest" : {
-        "required" : [ "email", "password", "username" ],
+        "required" : [ "email", "firstname", "lastname", "password", "username" ],
         "type" : "object",
         "properties" : {
           "email" : {
+            "type" : "string"
+          },
+          "firstname" : {
+            "type" : "string"
+          },
+          "lastname" : {
             "type" : "string"
           },
           "password" : {
