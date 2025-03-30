@@ -45,6 +45,8 @@ export async function register(
     username: username,
     email: email,
     password: password,
+    firstname: firstname,
+    lastname: lastname,
   })
 }
 
