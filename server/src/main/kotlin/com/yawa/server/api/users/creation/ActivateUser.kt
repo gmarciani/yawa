@@ -54,7 +54,9 @@ class ActivateUser(
         return ActivateUserResponse(message = "Confirmed creation of user ${user.username}")
     }
 
-    data class ActivateUserRequest(val token: String)
+    // Setting the default value is required on data class having single attributes
+    // to make Jackson serialization/deserialization work.
+    data class ActivateUserRequest(val token: String = "")
 
     data class ActivateUserResponse(val message: String)
 }
