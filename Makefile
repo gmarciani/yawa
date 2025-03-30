@@ -21,9 +21,13 @@ login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
 check_server:
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" yawa-ops health --profile admin
-build_ops: build_openapi
-	gradle -p server getOpenApiDefinition buildClients
+build_ops: build_clients
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" pip install -e ops/
+build_clients: build_openapi
+	gradle -p server buildClients
+	rm -rf frontend/src/app/modules/clients/yawa
+	mkdir -p frontend/src/app/modules/clients/yawa
+	cp -R server/build/generated/clients/typescript/* frontend/src/app/modules/clients/yawa/
 build_openapi:
 	gradle -p server getOpenApiDefinition
 	@echo '[INFO] Check the OpenAPI definition at server/src/main/resources/openapi/definition.json'
