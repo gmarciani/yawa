@@ -66,6 +66,18 @@ export interface CreateUserRequest {
      * @type {string}
      * @memberof CreateUserRequest
      */
+    'firstname': string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
+    'lastname': string;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateUserRequest
+     */
     'password': string;
     /**
      *
