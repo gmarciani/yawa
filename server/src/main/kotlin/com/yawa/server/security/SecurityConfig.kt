@@ -86,6 +86,8 @@ class SecurityConfig(
                 .requestMatchers(POST, "/auth/login").permitAll()
                 .requestMatchers(POST, "/auth/logout").authenticated()
                 .requestMatchers(POST, "/auth/{username}/tokens").authenticated()
+                .requestMatchers(POST, "/auth/password-reset").permitAll()
+                .requestMatchers(POST, "/auth/password-reset/token").permitAll()
                 // Administration
                 .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
                 .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)

@@ -34,6 +34,20 @@ class ActionTokenService(
         )
     }
 
+    fun consumeToken(token: String, action: TokenAction): ConfirmationTokenGrant {
+        val jwt = jwtService.decode(token)
+        val grantedUsername = jwt.getClaim(TokenField.USERNAME.name).asString()
+        val grantedAction = TokenAction.valueOf(jwt.getClaim(TokenField.ACTION.name).asString())
+        grantedAction.takeIf { it == action } ?: throw BadTokenException("Cannot consume token for action: $action")
+        val expiration = jwt.expiresAtAsInstant
+
+        return ConfirmationTokenGrant(
+            username = grantedUsername,
+            action = grantedAction,
+            expiration = expiration,
+        )
+    }
+
     fun consumeToken(token: String, action: TokenAction, username: String): ConfirmationTokenGrant {
         val jwt = jwtService.decode(token)
         val grantedUsername = jwt.getClaim(TokenField.USERNAME.name).asString()

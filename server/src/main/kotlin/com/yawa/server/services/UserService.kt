@@ -45,6 +45,12 @@ class UserService(
         }
     }
 
+    fun findUserByEmail(email: String): User {
+        return userRepository.findByEmail(email).orElseThrow {
+            ResourceNotFoundException("User not found for email: $email")
+        }
+    }
+
     fun enableUser(user: User) {
         user.isEnabled = true
         userRepository.save(user)

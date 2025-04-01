@@ -103,6 +103,62 @@
         "tags" : [ "Authentication" ]
       }
     },
+    "/auth/password-reset" : {
+      "post" : {
+        "operationId" : "resetPassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResetPasswordResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Authentication" ]
+      }
+    },
+    "/auth/password-reset/token" : {
+      "post" : {
+        "operationId" : "sendPasswordResetToken",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendPasswordResetTokenRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendPasswordResetTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Authentication" ]
+      }
+    },
     "/auth/{username}/tokens" : {
       "post" : {
         "operationId" : "refreshAuthentication",
@@ -717,42 +773,6 @@
         "tags" : [ "Users" ]
       }
     },
-    "/users/{username}/password" : {
-      "patch" : {
-        "operationId" : "resetPassword",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ResetPasswordRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ResetPasswordResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
     "/users/{username}/profile" : {
       "get" : {
         "operationId" : "getUserProfile",
@@ -973,32 +993,6 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/SendUserDeletionTokenResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
-    "/users/{username}/tokens/password" : {
-      "get" : {
-        "operationId" : "sendPasswordResetToken",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SendPasswordResetTokenResponse"
                 }
               }
             },
@@ -1253,6 +1247,15 @@
         "type" : "object",
         "properties" : {
           "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SendPasswordResetTokenRequest" : {
+        "required" : [ "email" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
             "type" : "string"
           }
         }

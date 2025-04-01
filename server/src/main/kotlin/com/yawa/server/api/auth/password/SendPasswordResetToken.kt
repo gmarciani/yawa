@@ -1,17 +1,18 @@
-package com.yawa.server.api.users.password
+package com.yawa.server.api.auth.password
 
-import com.yawa.server.constants.OpenApiTags.USERS
+import com.yawa.server.constants.OpenApiTags.AUTHENTICATION
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
+import com.yawa.server.validators.Email
 import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 private val log = KotlinLogging.logger {}
@@ -23,14 +24,14 @@ class SendPasswordResetToken(
     @Autowired val mailService: MailService,
 ) {
 
-    @Operation(tags = [USERS])
-    @GetMapping("/users/{username}/tokens/password", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @Operation(tags = [AUTHENTICATION])
+    @PostMapping("/auth/password-reset/token", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendPasswordResetToken(
-        @PathVariable username: String,
+        @RequestBody request: SendPasswordResetTokenRequest,
     ): SendPasswordResetTokenResponse {
-        log.info("Processing request")
+        log.info("Processing request: $request")
 
-        val user = userService.findUser(username = username)
+        val user = userService.findUserByEmail(email = request.email)
 
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.RESET_PASSWORD)
 
@@ -38,15 +39,18 @@ class SendPasswordResetToken(
             mailType = MailType.PASSWORD_RESET_PENDING,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
                 "token" to actionToken.token,
-                "action" to "PATCH:users/${user.username}/password",
+                "action" to "ResetPassword",
                 "expiration" to actionToken.expiration.toString(),
             ),
         )
 
-        return SendPasswordResetTokenResponse("Password reset token for user $username will be sent to user email")
+        return SendPasswordResetTokenResponse("Password reset token will be sent to user email ${request.email}")
     }
+
+    data class SendPasswordResetTokenRequest(
+        @Email val email: String = "",
+    )
 
     data class SendPasswordResetTokenResponse(val message: String)
 }
