@@ -1,5 +1,6 @@
 package com.yawa.server.models.users
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -23,5 +24,6 @@ class UserSettings(
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     val user: User,
 )

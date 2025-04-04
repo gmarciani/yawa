@@ -1,5 +1,6 @@
 package com.yawa.server.models.users
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.yawa.server.validators.RegularString
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -45,5 +46,6 @@ class UserProfile(
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     val user: User,
 )
