@@ -21,10 +21,11 @@ login:
 	docker compose -f ${COMPOSE_FILE} exec -it $(container) /bin/bash
 check_server:
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" yawa-ops health --profile admin
-build_ops: build_clients
+build_ops: build_openapi
+	gradle -p server buildPythonClient
 	PATH="$$(pyenv virtualenv-prefix yawa-ops-dev)/envs/yawa-ops-dev/bin:$$PATH" pip install -e ops/
-build_clients: build_openapi
-	gradle -p server buildClients
+build_frontend_client: build_openapi
+	gradle -p server buildTypescriptClient
 	rm -rf frontend/src/app/modules/clients/yawa
 	mkdir -p frontend/src/app/modules/clients/yawa
 	cp -R server/build/generated/clients/typescript/* frontend/src/app/modules/clients/yawa/
