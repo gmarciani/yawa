@@ -65,27 +65,25 @@ class SecurityConfig(
         // Set permissions on endpoints
         http.authorizeHttpRequests { authorize ->
             authorize
-                // Users
+                // Users > Creation
                 .requestMatchers(POST, "/users").permitAll()
-                .requestMatchers(POST, "/users/{username}/activation").permitAll()
-                .requestMatchers(GET, "/users/{username}/tokens/activation").permitAll()
-                .requestMatchers(GET, "/users/{username}/tokens/deletion").authenticated()
-                .requestMatchers(DELETE, "/users/{username}").authenticated()
-                // Users > Password
-                .requestMatchers(GET, "/users/{username}/tokens/password").permitAll()
-                .requestMatchers(PATCH, "/users/{username}/password").permitAll()
+                .requestMatchers(POST, "/users/activation/token").permitAll()
+                .requestMatchers(POST, "/users/activation").permitAll()
+                // Users > Deletion
+                .requestMatchers(POST, "/users/me/deletion/token").authenticated()
+                .requestMatchers(DELETE, "/users/me").authenticated()
                 // Users > Profile
-                .requestMatchers(GET, "/users/{username}/profile").permitAll()
-                .requestMatchers(PATCH, "/users/{username}/profile").authenticated()
-                .requestMatchers(PATCH, "/users/{username}/profile/picture").authenticated()
-                .requestMatchers(DELETE, "/users/{username}/profile/picture").authenticated()
+                .requestMatchers(GET, "/users/me/profile").authenticated()
+                .requestMatchers(PATCH, "/users/me/profile").authenticated()
+                .requestMatchers(PATCH, "/users/me/profile/picture").authenticated()
+                .requestMatchers(DELETE, "/users/me/profile/picture").authenticated()
                 // Users > Settings
-                .requestMatchers(GET, "/users/{username}/settings").authenticated()
-                .requestMatchers(PATCH, "/users/{username}/settings").authenticated()
+                .requestMatchers(GET, "/users/me/settings").authenticated()
+                .requestMatchers(PATCH, "/users/me/settings").authenticated()
                 // Authentication
                 .requestMatchers(POST, "/auth/login").permitAll()
                 .requestMatchers(POST, "/auth/logout").authenticated()
-                .requestMatchers(POST, "/auth/{username}/tokens").authenticated()
+                .requestMatchers(POST, "/auth/refresh").authenticated()
                 .requestMatchers(POST, "/auth/password-reset").permitAll()
                 .requestMatchers(POST, "/auth/password-reset/token").permitAll()
                 // Administration

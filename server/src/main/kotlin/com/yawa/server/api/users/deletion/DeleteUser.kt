@@ -10,9 +10,7 @@ import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -26,21 +24,19 @@ class DeleteUser(
 ) {
 
     @Operation(tags = [USERS])
-    @DeleteMapping("/users/{username}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/users/me", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun deleteUser(
-        @PathVariable username: String,
         @RequestBody request: DeleteUserRequest,
     ): DeleteUserResponse {
         log.info("Processing request: $request")
 
-        val grant = actionTokenService.consumeToken(
-            token = request.token, action = TokenAction.CONFIRM_USER_DELETION, username = username,
-        )
+        val grant = actionTokenService.consumeToken(token = request.token, action = TokenAction.CONFIRM_USER_DELETION)
 
-        val user = userService.findUser(username = username)
+        val userId = grant.userId
 
-        log.info("Action token accepted for user $username to execute action ${grant.action}")
+        val user = userService.findUser(userId = userId)
+
+        log.info("Action token accepted for user $userId to execute action ${grant.action}")
 
         userService.deleteUser(user = user)
 
@@ -48,12 +44,12 @@ class DeleteUser(
             mailType = MailType.USER_DELETION_CONFIRMED,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
+                "firstname" to user.profile!!.firstname!!,
                 "action" to "index.html",
             ),
         )
 
-        return DeleteUserResponse(message = "Confirmed deletion of user ${user.username}")
+        return DeleteUserResponse(message = "Confirmed deletion of user $userId")
     }
 
     data class DeleteUserRequest(val token: String)

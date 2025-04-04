@@ -5,24 +5,23 @@ import com.yawa.server.models.tokens.ActionToken
 import com.yawa.server.models.tokens.ConfirmationTokenGrant
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
-import com.yawa.server.notifications.MailService
 import com.yawa.server.security.encryption.JwtService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.util.UUID
 
 @Service
 class ActionTokenService(
     @Autowired val jwtService: JwtService,
-    @Autowired val mailService: MailService,
 ) {
 
     fun generateToken(user: User, action: TokenAction): ActionToken {
         val expiration = Instant.now().plus(1, ChronoUnit.DAYS)
         val token = jwtService.issue(
             attributes = mapOf(
-                TokenField.USERNAME.name to user.username,
+                TokenField.USERID.name to user.id.toString(),
                 TokenField.ACTION.name to action.name,
             ),
             expiration = expiration,
@@ -36,18 +35,18 @@ class ActionTokenService(
 
     fun consumeToken(token: String, action: TokenAction): ConfirmationTokenGrant {
         val jwt = jwtService.decode(token)
-        val grantedUsername = jwt.getClaim(TokenField.USERNAME.name).asString()
+        val grantedUserId = UUID.fromString(jwt.getClaim(TokenField.USERID.name).asString())
         val grantedAction = TokenAction.valueOf(jwt.getClaim(TokenField.ACTION.name).asString())
         grantedAction.takeIf { it == action } ?: throw BadTokenException("Cannot consume token for action: $action")
         val expiration = jwt.expiresAtAsInstant
 
         return ConfirmationTokenGrant(
-            username = grantedUsername,
+            userId = grantedUserId,
             action = grantedAction,
             expiration = expiration,
         )
     }
-
+/*
     fun consumeToken(token: String, action: TokenAction, username: String): ConfirmationTokenGrant {
         val jwt = jwtService.decode(token)
         val grantedUsername = jwt.getClaim(TokenField.USERNAME.name).asString()
@@ -62,4 +61,5 @@ class ActionTokenService(
             expiration = expiration,
         )
     }
+ */
 }

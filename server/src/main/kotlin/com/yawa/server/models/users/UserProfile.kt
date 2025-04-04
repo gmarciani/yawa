@@ -1,18 +1,16 @@
 package com.yawa.server.models.users
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import com.yawa.server.validators.RegularString
-import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.MapsId
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
-import org.hibernate.annotations.UuidGenerator
 import java.time.Instant
 import java.util.UUID
 
@@ -40,13 +38,12 @@ class UserProfile(
     @Column(name = "role")
     var role: String? = null,
 
-    @OneToOne(mappedBy = "profile", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    @JsonBackReference
-    var user: User? = null,
-
     @Id
-    @GeneratedValue
-    @UuidGenerator
-    @Column(name = "id", updatable = false)
-    val id: UUID? = null,
+    @Column(name = "user_id")
+    val userId: UUID? = null,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    val user: User,
 )

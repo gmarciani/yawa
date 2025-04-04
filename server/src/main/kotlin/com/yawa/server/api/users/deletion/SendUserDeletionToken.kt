@@ -2,17 +2,19 @@ package com.yawa.server.api.users.deletion
 
 import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.models.tokens.TokenAction
+import com.yawa.server.models.users.User
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
+import com.yawa.server.validators.Email
 import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 private val log = KotlinLogging.logger {}
@@ -25,14 +27,13 @@ class SendUserDeletionToken(
 ) {
 
     @Operation(tags = [USERS])
-    @GetMapping("/users/{username}/tokens/deletion", produces = [MediaType.APPLICATION_JSON_VALUE])
-    @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
+    @PostMapping("/users/me/deletion/token", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendUserDeletionToken(
-        @PathVariable username: String,
+        @RequestBody request: SendUserDeletionTokenRequest,
     ): SendUserDeletionTokenResponse {
-        log.info("Processing request")
+        log.info("Processing request: $request")
 
-        val user = userService.findUser(username = username)
+        val user = SecurityContextHolder.getContext().authentication.principal as User
 
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.CONFIRM_USER_DELETION)
 
@@ -40,15 +41,19 @@ class SendUserDeletionToken(
             mailType = MailType.USER_DELETION_PENDING,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
+                "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
-                "action" to "DELETE:users/${user.username}",
+                "action" to "DeleteUser",
                 "expiration" to actionToken.expiration.toString(),
             ),
         )
 
-        return SendUserDeletionTokenResponse("Deletion token for user $username will be sent to user email")
+        return SendUserDeletionTokenResponse("Deletion token for user ${user.id} will be sent to user email")
     }
+
+    data class SendUserDeletionTokenRequest(
+        @Email val email: String = "",
+    )
 
     data class SendUserDeletionTokenResponse(val message: String)
 }

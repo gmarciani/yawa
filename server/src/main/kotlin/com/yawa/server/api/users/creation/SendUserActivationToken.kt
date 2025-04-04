@@ -7,14 +7,12 @@ import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
+import com.yawa.server.validators.Email
 import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 private val log = KotlinLogging.logger {}
 
@@ -26,18 +24,17 @@ class SendUserActivationToken(
 ) {
 
     @Operation(tags = [USERS])
-    @GetMapping("/users/{username}/tokens/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
-    @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
+    @PostMapping("/users/activation/token", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendUserActivationToken(
-        @PathVariable username: String,
+        @RequestBody request: SendUserActivationTokenRequest,
     ): SendUserActivationTokenResponse {
-        log.info("Processing request")
+        log.info("Processing request: $request")
 
-        val user = userService.findUser(username = username)
+        val user = userService.findUserByEmail(email = request.email)
 
         if (user.isEnabled) {
-            log.info("User $username is already enabled. Skipping activation token")
-            throw UserAlreadyEnabledException("User $username is already enabled")
+            log.info("User ${user.id} is already enabled. Skipping activation token")
+            throw UserAlreadyEnabledException("User ${user.id} is already enabled")
         }
 
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.ACTIVATE_USER)
@@ -46,15 +43,19 @@ class SendUserActivationToken(
             mailType = MailType.USER_CREATION_PENDING,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
+                "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
-                "action" to "POST:users/${user.username}/activation",
+                "action" to "ActivateUser",
                 "expiration" to actionToken.expiration.toString(),
             ),
         )
 
-        return SendUserActivationTokenResponse("Activation token for user $username will be sent to user email")
+        return SendUserActivationTokenResponse("Activation token for user ${user.id} will be sent to user email")
     }
+
+    data class SendUserActivationTokenRequest(
+        @Email val email: String = "",
+    )
 
     data class SendUserActivationTokenResponse(val message: String)
 }

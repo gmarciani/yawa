@@ -31,7 +31,7 @@ class MailService(
             mailType.body(templateEngine = templateEngine, attributes = attributes + defaultAttributes)
         } catch (ex: TemplateEngineException) {
             throw MailServiceExcpetion(
-                "Could not send email $mailType to ${recipient.username}: ${ex.message}",
+                "Could not send email $mailType to ${recipient.email}: ${ex.message}",
             )
         }
         this.send(

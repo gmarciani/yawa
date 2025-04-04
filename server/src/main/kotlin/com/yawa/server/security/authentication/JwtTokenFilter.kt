@@ -39,11 +39,11 @@ class JwtTokenFilter(
             return
         }
 
-        val authentication = UsernamePasswordAuthenticationToken(user, null, user.toUserDetails().authorities)
+        val authentication = UsernamePasswordAuthenticationToken(user, null, user.userPrincipal().authorities)
 
         authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
-        log.info("AUTHENTICATION: User authenticated with access token: ${user.username}")
+        log.info("AUTHENTICATION: User authenticated with access token: ${user.id}")
 
         SecurityContextHolder.getContext().authentication = authentication
 

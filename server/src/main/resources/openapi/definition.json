@@ -159,17 +159,9 @@
         "tags" : [ "Authentication" ]
       }
     },
-    "/auth/{username}/tokens" : {
+    "/auth/refresh" : {
       "post" : {
         "operationId" : "refreshAuthentication",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -701,53 +693,9 @@
         "tags" : [ "Users" ]
       }
     },
-    "/users/{username}" : {
-      "delete" : {
-        "operationId" : "deleteUser",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/DeleteUserRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/DeleteUserResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
-    "/users/{username}/activation" : {
+    "/users/activation" : {
       "post" : {
         "operationId" : "activateUser",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -773,17 +721,93 @@
         "tags" : [ "Users" ]
       }
     },
-    "/users/{username}/profile" : {
+    "/users/activation/token" : {
+      "post" : {
+        "operationId" : "sendUserActivationToken",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendUserActivationTokenRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Users" ]
+      }
+    },
+    "/users/me" : {
+      "delete" : {
+        "operationId" : "deleteUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeleteUserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteUserResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Users" ]
+      }
+    },
+    "/users/me/deletion/token" : {
+      "post" : {
+        "operationId" : "sendUserDeletionToken",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendUserDeletionTokenRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserDeletionTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Users" ]
+      }
+    },
+    "/users/me/profile" : {
       "get" : {
         "operationId" : "getUserProfile",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "responses" : {
           "200" : {
             "content" : {
@@ -800,14 +824,6 @@
       },
       "patch" : {
         "operationId" : "updateUserProfile",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -833,17 +849,9 @@
         "tags" : [ "Users" ]
       }
     },
-    "/users/{username}/profile/picture" : {
+    "/users/me/profile/picture" : {
       "delete" : {
         "operationId" : "deleteUserPicture",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "responses" : {
           "200" : {
             "content" : {
@@ -861,13 +869,6 @@
       "patch" : {
         "operationId" : "updateUserPicture",
         "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
           "in" : "query",
           "name" : "request",
           "required" : true,
@@ -890,17 +891,9 @@
         "tags" : [ "Users" ]
       }
     },
-    "/users/{username}/settings" : {
+    "/users/me/settings" : {
       "get" : {
         "operationId" : "getUserSettings",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "responses" : {
           "200" : {
             "content" : {
@@ -917,14 +910,6 @@
       },
       "patch" : {
         "operationId" : "updateUserSettings",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -941,58 +926,6 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/UpdateUserSettingsResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
-    "/users/{username}/tokens/activation" : {
-      "get" : {
-        "operationId" : "sendUserActivationToken",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
-    "/users/{username}/tokens/deletion" : {
-      "get" : {
-        "operationId" : "sendUserDeletionToken",
-        "parameters" : [ {
-          "in" : "path",
-          "name" : "username",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SendUserDeletionTokenResponse"
                 }
               }
             },
@@ -1024,7 +957,7 @@
         }
       },
       "CreateUserRequest" : {
-        "required" : [ "email", "firstname", "lastname", "password", "username" ],
+        "required" : [ "email", "firstname", "lastname", "password" ],
         "type" : "object",
         "properties" : {
           "email" : {
@@ -1037,9 +970,6 @@
             "type" : "string"
           },
           "password" : {
-            "type" : "string"
-          },
-          "username" : {
             "type" : "string"
           }
         }
@@ -1130,22 +1060,22 @@
         }
       },
       "LoginRequest" : {
-        "required" : [ "neverExpire", "password", "username" ],
+        "required" : [ "email", "neverExpire", "password" ],
         "type" : "object",
         "properties" : {
+          "email" : {
+            "type" : "string"
+          },
           "neverExpire" : {
             "type" : "boolean"
           },
           "password" : {
             "type" : "string"
-          },
-          "username" : {
-            "type" : "string"
           }
         }
       },
       "LoginResponse" : {
-        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration", "username" ],
+        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration", "userId" ],
         "type" : "object",
         "properties" : {
           "accessToken" : {
@@ -1162,8 +1092,9 @@
             "type" : "string",
             "format" : "date-time"
           },
-          "username" : {
-            "type" : "string"
+          "userId" : {
+            "type" : "string",
+            "format" : "uuid"
           }
         }
       },
@@ -1269,11 +1200,29 @@
           }
         }
       },
+      "SendUserActivationTokenRequest" : {
+        "required" : [ "email" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          }
+        }
+      },
       "SendUserActivationTokenResponse" : {
         "required" : [ "message" ],
         "type" : "object",
         "properties" : {
           "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SendUserDeletionTokenRequest" : {
+        "required" : [ "email" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
             "type" : "string"
           }
         }
@@ -1357,7 +1306,7 @@
         }
       },
       "User" : {
-        "required" : [ "createdAt", "email", "isAccountNonExpired", "isAccountNonLocked", "isCredentialsNonExpired", "isEnabled", "password", "profile", "role", "settings", "subscriptionPlan", "username" ],
+        "required" : [ "createdAt", "email", "isAccountNonExpired", "isAccountNonLocked", "isCredentialsNonExpired", "isEnabled", "password", "role", "subscriptionPlan" ],
         "type" : "object",
         "properties" : {
           "accountNonExpired" : {
@@ -1420,13 +1369,11 @@
           "subscriptionPlan" : {
             "type" : "string",
             "enum" : [ "FREE", "BASIC", "PROFESSIONAL", "SYSTEM" ]
-          },
-          "username" : {
-            "type" : "string"
           }
         }
       },
       "UserProfile" : {
+        "required" : [ "user" ],
         "type" : "object",
         "properties" : {
           "dateOfBirth" : {
@@ -1443,11 +1390,6 @@
             "nullable" : true,
             "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "nullable" : true
-          },
           "lastname" : {
             "type" : "string",
             "nullable" : true
@@ -1462,18 +1404,18 @@
           },
           "user" : {
             "$ref" : "#/components/schemas/User"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "uuid",
+            "nullable" : true
           }
         }
       },
       "UserSettings" : {
-        "required" : [ "isMfaEnabled" ],
+        "required" : [ "isMfaEnabled", "user" ],
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid",
-            "nullable" : true
-          },
           "isMfaEnabled" : {
             "type" : "boolean"
           },
@@ -1484,6 +1426,11 @@
           },
           "user" : {
             "$ref" : "#/components/schemas/User"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "uuid",
+            "nullable" : true
           }
         }
       }

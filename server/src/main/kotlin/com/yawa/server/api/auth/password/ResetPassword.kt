@@ -32,11 +32,11 @@ class ResetPassword(
 
         val grant = actionTokenService.consumeToken(token = request.token, action = TokenAction.RESET_PASSWORD)
 
-        val username = grant.username
+        val userId = grant.userId
 
-        val user = userService.findUser(username = username)
+        val user = userService.findUser(userId = userId)
 
-        log.info("Action token accepted for user $username to execute action ${grant.action}")
+        log.info("Action token accepted for user $userId to execute action ${grant.action}")
 
         userService.setPassword(user = user, password = request.password)
 
@@ -44,12 +44,12 @@ class ResetPassword(
             mailType = MailType.PASSWORD_RESET_CONFIRMED,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
+                "firstname" to user.profile!!.firstname!!,
                 "action" to "Login",
             ),
         )
 
-        return ResetPasswordResponse(message = "Confirmed password reset for user ${user.username}")
+        return ResetPasswordResponse(message = "Confirmed password reset for user $userId")
     }
 
     data class ResetPasswordRequest(

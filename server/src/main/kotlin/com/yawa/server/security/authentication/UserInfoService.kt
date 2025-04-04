@@ -12,9 +12,14 @@ class UserInfoService(
     @Autowired val userRepository: UserRepository,
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails {
+        /*
+        This is intentional because YAWA uses email based authentication,
+        but Spring Security requires a username to be passed to the loadUserByUsername method.
+        This is a workaround to allow YAWA to use email based authentication.
+        */
         return userRepository
-            .findByUsername(username!!)
+            .findByEmail(username!!)
             .orElseThrow { UsernameNotFoundException("User not found: $username") }
-            .toUserDetails()
+            .userPrincipal()
     }
 }

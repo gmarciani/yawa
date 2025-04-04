@@ -1,9 +1,7 @@
 package com.yawa.server.models.users
 
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.yawa.server.validators.Email
 import com.yawa.server.validators.EncryptedPassword
-import com.yawa.server.validators.Username
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -12,28 +10,23 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.UuidGenerator
-import org.springframework.security.core.userdetails.UserDetails
 import java.time.Instant
 import java.util.UUID
 
 @Entity
 @Table(name = "users")
 class User(
-    @Username
-    @Column(name = "username", unique = true)
-    val username: String,
-
-    @EncryptedPassword
-    @Column(name = "password")
-    var password: String,
 
     @Email
     @Column(name = "email", unique = true)
     var email: String,
+
+    @EncryptedPassword
+    @Column(name = "password")
+    var password: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
@@ -58,26 +51,33 @@ class User(
     @Column(name = "created_at")
     var createdAt: Instant,
 
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    @JsonManagedReference
-    var profile: UserProfile = UserProfile(),
-
-    @JoinColumn(name = "settings_id", referencedColumnName = "id")
-    @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    @JsonManagedReference
-    var settings: UserSettings = UserSettings(),
-
     @Id
     @GeneratedValue
     @UuidGenerator
     @Column(name = "id", updatable = false)
     val id: UUID? = null,
+
+    @OneToOne(
+        mappedBy = "user",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true,
+        fetch = FetchType.LAZY,
+        optional = true,
+    )
+    var profile: UserProfile? = null,
+
+    @OneToOne(
+        mappedBy = "user",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true,
+        fetch = FetchType.LAZY,
+        optional = true,
+    )
+    var settings: UserSettings? = null,
 ) {
 
-    fun toUserDetails(): UserDetails = org.springframework.security.core.userdetails.User(
-        username, password,
+    fun userPrincipal(): UserPrincipal = UserPrincipal(
+        id!!, email, password, role.toAuthorities(),
         isEnabled, isAccountNonExpired, isCredentialsNonExpired, isAccountNonLocked,
-        role.toAuthorities(),
     )
 }

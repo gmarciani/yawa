@@ -24,7 +24,7 @@ class GetGreetings {
 
         val user = if (authentication is AnonymousAuthenticationToken) null else (authentication.principal as User)
 
-        val message = if (user == null) "Hello ANONYMOUS" else "Hello ${user.username}"
+        val message = if (user == null) "Hello ANONYMOUS" else "Hello ${user.id}"
 
         return GetAuthenticatedHelloResponse(message)
     }

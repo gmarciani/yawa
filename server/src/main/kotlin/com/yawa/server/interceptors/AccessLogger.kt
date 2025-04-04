@@ -47,7 +47,7 @@ class AccessLogger : HandlerInterceptor {
         return if (authentication is AnonymousAuthenticationToken) {
             authentication.principal.toString()
         } else {
-            (authentication.principal as User).username
+            (authentication.principal as User).id.toString()
         }
     }
 }

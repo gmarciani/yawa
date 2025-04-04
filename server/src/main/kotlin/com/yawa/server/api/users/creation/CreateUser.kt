@@ -1,9 +1,6 @@
 package com.yawa.server.api.users.creation
 
 import com.yawa.server.constants.OpenApiTags.USERS
-import com.yawa.server.datastore.repositories.UserProfileRepository
-import com.yawa.server.datastore.repositories.UserRepository
-import com.yawa.server.exceptions.DuplicatedResourceException
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
 import com.yawa.server.notifications.MailService
@@ -12,7 +9,7 @@ import com.yawa.server.security.tokens.ActionTokenService
 import com.yawa.server.services.UserService
 import com.yawa.server.validators.Email
 import com.yawa.server.validators.Password
-import com.yawa.server.validators.Username
+import com.yawa.server.validators.RegularString
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
@@ -28,8 +25,6 @@ private val log = KotlinLogging.logger {}
 @RestController
 class CreateUser(
     @Autowired val userService: UserService,
-    @Autowired val userRepository: UserRepository,
-    @Autowired val userProfileRepository: UserProfileRepository,
     @Autowired val actionTokenService: ActionTokenService,
     @Autowired val mailService: MailService,
 ) {
@@ -42,26 +37,12 @@ class CreateUser(
     ): CreateUserResponse {
         log.info("Processing request: $request")
 
-        if (userRepository.existsByUsername(request.username)) {
-            throw DuplicatedResourceException("User already exists: ${request.username}")
-        }
-
-        if (userRepository.existsByEmail(request.email)) {
-            throw DuplicatedResourceException("Email already in use: ${request.email}")
-        }
-
         val user = userService.createUser(
-            username = request.username,
-            password = request.password,
             email = request.email,
+            password = request.password,
+            firstname = request.firstname,
+            lastname = request.lastname,
         )
-
-        val updatedProfile = user.profile.also { profile ->
-            request.firstname.let { profile.firstname = it }
-            request.lastname.let { profile.lastname = it }
-        }
-
-        userProfileRepository.save(updatedProfile)
 
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.ACTIVATE_USER)
 
@@ -69,7 +50,7 @@ class CreateUser(
             mailType = MailType.USER_CREATION_PENDING,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
+                "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
                 "action" to "ActivateUser",
                 "expiration" to actionToken.expiration.toString(),
@@ -80,11 +61,10 @@ class CreateUser(
     }
 
     data class CreateUserRequest(
-        @Username val username: String,
-        @Password val password: String,
         @Email val email: String,
-        val firstname: String = "",
-        val lastname: String = "",
+        @Password val password: String,
+        @RegularString val firstname: String,
+        @RegularString val lastname: String,
     )
 
     data class CreateUserResponse(val user: User)

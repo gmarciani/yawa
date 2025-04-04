@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.util.UUID
 
 @Service
 class AuthenticationService(
@@ -29,31 +30,31 @@ class AuthenticationService(
     @Autowired @Lazy // Lazy initialization is required to avoid circular dependencies
     lateinit var authenticationManager: AuthenticationManager
 
-    fun authenticate(username: String, password: String): User {
-        val authenticationToken = UsernamePasswordAuthenticationToken(username, password)
+    fun authenticate(email: String, password: String): User {
+        val authenticationToken = UsernamePasswordAuthenticationToken(email, password)
         val principal = try {
             authenticationManager.authenticate(authenticationToken)
-                .principal as org.springframework.security.core.userdetails.User
+                .principal as com.yawa.server.models.users.UserPrincipal
         } catch (ex: DisabledException) {
-            throw UserDisabledException("Cannot authenticate user $username because it is disabled")
+            throw UserDisabledException("Cannot authenticate user $email because it is disabled")
         }
-        return userRepository.findByUsername(principal.username).orElseThrow {
+        return userRepository.findById(principal.id).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided access token")
         }
     }
 
     fun authenticateAccessToken(accessToken: String): User {
         val jwt = jwtService.decode(accessToken)
-        val username = jwt.getClaim(TokenField.USERNAME.name).asString()
-        return userRepository.findByUsername(username).orElseThrow {
+        val userId = UUID.fromString(jwt.getClaim(TokenField.USERID.name).asString())
+        return userRepository.findById(userId).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided access token")
         }
     }
 
     fun authenticateRefreshToken(refreshToken: String): User {
         val jwt = jwtService.decode(refreshToken)
-        val username = jwt.getClaim(TokenField.USERNAME.name).asString()
-        return userRepository.findByUsername(username).orElseThrow {
+        val userId = UUID.fromString(jwt.getClaim(TokenField.USERID.name).asString())
+        return userRepository.findById(userId).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided refresh token")
         }
     }
@@ -74,8 +75,8 @@ class AuthenticationService(
 
     fun refreshAuthenticationTokens(refreshToken: String): AuthenticationTokens {
         val decodedToken: DecodedJWT = jwtService.decode(refreshToken)
-        val username = decodedToken.getClaim(TokenField.USERNAME.name).asString()
-        val user: User = userRepository.findByUsername(username).orElseThrow {
+        val userId = UUID.fromString(decodedToken.getClaim(TokenField.USERID.name).asString())
+        val user: User = userRepository.findById(userId).orElseThrow {
             ResourceNotFoundException("Cannot find user associated to the provided refresh token")
         }
         return generateAuthenticationTokens(user)
@@ -90,7 +91,7 @@ class AuthenticationService(
     private fun generateAccessToken(user: User, expiration: Instant): String {
         return jwtService.issue(
             attributes = mapOf(
-                TokenField.USERNAME.name to user.username,
+                TokenField.USERID.name to user.id.toString(),
                 TokenField.ACTION.name to TokenAction.ACCESS.name,
             ),
             expiration = expiration,
@@ -100,7 +101,7 @@ class AuthenticationService(
     private fun generateRefreshToken(user: User, expiration: Instant): String {
         return jwtService.issue(
             attributes = mapOf(
-                TokenField.USERNAME.name to user.username,
+                TokenField.USERID.name to user.id.toString(),
                 TokenField.ACTION.name to TokenAction.REFRESH_AUTHENTICATION_TOKENS.name,
             ),
             expiration = expiration,

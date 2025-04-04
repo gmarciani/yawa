@@ -21,9 +21,9 @@ class Logout {
 
         val user = SecurityContextHolder.getContext().authentication.principal as User
 
-        log.info("Logging out user: ${user.username}")
+        log.info("Logging out user: ${user.id}")
 
-        return LogoutResponse(message = "Bye ${user.username}")
+        return LogoutResponse(message = "Bye ${user.id}")
     }
 
     data class LogoutResponse(val message: String)

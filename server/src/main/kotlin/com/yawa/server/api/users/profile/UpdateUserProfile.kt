@@ -2,18 +2,17 @@ package com.yawa.server.api.users.profile
 
 import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserProfileRepository
-import com.yawa.server.datastore.repositories.UserRepository
-import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.Gender
+import com.yawa.server.models.users.User
 import com.yawa.server.models.users.UserProfile
+import com.yawa.server.services.UserService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
@@ -22,28 +21,24 @@ private val log = KotlinLogging.logger {}
 
 @RestController
 class UpdateUserProfile(
-    @Autowired val userRepository: UserRepository,
+    @Autowired val userService: UserService,
     @Autowired val userProfileRepository: UserProfileRepository,
 ) {
 
     @Operation(tags = [USERS])
-    @PatchMapping("/users/{username}/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
-    @PreAuthorize("authentication.principal.username == #username || hasRole('ROLE_ADMIN')")
+    @PatchMapping("/users/me/profile", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun updateUserProfile(
-        @PathVariable username: String,
         @Valid @RequestBody request: UpdateUserProfileRequest,
     ): UpdateUserProfileResponse {
         log.info("Processing request: $request")
 
-        val user = userRepository.findByUsername(username).orElseThrow {
-            ResourceNotFoundException("User not found: $username")
-        }
+        val user = SecurityContextHolder.getContext().authentication.principal as User
 
-        val updatedProfile = user.profile.also { profile ->
-            request.firstname?.let { profile.firstname = it }
-            request.lastname?.let { profile.lastname = it }
-            request.gender?.let { profile.gender = it }
-            request.dateOfBirth?.let { profile.dateOfBirth = it }
+        val updatedProfile = user.profile!!.also { p: UserProfile ->
+            request.firstname?.let { p.firstname = it }
+            request.lastname?.let { p.lastname = it }
+            request.gender?.let { p.gender = it }
+            request.dateOfBirth?.let { p.dateOfBirth = it }
         }
 
         userProfileRepository.save(updatedProfile)

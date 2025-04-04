@@ -28,9 +28,9 @@ class ApplicationReadyListener(
         log.info("LIFECYCLE: Creating users")
         userService.createAdminUser()
         userService.createPrometheusUser()
-        for (role in UserRole.values()) {
+        for (role in UserRole.entries) {
             if (role in listOf(UserRole.ADMIN, UserRole.PROMETHEUS)) continue
-            for (userSubscriptionPlan in UserSubscriptionPlan.values()) {
+            for (userSubscriptionPlan in UserSubscriptionPlan.entries) {
                 userService.createTestUser(role, userSubscriptionPlan)
             }
         }

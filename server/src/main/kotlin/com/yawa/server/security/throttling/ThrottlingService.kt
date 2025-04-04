@@ -7,6 +7,7 @@ import io.github.bucket4j.BucketConfiguration
 import io.github.bucket4j.distributed.proxy.ProxyManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 
 @Service
@@ -15,11 +16,13 @@ class ThrottlingService(
 ) {
 
     fun resolveBucket(user: User): Bucket {
-        return bucketsCacheProxyManager.builder().build(user.username.toByteArray(), newBucket(user.subscriptionPlan))
+        return bucketsCacheProxyManager.builder().build(
+            user.id.toString().toByteArray(), newBucket(user.subscriptionPlan),
+        )
     }
 
-    fun deleteIfExists(username: String) {
-        bucketsCacheProxyManager.removeProxy(username.toByteArray())
+    fun deleteIfExists(userId: UUID) {
+        bucketsCacheProxyManager.removeProxy(userId.toString().toByteArray())
     }
 
     private fun newBucket(userSubscriptionPlan: UserSubscriptionPlan): BucketConfiguration {

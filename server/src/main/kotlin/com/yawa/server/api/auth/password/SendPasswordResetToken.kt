@@ -39,6 +39,7 @@ class SendPasswordResetToken(
             mailType = MailType.PASSWORD_RESET_PENDING,
             recipient = user,
             attributes = mapOf(
+                "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
                 "action" to "ResetPassword",
                 "expiration" to actionToken.expiration.toString(),

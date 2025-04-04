@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -25,20 +24,19 @@ class ActivateUser(
 ) {
 
     @Operation(tags = [USERS])
-    @PostMapping("/users/{username}/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/users/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun activateUser(
-        @PathVariable username: String,
         @RequestBody request: ActivateUserRequest,
     ): ActivateUserResponse {
         log.info("Processing request: $request")
 
-        val grant = actionTokenService.consumeToken(
-            token = request.token, action = TokenAction.ACTIVATE_USER, username = username,
-        )
+        val grant = actionTokenService.consumeToken(token = request.token, action = TokenAction.ACTIVATE_USER)
 
-        val user = userService.findUser(username = username)
+        val userId = grant.userId
 
-        log.info("Action token accepted for user $username to execute action ${grant.action}")
+        val user = userService.findUser(userId = userId)
+
+        log.info("Action token accepted for user $userId to execute action ${grant.action}")
 
         userService.enableUser(user = user)
 
@@ -46,12 +44,12 @@ class ActivateUser(
             mailType = MailType.USER_CREATION_CONFIRMED,
             recipient = user,
             attributes = mapOf(
-                "username" to user.username,
+                "firstname" to user.profile!!.firstname!!,
                 "action" to "Login",
             ),
         )
 
-        return ActivateUserResponse(message = "Confirmed creation of user ${user.username}")
+        return ActivateUserResponse(message = "Confirmed creation of user $userId")
     }
 
     // Setting the default value is required on data class having single attributes

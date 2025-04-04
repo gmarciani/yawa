@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import java.util.UUID
 
 
 private val log = KotlinLogging.logger {}
@@ -31,7 +32,7 @@ class AccessControlAuthorizationFilter(
             return
         }
 
-        val username = (authentication.principal as User).username
+        val userId = (authentication.principal as User).id!!
 
         val method = request.method
         val requestUri = request.requestURI
@@ -46,19 +47,19 @@ class AccessControlAuthorizationFilter(
 
         val operationName = operationNameProvider.getOperationName(method, requestUri)
 
-        if (isUserAuthorizedForOperation(username, operationName)) {
-            log.info("AUTHORIZATION: User $username is authorized for operation $operationName")
+        if (isUserAuthorizedForOperation(userId, operationName)) {
+            log.info("AUTHORIZATION: User $userId is authorized for operation $operationName")
             chain.doFilter(request, response)
             return
         } else {
-            log.warn("AUTHORIZATION: User $username is not authorized for operation $operationName")
+            log.warn("AUTHORIZATION: User $userId is not authorized for operation $operationName")
             handleUnauthorized(response)
             return
         }
     }
 
-    private fun isUserAuthorizedForOperation(username: String, operationName: String): Boolean {
-        val deniedOperations = ACCESS_CONTROL_DENY_LIST.getOrDefault(username, emptyList())
+    private fun isUserAuthorizedForOperation(userId: UUID, operationName: String): Boolean {
+        val deniedOperations = ACCESS_CONTROL_DENY_LIST.getOrDefault(userId.toString(), emptyList())
         return !deniedOperations.contains(operationName)
     }
 
