@@ -1,6 +1,6 @@
-package com.yawa.server.api.users.creation
+package com.yawa.server.api.auth.activation
 
-import com.yawa.server.constants.OpenApiTags.USERS
+import com.yawa.server.constants.OpenApiTags.AUTHENTICATION
 import com.yawa.server.exceptions.UserAlreadyEnabledException
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.notifications.MailService
@@ -23,8 +23,8 @@ class SendUserActivationToken(
     @Autowired val mailService: MailService,
 ) {
 
-    @Operation(tags = [USERS])
-    @PostMapping("/users/activation/token", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @Operation(tags = [AUTHENTICATION])
+    @PostMapping("/auth/activation/token", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendUserActivationToken(
         @RequestBody request: SendUserActivationTokenRequest,
     ): SendUserActivationTokenResponse {
@@ -45,7 +45,7 @@ class SendUserActivationToken(
             attributes = mapOf(
                 "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
-                "action" to "ActivateUser",
+                "action" to "auth/activate-user",
                 "expiration" to actionToken.expiration.toString(),
             ),
         )

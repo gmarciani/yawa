@@ -1,6 +1,6 @@
-package com.yawa.server.api.users.creation
+package com.yawa.server.api.auth.activation
 
-import com.yawa.server.constants.OpenApiTags.USERS
+import com.yawa.server.constants.OpenApiTags.AUTHENTICATION
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
@@ -23,8 +23,8 @@ class ActivateUser(
     @Autowired val mailService: MailService,
 ) {
 
-    @Operation(tags = [USERS])
-    @PostMapping("/users/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @Operation(tags = [AUTHENTICATION])
+    @PostMapping("/auth/activation", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun activateUser(
         @RequestBody request: ActivateUserRequest,
     ): ActivateUserResponse {
@@ -49,7 +49,7 @@ class ActivateUser(
             ),
         )
 
-        return ActivateUserResponse(message = "Confirmed creation of user $userId")
+        return ActivateUserResponse(message = "Confirmed activation of user $userId")
     }
 
     // Setting the default value is required on data class having single attributes
