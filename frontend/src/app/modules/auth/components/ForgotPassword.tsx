@@ -6,7 +6,7 @@ import {useFormik} from 'formik'
 import {requestPassword} from '../core/_requests'
 
 const initialValues = {
-  email: 'admin@demo.com',
+  email: '',
 }
 
 const forgotPasswordSchema = Yup.object().shape({
@@ -56,7 +56,7 @@ export function ForgotPassword() {
 
         {/* begin::Link */}
         <div className='text-gray-500 fw-semibold fs-6'>
-          Enter your email to reset your password.
+          Enter your email to reset your password
         </div>
         {/* end::Link */}
       </div>
@@ -103,9 +103,14 @@ export function ForgotPassword() {
       </div>
       {/* end::Form group */}
 
-      {/* begin::Form group */}
+      {/* begin::Form group Submit */}
       <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-        <button type='submit' id='kt_password_reset_submit' className='btn btn-primary me-4'>
+        <button
+          type='submit'
+          id='kt_password_reset_submit'
+          className='btn btn-primary me-4'
+          disabled={formik.isSubmitting || !formik.isValid}
+        >
           <span className='indicator-label'>Submit</span>
           {loading && (
             <span className='indicator-progress'>
@@ -119,13 +124,13 @@ export function ForgotPassword() {
             type='button'
             id='kt_login_password_reset_form_cancel_button'
             className='btn btn-light'
-            disabled={formik.isSubmitting || !formik.isValid}
+            disabled={formik.isSubmitting}
           >
-            Cancel
+            Login
           </button>
-        </Link>{' '}
+        </Link>
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Submit */}
     </form>
   )
 }

@@ -15,7 +15,6 @@ import {useAuth} from '../core/Auth'
 const initialValues = {
   firstname: '',
   lastname: '',
-  username: '',
   email: '',
   password: '',
   changepassword: '',
@@ -31,10 +30,6 @@ const registrationSchema = Yup.object().shape({
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Last name is required'),
-  username: Yup.string()
-      .min(3, 'Minimum 3 symbols')
-      .max(30, 'Maximum 30 symbols')
-      .required('Username is required'),
   email: Yup.string()
       .email('Wrong email format')
       .min(3, 'Minimum 3 symbols')
@@ -65,7 +60,6 @@ export function Registration() {
         await register(
           values.firstname,
           values.lastname,
-          values.username,
           values.email,
           values.password,
         )
@@ -86,9 +80,7 @@ export function Registration() {
           const { status, data }: { status: number, data: any } = error.response
           switch (status) {
             case 409:
-              if (data.message.includes('User already exists')) {
-                return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.USERNAME_EXISTS'})
-              } else if (data.message.includes('Email already in use')) {
+              if (data.message.includes('Email already in use')) {
                 return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.EMAIL_EXISTS'})
               } else {
                 return intl.formatMessage({id: 'AUTH.REGISTER.ERROR.UNKNOWN'})
@@ -238,32 +230,6 @@ export function Registration() {
         )}
       </div>
       {/* end::Form group */}
-
-      {/* begin::Form group Username */}
-      <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>Username</label>
-        <input
-            placeholder='Username'
-            type='username'
-            autoComplete='off'
-            {...formik.getFieldProps('username')}
-            className={clsx(
-                'form-control bg-transparent',
-                {'is-invalid': formik.touched.username && formik.errors.username},
-                {
-                  'is-valid': formik.touched.username && !formik.errors.username,
-                }
-            )}
-        />
-        {formik.touched.username && formik.errors.username && (
-            <div className='fv-plugins-message-container'>
-              <div className='fv-help-block'>
-                <span role='alert'>{formik.errors.username}</span>
-              </div>
-            </div>
-        )}
-      </div>
-      {/* end::Form group Username */}
 
       {/* begin::Form group Email */}
       <div className='fv-row mb-8'>
@@ -417,8 +383,9 @@ export function Registration() {
             type='button'
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg btn-light-primary w-100 mb-5'
+            disabled={formik.isSubmitting}
           >
-            Back to Login
+            Login
           </button>
         </Link>
       </div>

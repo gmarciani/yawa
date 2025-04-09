@@ -60,7 +60,7 @@ const AuthInit: FC<WithChildren> = ({children}) => {
     const requestUser = async (username: string) => {
       try {
         if (!currentUser) {
-          const userProfile = await getUserProfile(username)
+          const userProfile = await getUserProfile()
           if (userProfile) {
             setCurrentUser(userProfile)
           }
@@ -76,7 +76,7 @@ const AuthInit: FC<WithChildren> = ({children}) => {
     }
 
     if (auth && auth.accessToken) {
-      requestUser(auth.username)
+      requestUser(auth.userId)
     } else {
       logout()
       setShowSplashScreen(false)

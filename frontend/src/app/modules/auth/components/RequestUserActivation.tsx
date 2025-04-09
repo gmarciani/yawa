@@ -3,13 +3,13 @@ import * as Yup from 'yup'
 import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
-import {requestPassword} from '../core/_requests'
+import {requestUserActivationToken} from '../core/_requests'
 
 const initialValues = {
-  email: 'admin@demo.com',
+  email: '',
 }
 
-const forgotPasswordSchema = Yup.object().shape({
+const activateUserSchema = Yup.object().shape({
   email: Yup.string()
     .email('Wrong email format')
     .min(3, 'Minimum 3 symbols')
@@ -17,26 +17,27 @@ const forgotPasswordSchema = Yup.object().shape({
     .required('Email is required'),
 })
 
-export function ResetPassword() {
+export function RequestUserActivation() {
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
     initialValues,
-    validationSchema: forgotPasswordSchema,
+    validationSchema: activateUserSchema,
     onSubmit: (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       setHasErrors(undefined)
       setTimeout(() => {
-        requestPassword(values.email)
+        requestUserActivationToken(values.email)
           .then(response => {
             setHasErrors(false)
             setLoading(false)
           })
-          .catch(() => {
+          .catch(error => {
+            console.log(`Error: ${error}`)
             setHasErrors(true)
             setLoading(false)
             setSubmitting(false)
-            setStatus('The login detail is incorrect')
+            setStatus('Something went wrong')
           })
       }, 1000)
     },
@@ -51,12 +52,12 @@ export function ResetPassword() {
     >
       <div className='text-center mb-10'>
         {/* begin::Title */}
-        <h1 className='text-dark fw-bolder mb-3'>Forgot Password ?</h1>
+        <h1 className='text-dark fw-bolder mb-3'>User Activation</h1>
         {/* end::Title */}
 
         {/* begin::Link */}
         <div className='text-gray-500 fw-semibold fs-6'>
-          Enter your email to reset your password.
+          Enter your email to activate your account
         </div>
         {/* end::Link */}
       </div>
@@ -72,7 +73,7 @@ export function ResetPassword() {
 
       {hasErrors === false && (
         <div className='mb-10 bg-light-info p-8 rounded'>
-          <div className='text-info'>Sent password reset. Please check your email</div>
+          <div className='text-info'>Sent activation instructions. Please check your email</div>
         </div>
       )}
       {/* end::Title */}
@@ -103,9 +104,14 @@ export function ResetPassword() {
       </div>
       {/* end::Form group */}
 
-      {/* begin::Form group */}
+      {/* begin::Form group Submit */}
       <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-        <button type='submit' id='kt_password_reset_submit' className='btn btn-primary me-4'>
+        <button
+          type='submit'
+          id='kt_password_reset_submit'
+          className='btn btn-primary me-4'
+          disabled={formik.isSubmitting || !formik.isValid}
+        >
           <span className='indicator-label'>Submit</span>
           {loading && (
             <span className='indicator-progress'>
@@ -119,13 +125,13 @@ export function ResetPassword() {
             type='button'
             id='kt_login_password_reset_form_cancel_button'
             className='btn btn-light'
-            disabled={formik.isSubmitting || !formik.isValid}
+            disabled={formik.isSubmitting}
           >
-            Cancel
+            Login
           </button>
-        </Link>{' '}
+        </Link>
       </div>
-      {/* end::Form group */}
+      {/* end::Form group Submit */}
     </form>
   )
 }

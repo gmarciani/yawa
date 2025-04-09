@@ -20,6 +20,7 @@ import './_metronic/assets/sass/style.scss'
 import './_metronic/assets/sass/plugins.scss'
 import {AppRoutes} from './app/routing/AppRoutes'
 import {AuthProvider, setupAxios} from './app/modules/auth'
+import {AuthRefresher} from './app/modules/auth/components/AuthRefresher'
 /**
  * Creates `axios-mock-adapter` instance for provided `axios` instance, add
  * basic Metronic mocks and returns it.
@@ -41,6 +42,7 @@ if (container) {
     <QueryClientProvider client={queryClient}>
       <MetronicI18nProvider>
         <AuthProvider>
+          <AuthRefresher/>
           <AppRoutes />
         </AuthProvider>
       </MetronicI18nProvider>

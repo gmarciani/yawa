@@ -7,17 +7,14 @@ import {useFormik} from 'formik'
 import {getUserProfile, login} from '../core/_requests'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {useAuth} from '../core/Auth'
+import { StatusCodes } from 'http-status-codes'
 
 const loginSchema = Yup.object().shape({
-  // email: Yup.string()
-  //   .email('Wrong email format')
-  //   .min(3, 'Minimum 3 symbols')
-  //   .max(50, 'Maximum 50 symbols')
-  //   .required('Email is required'),
-  username: Yup.string()
-      .min(3, 'Minimum 3 symbols')
-      .max(30, 'Maximum 30 symbols')
-      .required('Username is required'),
+  email: Yup.string()
+    .email('Wrong email format')
+    .min(3, 'Minimum 3 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Email is required'),
   password: Yup.string()
     .min(3, 'Minimum 3 symbols')
     .max(30, 'Maximum 50 symbols')
@@ -25,19 +22,13 @@ const loginSchema = Yup.object().shape({
 })
 
 const initialValues = {
-  // email: '',
-  username: '',
+  email: '',
   password: '',
 }
 
-/*
-  Formik+YUP+Typescript:
-  https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
-  https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
-*/
-
 export function Login() {
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<number | null>(null)
   const {saveAuth, setCurrentUser} = useAuth()
 
   const formik = useFormik({
@@ -46,19 +37,45 @@ export function Login() {
     onSubmit: async (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       try {
-        const auth = await login(values.username, values.password)
+        const auth = await login(values.email, values.password)
         console.log(`auth = ${JSON.stringify(auth)}`)
         saveAuth(auth)
-        const userProfile = await getUserProfile(auth.username)
+        const userProfile = await getUserProfile()
         console.log(`userProfile = ${JSON.stringify(userProfile)}`)
         setCurrentUser(userProfile)
-      } catch (error) {
-        console.error(error)
+      } catch (error: any) {
+        console.log(error)
+        setError(error.status)
         saveAuth(undefined)
+        //const err = error as ErrorModel
+        let errorMessage: string | undefined
+        let actionMessage: any | undefined
+        let actionLink: string  | undefined
+        switch (error.status) {
+          case StatusCodes.UNAUTHORIZED:
+            errorMessage = 'User is disabled.'
+            actionMessage = 'Activate user'
+            actionLink = '/auth/request-user-activation'
+            break
+          case StatusCodes.FORBIDDEN:
+            errorMessage = 'Wrong credentials.'
+            actionMessage = 'Reset your password'
+            actionLink = '/auth/forgot-password'
+            break
+          default:
+            errorMessage = 'Something went wrong. Try again later.'
+            actionMessage = undefined
+            actionLink = undefined
+            break
+        }
         setStatus({
           level: 'danger',
-          message: 'The login details are incorrect'}
-        )
+          message: errorMessage,
+          action: {
+            message: actionMessage,
+            link: actionLink
+          }
+        })
         setSubmitting(false)
         setLoading(false)
       }
@@ -130,38 +147,46 @@ export function Login() {
       </div>
       {/* end::Separator */}
 
+      {/* begin::Form Status */}
       {formik.status && (
         <div className={`mb-lg-15 alert alert-${formik.status.level}`}>
-          <div className='alert-text font-weight-bold'>{formik.status.message}</div>
+          <div className='alert-text font-weight-bold'>
+            {formik.status.message} {formik.status.action && (
+              <Link to={formik.status.action.link} className='link-primary'>
+                {formik.status.action.message}
+              </Link>
+            )}
+          </div>
         </div>
       )}
+      {/* end::Form Status */}
 
-      {/* begin::Form group Username */}
+      {/* begin::Form group Email */}
       <div className='fv-row mb-8'>
-        <label className='form-label fs-6 fw-bolder text-dark'>Username</label>
+        <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
         <input
-          placeholder='Username'
-          {...formik.getFieldProps('username')}
+          placeholder='Email'
+          {...formik.getFieldProps('email')}
           className={clsx(
             'form-control bg-transparent',
-            {'is-invalid': formik.touched.username && formik.errors.username},
+            {'is-invalid': formik.touched.email && formik.errors.email},
             {
-              'is-valid': formik.touched.username && !formik.errors.username,
+              'is-valid': formik.touched.email && !formik.errors.email,
             }
           )}
-          type='username'
-          name='username'
+          type='email'
+          name='email'
           autoComplete='off'
         />
-        {formik.touched.username && formik.errors.username && (
+        {formik.touched.email && formik.errors.email && (
           <div className='fv-plugins-message-container'>
             <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.username}</span>
+              <span role='alert'>{formik.errors.email}</span>
             </div>
           </div>
         )}
       </div>
-      {/* end::Form group Username */}
+      {/* end::Form group Email */}
 
       {/* begin::Form group Password */}
       <div className='fv-row mb-3'>

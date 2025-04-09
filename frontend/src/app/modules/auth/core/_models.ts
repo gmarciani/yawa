@@ -1,5 +1,5 @@
 export interface AuthModel {
-  username: string,
+  userId: string,
   accessToken: string
   refreshToken: string
 }
@@ -10,7 +10,6 @@ export interface UserProfileModel {
   gender: string
   dateOfBirth: string
   picture: string | undefined
-  email: string
   role: string
 }
 
