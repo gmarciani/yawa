@@ -65,10 +65,16 @@ class SecurityConfig(
         // Set permissions on endpoints
         http.authorizeHttpRequests { authorize ->
             authorize
+                // Authentication
+                .requestMatchers(POST, "/auth/login").permitAll()
+                .requestMatchers(POST, "/auth/logout").authenticated()
+                .requestMatchers(POST, "/auth/refresh").authenticated()
+                .requestMatchers(POST, "/auth/password-reset").permitAll()
+                .requestMatchers(POST, "/auth/password-reset/token").permitAll()
+                .requestMatchers(POST, "/auth/activation").permitAll()
+                .requestMatchers(POST, "/auth/activation/token").permitAll()
                 // Users > Creation
                 .requestMatchers(POST, "/users").permitAll()
-                .requestMatchers(POST, "/users/activation/token").permitAll()
-                .requestMatchers(POST, "/users/activation").permitAll()
                 // Users > Deletion
                 .requestMatchers(POST, "/users/me/deletion/token").authenticated()
                 .requestMatchers(DELETE, "/users/me").authenticated()
@@ -80,12 +86,6 @@ class SecurityConfig(
                 // Users > Settings
                 .requestMatchers(GET, "/users/me/settings").authenticated()
                 .requestMatchers(PATCH, "/users/me/settings").authenticated()
-                // Authentication
-                .requestMatchers(POST, "/auth/login").permitAll()
-                .requestMatchers(POST, "/auth/logout").authenticated()
-                .requestMatchers(POST, "/auth/refresh").authenticated()
-                .requestMatchers(POST, "/auth/password-reset").permitAll()
-                .requestMatchers(POST, "/auth/password-reset/token").permitAll()
                 // Administration
                 .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name)
                 .requestMatchers("/manage/prometheus").hasAnyRole(UserRole.ADMIN.name, UserRole.PROMETHEUS.name)
