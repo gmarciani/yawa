@@ -10,24 +10,27 @@ import io.mockk.every
 import io.mockk.mockk
 import org.springframework.security.core.AuthenticationException
 import java.time.Instant
+import java.util.UUID
 
 class LoginTest : BehaviorSpec({
     given(LoginTest::class.simpleName!!) {
         val authenticationService = mockk<AuthenticationService>(relaxed = true)
 
         val subject = Login(authenticationService)
-        val username = "A_USERNAME"
+        val id = UUID.randomUUID()
+        val email = "ANY@EMAIL.COM"
         val password = "A_PASSWORD"
 
         `when`("login is called") {
 
-            val loginRequest = Login.LoginRequest(username = username, password = password)
+            val loginRequest = Login.LoginRequest(email = email, password = password)
 
             and("caller is authenticated") {
                 val user = mockk<User>(relaxed = true)
-                every { authenticationService.authenticate(username = username, password = password) } returns
+                every { authenticationService.authenticate(email = email, password = password) } returns
                     user.also {
-                        every { it.username } returns username
+                        every { it.id } returns id
+                        every { it.email } returns email
                         every { it.password } returns password
                     }
 
@@ -44,7 +47,7 @@ class LoginTest : BehaviorSpec({
                     then("returns the expected response") {
                         val response = subject.login(loginRequest)
                         response shouldBe Login.LoginResponse(
-                            username = loginRequest.username,
+                            userId = id,
                             accessToken = authenticationTokens.accessToken,
                             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
                             refreshToken = authenticationTokens.refreshToken,
@@ -58,7 +61,7 @@ class LoginTest : BehaviorSpec({
                 val authenticationException = mockk<AuthenticationException>().also {
                     every { it.message } returns "EXCEPTION_MESSAGE"
                 }
-                every { authenticationService.authenticate(username = username, password = password) } throws
+                every { authenticationService.authenticate(email = email, password = password) } throws
                     authenticationException
 
                 then("returns failure") {

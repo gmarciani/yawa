@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 class UserRoleTest : BehaviorSpec({
     given(UserRole::class.simpleName!!) {
 
-        UserRole.values().forEach { role ->
+        UserRole.entries.forEach { role ->
             `when`("toAuthority is called for role $role") {
                 val authorities = role.toAuthorities()
                 then("it should return the corresponding authority") {

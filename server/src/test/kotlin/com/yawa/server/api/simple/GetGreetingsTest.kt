@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
+import java.util.UUID
 
 class GetGreetingsTest : BehaviorSpec({
     given(GetGreetings::class.simpleName!!) {
@@ -30,15 +31,16 @@ class GetGreetingsTest : BehaviorSpec({
             }
 
             and("caller is authenticated as a concrete principal") {
+                val userId = UUID.randomUUID()
                 every { securityContext.authentication } returns mockk<Authentication>(relaxed = true).also {
                     every { it.principal } returns mockk<User>(relaxed = true).also {
-                        every { it.username } returns "CONCRETE_PRINCIPAL"
+                        every { it.id } returns userId
                     }
                 }
 
                 then("returns the expected response") {
                     val response = subject.getGreetings()
-                    response shouldBe GetGreetings.GetAuthenticatedHelloResponse(message = "Hello CONCRETE_PRINCIPAL")
+                    response shouldBe GetGreetings.GetAuthenticatedHelloResponse(message = "Hello $userId")
                 }
             }
         }
