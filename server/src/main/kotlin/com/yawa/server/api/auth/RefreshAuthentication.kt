@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
+import java.util.*
 
 private val log = KotlinLogging.logger {}
 
@@ -36,6 +37,7 @@ class RefreshAuthentication(
         log.info("Authentication tokens refreshed for user: ${user.id}")
 
         return RefreshAuthenticationResponse(
+            userId = user.id!!,
             accessToken = authenticationTokens.accessToken,
             accessTokenExpiration = authenticationTokens.accessTokenExpiration,
             refreshToken = authenticationTokens.refreshToken,
@@ -48,6 +50,7 @@ class RefreshAuthentication(
     )
 
     data class RefreshAuthenticationResponse(
+        val userId: UUID,
         val accessToken: String,
         val accessTokenExpiration: Instant,
         val refreshToken: String,
