@@ -41,7 +41,7 @@ class SendPasswordResetToken(
             attributes = mapOf(
                 "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
-                "action" to "ResetPassword",
+                "action" to "auth/password-reset",
                 "expiration" to actionToken.expiration.toString(),
             ),
         )

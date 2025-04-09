@@ -2,6 +2,8 @@ package com.yawa.server.api.users.deletion
 
 import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.models.tokens.TokenAction
+import com.yawa.server.models.users.User
+import com.yawa.server.models.users.UserPrincipal
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -26,15 +29,18 @@ class DeleteUser(
     @Operation(tags = [USERS])
     @DeleteMapping("/users/me", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun deleteUser(
+        @AuthenticationPrincipal user: User,
         @RequestBody request: DeleteUserRequest,
     ): DeleteUserResponse {
-        log.info("Processing request: $request")
+        log.info("Processing request for user ${user.id}: $request")
 
-        val grant = actionTokenService.consumeToken(token = request.token, action = TokenAction.CONFIRM_USER_DELETION)
+        val grant = actionTokenService.consumeToken(
+            token = request.token,
+            action = TokenAction.CONFIRM_USER_DELETION,
+            userId = user.id,
+        )
 
         val userId = grant.userId
-
-        val user = userService.findUser(userId = userId)
 
         log.info("Action token accepted for user $userId to execute action ${grant.action}")
 
@@ -45,7 +51,7 @@ class DeleteUser(
             recipient = user,
             attributes = mapOf(
                 "firstname" to user.profile!!.firstname!!,
-                "action" to "index.html",
+                "action" to "Home",
             ),
         )
 

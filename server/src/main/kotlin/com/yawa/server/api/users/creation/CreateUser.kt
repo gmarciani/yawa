@@ -52,7 +52,7 @@ class CreateUser(
             attributes = mapOf(
                 "firstname" to user.profile!!.firstname!!,
                 "token" to actionToken.token,
-                "action" to "ActivateUser",
+                "action" to "auth/activate-user",
                 "expiration" to actionToken.expiration.toString(),
             ),
         )

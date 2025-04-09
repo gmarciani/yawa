@@ -45,7 +45,7 @@ class ResetPassword(
             recipient = user,
             attributes = mapOf(
                 "firstname" to user.profile!!.firstname!!,
-                "action" to "Login",
+                "action" to "auth/login",
             ),
         )
 
