@@ -39,6 +39,7 @@ class JwtTokenFilter(
             return
         }
 
+        // The principal passed here is the one injected by Spring into controllers through @AuthenticationPrincipal
         val authentication = UsernamePasswordAuthenticationToken(user, null, user.userPrincipal().authorities)
 
         authentication.details = WebAuthenticationDetailsSource().buildDetails(request)

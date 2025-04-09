@@ -3,6 +3,7 @@ package com.yawa.server.api.users.deletion
 import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.models.tokens.TokenAction
 import com.yawa.server.models.users.User
+import com.yawa.server.models.users.UserPrincipal
 import com.yawa.server.notifications.MailService
 import com.yawa.server.notifications.MailType
 import com.yawa.server.security.tokens.ActionTokenService
@@ -12,7 +13,7 @@ import io.swagger.v3.oas.annotations.Operation
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -29,11 +30,10 @@ class SendUserDeletionToken(
     @Operation(tags = [USERS])
     @PostMapping("/users/me/deletion/token", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun sendUserDeletionToken(
+        @AuthenticationPrincipal user: User,
         @RequestBody request: SendUserDeletionTokenRequest,
     ): SendUserDeletionTokenResponse {
-        log.info("Processing request: $request")
-
-        val user = SecurityContextHolder.getContext().authentication.principal as User
+        log.info("Processing request for user ${user.id}: $request")
 
         val actionToken = actionTokenService.generateToken(user = user, action = TokenAction.CONFIRM_USER_DELETION)
 
