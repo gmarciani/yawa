@@ -52,6 +52,38 @@ export interface ActivateUserResponse {
 /**
  *
  * @export
+ * @interface AdminResetPasswordRequest
+ */
+export interface AdminResetPasswordRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof AdminResetPasswordRequest
+     */
+    'email': string;
+    /**
+     *
+     * @type {string}
+     * @memberof AdminResetPasswordRequest
+     */
+    'password': string;
+}
+/**
+ *
+ * @export
+ * @interface AdminResetPasswordResponse
+ */
+export interface AdminResetPasswordResponse {
+    /**
+     *
+     * @type {string}
+     * @memberof AdminResetPasswordResponse
+     */
+    'message': string;
+}
+/**
+ *
+ * @export
  * @interface CreateUserRequest
  */
 export interface CreateUserRequest {
@@ -79,12 +111,6 @@ export interface CreateUserRequest {
      * @memberof CreateUserRequest
      */
     'password': string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserRequest
-     */
-    'username': string;
 }
 /**
  *
@@ -217,6 +243,12 @@ export interface Link {
 export interface LoginRequest {
     /**
      *
+     * @type {string}
+     * @memberof LoginRequest
+     */
+    'email': string;
+    /**
+     *
      * @type {boolean}
      * @memberof LoginRequest
      */
@@ -227,12 +259,6 @@ export interface LoginRequest {
      * @memberof LoginRequest
      */
     'password': string;
-    /**
-     *
-     * @type {string}
-     * @memberof LoginRequest
-     */
-    'username': string;
 }
 /**
  *
@@ -269,7 +295,7 @@ export interface LoginResponse {
      * @type {string}
      * @memberof LoginResponse
      */
-    'username': string;
+    'userId': string;
 }
 /**
  *
@@ -327,6 +353,12 @@ export interface RefreshAuthenticationResponse {
      * @memberof RefreshAuthenticationResponse
      */
     'refreshTokenExpiration': string;
+    /**
+     *
+     * @type {string}
+     * @memberof RefreshAuthenticationResponse
+     */
+    'userId': string;
 }
 /**
  *
@@ -378,6 +410,12 @@ export interface SendMailRequest {
      * @memberof SendMailRequest
      */
     'mailType': SendMailRequestMailTypeEnum;
+    /**
+     *
+     * @type {string}
+     * @memberof SendMailRequest
+     */
+    'recipientId': string;
 }
 
 export const SendMailRequestMailTypeEnum = {
@@ -407,6 +445,19 @@ export interface SendMailResponse {
 /**
  *
  * @export
+ * @interface SendPasswordResetTokenRequest
+ */
+export interface SendPasswordResetTokenRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof SendPasswordResetTokenRequest
+     */
+    'email': string;
+}
+/**
+ *
+ * @export
  * @interface SendPasswordResetTokenResponse
  */
 export interface SendPasswordResetTokenResponse {
@@ -420,6 +471,19 @@ export interface SendPasswordResetTokenResponse {
 /**
  *
  * @export
+ * @interface SendUserActivationTokenRequest
+ */
+export interface SendUserActivationTokenRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof SendUserActivationTokenRequest
+     */
+    'email': string;
+}
+/**
+ *
+ * @export
  * @interface SendUserActivationTokenResponse
  */
 export interface SendUserActivationTokenResponse {
@@ -429,6 +493,19 @@ export interface SendUserActivationTokenResponse {
      * @memberof SendUserActivationTokenResponse
      */
     'message': string;
+}
+/**
+ *
+ * @export
+ * @interface SendUserDeletionTokenRequest
+ */
+export interface SendUserDeletionTokenRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof SendUserDeletionTokenRequest
+     */
+    'email': string;
 }
 /**
  *
@@ -631,7 +708,7 @@ export interface User {
      * @type {UserProfile}
      * @memberof User
      */
-    'profile': UserProfile;
+    'profile'?: UserProfile;
     /**
      *
      * @type {string}
@@ -643,19 +720,13 @@ export interface User {
      * @type {UserSettings}
      * @memberof User
      */
-    'settings': UserSettings;
+    'settings'?: UserSettings;
     /**
      *
      * @type {string}
      * @memberof User
      */
     'subscriptionPlan': UserSubscriptionPlanEnum;
-    /**
-     *
-     * @type {string}
-     * @memberof User
-     */
-    'username': string;
 }
 
 export const UserRoleEnum = {
@@ -704,12 +775,6 @@ export interface UserProfile {
      * @type {string}
      * @memberof UserProfile
      */
-    'id'?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof UserProfile
-     */
     'lastname'?: string | null;
     /**
      *
@@ -728,7 +793,13 @@ export interface UserProfile {
      * @type {User}
      * @memberof UserProfile
      */
-    'user'?: User;
+    'user': User;
+    /**
+     *
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'userId'?: string | null;
 }
 
 export const UserProfileGenderEnum = {
@@ -747,12 +818,6 @@ export type UserProfileGenderEnum = typeof UserProfileGenderEnum[keyof typeof Us
 export interface UserSettings {
     /**
      *
-     * @type {string}
-     * @memberof UserSettings
-     */
-    'id'?: string | null;
-    /**
-     *
      * @type {boolean}
      * @memberof UserSettings
      */
@@ -768,7 +833,13 @@ export interface UserSettings {
      * @type {User}
      * @memberof UserSettings
      */
-    'user'?: User;
+    'user': User;
+    /**
+     *
+     * @type {string}
+     * @memberof UserSettings
+     */
+    'userId'?: string | null;
 }
 
 /**
@@ -1670,6 +1741,45 @@ export const AdministrationApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          *
+         * @param {AdminResetPasswordRequest} adminResetPasswordRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminResetPassword: async (adminResetPasswordRequest: AdminResetPasswordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'adminResetPasswordRequest' is not null or undefined
+            assertParamExists('adminResetPassword', 'adminResetPasswordRequest', adminResetPasswordRequest)
+            const localVarPath = `/admin/auth/password-reset`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminResetPasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
          * @param {SendMailRequest} sendMailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1719,6 +1829,16 @@ export const AdministrationApiFp = function(configuration?: Configuration) {
     return {
         /**
          *
+         * @param {AdminResetPasswordRequest} adminResetPasswordRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async adminResetPassword(adminResetPasswordRequest: AdminResetPasswordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdminResetPasswordResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.adminResetPassword(adminResetPasswordRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         *
          * @param {SendMailRequest} sendMailRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1737,6 +1857,15 @@ export const AdministrationApiFp = function(configuration?: Configuration) {
 export const AdministrationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AdministrationApiFp(configuration)
     return {
+        /**
+         *
+         * @param {AdminResetPasswordRequest} adminResetPasswordRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        adminResetPassword(adminResetPasswordRequest: AdminResetPasswordRequest, options?: any): AxiosPromise<AdminResetPasswordResponse> {
+            return localVarFp.adminResetPassword(adminResetPasswordRequest, options).then((request) => request(axios, basePath));
+        },
         /**
          *
          * @param {SendMailRequest} sendMailRequest
@@ -1758,6 +1887,17 @@ export const AdministrationApiFactory = function (configuration?: Configuration,
 export class AdministrationApi extends BaseAPI {
     /**
      *
+     * @param {AdminResetPasswordRequest} adminResetPasswordRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdministrationApi
+     */
+    public adminResetPassword(adminResetPasswordRequest: AdminResetPasswordRequest, options?: AxiosRequestConfig) {
+        return AdministrationApiFp(this.configuration).adminResetPassword(adminResetPasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
      * @param {SendMailRequest} sendMailRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1775,6 +1915,45 @@ export class AdministrationApi extends BaseAPI {
  */
 export const AuthenticationApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         *
+         * @param {ActivateUserRequest} activateUserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        activateUser: async (activateUserRequest: ActivateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activateUserRequest' is not null or undefined
+            assertParamExists('activateUser', 'activateUserRequest', activateUserRequest)
+            const localVarPath = `/auth/activation`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(activateUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          *
          * @param {LoginRequest} loginRequest
@@ -1849,18 +2028,14 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          *
-         * @param {string} username
          * @param {RefreshAuthenticationRequest} refreshAuthenticationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        refreshAuthentication: async (username: string, refreshAuthenticationRequest: RefreshAuthenticationRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('refreshAuthentication', 'username', username)
+        refreshAuthentication: async (refreshAuthenticationRequest: RefreshAuthenticationRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'refreshAuthenticationRequest' is not null or undefined
             assertParamExists('refreshAuthentication', 'refreshAuthenticationRequest', refreshAuthenticationRequest)
-            const localVarPath = `/auth/{username}/tokens`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarPath = `/auth/refresh`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1890,6 +2065,123 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         *
+         * @param {ResetPasswordRequest} resetPasswordRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resetPassword: async (resetPasswordRequest: ResetPasswordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'resetPasswordRequest' is not null or undefined
+            assertParamExists('resetPassword', 'resetPasswordRequest', resetPasswordRequest)
+            const localVarPath = `/auth/password-reset`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(resetPasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {SendPasswordResetTokenRequest} sendPasswordResetTokenRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendPasswordResetToken: async (sendPasswordResetTokenRequest: SendPasswordResetTokenRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'sendPasswordResetTokenRequest' is not null or undefined
+            assertParamExists('sendPasswordResetToken', 'sendPasswordResetTokenRequest', sendPasswordResetTokenRequest)
+            const localVarPath = `/auth/password-reset/token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(sendPasswordResetTokenRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {SendUserActivationTokenRequest} sendUserActivationTokenRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendUserActivationToken: async (sendUserActivationTokenRequest: SendUserActivationTokenRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'sendUserActivationTokenRequest' is not null or undefined
+            assertParamExists('sendUserActivationToken', 'sendUserActivationTokenRequest', sendUserActivationTokenRequest)
+            const localVarPath = `/auth/activation/token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(sendUserActivationTokenRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1900,6 +2192,16 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
 export const AuthenticationApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthenticationApiAxiosParamCreator(configuration)
     return {
+        /**
+         *
+         * @param {ActivateUserRequest} activateUserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async activateUser(activateUserRequest: ActivateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivateUserResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.activateUser(activateUserRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          *
          * @param {LoginRequest} loginRequest
@@ -1921,13 +2223,42 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
         },
         /**
          *
-         * @param {string} username
          * @param {RefreshAuthenticationRequest} refreshAuthenticationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async refreshAuthentication(username: string, refreshAuthenticationRequest: RefreshAuthenticationRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshAuthenticationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshAuthentication(username, refreshAuthenticationRequest, options);
+        async refreshAuthentication(refreshAuthenticationRequest: RefreshAuthenticationRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshAuthenticationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshAuthentication(refreshAuthenticationRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         *
+         * @param {ResetPasswordRequest} resetPasswordRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async resetPassword(resetPasswordRequest: ResetPasswordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResetPasswordResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.resetPassword(resetPasswordRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         *
+         * @param {SendPasswordResetTokenRequest} sendPasswordResetTokenRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sendPasswordResetToken(sendPasswordResetTokenRequest: SendPasswordResetTokenRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendPasswordResetTokenResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.sendPasswordResetToken(sendPasswordResetTokenRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         *
+         * @param {SendUserActivationTokenRequest} sendUserActivationTokenRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sendUserActivationToken(sendUserActivationTokenRequest: SendUserActivationTokenRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendUserActivationTokenResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.sendUserActivationToken(sendUserActivationTokenRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1940,6 +2271,15 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
 export const AuthenticationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AuthenticationApiFp(configuration)
     return {
+        /**
+         *
+         * @param {ActivateUserRequest} activateUserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        activateUser(activateUserRequest: ActivateUserRequest, options?: any): AxiosPromise<ActivateUserResponse> {
+            return localVarFp.activateUser(activateUserRequest, options).then((request) => request(axios, basePath));
+        },
         /**
          *
          * @param {LoginRequest} loginRequest
@@ -1959,13 +2299,39 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         },
         /**
          *
-         * @param {string} username
          * @param {RefreshAuthenticationRequest} refreshAuthenticationRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        refreshAuthentication(username: string, refreshAuthenticationRequest: RefreshAuthenticationRequest, options?: any): AxiosPromise<RefreshAuthenticationResponse> {
-            return localVarFp.refreshAuthentication(username, refreshAuthenticationRequest, options).then((request) => request(axios, basePath));
+        refreshAuthentication(refreshAuthenticationRequest: RefreshAuthenticationRequest, options?: any): AxiosPromise<RefreshAuthenticationResponse> {
+            return localVarFp.refreshAuthentication(refreshAuthenticationRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {ResetPasswordRequest} resetPasswordRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        resetPassword(resetPasswordRequest: ResetPasswordRequest, options?: any): AxiosPromise<ResetPasswordResponse> {
+            return localVarFp.resetPassword(resetPasswordRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {SendPasswordResetTokenRequest} sendPasswordResetTokenRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendPasswordResetToken(sendPasswordResetTokenRequest: SendPasswordResetTokenRequest, options?: any): AxiosPromise<SendPasswordResetTokenResponse> {
+            return localVarFp.sendPasswordResetToken(sendPasswordResetTokenRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {SendUserActivationTokenRequest} sendUserActivationTokenRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sendUserActivationToken(sendUserActivationTokenRequest: SendUserActivationTokenRequest, options?: any): AxiosPromise<SendUserActivationTokenResponse> {
+            return localVarFp.sendUserActivationToken(sendUserActivationTokenRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1977,6 +2343,17 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
  * @extends {BaseAPI}
  */
 export class AuthenticationApi extends BaseAPI {
+    /**
+     *
+     * @param {ActivateUserRequest} activateUserRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public activateUser(activateUserRequest: ActivateUserRequest, options?: AxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).activateUser(activateUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      *
      * @param {LoginRequest} loginRequest
@@ -2000,14 +2377,46 @@ export class AuthenticationApi extends BaseAPI {
 
     /**
      *
-     * @param {string} username
      * @param {RefreshAuthenticationRequest} refreshAuthenticationRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthenticationApi
      */
-    public refreshAuthentication(username: string, refreshAuthenticationRequest: RefreshAuthenticationRequest, options?: AxiosRequestConfig) {
-        return AuthenticationApiFp(this.configuration).refreshAuthentication(username, refreshAuthenticationRequest, options).then((request) => request(this.axios, this.basePath));
+    public refreshAuthentication(refreshAuthenticationRequest: RefreshAuthenticationRequest, options?: AxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).refreshAuthentication(refreshAuthenticationRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {ResetPasswordRequest} resetPasswordRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public resetPassword(resetPasswordRequest: ResetPasswordRequest, options?: AxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).resetPassword(resetPasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {SendPasswordResetTokenRequest} sendPasswordResetTokenRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public sendPasswordResetToken(sendPasswordResetTokenRequest: SendPasswordResetTokenRequest, options?: AxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).sendPasswordResetToken(sendPasswordResetTokenRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {SendUserActivationTokenRequest} sendUserActivationTokenRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public sendUserActivationToken(sendUserActivationTokenRequest: SendUserActivationTokenRequest, options?: AxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).sendUserActivationToken(sendUserActivationTokenRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2290,49 +2699,6 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          *
-         * @param {string} username
-         * @param {ActivateUserRequest} activateUserRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        activateUser: async (username: string, activateUserRequest: ActivateUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('activateUser', 'username', username)
-            // verify required parameter 'activateUserRequest' is not null or undefined
-            assertParamExists('activateUser', 'activateUserRequest', activateUserRequest)
-            const localVarPath = `/users/{username}/activation`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(activateUserRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
          * @param {CreateUserRequest} createUserRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2372,18 +2738,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
          * @param {DeleteUserRequest} deleteUserRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser: async (username: string, deleteUserRequest: DeleteUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('deleteUser', 'username', username)
+        deleteUser: async (deleteUserRequest: DeleteUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'deleteUserRequest' is not null or undefined
             assertParamExists('deleteUser', 'deleteUserRequest', deleteUserRequest)
-            const localVarPath = `/users/{username}`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarPath = `/users/me`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2415,15 +2777,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUserPicture: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('deleteUserPicture', 'username', username)
-            const localVarPath = `/users/{username}/profile/picture`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+        deleteUserPicture: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/me/profile/picture`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2452,15 +2810,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserProfile: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('getUserProfile', 'username', username)
-            const localVarPath = `/users/{username}/profile`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+        getUserProfile: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/me/profile`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2489,15 +2843,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserSettings: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('getUserSettings', 'username', username)
-            const localVarPath = `/users/{username}/settings`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+        getUserSettings: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/me/settings`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2526,18 +2876,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
-         * @param {ResetPasswordRequest} resetPasswordRequest
+         * @param {SendUserDeletionTokenRequest} sendUserDeletionTokenRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        resetPassword: async (username: string, resetPasswordRequest: ResetPasswordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('resetPassword', 'username', username)
-            // verify required parameter 'resetPasswordRequest' is not null or undefined
-            assertParamExists('resetPassword', 'resetPasswordRequest', resetPasswordRequest)
-            const localVarPath = `/users/{username}/password`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+        sendUserDeletionToken: async (sendUserDeletionTokenRequest: SendUserDeletionTokenRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'sendUserDeletionTokenRequest' is not null or undefined
+            assertParamExists('sendUserDeletionToken', 'sendUserDeletionTokenRequest', sendUserDeletionTokenRequest)
+            const localVarPath = `/users/me/deletion/token`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2545,7 +2891,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -2560,7 +2906,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(resetPasswordRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(sendUserDeletionTokenRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2569,129 +2915,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendPasswordResetToken: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('sendPasswordResetToken', 'username', username)
-            const localVarPath = `/users/{username}/tokens/password`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendUserActivationToken: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('sendUserActivationToken', 'username', username)
-            const localVarPath = `/users/{username}/tokens/activation`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendUserDeletionToken: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('sendUserDeletionToken', 'username', username)
-            const localVarPath = `/users/{username}/tokens/deletion`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {string} username
          * @param {UpdateUserPictureRequest} request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserPicture: async (username: string, request: UpdateUserPictureRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('updateUserPicture', 'username', username)
+        updateUserPicture: async (request: UpdateUserPictureRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'request' is not null or undefined
             assertParamExists('updateUserPicture', 'request', request)
-            const localVarPath = `/users/{username}/profile/picture`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarPath = `/users/me/profile/picture`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2724,18 +2955,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
          * @param {UpdateUserProfileRequest} updateUserProfileRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserProfile: async (username: string, updateUserProfileRequest: UpdateUserProfileRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('updateUserProfile', 'username', username)
+        updateUserProfile: async (updateUserProfileRequest: UpdateUserProfileRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateUserProfileRequest' is not null or undefined
             assertParamExists('updateUserProfile', 'updateUserProfileRequest', updateUserProfileRequest)
-            const localVarPath = `/users/{username}/profile`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarPath = `/users/me/profile`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2767,18 +2994,14 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {string} username
          * @param {UpdateUserSettingsRequest} updateUserSettingsRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserSettings: async (username: string, updateUserSettingsRequest: UpdateUserSettingsRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('updateUserSettings', 'username', username)
+        updateUserSettings: async (updateUserSettingsRequest: UpdateUserSettingsRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateUserSettingsRequest' is not null or undefined
             assertParamExists('updateUserSettings', 'updateUserSettingsRequest', updateUserSettingsRequest)
-            const localVarPath = `/users/{username}/settings`
-                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarPath = `/users/me/settings`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2820,17 +3043,6 @@ export const UsersApiFp = function(configuration?: Configuration) {
     return {
         /**
          *
-         * @param {string} username
-         * @param {ActivateUserRequest} activateUserRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async activateUser(username: string, activateUserRequest: ActivateUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivateUserResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.activateUser(username, activateUserRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         *
          * @param {CreateUserRequest} createUserRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2841,117 +3053,79 @@ export const UsersApiFp = function(configuration?: Configuration) {
         },
         /**
          *
-         * @param {string} username
          * @param {DeleteUserRequest} deleteUserRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteUser(username: string, deleteUserRequest: DeleteUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteUserResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(username, deleteUserRequest, options);
+        async deleteUser(deleteUserRequest: DeleteUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteUserResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(deleteUserRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteUserPicture(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteUserPictureResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserPicture(username, options);
+        async deleteUserPicture(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteUserPictureResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserPicture(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserProfile(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DescribeUserProfileResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProfile(username, options);
+        async getUserProfile(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DescribeUserProfileResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProfile(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserSettings(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DescribeUserSettingsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserSettings(username, options);
+        async getUserSettings(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DescribeUserSettingsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserSettings(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
-         * @param {ResetPasswordRequest} resetPasswordRequest
+         * @param {SendUserDeletionTokenRequest} sendUserDeletionTokenRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async resetPassword(username: string, resetPasswordRequest: ResetPasswordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResetPasswordResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.resetPassword(username, resetPasswordRequest, options);
+        async sendUserDeletionToken(sendUserDeletionTokenRequest: SendUserDeletionTokenRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendUserDeletionTokenResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.sendUserDeletionToken(sendUserDeletionTokenRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sendPasswordResetToken(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendPasswordResetTokenResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.sendPasswordResetToken(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sendUserActivationToken(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendUserActivationTokenResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.sendUserActivationToken(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sendUserDeletionToken(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SendUserDeletionTokenResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.sendUserDeletionToken(username, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         *
-         * @param {string} username
          * @param {UpdateUserPictureRequest} request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUserPicture(username: string, request: UpdateUserPictureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserPictureResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserPicture(username, request, options);
+        async updateUserPicture(request: UpdateUserPictureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserPictureResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserPicture(request, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
          * @param {UpdateUserProfileRequest} updateUserProfileRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUserProfile(username: string, updateUserProfileRequest: UpdateUserProfileRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserProfileResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserProfile(username, updateUserProfileRequest, options);
+        async updateUserProfile(updateUserProfileRequest: UpdateUserProfileRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserProfileResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserProfile(updateUserProfileRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          *
-         * @param {string} username
          * @param {UpdateUserSettingsRequest} updateUserSettingsRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUserSettings(username: string, updateUserSettingsRequest: UpdateUserSettingsRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserSettingsResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserSettings(username, updateUserSettingsRequest, options);
+        async updateUserSettings(updateUserSettingsRequest: UpdateUserSettingsRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserSettingsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserSettings(updateUserSettingsRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2966,16 +3140,6 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          *
-         * @param {string} username
-         * @param {ActivateUserRequest} activateUserRequest
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        activateUser(username: string, activateUserRequest: ActivateUserRequest, options?: any): AxiosPromise<ActivateUserResponse> {
-            return localVarFp.activateUser(username, activateUserRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
          * @param {CreateUserRequest} createUserRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2985,107 +3149,72 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          *
-         * @param {string} username
          * @param {DeleteUserRequest} deleteUserRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, deleteUserRequest: DeleteUserRequest, options?: any): AxiosPromise<DeleteUserResponse> {
-            return localVarFp.deleteUser(username, deleteUserRequest, options).then((request) => request(axios, basePath));
+        deleteUser(deleteUserRequest: DeleteUserRequest, options?: any): AxiosPromise<DeleteUserResponse> {
+            return localVarFp.deleteUser(deleteUserRequest, options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUserPicture(username: string, options?: any): AxiosPromise<DeleteUserPictureResponse> {
-            return localVarFp.deleteUserPicture(username, options).then((request) => request(axios, basePath));
+        deleteUserPicture(options?: any): AxiosPromise<DeleteUserPictureResponse> {
+            return localVarFp.deleteUserPicture(options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserProfile(username: string, options?: any): AxiosPromise<DescribeUserProfileResponse> {
-            return localVarFp.getUserProfile(username, options).then((request) => request(axios, basePath));
+        getUserProfile(options?: any): AxiosPromise<DescribeUserProfileResponse> {
+            return localVarFp.getUserProfile(options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserSettings(username: string, options?: any): AxiosPromise<DescribeUserSettingsResponse> {
-            return localVarFp.getUserSettings(username, options).then((request) => request(axios, basePath));
+        getUserSettings(options?: any): AxiosPromise<DescribeUserSettingsResponse> {
+            return localVarFp.getUserSettings(options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
-         * @param {ResetPasswordRequest} resetPasswordRequest
+         * @param {SendUserDeletionTokenRequest} sendUserDeletionTokenRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        resetPassword(username: string, resetPasswordRequest: ResetPasswordRequest, options?: any): AxiosPromise<ResetPasswordResponse> {
-            return localVarFp.resetPassword(username, resetPasswordRequest, options).then((request) => request(axios, basePath));
+        sendUserDeletionToken(sendUserDeletionTokenRequest: SendUserDeletionTokenRequest, options?: any): AxiosPromise<SendUserDeletionTokenResponse> {
+            return localVarFp.sendUserDeletionToken(sendUserDeletionTokenRequest, options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendPasswordResetToken(username: string, options?: any): AxiosPromise<SendPasswordResetTokenResponse> {
-            return localVarFp.sendPasswordResetToken(username, options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendUserActivationToken(username: string, options?: any): AxiosPromise<SendUserActivationTokenResponse> {
-            return localVarFp.sendUserActivationToken(username, options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
-         * @param {string} username
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sendUserDeletionToken(username: string, options?: any): AxiosPromise<SendUserDeletionTokenResponse> {
-            return localVarFp.sendUserDeletionToken(username, options).then((request) => request(axios, basePath));
-        },
-        /**
-         *
-         * @param {string} username
          * @param {UpdateUserPictureRequest} request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserPicture(username: string, request: UpdateUserPictureRequest, options?: any): AxiosPromise<UpdateUserPictureResponse> {
-            return localVarFp.updateUserPicture(username, request, options).then((request) => request(axios, basePath));
+        updateUserPicture(request: UpdateUserPictureRequest, options?: any): AxiosPromise<UpdateUserPictureResponse> {
+            return localVarFp.updateUserPicture(request, options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
          * @param {UpdateUserProfileRequest} updateUserProfileRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserProfile(username: string, updateUserProfileRequest: UpdateUserProfileRequest, options?: any): AxiosPromise<UpdateUserProfileResponse> {
-            return localVarFp.updateUserProfile(username, updateUserProfileRequest, options).then((request) => request(axios, basePath));
+        updateUserProfile(updateUserProfileRequest: UpdateUserProfileRequest, options?: any): AxiosPromise<UpdateUserProfileResponse> {
+            return localVarFp.updateUserProfile(updateUserProfileRequest, options).then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {string} username
          * @param {UpdateUserSettingsRequest} updateUserSettingsRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserSettings(username: string, updateUserSettingsRequest: UpdateUserSettingsRequest, options?: any): AxiosPromise<UpdateUserSettingsResponse> {
-            return localVarFp.updateUserSettings(username, updateUserSettingsRequest, options).then((request) => request(axios, basePath));
+        updateUserSettings(updateUserSettingsRequest: UpdateUserSettingsRequest, options?: any): AxiosPromise<UpdateUserSettingsResponse> {
+            return localVarFp.updateUserSettings(updateUserSettingsRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -3099,18 +3228,6 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 export class UsersApi extends BaseAPI {
     /**
      *
-     * @param {string} username
-     * @param {ActivateUserRequest} activateUserRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public activateUser(username: string, activateUserRequest: ActivateUserRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).activateUser(username, activateUserRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     *
      * @param {CreateUserRequest} createUserRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3122,127 +3239,86 @@ export class UsersApi extends BaseAPI {
 
     /**
      *
-     * @param {string} username
      * @param {DeleteUserRequest} deleteUserRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public deleteUser(username: string, deleteUserRequest: DeleteUserRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).deleteUser(username, deleteUserRequest, options).then((request) => request(this.axios, this.basePath));
+    public deleteUser(deleteUserRequest: DeleteUserRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).deleteUser(deleteUserRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public deleteUserPicture(username: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).deleteUserPicture(username, options).then((request) => request(this.axios, this.basePath));
+    public deleteUserPicture(options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).deleteUserPicture(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserProfile(username: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserProfile(username, options).then((request) => request(this.axios, this.basePath));
+    public getUserProfile(options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserProfile(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserSettings(username: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserSettings(username, options).then((request) => request(this.axios, this.basePath));
+    public getUserSettings(options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserSettings(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
-     * @param {ResetPasswordRequest} resetPasswordRequest
+     * @param {SendUserDeletionTokenRequest} sendUserDeletionTokenRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public resetPassword(username: string, resetPasswordRequest: ResetPasswordRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).resetPassword(username, resetPasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    public sendUserDeletionToken(sendUserDeletionTokenRequest: SendUserDeletionTokenRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).sendUserDeletionToken(sendUserDeletionTokenRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public sendPasswordResetToken(username: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).sendPasswordResetToken(username, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     *
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public sendUserActivationToken(username: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).sendUserActivationToken(username, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     *
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public sendUserDeletionToken(username: string, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).sendUserDeletionToken(username, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     *
-     * @param {string} username
      * @param {UpdateUserPictureRequest} request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUserPicture(username: string, request: UpdateUserPictureRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).updateUserPicture(username, request, options).then((request) => request(this.axios, this.basePath));
+    public updateUserPicture(request: UpdateUserPictureRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUserPicture(request, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
      * @param {UpdateUserProfileRequest} updateUserProfileRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUserProfile(username: string, updateUserProfileRequest: UpdateUserProfileRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).updateUserProfile(username, updateUserProfileRequest, options).then((request) => request(this.axios, this.basePath));
+    public updateUserProfile(updateUserProfileRequest: UpdateUserProfileRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUserProfile(updateUserProfileRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      *
-     * @param {string} username
      * @param {UpdateUserSettingsRequest} updateUserSettingsRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUserSettings(username: string, updateUserSettingsRequest: UpdateUserSettingsRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).updateUserSettings(username, updateUserSettingsRequest, options).then((request) => request(this.axios, this.basePath));
+    public updateUserSettings(updateUserSettingsRequest: UpdateUserSettingsRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUserSettings(updateUserSettingsRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
