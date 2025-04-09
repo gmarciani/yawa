@@ -38,10 +38,8 @@ export function Login() {
       setLoading(true)
       try {
         const auth = await login(values.email, values.password)
-        console.log(`auth = ${JSON.stringify(auth)}`)
         saveAuth(auth)
         const userProfile = await getUserProfile()
-        console.log(`userProfile = ${JSON.stringify(userProfile)}`)
         setCurrentUser(userProfile)
       } catch (error: any) {
         console.log(error)

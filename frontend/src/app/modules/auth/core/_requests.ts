@@ -8,14 +8,12 @@ import log from '../../../logging/logger'
 import {ErrorModel} from '../../actions/core/_models'
 
 export async function login(email: string, password: string): Promise<AuthModel> {
-  log.info(`Processing email=${email} password=${password}`)
   try {
     const response = await new AuthenticationApi().login({
       email: email,
       password: password,
       neverExpire: true, // TODO Add support for remember me
     })
-    log.info(`Response: ${JSON.stringify(response)}`)
     const data = response.data
     return {
       userId: data.userId,
@@ -29,9 +27,8 @@ export async function login(email: string, password: string): Promise<AuthModel>
 }
 
 export async function getUserProfile(): Promise<UserProfileModel> {
-  log.info(`Processing`)
   const response = await new UsersApi().getUserProfile()
-  log.info(`Response: ${JSON.stringify(response)}`)
+  log.info(`Retrieved user profile: ${JSON.stringify(response)}`)
   const data = response.data
   return {
     firstname: data.profile.firstname,
@@ -49,7 +46,6 @@ export async function register(
     email: string,
     password: string,
 ) {
-  log.info(`Processing firstname=${firstname} lastname=${lastname} email=${email} password=${password}`)
   return await new UsersApi().createUser({
     email: email,
     password: password,
@@ -61,12 +57,10 @@ export async function register(
 export async function requestUserActivationToken(
   email: string
 ) {
-  log.info(`Processing email=${email}`)
   try {
     const response = await new AuthenticationApi().sendUserActivationToken({
       email: email,
     })
-    log.info(`Response: ${JSON.stringify(response)}`)
     const data = response.data
     return {
       message: data.message
@@ -80,12 +74,10 @@ export async function requestUserActivationToken(
 export async function activateUser(
   token: string
 ) {
-  log.info(`Processing token=${token}`)
   try {
     const response = await new AuthenticationApi().activateUser({
       token: token,
     })
-    log.info(`Response: ${JSON.stringify(response)}`)
     const data = response.data
     return {
       message: data.message
@@ -97,12 +89,10 @@ export async function activateUser(
 }
 
 export async function requestPassword(email: string) {
-  log.info(`Processing email=${email}`)
   try {
     const response = await new AuthenticationApi().sendPasswordResetToken({
       email: email,
     })
-    log.info(`Response: ${JSON.stringify(response)}`)
     const data = response.data
     return {
       message: data.message
@@ -114,13 +104,11 @@ export async function requestPassword(email: string) {
 }
 
 export async function resetPassword(password: string, token: string) {
-  log.info(`Processing password=${password} token=${token}`)
   try {
     const response = await new AuthenticationApi().resetPassword({
       password: password,
       token: token,
     })
-    log.info(`Response: ${JSON.stringify(response)}`)
     const data = response.data
     return {
       message: data.message
