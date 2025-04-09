@@ -8,7 +8,7 @@
 		},
 		{
 			"key": "bearerToken",
-			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJBQ1RJT04iOiJBQ0NFU1MiLCJpc3MiOiJZQVdBIiwiVVNFUk5BTUUiOiJwcm9tZXRoZXVzIiwiZXhwIjo0ODY5NDk3NDYwfQ.N5-qsjZW2LqSqTY15Pnxqwp5h5nmcpe3136BB5rviog",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVU0VSSUQiOiJkMjYxY2FjZS02ODRkLTRiNzctOGRjMS04NWRkMDliODY2NjciLCJBQ1RJT04iOiJBQ0NFU1MiLCJpc3MiOiJZQVdBIiwiZXhwIjo0ODk3NzY1NTgyfQ.xOorR8wuDY8cXhW_pQgzWVze83oCwcwqxBpaMNneq3A",
 			"enabled": true
 		}
 	],
