@@ -29,6 +29,34 @@
     "name" : "Actuator"
   } ],
   "paths" : {
+    "/admin/auth/password-reset" : {
+      "post" : {
+        "operationId" : "adminResetPassword",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AdminResetPasswordRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AdminResetPasswordResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Administration" ]
+      }
+    },
     "/admin/mail" : {
       "post" : {
         "operationId" : "sendMail",
@@ -55,6 +83,62 @@
           }
         },
         "tags" : [ "Administration" ]
+      }
+    },
+    "/auth/activation" : {
+      "post" : {
+        "operationId" : "activateUser",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ActivateUserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ActivateUserResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Authentication" ]
+      }
+    },
+    "/auth/activation/token" : {
+      "post" : {
+        "operationId" : "sendUserActivationToken",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendUserActivationTokenRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "Authentication" ]
       }
     },
     "/auth/login" : {
@@ -693,62 +777,6 @@
         "tags" : [ "Users" ]
       }
     },
-    "/users/activation" : {
-      "post" : {
-        "operationId" : "activateUser",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ActivateUserRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ActivateUserResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
-    "/users/activation/token" : {
-      "post" : {
-        "operationId" : "sendUserActivationToken",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SendUserActivationTokenRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SendUserActivationTokenResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "tags" : [ "Users" ]
-      }
-    },
     "/users/me" : {
       "delete" : {
         "operationId" : "deleteUser",
@@ -956,6 +984,27 @@
           }
         }
       },
+      "AdminResetPasswordRequest" : {
+        "required" : [ "email", "password" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AdminResetPasswordResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
       "CreateUserRequest" : {
         "required" : [ "email", "firstname", "lastname", "password" ],
         "type" : "object",
@@ -1117,7 +1166,7 @@
         }
       },
       "RefreshAuthenticationResponse" : {
-        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration" ],
+        "required" : [ "accessToken", "accessTokenExpiration", "refreshToken", "refreshTokenExpiration", "userId" ],
         "type" : "object",
         "properties" : {
           "accessToken" : {
@@ -1133,6 +1182,10 @@
           "refreshTokenExpiration" : {
             "type" : "string",
             "format" : "date-time"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "uuid"
           }
         }
       },
@@ -1158,7 +1211,7 @@
         }
       },
       "SendMailRequest" : {
-        "required" : [ "attributes", "mailType" ],
+        "required" : [ "attributes", "mailType", "recipientId" ],
         "type" : "object",
         "properties" : {
           "attributes" : {
@@ -1170,6 +1223,10 @@
           "mailType" : {
             "type" : "string",
             "enum" : [ "USER_CREATION_PENDING", "USER_CREATION_CONFIRMED", "USER_DELETION_PENDING", "USER_DELETION_CONFIRMED", "PASSWORD_RESET_PENDING", "PASSWORD_RESET_CONFIRMED" ]
+          },
+          "recipientId" : {
+            "type" : "string",
+            "format" : "uuid"
           }
         }
       },
