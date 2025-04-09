@@ -6,7 +6,7 @@ import {ActionsLayout} from './ActionsLayout'
 const ActionsPage = () => (
   <Routes>
     <Route element={<ActionsLayout />}>
-      <Route path='ActivateUser' element={<ActivateUser />} />
+      <Route path='RequestUserActivation' element={<ActivateUser />} />
     </Route>
   </Routes>
 )

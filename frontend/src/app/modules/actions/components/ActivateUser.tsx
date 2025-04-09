@@ -2,7 +2,6 @@ import React, {FC, useEffect, useState} from 'react'
 import {Link, useSearchParams} from 'react-router-dom'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {activateUser} from '../core/_requests'
-import {ErrorModel} from '../core/_models'
 
 const ActivateUser: FC = () => {
   const [searchParams] = useSearchParams()
@@ -13,14 +12,9 @@ const ActivateUser: FC = () => {
 
   const actionTitle = 'Activate User'
 
-  const username = searchParams.get('username')
   const token = searchParams.get('token')
 
   useEffect(() => {
-    if (!username) {
-      setError('Missing parameter: username')
-      return
-    }
     if (!token) {
       setError('Missing parameter: token')
       return
@@ -30,11 +24,9 @@ const ActivateUser: FC = () => {
       setLoading(true)
       try {
         setLoading(true)
-        const response = await activateUser(username, token)
-        console.log(`response = ${JSON.stringify(response)}`)
+        const response = await activateUser(token)
         setMessage(response.message)
       } catch (err: any) {
-        console.log(`error = ${JSON.stringify(err)}`)
         setStatus(err.status)
         setError(err.error)
         setMessage(err.message)
@@ -43,7 +35,7 @@ const ActivateUser: FC = () => {
       }
     }
     callBackend()
-  }, [username, token])
+  }, [token])
 
   let imageLight = error ? '/media/auth/500-error.png' : '/media/auth/ok.png'
   let imageDark = error ? '/media/auth/500-error-dark.png' : '/media/auth/ok-dark.png'
@@ -57,13 +49,14 @@ const ActivateUser: FC = () => {
       {/* end::Title */}
 
       {/* begin::Text */}
-      {/* Display all URL parameters */}
+      {/* Display all URL parameters
       <div id='parameters' className='fw-semibold fs-6 text-gray-500 mb-7'>
         <div className='fw-bolder text-dark'>Parameters</div>
         {Array.from(searchParams.entries()).map(([key, value]) => (
           <div>{key}={value}</div>
         ))}
       </div>
+      */}
 
       {/* begin::Loading */}
       {loading && (
@@ -77,8 +70,10 @@ const ActivateUser: FC = () => {
       {/* Display the response */}
       <div id='parameters' className='fw-semibold fs-6 text-gray-500 mb-7'>
         <div className='fw-bolder text-dark'>Response</div>
+        {/*
         <div>Status={status}</div>
         <div>Error={error}</div>
+        */}
         <div>Message={message}</div>
       </div>
       {/* end::Text */}

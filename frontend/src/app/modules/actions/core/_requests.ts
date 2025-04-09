@@ -1,21 +1,22 @@
 import {
-  ActivateUserRequest,
-  UsersApi,
+  ActivateUserRequest, ActivateUserResponse, AuthenticationApi,
 } from '../../clients/yawa'
-import {ErrorModel, ResponseModel} from './_models'
-import {AxiosError} from 'axios'
+import {ErrorModel} from './_models'
+import log from '../../../logging/logger'
 
-export async function activateUser(username: string, token: string): Promise<ResponseModel> {
+export async function activateUser(token: string): Promise<ActivateUserResponse> {
+  log.info(`Processing token=${token}`)
   try {
-    const response = await new UsersApi().activateUser(
-      username,
-      { token: token } as ActivateUserRequest
-    )
+    const response = await new AuthenticationApi().activateUser({
+      token: token
+    } as ActivateUserRequest)
+    log.info(`Response: ${JSON.stringify(response)}`)
     const data = response.data
     return {
       message: data.message
-    } as ResponseModel
+    } as ActivateUserResponse
   } catch (error: any) {
+    log.error(`Cannot activate user: ${JSON.stringify(error)}`)
     throw error.response.data as ErrorModel
   }
 }
