@@ -39,30 +39,24 @@ class UserService(
             throw DuplicatedResourceException("Email already in use: $email")
         }
 
-        val user = userRepository.save(
-            User(
-                email = email,
-                password = passwordEncoder.encode(password),
-                role = UserRole.NORMAL,
-                subscriptionPlan = UserSubscriptionPlan.FREE,
-                isEnabled = false,
-                createdAt = Instant.now(),
-            ),
+        val user = User(
+            email = email,
+            password = passwordEncoder.encode(password),
+            role = UserRole.NORMAL,
+            subscriptionPlan = UserSubscriptionPlan.FREE,
+            isEnabled = false,
+            createdAt = Instant.now(),
         )
 
-        userProfileRepository.save(
-            UserProfile(
-                user = user,
-                firstname = firstname,
-                lastname = lastname,
-            ),
+        user.profile = UserProfile(
+            user = user,
+            firstname = firstname,
+            lastname = lastname,
         )
 
-        userSettingsRepository.save(
-            UserSettings(user = user),
-        )
+        user.settings = UserSettings(user = user)
 
-        return user
+        return userRepository.save(user)
     }
 
     fun findUser(userId: UUID): User {
