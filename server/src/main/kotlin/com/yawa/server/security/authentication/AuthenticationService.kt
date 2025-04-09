@@ -12,10 +12,7 @@ import com.yawa.server.security.encryption.JwtService
 import com.yawa.server.security.tokens.TokenField
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Lazy
-import org.springframework.security.authentication.AnonymousAuthenticationToken
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.DisabledException
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.authentication.*
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -35,7 +32,7 @@ class AuthenticationService(
         val principal = try {
             authenticationManager.authenticate(authenticationToken)
                 .principal as com.yawa.server.models.users.UserPrincipal
-        } catch (ex: DisabledException) {
+        } catch (ex: AccountStatusException) {
             throw UserDisabledException("Cannot authenticate user $email because it is disabled")
         }
         return userRepository.findById(principal.id).orElseThrow {
