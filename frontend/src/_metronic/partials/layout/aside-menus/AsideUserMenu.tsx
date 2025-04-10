@@ -3,6 +3,7 @@ import {FC} from 'react'
 import {useAuth} from '../../../../app/modules/auth'
 import {KTIcon, toAbsoluteApiUrl, toAbsoluteUrl} from '../../../helpers'
 import {UserMenu} from '../user-menu/UserMenu'
+import {Link} from 'react-router-dom'
 
 const AsideUserMenu: FC = () => {
   const {currentUser} = useAuth()
@@ -19,9 +20,9 @@ const AsideUserMenu: FC = () => {
           {/* end::Avatar */}
           {/* begin::User info */}
           <div className='ms-2'>
-            <a href='#' className='text-gray-800 text-hover-primary fs-6 fw-bolder lh-1'>
+            <Link to={'/crafted/pages/profile'} className='text-gray-800 text-hover-primary fs-6 fw-bolder lh-1'>
               {currentUser?.firstname || 'Firstname'} {currentUser?.lastname || 'Lastname'}
-            </a>
+            </Link>
             <span className='text-muted fw-bold d-block fs-7 lh-1'>{currentUser?.role || 'Role'}</span>
           </div>
           {/* end::User info */}
