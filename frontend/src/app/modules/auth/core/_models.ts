@@ -4,15 +4,6 @@ export interface AuthModel {
   refreshToken: string
 }
 
-export interface UserProfileModel {
-  firstname: string
-  lastname: string
-  gender: string
-  dateOfBirth: string
-  picture: string | undefined
-  role: string
-}
-
 export interface UserAddressModel {
   addressLine: string
   city: string

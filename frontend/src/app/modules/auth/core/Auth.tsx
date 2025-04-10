@@ -1,9 +1,10 @@
 import {FC, useState, useEffect, createContext, useContext, Dispatch, SetStateAction} from 'react'
 import {LayoutSplashScreen} from '../../../../_metronic/layout/core'
-import {AuthModel, UserProfileModel} from './_models'
+import {AuthModel} from './_models'
 import * as authHelper from './AuthHelpers'
-import {getUserProfile} from './_requests'
 import {WithChildren} from '../../../../_metronic/helpers'
+import {getUserProfile} from '../../profile/core/_requests'
+import {UserProfileModel} from '../../profile/core/_models'
 
 type AuthContextProps = {
   auth: AuthModel | undefined

@@ -71,6 +71,7 @@ export async function refreshAuth() {
   try {
     const auth = await refreshAuthentication(refreshToken)
     setAuth(auth)
+    console.log("Auth refreshed")
   } catch (error: any) {
     console.log(`Cannot refresh auth: ${error}`)
   }
