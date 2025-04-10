@@ -6,13 +6,17 @@ import {
 import {AuthModel, UserProfileModel} from './_models'
 import log from '../../../logging/logger'
 import {ErrorModel} from '../../actions/core/_models'
+import {YAWA_FACTORY} from '../../clients/factories'
+
+const authenticationApi = YAWA_FACTORY.create(AuthenticationApi)
+const userApi = YAWA_FACTORY.create(UsersApi)
 
 export async function login(email: string, password: string): Promise<AuthModel> {
   try {
-    const response = await new AuthenticationApi().login({
+    const response = await authenticationApi.login({
       email: email,
       password: password,
-      neverExpire: true, // TODO Add support for remember me
+      neverExpire: true,
     })
     const data = response.data
     return {
@@ -27,7 +31,7 @@ export async function login(email: string, password: string): Promise<AuthModel>
 }
 
 export async function getUserProfile(): Promise<UserProfileModel> {
-  const response = await new UsersApi().getUserProfile()
+  const response = await userApi.getUserProfile()
   log.info(`Retrieved user profile: ${JSON.stringify(response)}`)
   const data = response.data
   return {
@@ -46,7 +50,7 @@ export async function register(
     email: string,
     password: string,
 ) {
-  return await new UsersApi().createUser({
+  return await userApi.createUser({
     email: email,
     password: password,
     firstname: firstname,
@@ -58,7 +62,7 @@ export async function requestUserActivationToken(
   email: string
 ) {
   try {
-    const response = await new AuthenticationApi().sendUserActivationToken({
+    const response = await authenticationApi.sendUserActivationToken({
       email: email,
     })
     const data = response.data
@@ -75,7 +79,7 @@ export async function activateUser(
   token: string
 ) {
   try {
-    const response = await new AuthenticationApi().activateUser({
+    const response = await authenticationApi.activateUser({
       token: token,
     })
     const data = response.data
@@ -90,7 +94,7 @@ export async function activateUser(
 
 export async function requestPassword(email: string) {
   try {
-    const response = await new AuthenticationApi().sendPasswordResetToken({
+    const response = await authenticationApi.sendPasswordResetToken({
       email: email,
     })
     const data = response.data
@@ -105,7 +109,7 @@ export async function requestPassword(email: string) {
 
 export async function resetPassword(password: string, token: string) {
   try {
-    const response = await new AuthenticationApi().resetPassword({
+    const response = await authenticationApi.resetPassword({
       password: password,
       token: token,
     })
@@ -121,7 +125,7 @@ export async function resetPassword(password: string, token: string) {
 
 export async function refreshAuthentication(refreshToken: string) {
   try {
-    const response = await new AuthenticationApi().refreshAuthentication({
+    const response = await authenticationApi.refreshAuthentication({
       refreshToken: refreshToken,
     })
     const data = response.data
