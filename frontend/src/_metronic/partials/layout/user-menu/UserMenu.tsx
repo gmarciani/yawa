@@ -149,9 +149,9 @@ const UserMenu = () => {
 
       {/* begin::Menu item */}
       <div className='menu-item px-5 my-1'>
-        <a href='#' className='menu-link px-5'>
-          Account Settings
-        </a>
+        <Link to='/crafted/account/settings' className='menu-link px-5'>
+          Settings
+        </Link>
       </div>
       {/* end::Menu item */}
 
