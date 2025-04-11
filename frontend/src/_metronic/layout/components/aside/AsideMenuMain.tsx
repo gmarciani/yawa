@@ -97,18 +97,6 @@ export function AsideMenuMain() {
           <div className='separator mx-1 my-4'></div>
         </div>
       </div>
-      <div className='menu-item'>
-        <a
-          target='_blank'
-          className='menu-link'
-          href={process.env.REACT_APP_CHANGELOG_URL}
-        >
-          <span className='menu-icon'>
-            <KTIcon iconName='document' className='fs-2' />
-          </span>
-          <span className='menu-title'>Changelog {process.env.REACT_APP_VERSION}</span>
-        </a>
-      </div>
     </>
   )
 }
