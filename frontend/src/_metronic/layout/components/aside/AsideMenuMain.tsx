@@ -12,9 +12,9 @@ export function AsideMenuMain() {
   return (
     <>
       <AsideMenuItem
-        to='/dashboard'
+        to='/home'
         icon='black-right'
-        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
+        title={intl.formatMessage({id: 'MENU.HOME'})}
         fontIcon='bi-app-indicator'
       />
       {showLayoutBuilder && <AsideMenuItem to='/builder' icon='black-right' title='Layout Builder' fontIcon='bi-layers' /> }

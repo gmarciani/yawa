@@ -2,6 +2,9 @@
 import {FC} from 'react'
 import {useLayout} from '../core'
 
+const COMPANY_NAME: string = 'YAWA, Inc.'
+const COMPANY_WEBSITE: string = 'https://github.com/gmarciani/yawa'
+
 const Footer: FC = () => {
   const {classes} = useLayout()
   return (
@@ -11,8 +14,8 @@ const Footer: FC = () => {
         {/* begin::Copyright */}
         <div className='text-dark order-2 order-md-1'>
           <span className='text-gray-400 fw-bold me-1'>All rights reserved to</span>
-          <a href='#' target='_blank' className='text-muted text-hover-primary fw-bold me-2 fs-6'>
-            YAWA, Inc.
+          <a href={COMPANY_WEBSITE} target='_blank' className='text-muted text-hover-primary fw-bold me-2 fs-6'>
+            {COMPANY_NAME}
           </a>
         </div>
         {/* end::Copyright */}
@@ -26,12 +29,12 @@ const Footer: FC = () => {
           </li>
           <li className='menu-item'>
             <a href='#' className='menu-link px-2'>
-              Contact
+              Terms of Service
             </a>
           </li>
           <li className='menu-item'>
             <a href='#' className='menu-link px-2'>
-              Purchase
+              Contact
             </a>
           </li>
         </ul>

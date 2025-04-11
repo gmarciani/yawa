@@ -32,7 +32,7 @@ const Step5: FC = () => {
               <h4 className='text-gray-800 fw-bolder'>We need your attention!</h4>
               <div className='fs-6 text-gray-600'>
                 To start using great tools, please, please
-                <a href='/dashboard' className='fw-bolder'>
+                <a href='/home' className='fw-bolder'>
                   {' '}
                   Create Team Platform
                 </a>

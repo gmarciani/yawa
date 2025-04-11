@@ -66,7 +66,7 @@ export function HeaderWrapper() {
 
           {/* begin::Logo */}
 
-          <Link to='/dashboard' className='d-flex align-items-center'>
+          <Link to='/home' className='d-flex align-items-center'>
             <img alt='Logo' src={toAbsoluteUrl(process.env.REACT_APP_LOGO_DIR + '/logo-sidebar-light.png')} className='h-20px' />
           </Link>
           {/* end::Logo */}

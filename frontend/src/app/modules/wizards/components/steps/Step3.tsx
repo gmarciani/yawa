@@ -9,7 +9,7 @@ const Step3: FC = () => {
 
         <div className='text-gray-400 fw-bold fs-6'>
           If you need more info, please check out
-          <a href='/dashboard' className='link-primary fw-bolder'>
+          <a href='/home' className='link-primary fw-bolder'>
             {' '}
             Help Page
           </a>
