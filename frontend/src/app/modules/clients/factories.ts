@@ -1,6 +1,13 @@
 import axios, {AxiosInstance} from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import {Configuration} from './yawa'
 import {getAuth} from '../auth'
+
+class YawaHeaders {
+  public static readonly PREFIX: string = 'X-YAWA'
+  public static readonly USER_AGENT: string = `${this.PREFIX}-User-Agent`
+  public static readonly REQUEST_ID: string = `${this.PREFIX}-Request-Id`
+}
 
 class YawaFactory {
 
@@ -24,7 +31,8 @@ class YawaFactory {
       headers: {
         'Accepts': 'application/json',
         'Content-Type': 'application/json',
-        'X-yawa-User-Agent': 'yawa-frontend',
+        [YawaHeaders.USER_AGENT]: 'yawa-frontend',
+        [YawaHeaders.REQUEST_ID]: uuidv4(),
       },
     })
 
