@@ -65,7 +65,7 @@ const DashboardWrapper = () => {
   const intl = useIntl()
   return (
     <EnableSidebar>
-      <PageTitle description='You’ve got 24 New Sales' breadcrumbs={[]}>
+      <PageTitle description='You’ve got 24 New Requests this week' breadcrumbs={[]}>
           {intl.formatMessage({id: 'DASHBOARD.GREETINGS'}, {name: currentUser?.firstname})}
       </PageTitle>
       <DashboardPage />
