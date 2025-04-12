@@ -5,10 +5,12 @@ const Topbar = () => {
   return (
     <div className='d-flex align-items-center flex-shrink-0'>
       {/* Search */}
+      {/*
       <Search
         className='w-lg-250px'
         mobileToggleBtnClass='btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px'
       />
+      */}
 
       {/* begin::Activities */}
       <div className='d-flex align-items-center ms-3 ms-lg-4'>
