@@ -86,6 +86,6 @@ export const DefaultLayoutConfig: ILayout = {
     responsiveTarget: '#kt_toolbar_container', // Responsive target selector
   },
   sidebar: {
-    display: true, // only for dashboard
+    display: false, // only for dashboard
   },
 }
