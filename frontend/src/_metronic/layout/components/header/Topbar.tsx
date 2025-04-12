@@ -1,5 +1,6 @@
 import {KTIcon} from '../../../helpers'
 import {Search, ThemeModeSwitcher} from '../../../partials'
+import {Link} from 'react-router-dom'
 
 const Topbar = () => {
   return (
@@ -25,16 +26,28 @@ const Topbar = () => {
       </div>
       {/* end::Activities */}
 
-      {/* CHAT */}
+      {/* OLD CHAT BUTTON
       <div className='d-flex align-items-center ms-3 ms-lg-4'>
-        {/* begin::Drawer wrapper */}
         <div
           className='btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px position-relative'
           id='kt_drawer_chat_toggle'
         >
           <KTIcon iconName='message-text-2' className='fs-1' />
-
           <span className='bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink'></span>
+        </div>
+      </div>
+      */}
+
+      {/* CHAT */}
+      <div className='d-flex align-items-center ms-3 ms-lg-4'>
+        {/* begin::Drawer wrapper */}
+        <div
+          className='btn btn-icon btn-color-gray-700 btn-active-color-primary btn-outline w-40px h-40px position-relative'
+        >
+          <Link to={'/apps/chat/private-chat'}>
+            <KTIcon iconName='message-text-2' className='fs-1' />
+            <span className='bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink'></span>
+          </Link>
         </div>
         {/* end::Drawer wrapper */}
       </div>
