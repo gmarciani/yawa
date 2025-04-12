@@ -2,7 +2,6 @@ package com.yawa.server.services
 
 import com.yawa.server.datastore.repositories.UserProfileRepository
 import com.yawa.server.datastore.repositories.UserRepository
-import com.yawa.server.datastore.repositories.UserSettingsRepository
 import com.yawa.server.exceptions.DuplicatedResourceException
 import com.yawa.server.exceptions.ResourceNotFoundException
 import com.yawa.server.models.users.Gender
@@ -28,7 +27,6 @@ private val log = KotlinLogging.logger {}
 class UserService(
     @Autowired val userRepository: UserRepository,
     @Autowired val userProfileRepository: UserProfileRepository,
-    @Autowired val userSettingsRepository: UserSettingsRepository,
     @Autowired val passwordEncoder: PasswordEncodeService,
     @Autowired val throttlingService: ThrottlingService,
     @Autowired val fileSystemService: FileSystemService,

@@ -39,6 +39,9 @@ class UserProfile(
     @Column(name = "role")
     var role: String? = null,
 
+    @Column(name = "location")
+    var location: String? = null,
+
     @Id
     @Column(name = "user_id")
     val userId: UUID? = null,

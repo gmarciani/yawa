@@ -1451,6 +1451,10 @@
             "type" : "string",
             "nullable" : true
           },
+          "location" : {
+            "type" : "string",
+            "nullable" : true
+          },
           "picture" : {
             "type" : "string",
             "nullable" : true
