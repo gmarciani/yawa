@@ -68,7 +68,7 @@ const UserMenu = () => {
 
       {/* begin::Menu item */}
       <div className='menu-item px-5 my-1'>
-        <Link to='/crafted/account/settings' className='menu-link px-5'>
+        <Link to='/crafted/account' className='menu-link px-5'>
           Settings
         </Link>
       </div>

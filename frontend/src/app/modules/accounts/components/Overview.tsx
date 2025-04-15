@@ -12,13 +12,28 @@ import {
 export function Overview() {
   return (
     <>
+      <div className='notice d-flex bg-light-warning rounded border-warning border border-dashed p-6'>
+        <KTIcon iconName='information-5' className='fs-2tx text-warning me-4' />
+        <div className='d-flex flex-stack flex-grow-1'>
+          <div className='fw-bold'>
+            <h4 className='text-gray-800 fw-bolder'>We need your attention!</h4>
+            <div className='fs-6 text-gray-600'>
+              Your payment was declined. To start using tools, please
+              <Link className='fw-bolder' to='/crafted/account/settings/payments'>
+                {' '}
+                Add Payment Method
+              </Link>
+              .
+            </div>
+          </div>
+        </div>
+      </div>
       <div className='card mb-5 mb-xl-10' id='kt_profile_details_view'>
         <div className='card-header cursor-pointer'>
           <div className='card-title m-0'>
             <h3 className='fw-bolder m-0'>Profile Details</h3>
           </div>
-
-          <Link to='/crafted/account/settings' className='btn btn-primary align-self-center'>
+          <Link to='/crafted/account/settings/profile' className='btn btn-primary align-self-center'>
             Edit Profile
           </Link>
         </div>
@@ -98,22 +113,21 @@ export function Overview() {
             </div>
           </div>
 
-          <div className='notice d-flex bg-light-warning rounded border-warning border border-dashed p-6'>
-            <KTIcon iconName='information-5' className='fs-2tx text-warning me-4' />
-            <div className='d-flex flex-stack flex-grow-1'>
-              <div className='fw-bold'>
-                <h4 className='text-gray-800 fw-bolder'>We need your attention!</h4>
-                <div className='fs-6 text-gray-600'>
-                  Your payment was declined. To start using tools, please
-                  <Link className='fw-bolder' to='/crafted/account/settings'>
-                    {' '}
-                    Add Payment Method
-                  </Link>
-                  .
-                </div>
-              </div>
+          {/* begin: Account Settings Completion
+          <div className='d-flex align-items-center w-200px w-sm-300px flex-column mt-3'>
+            <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
+              <span className='fw-bold fs-6 text-gray-400'>Profile Completion</span>
+              <span className='fw-bolder fs-6'>50%</span>
+            </div>
+            <div className='h-5px mx-3 w-100 bg-light mb-3'>
+              <div
+                className='bg-success rounded h-5px'
+                role='progressbar'
+                style={{width: '50%'}}
+              ></div>
             </div>
           </div>
+          end: Account Settings Completion */}
         </div>
       </div>
 
