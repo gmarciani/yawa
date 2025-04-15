@@ -5,4 +5,7 @@ export interface UserProfileModel {
   dateOfBirth: string
   picture: string | undefined
   role: string
+  phone: string | undefined
+  location: string | undefined
+  language: string | undefined
 }

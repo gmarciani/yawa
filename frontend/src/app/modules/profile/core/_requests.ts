@@ -16,5 +16,8 @@ export async function getUserProfile(): Promise<UserProfileModel> {
     dateOfBirth: data.profile.dateOfBirth,
     picture: data.profile.picture,
     role: data.profile.role,
+    phone: data.profile.phone,
+    location: data.profile.location,
+    language: data.profile.language,
   } as UserProfileModel
 }
