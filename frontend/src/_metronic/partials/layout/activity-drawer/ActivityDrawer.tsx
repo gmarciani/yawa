@@ -25,7 +25,7 @@ const ActivityDrawer: FC = () => (
   >
     <div className='card shadow-none rounded-0'>
       <div className='card-header' id='kt_activities_header'>
-        <h3 className='card-title fw-bolder text-dark'>Activity Logs</h3>
+        <h3 className='card-title fw-bolder text-dark'>Notifications</h3>
 
         <div className='card-toolbar'>
           <button
@@ -61,7 +61,7 @@ const ActivityDrawer: FC = () => (
       </div>
       <div className='card-footer py-5 text-center' id='kt_activities_footer'>
         <Link to='/crafted/pages/profile' className='btn btn-bg-white text-primary'>
-          View All Activities
+          View All Notifications
           <KTIcon iconName='arrow-right' className='fs-3 text-primary' />
         </Link>
       </div>
