@@ -775,7 +775,25 @@ export interface UserProfile {
      * @type {string}
      * @memberof UserProfile
      */
+    'language'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UserProfile
+     */
     'lastname'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'location'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UserProfile
+     */
+    'phone'?: string | null;
     /**
      *
      * @type {string}
