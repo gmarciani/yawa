@@ -35,4 +35,13 @@ class FileSystemService(
     fun getPathRelativeToRootDir(path: Path): Path {
         return Path.of(fileSystemConfiguration.rootDir).relativize(path)
     }
+
+    fun removePublicPrefixFromPath(path: String): String {
+        val segments = path.trim().split("/").filter { it.isNotEmpty() }
+        return if (segments.firstOrNull() == "public") {
+            segments.drop(1).joinToString("/")
+        } else {
+            path
+        }
+    }
 }

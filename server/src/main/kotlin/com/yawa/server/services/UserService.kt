@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.time.Instant
 import java.util.UUID
+import kotlin.io.path.Path
 
 private val log = KotlinLogging.logger {}
 
@@ -98,7 +99,8 @@ class UserService(
         val profile = findUserProfile(userId)
         val path = profile.picture ?: return
         profile.picture = null
-        fileSystemService.deletePublicFile(path = path)
+        val pathWithinPublicFolder = fileSystemService.removePublicPrefixFromPath(path = path)
+        fileSystemService.deletePublicFile(path = pathWithinPublicFolder)
         userProfileRepository.save(profile)
     }
 

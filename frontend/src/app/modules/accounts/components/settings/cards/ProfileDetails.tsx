@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
-import {toAbsoluteUrl} from '../../../../../../_metronic/helpers'
+import {toAbsoluteApiUrl, toAbsoluteUrl} from '../../../../../../_metronic/helpers'
 import {IProfileDetails} from '../SettingsModel'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {useAuth} from '../../../../auth'
+import {deleteUserProfilePicture, updateUserProfilePicture} from '../../../core/_requests'
 
 const profileDetailsSchema = Yup.object().shape({
   fName: Yup.string().required('First name is required'),
@@ -13,10 +14,14 @@ const profileDetailsSchema = Yup.object().shape({
   language: Yup.string().required('Language is required'),
 })
 
+const MAX_IMAGE_SIZE_MB = 2
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png']
+
 const ProfileDetails: React.FC = () => {
   const {currentUser} = useAuth()
   const initialValues: IProfileDetails = {
-    avatar: currentUser?.picture || '/media/avatars/300-1.jpg',
+    picture: currentUser?.picture || '/media/avatars/300-1.jpg',
     fName: currentUser?.firstname || '',
     lName: currentUser?.lastname || '',
     phone: currentUser?.phone || '',
@@ -24,9 +29,64 @@ const ProfileDetails: React.FC = () => {
     language: currentUser?.language || '',
   }
   const [data, setData] = useState<IProfileDetails>(initialValues)
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [imageError, setImageError] = useState<string | null>(null)
   const updateData = (fieldsToUpdate: Partial<IProfileDetails>): void => {
     const updatedData = Object.assign(data, fieldsToUpdate)
     setData(updatedData)
+  }
+
+  const validateImage = (file: File): Promise<string | null> => {
+    return new Promise((resolve) => {
+      if (file.size > MAX_IMAGE_SIZE_BYTES) {
+        return resolve(`Image must be less than ${MAX_IMAGE_SIZE_MB}MB`)
+      }
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        return resolve(`Invalid file type. Only JPEG and PNG are allowed.`)
+      }
+    })
+  }
+
+  const handleImageUpload = async (file: File) => {
+    console.log(`Uploading image: ${file.name}`)
+    // const error = await validateImage(file)
+    // if (error) {
+    //   console.log(`Cannot upload image: ${error}`)
+    //   setImageError(error)
+    //   return
+    // }
+    // setImageError(null)
+    // setUploading(true)
+
+    console.log(`Image validated`)
+
+    // const formData = new FormData()
+    // formData.append('file', file)
+
+    try {
+      const pictureUrl = await updateUserProfilePicture(file)
+      setProfileImageUrl(pictureUrl)
+      updateData({picture: pictureUrl})
+    } catch (err) {
+      setImageError('Failed to upload image')
+      console.error(err)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleImageDelete = async () => {
+    try {
+      await deleteUserProfilePicture()
+      setProfileImageUrl(null)
+      updateData({picture: ''})
+    } catch (err) {
+      setImageError(`Failed to delete picture: ${err}`)
+      console.error(err)
+    } finally {
+      setUploading(false)
+    }
   }
 
   const [loading, setLoading] = useState(false)
@@ -38,7 +98,7 @@ const ProfileDetails: React.FC = () => {
       setTimeout(() => {
         values.fName = data.fName
         values.lName = data.lName
-        values.avatar = data.avatar
+        values.picture = data.picture
         values.phone = data.phone
         values.location = data.location
         values.language = data.language
@@ -68,7 +128,7 @@ const ProfileDetails: React.FC = () => {
         <form onSubmit={formik.handleSubmit} noValidate className='form'>
           <div className='card-body border-top p-9'>
             <div className='row mb-6'>
-              <label className='col-lg-4 col-form-label fw-bold fs-6'>Avatar</label>
+              <label className='col-lg-4 col-form-label fw-bold fs-6'>Picture</label>
               <div className='col-lg-8'>
                 <div
                   className='image-input image-input-outline'
@@ -77,9 +137,42 @@ const ProfileDetails: React.FC = () => {
                 >
                   <div
                     className='image-input-wrapper w-125px h-125px'
-                    style={{backgroundImage: `url(${toAbsoluteUrl(data.avatar)})`}}
+                    style={{backgroundImage: `url(${toAbsoluteApiUrl(data.picture)})`}}
                   ></div>
+                  <label
+                    className='btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow'
+                    data-kt-image-input-action='change'
+                    htmlFor='avatar-upload'
+                  >
+                    <i className='bi bi-pencil-fill fs-7'></i>
+                    <input
+                      type='file'
+                      id='avatar-upload'
+                      name='avatar'
+                      accept='image/png, image/jpeg'
+                      style={{display: 'none'}}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          console.log(`File to upload as user profile picture: ${file.name}`)
+                          handleImageUpload(file)
+                        }
+                      }}
+                    />
+                  </label>
+                  <span
+                    className='btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow'
+                    data-kt-image-input-action='remove'
+                    onClick={() => handleImageDelete()}
+                  >
+                    <i className='bi bi-x fs-2'></i>
+                  </span>
                 </div>
+                {imageError && (
+                  <div className='text-danger mt-2'>
+                    <small>{imageError}</small>
+                  </div>
+                )}
               </div>
             </div>
 

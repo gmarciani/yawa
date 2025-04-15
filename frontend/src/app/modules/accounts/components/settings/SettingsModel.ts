@@ -1,5 +1,5 @@
 export interface IProfileDetails {
-  avatar: string
+  picture: string
   fName: string
   lName: string
   phone: string
