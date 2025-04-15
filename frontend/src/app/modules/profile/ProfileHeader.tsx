@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
-import {KTIcon, toAbsoluteUrl} from '../../../_metronic/helpers'
+import {KTIcon, toAbsoluteApiUrl, toAbsoluteUrl} from '../../../_metronic/helpers'
 import {Link, useLocation} from 'react-router-dom'
 import {Dropdown1} from '../../../_metronic/partials'
+import {useAuth} from '../auth'
 
 const ProfileHeader: React.FC = () => {
+  const {currentUser} = useAuth()
   const location = useLocation()
 
   return (
@@ -13,7 +15,7 @@ const ProfileHeader: React.FC = () => {
         <div className='d-flex flex-wrap flex-sm-nowrap mb-3'>
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
-              <img src={toAbsoluteUrl('/media/avatars/300-1.jpg')} alt='Metornic' />
+              <img src={(currentUser?.picture && toAbsoluteApiUrl(currentUser?.picture)) || toAbsoluteUrl('/media/avatars/blank.png')} alt='avatar' />
               <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
             </div>
           </div>
@@ -23,7 +25,7 @@ const ProfileHeader: React.FC = () => {
               <div className='d-flex flex-column'>
                 <div className='d-flex align-items-center mb-2'>
                   <a href='#' className='text-gray-800 text-hover-primary fs-2 fw-bolder me-1'>
-                    Max Smith
+                    {currentUser?.firstname || 'Firstname'} {currentUser?.lastname || 'Lastname'}
                   </a>
                   <a href='#'>
                     <KTIcon iconName='verify' className='fs-1 text-primary' />
@@ -36,22 +38,22 @@ const ProfileHeader: React.FC = () => {
                     className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
                   >
                     <KTIcon iconName='profile-circle' className='fs-4 me-1' />
-                    Developer
+                    Looking forward to help
                   </a>
                   <a
                     href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
                   >
                     <KTIcon iconName='geolocation' className='fs-4 me-1' />
-                    SF, Bay Area
+                    {currentUser?.location || 'Unknown Location'}
                   </a>
-                  <a
+{/*                  <a
                     href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary mb-2'
                   >
                     <KTIcon iconName='sms' className='fs-4 me-1' />
                     max@kt.com
-                  </a>
+                  </a>*/}
                 </div>
               </div>
 
@@ -119,7 +121,7 @@ const ProfileHeader: React.FC = () => {
                 </div>
               </div>
 
-              <div className='d-flex align-items-center w-200px w-sm-300px flex-column mt-3'>
+{/*              <div className='d-flex align-items-center w-200px w-sm-300px flex-column mt-3'>
                 <div className='d-flex justify-content-between w-100 mt-auto mb-2'>
                   <span className='fw-bold fs-6 text-gray-400'>Profile Compleation</span>
                   <span className='fw-bolder fs-6'>50%</span>
@@ -131,7 +133,7 @@ const ProfileHeader: React.FC = () => {
                     style={{width: '50%'}}
                   ></div>
                 </div>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
