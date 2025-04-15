@@ -1447,11 +1447,19 @@
             "nullable" : true,
             "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
+          "language" : {
+            "type" : "string",
+            "nullable" : true
+          },
           "lastname" : {
             "type" : "string",
             "nullable" : true
           },
           "location" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "phone" : {
             "type" : "string",
             "nullable" : true
           },
