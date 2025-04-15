@@ -523,19 +523,6 @@ export interface SendUserDeletionTokenResponse {
 /**
  *
  * @export
- * @interface UpdateUserPictureRequest
- */
-export interface UpdateUserPictureRequest {
-    /**
-     *
-     * @type {File}
-     * @memberof UpdateUserPictureRequest
-     */
-    'file': File;
-}
-/**
- *
- * @export
  * @interface UpdateUserPictureResponse
  */
 export interface UpdateUserPictureResponse {
@@ -545,6 +532,12 @@ export interface UpdateUserPictureResponse {
      * @memberof UpdateUserPictureResponse
      */
     'message': string;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateUserPictureResponse
+     */
+    'path': string;
 }
 /**
  *
@@ -2933,13 +2926,13 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          *
-         * @param {UpdateUserPictureRequest} request
+         * @param {File} file
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserPicture: async (request: UpdateUserPictureRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'request' is not null or undefined
-            assertParamExists('updateUserPicture', 'request', request)
+        updateUserPicture: async (file: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('updateUserPicture', 'file', file)
             const localVarPath = `/users/me/profile/picture`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2951,20 +2944,24 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication bearerAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (request !== undefined) {
-                localVarQueryParameter['request'] = request;
+
+            if (file !== undefined) {
+                localVarFormParams.append('file', file as any);
             }
 
 
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3118,12 +3115,12 @@ export const UsersApiFp = function(configuration?: Configuration) {
         },
         /**
          *
-         * @param {UpdateUserPictureRequest} request
+         * @param {File} file
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUserPicture(request: UpdateUserPictureRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserPictureResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserPicture(request, options);
+        async updateUserPicture(file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateUserPictureResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserPicture(file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3209,12 +3206,12 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          *
-         * @param {UpdateUserPictureRequest} request
+         * @param {File} file
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserPicture(request: UpdateUserPictureRequest, options?: any): AxiosPromise<UpdateUserPictureResponse> {
-            return localVarFp.updateUserPicture(request, options).then((request) => request(axios, basePath));
+        updateUserPicture(file: File, options?: any): AxiosPromise<UpdateUserPictureResponse> {
+            return localVarFp.updateUserPicture(file, options).then((request) => request(axios, basePath));
         },
         /**
          *
@@ -3309,13 +3306,13 @@ export class UsersApi extends BaseAPI {
 
     /**
      *
-     * @param {UpdateUserPictureRequest} request
+     * @param {File} file
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUserPicture(request: UpdateUserPictureRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).updateUserPicture(request, options).then((request) => request(this.axios, this.basePath));
+    public updateUserPicture(file: File, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUserPicture(file, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

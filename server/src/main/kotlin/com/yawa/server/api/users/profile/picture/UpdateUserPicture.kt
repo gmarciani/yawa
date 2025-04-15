@@ -9,9 +9,7 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 private val log = KotlinLogging.logger {}
@@ -22,21 +20,29 @@ class UpdateUserPicture(
 ) {
 
     @Operation(tags = [USERS])
-    @PatchMapping("/users/me/profile/picture", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PatchMapping("/users/me/profile/picture",
+        produces = [MediaType.APPLICATION_JSON_VALUE],
+        consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun updateUserPicture(
         @AuthenticationPrincipal user: User,
         @ModelAttribute request: UpdateUserPictureRequest,
     ): UpdateUserPictureResponse {
-        log.info("Processing request for user ${user.id}: $request")
+        log.info("Processing request for user ${user.id}: ${request.file.originalFilename}")
 
-        userService.setUserPicture(userId = user.id!!, file = request.file)
+        val path = userService.setUserPicture(userId = user.id!!, file = request.file)
 
-        return UpdateUserPictureResponse(message = "User picture updated")
+        return UpdateUserPictureResponse(message = "User picture updated", path = path)
     }
 
+    // Setting @RequestPart is required on data class having single attributes
+    // to make Jackson serialization/deserialization work.
     data class UpdateUserPictureRequest(
+        @RequestPart("file")
         val file: MultipartFile,
     )
 
-    data class UpdateUserPictureResponse(val message: String)
+    data class UpdateUserPictureResponse(
+        val message: String,
+        val path: String,
+    )
 }

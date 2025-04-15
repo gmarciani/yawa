@@ -896,14 +896,15 @@
       },
       "patch" : {
         "operationId" : "updateUserPicture",
-        "parameters" : [ {
-          "in" : "query",
-          "name" : "request",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/UpdateUserPictureRequest"
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserPictureRequest"
+              }
+            }
           }
-        } ],
+        },
         "responses" : {
           "200" : {
             "content" : {
@@ -1304,10 +1305,13 @@
         }
       },
       "UpdateUserPictureResponse" : {
-        "required" : [ "message" ],
+        "required" : [ "message", "path" ],
         "type" : "object",
         "properties" : {
           "message" : {
+            "type" : "string"
+          },
+          "path" : {
             "type" : "string"
           }
         }

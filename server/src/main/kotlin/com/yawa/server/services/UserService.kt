@@ -85,12 +85,13 @@ class UserService(
         throttlingService.deleteIfExists(user.id!!)
     }
 
-    fun setUserPicture(userId: UUID, file: MultipartFile) {
+    fun setUserPicture(userId: UUID, file: MultipartFile): String {
         val profile = findUserProfile(userId)
         val path = "profiles/$userId-${UUID.randomUUID()}.${StringUtils.getFilenameExtension(file.originalFilename)}"
         val absolutePath = fileSystemService.savePublicFile(path = path, content = file.bytes)
         profile.picture = fileSystemService.getPathRelativeToRootDir(path = absolutePath).toString()
         userProfileRepository.save(profile)
+        return profile.picture!!
     }
 
     fun deleteUserPicture(userId: UUID) {
