@@ -39,8 +39,14 @@ class UserProfile(
     @Column(name = "role")
     var role: String? = null,
 
+    @Column(name = "phone")
+    var phone: String? = null,
+
     @Column(name = "location")
     var location: String? = null,
+
+    @Column(name = "language")
+    var language: String? = null,
 
     @Id
     @Column(name = "user_id")
