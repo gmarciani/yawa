@@ -80,11 +80,12 @@ The application is made of the containers below.
 
 
 ## Certificates
+Generate the certificates and keys using the project [gmarciani-ca](https://github.com/gmarciani/gmarciani-ca).
 
 Trust the certification authority used for development:
 1. Open Keychain
 2. Open System Keychain
-3. File > Import Items: select the PEM file of the CA chain (ca-chain.cert.pem)
+3. File > Import Items: select the PEM file of the CA chain (`intermediate-ca/certs/ca-chain.cert.pem`)
 4. Select the root CA: GMARCIANI Root CA > Get Info > Trust > Select Always Trust
 
 Restart the browser to make the change take effect.
@@ -94,6 +95,17 @@ Trust the certification authority in Postman:
 2. Postman > Settings > Certificates
 3. Enable CA certificates
 4. Select the PEM file of the CA chain (ca-chain.cert.pem)
+
+Configure the certificate for the server:
+1. Put the P12 file `server/private/yawa.p12` in `server/src/main/resources/secrets/certificates/yawa.p12`
+
+Configure the certificate for the frontend:
+1. Put the certificate `server/certs/yawa.cert.pem` in `frontend/resources/certificates/yawa.cert.pem`
+2. Put the key `server/private/yawa.key.pem` in `frontend/resources/certificates/yawa.key.pem`
+3. Put the CA chain `intermediate-ca/certs/ca-chain.cert.pem` in `frontend/resources/certificates/ca-chain.cert.pem`
+
+Configure the certificate for the ops tools:
+1. Put the CA chain `intermediate-ca/certs/ca-chain.cert.pem` in `ops/resources/certificates/ca-chain.cert.pem`
 
 ## Troubleshooting
 
@@ -107,6 +119,10 @@ openssl s_client -showcerts -connect localhost:8010
 openssl verify -verbose \
     -CAfile resources/certificates/ca-chain.cert.pem \
     resources/certificates/yawa.cert.pem
+
+# Verify that a cert and a key match (the MD5 checksum must be equal)
+openssl x509 -noout -modulus -in /Volumes/workplace/personal/yawa/frontend/resources/certificates/yawa.cert.pem | openssl md5
+openssl rsa  -noout -modulus -in /Volumes/workplace/personal/yawa/frontend/resources/certificates/yawa.key.pem | openssl md5
 ```
 
 ## References

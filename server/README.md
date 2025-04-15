@@ -16,13 +16,9 @@ curl --request GET --url https://localhost:8000 --insecure
 ```
 
 ### Certificates
-Generate the certificates using the project [gmarciani-ca](https://github.com/gmarciani/gmarciani-ca).
-1. Generate a private key for yawa.com
-2. Generate a CSR for yawa.com
-3. Request a server certificate for yawa.com to the intermediate CA
-4. Generate a P12 archive
-5. Put the P12 file in `server/src/main/resources/secrets/certificates/yawa.p12`
-6. Put the CA chain of the intermediate CA in `ops/resources/certificates/gmarciani-ca-chain.cert.pem`
+Generate the certificates and keys using the project [gmarciani-ca](https://github.com/gmarciani/gmarciani-ca).
+1. Put the P12 file `server/private/yawa.p12` in `server/src/main/resources/secrets/certificates/yawa.p12`
+2. Put the CA chain of the intermediate CA in `ops/resources/certificates/ca-chain.cert.pem`
 
 Check the returned certificate from the server:
 ```
