@@ -50,15 +50,6 @@ export function AsideMenuMain() {
           <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true} />
         </AsideMenuItemWithSub>
       </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub
-        to='/crafted/accounts'
-        title='Accounts'
-        icon='black-right'
-        fontIcon='bi-person'
-      >
-        <AsideMenuItem to='/crafted/account/overview' title='Overview' hasBullet={true} />
-        <AsideMenuItem to='/crafted/account/settings' title='Settings' hasBullet={true} />
-      </AsideMenuItemWithSub>
       <AsideMenuItemWithSub to='/error' title='Errors' fontIcon='bi-sticky' icon='black-right'>
         <AsideMenuItem to='/error/404' title='Error 404' hasBullet={true} />
         <AsideMenuItem to='/error/500' title='Error 500' hasBullet={true} />
