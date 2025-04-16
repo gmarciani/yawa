@@ -1321,7 +1321,7 @@
         "properties" : {
           "dateOfBirth" : {
             "type" : "string",
-            "format" : "date-time",
+            "format" : "date",
             "nullable" : true
           },
           "firstname" : {
@@ -1333,7 +1333,24 @@
             "nullable" : true,
             "enum" : [ "MALE", "FEMALE", "UNSPECIFIED" ]
           },
+          "language" : {
+            "type" : "string",
+            "nullable" : true,
+            "enum" : [ "ARABIC", "CHINESE", "DUTCH", "ENGLISH", "FRENCH", "GERMAN", "HEBREW", "HINDI", "ITALIAN", "JAPANESE", "KOREAN", "NORWEGIAN", "POLISH", "PORTUGUESE", "RUSSIAN", "SPANISH", "SWEDISH", "THAI", "TURKISH", "UKRAINIAN", "VIETNAMESE" ]
+          },
           "lastname" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "location" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "phone" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "picture" : {
             "type" : "string",
             "nullable" : true
           }
@@ -1439,7 +1456,7 @@
         "properties" : {
           "dateOfBirth" : {
             "type" : "string",
-            "format" : "date-time",
+            "format" : "date",
             "nullable" : true
           },
           "firstname" : {
@@ -1453,7 +1470,8 @@
           },
           "language" : {
             "type" : "string",
-            "nullable" : true
+            "nullable" : true,
+            "enum" : [ "ARABIC", "CHINESE", "DUTCH", "ENGLISH", "FRENCH", "GERMAN", "HEBREW", "HINDI", "ITALIAN", "JAPANESE", "KOREAN", "NORWEGIAN", "POLISH", "PORTUGUESE", "RUSSIAN", "SPANISH", "SWEDISH", "THAI", "TURKISH", "UKRAINIAN", "VIETNAMESE" ]
           },
           "lastname" : {
             "type" : "string",

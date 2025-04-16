@@ -1,17 +1,20 @@
-import React, {useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {toAbsoluteApiUrl, toAbsoluteUrl} from '../../../../../../_metronic/helpers'
 import {IProfileDetails} from '../SettingsModel'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {useAuth} from '../../../../auth'
-import {deleteUserProfilePicture, updateUserProfilePicture} from '../../../core/_requests'
+import {deleteUserProfilePicture, updateUserProfile, updateUserProfilePicture} from '../../../core/_requests'
+import {UserProfileGenderEnum, UserProfileLanguageEnum} from '../../../../clients/yawa'
 
 const profileDetailsSchema = Yup.object().shape({
-  fName: Yup.string().required('First name is required'),
-  lName: Yup.string().required('Last name is required'),
-  phone: Yup.string().required('Contact phone is required'),
-  location: Yup.string().required('Location is required'),
+  firstname: Yup.string().required('Firstname is required'),
+  lastname: Yup.string().required('Lastname is required'),
+  gender: Yup.string().required('Gender is required'),
+  dateOfBirth: Yup.date().required('Date of birth is required'),
+  phone: Yup.string().required('Phone is required'),
   language: Yup.string().required('Language is required'),
+  location: Yup.string().required('Location is required'),
 })
 
 const MAX_IMAGE_SIZE_MB = 2
@@ -21,12 +24,14 @@ const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png']
 const ProfileDetails: React.FC = () => {
   const {currentUser} = useAuth()
   const initialValues: IProfileDetails = {
-    picture: currentUser?.picture || '/media/avatars/300-1.jpg',
-    fName: currentUser?.firstname || '',
-    lName: currentUser?.lastname || '',
+    firstname: currentUser?.firstname || '',
+    lastname: currentUser?.lastname || '',
+    gender: currentUser?.gender || '',
+    dateOfBirth: currentUser?.dateOfBirth || '',
     phone: currentUser?.phone || '',
-    location: currentUser?.location || '',
     language: currentUser?.language || '',
+    location: currentUser?.location || '',
+    picture: currentUser?.picture || '/media/avatars/300-1.jpg',
   }
   const [data, setData] = useState<IProfileDetails>(initialValues)
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null)
@@ -61,9 +66,6 @@ const ProfileDetails: React.FC = () => {
 
     console.log(`Image validated`)
 
-    // const formData = new FormData()
-    // formData.append('file', file)
-
     try {
       const pictureUrl = await updateUserProfilePicture(file)
       setProfileImageUrl(pictureUrl)
@@ -95,15 +97,17 @@ const ProfileDetails: React.FC = () => {
     validationSchema: profileDetailsSchema,
     onSubmit: (values) => {
       setLoading(true)
-      setTimeout(() => {
-        values.fName = data.fName
-        values.lName = data.lName
-        values.picture = data.picture
-        values.phone = data.phone
-        values.location = data.location
-        values.language = data.language
-        const updatedData = Object.assign(data, values)
-        setData(updatedData)
+      setTimeout(async () => {
+        data.firstname = values.firstname
+        data.lastname = values.lastname
+        data.gender = values.gender
+        data.dateOfBirth = values.dateOfBirth
+        data.phone = values.phone
+        data.location = values.location
+        data.language = values.language
+        data.picture = values.picture
+        await updateUserProfile(values)
+        setData(data)
         setLoading(false)
       }, 1000)
     },
@@ -186,11 +190,11 @@ const ProfileDetails: React.FC = () => {
                       type='text'
                       className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
                       placeholder='First name'
-                      {...formik.getFieldProps('fName')}
+                      {...formik.getFieldProps('firstname')}
                     />
-                    {formik.touched.fName && formik.errors.fName && (
+                    {formik.touched.firstname && formik.errors.firstname && (
                       <div className='fv-plugins-message-container'>
-                        <div className='fv-help-block'>{formik.errors.fName}</div>
+                        <div className='fv-help-block'>{formik.errors.firstname}</div>
                       </div>
                     )}
                   </div>
@@ -200,15 +204,59 @@ const ProfileDetails: React.FC = () => {
                       type='text'
                       className='form-control form-control-lg form-control-solid'
                       placeholder='Last name'
-                      {...formik.getFieldProps('lName')}
+                      {...formik.getFieldProps('lastname')}
                     />
-                    {formik.touched.lName && formik.errors.lName && (
+                    {formik.touched.lastname && formik.errors.lastname && (
                       <div className='fv-plugins-message-container'>
-                        <div className='fv-help-block'>{formik.errors.lName}</div>
+                        <div className='fv-help-block'>{formik.errors.lastname}</div>
                       </div>
                     )}
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className='row mb-6'>
+              <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                <span className='required'>Gender</span>
+              </label>
+
+              <div className='col-lg-8 fv-row'>
+                <select
+                  className='form-select form-select-solid form-select-lg'
+                  {...formik.getFieldProps('gender')}
+                >
+                  {Object.values(UserProfileGenderEnum).map(gender => (
+                    <option key={gender} value={gender}>
+                      {gender.charAt(0) + gender.slice(1).toLowerCase()}
+                    </option>
+                  ))}
+                </select>
+                {formik.touched.gender && formik.errors.gender && (
+                  <div className='fv-plugins-message-container'>
+                    <div className='fv-help-block'>{formik.errors.gender}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className='row mb-6'>
+              <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                <span className='required'>Date Of Birth</span>
+              </label>
+
+              <div className='col-lg-8 fv-row'>
+                <input
+                  type='date'
+                  className='form-control form-control-lg form-control-solid'
+                  placeholder='Date Of Birth'
+                  {...formik.getFieldProps('dateOfBirth')}
+                />
+                {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
+                  <div className='fv-plugins-message-container'>
+                    <div className='fv-help-block'>{formik.errors.dateOfBirth}</div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -259,53 +307,11 @@ const ProfileDetails: React.FC = () => {
                   className='form-select form-select-solid form-select-lg'
                   {...formik.getFieldProps('language')}
                 >
-                  <option value=''>Select a Language...</option>
-                  <option value='id'>Bahasa Indonesia - Indonesian</option>
-                  <option value='msa'>Bahasa Melayu - Malay</option>
-                  <option value='ca'>Català - Catalan</option>
-                  <option value='cs'>Čeština - Czech</option>
-                  <option value='da'>Dansk - Danish</option>
-                  <option value='de'>Deutsch - German</option>
-                  <option value='en'>English</option>
-                  <option value='en-gb'>English UK - British English</option>
-                  <option value='es'>Español - Spanish</option>
-                  <option value='fil'>Filipino</option>
-                  <option value='fr'>Français - French</option>
-                  <option value='ga'>Gaeilge - Irish (beta)</option>
-                  <option value='gl'>Galego - Galician (beta)</option>
-                  <option value='hr'>Hrvatski - Croatian</option>
-                  <option value='it'>Italiano - Italian</option>
-                  <option value='hu'>Magyar - Hungarian</option>
-                  <option value='nl'>Nederlands - Dutch</option>
-                  <option value='no'>Norsk - Norwegian</option>
-                  <option value='pl'>Polski - Polish</option>
-                  <option value='pt'>Português - Portuguese</option>
-                  <option value='ro'>Română - Romanian</option>
-                  <option value='sk'>Slovenčina - Slovak</option>
-                  <option value='fi'>Suomi - Finnish</option>
-                  <option value='sv'>Svenska - Swedish</option>
-                  <option value='vi'>Tiếng Việt - Vietnamese</option>
-                  <option value='tr'>Türkçe - Turkish</option>
-                  <option value='el'>Ελληνικά - Greek</option>
-                  <option value='bg'>Български език - Bulgarian</option>
-                  <option value='ru'>Русский - Russian</option>
-                  <option value='sr'>Српски - Serbian</option>
-                  <option value='uk'>Українська мова - Ukrainian</option>
-                  <option value='he'>עִבְרִית - Hebrew</option>
-                  <option value='ur'>اردو - Urdu (beta)</option>
-                  <option value='ar'>العربية - Arabic</option>
-                  <option value='fa'>فارسی - Persian</option>
-                  <option value='mr'>मराठी - Marathi</option>
-                  <option value='hi'>हिन्दी - Hindi</option>
-                  <option value='bn'>বাংলা - Bangla</option>
-                  <option value='gu'>ગુજરાતી - Gujarati</option>
-                  <option value='ta'>தமிழ் - Tamil</option>
-                  <option value='kn'>ಕನ್ನಡ - Kannada</option>
-                  <option value='th'>ภาษาไทย - Thai</option>
-                  <option value='ko'>한국어 - Korean</option>
-                  <option value='ja'>日本語 - Japanese</option>
-                  <option value='zh-cn'>简体中文 - Simplified Chinese</option>
-                  <option value='zh-tw'>繁體中文 - Traditional Chinese</option>
+                  {Object.values(UserProfileLanguageEnum).map(language => (
+                    <option key={language} value={language}>
+                      {language.charAt(0) + language.slice(1).toLowerCase()}
+                    </option>
+                  ))}
                 </select>
                 {formik.touched.language && formik.errors.language && (
                   <div className='fv-plugins-message-container'>

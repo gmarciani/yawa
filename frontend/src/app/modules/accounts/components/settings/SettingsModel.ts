@@ -1,10 +1,12 @@
 export interface IProfileDetails {
-  picture: string
-  fName: string
-  lName: string
+  firstname: string
+  lastname: string
+  gender: string
+  dateOfBirth: string
   phone: string
-  location: string
   language: string
+  location: string
+  picture: string
 }
 
 export interface IUpdateEmail {

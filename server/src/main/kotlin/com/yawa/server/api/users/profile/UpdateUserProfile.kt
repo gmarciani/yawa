@@ -2,10 +2,7 @@ package com.yawa.server.api.users.profile
 
 import com.yawa.server.constants.OpenApiTags.USERS
 import com.yawa.server.datastore.repositories.UserProfileRepository
-import com.yawa.server.models.users.Gender
-import com.yawa.server.models.users.User
-import com.yawa.server.models.users.UserPrincipal
-import com.yawa.server.models.users.UserProfile
+import com.yawa.server.models.users.*
 import com.yawa.server.services.UserService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.time.Instant
+import java.time.LocalDate
 
 private val log = KotlinLogging.logger {}
 
@@ -39,6 +37,10 @@ class UpdateUserProfile(
             request.lastname?.let { p.lastname = it }
             request.gender?.let { p.gender = it }
             request.dateOfBirth?.let { p.dateOfBirth = it }
+            request.phone?.let { p.phone = it }
+            request.language?.let { p.language = it }
+            request.location?.let { p.location = it }
+            request.picture?.let { p.picture = it }
         }
 
         userProfileRepository.save(updatedProfile)
@@ -50,7 +52,11 @@ class UpdateUserProfile(
         val firstname: String?,
         val lastname: String?,
         val gender: Gender?,
-        val dateOfBirth: Instant?,
+        val dateOfBirth: LocalDate?,
+        val phone: String?,
+        val language: Language?,
+        val location: String?,
+        val picture: String?,
     )
 
     data class UpdateUserProfileResponse(val profile: UserProfile)

@@ -568,7 +568,31 @@ export interface UpdateUserProfileRequest {
      * @type {string}
      * @memberof UpdateUserProfileRequest
      */
+    'language'?: UpdateUserProfileRequestLanguageEnum;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateUserProfileRequest
+     */
     'lastname'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateUserProfileRequest
+     */
+    'location'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateUserProfileRequest
+     */
+    'phone'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateUserProfileRequest
+     */
+    'picture'?: string | null;
 }
 
 export const UpdateUserProfileRequestGenderEnum = {
@@ -578,6 +602,31 @@ export const UpdateUserProfileRequestGenderEnum = {
 } as const;
 
 export type UpdateUserProfileRequestGenderEnum = typeof UpdateUserProfileRequestGenderEnum[keyof typeof UpdateUserProfileRequestGenderEnum];
+export const UpdateUserProfileRequestLanguageEnum = {
+    Arabic: 'ARABIC',
+    Chinese: 'CHINESE',
+    Dutch: 'DUTCH',
+    English: 'ENGLISH',
+    French: 'FRENCH',
+    German: 'GERMAN',
+    Hebrew: 'HEBREW',
+    Hindi: 'HINDI',
+    Italian: 'ITALIAN',
+    Japanese: 'JAPANESE',
+    Korean: 'KOREAN',
+    Norwegian: 'NORWEGIAN',
+    Polish: 'POLISH',
+    Portuguese: 'PORTUGUESE',
+    Russian: 'RUSSIAN',
+    Spanish: 'SPANISH',
+    Swedish: 'SWEDISH',
+    Thai: 'THAI',
+    Turkish: 'TURKISH',
+    Ukrainian: 'UKRAINIAN',
+    Vietnamese: 'VIETNAMESE'
+} as const;
+
+export type UpdateUserProfileRequestLanguageEnum = typeof UpdateUserProfileRequestLanguageEnum[keyof typeof UpdateUserProfileRequestLanguageEnum];
 
 /**
  *
@@ -768,7 +817,7 @@ export interface UserProfile {
      * @type {string}
      * @memberof UserProfile
      */
-    'language'?: string | null;
+    'language'?: UserProfileLanguageEnum;
     /**
      *
      * @type {string}
@@ -820,6 +869,31 @@ export const UserProfileGenderEnum = {
 } as const;
 
 export type UserProfileGenderEnum = typeof UserProfileGenderEnum[keyof typeof UserProfileGenderEnum];
+export const UserProfileLanguageEnum = {
+    Arabic: 'ARABIC',
+    Chinese: 'CHINESE',
+    Dutch: 'DUTCH',
+    English: 'ENGLISH',
+    French: 'FRENCH',
+    German: 'GERMAN',
+    Hebrew: 'HEBREW',
+    Hindi: 'HINDI',
+    Italian: 'ITALIAN',
+    Japanese: 'JAPANESE',
+    Korean: 'KOREAN',
+    Norwegian: 'NORWEGIAN',
+    Polish: 'POLISH',
+    Portuguese: 'PORTUGUESE',
+    Russian: 'RUSSIAN',
+    Spanish: 'SPANISH',
+    Swedish: 'SWEDISH',
+    Thai: 'THAI',
+    Turkish: 'TURKISH',
+    Ukrainian: 'UKRAINIAN',
+    Vietnamese: 'VIETNAMESE'
+} as const;
+
+export type UserProfileLanguageEnum = typeof UserProfileLanguageEnum[keyof typeof UserProfileLanguageEnum];
 
 /**
  *

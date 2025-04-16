@@ -13,6 +13,7 @@ import jakarta.persistence.MapsId
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 
 @Entity
@@ -31,7 +32,7 @@ class UserProfile(
     var gender: Gender? = Gender.UNSPECIFIED,
 
     @Column(name = "date_of_birth")
-    var dateOfBirth: Instant? = null,
+    var dateOfBirth: LocalDate? = null,
 
     @Column(name = "picture")
     var picture: String? = null,
@@ -42,11 +43,12 @@ class UserProfile(
     @Column(name = "phone")
     var phone: String? = null,
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "language")
+    var language: Language? = null,
+
     @Column(name = "location")
     var location: String? = null,
-
-    @Column(name = "language")
-    var language: String? = null,
 
     @Id
     @Column(name = "user_id")

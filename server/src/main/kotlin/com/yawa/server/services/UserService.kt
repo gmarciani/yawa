@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
 import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 import kotlin.io.path.Path
 
@@ -151,7 +152,7 @@ class UserService(
             firstname = "Giacomo",
             lastname = "Marciani",
             gender = Gender.MALE,
-            dateOfBirth = TimeUtils.dateToInstant(1990, 6, 27),
+            dateOfBirth = LocalDate.of(1990, 6, 27),
             picture = "assets/media/avatars/system-user.png",
 
         )
