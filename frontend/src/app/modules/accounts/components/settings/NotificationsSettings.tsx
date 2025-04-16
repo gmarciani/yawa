@@ -9,7 +9,6 @@ import {DeactivateAccount} from './cards/DeactivateAccount'
 export function NotificationsSettings() {
   return (
     <>
-      <Notifications />
       <EmailPreferences />
     </>
   )
