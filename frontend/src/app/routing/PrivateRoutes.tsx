@@ -8,6 +8,7 @@ import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {DisableSidebar} from '../../_metronic/layout/core'
 import {WithChildren} from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
+import CompanyPage from '../modules/company/CompanyPage'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -56,6 +57,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <AccountPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='company/*'
+          element={
+            <SuspensedView>
+              <CompanyPage />
             </SuspensedView>
           }
         />
