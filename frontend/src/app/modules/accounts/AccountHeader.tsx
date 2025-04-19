@@ -16,8 +16,11 @@ const AccountHeader: React.FC = () => {
         <div className='d-flex flex-wrap flex-sm-nowrap mb-3'>
           <div className='me-7 mb-4'>
             <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
-              <img src={(currentUser?.picture && toAbsoluteApiUrl(currentUser?.picture)) || toAbsoluteUrl('/media/avatars/blank.png')} alt='avatar' />
-              <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
+              <img
+                src={(currentUser?.picture && toAbsoluteApiUrl(currentUser?.picture)) || toAbsoluteUrl('/media/avatars/blank.png')}
+                alt='avatar' />
+              <div
+                className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
             </div>
           </div>
 
@@ -42,13 +45,13 @@ const AccountHeader: React.FC = () => {
                 </div>
 
                 <div className='d-flex flex-wrap fw-bold fs-6 mb-4 pe-2'>
-                  <a
-                    href='#'
-                    className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
-                  >
-                    <KTIcon iconName='profile-circle' className='fs-4 me-1' />
-                    Looking forward to help
-                  </a>
+                  {/*<a*/}
+                  {/*  href='#'*/}
+                  {/*  className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'*/}
+                  {/*>*/}
+                  {/*  <KTIcon iconName='profile-circle' className='fs-4 me-1' />*/}
+                  {/*  Looking forward to help*/}
+                  {/*</a>*/}
                   <a
                     href='#'
                     className='d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2'
@@ -137,17 +140,17 @@ const AccountHeader: React.FC = () => {
 
         <div className='d-flex overflow-auto h-55px'>
           <ul className='nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap'>
-            <li className='nav-item'>
-              <Link
-                className={
-                  `nav-link text-active-primary me-6 ` +
-                  (location.pathname === '/crafted/account/overview' && 'active')
-                }
-                to='/crafted/account/overview'
-              >
-                Overview
-              </Link>
-            </li>
+            {/*<li className='nav-item'>*/}
+            {/*  <Link*/}
+            {/*    className={*/}
+            {/*      `nav-link text-active-primary me-6 ` +*/}
+            {/*      (location.pathname === '/crafted/account/overview' && 'active')*/}
+            {/*    }*/}
+            {/*    to='/crafted/account/overview'*/}
+            {/*  >*/}
+            {/*    Overview*/}
+            {/*  </Link>*/}
+            {/*</li>*/}
             <li className='nav-item'>
               <Link
                 className={
@@ -193,6 +196,22 @@ const AccountHeader: React.FC = () => {
               </Link>
             </li>
           </ul>
+        </div>
+      </div>
+      <div className='notice d-flex bg-light-warning rounded border-warning border border-dashed p-6'>
+        <KTIcon iconName='information-5' className='fs-2tx text-warning me-4' />
+        <div className='d-flex flex-stack flex-grow-1'>
+          <div className='fw-bold'>
+            <h4 className='text-gray-800 fw-bolder'>We need your attention!</h4>
+            <div className='fs-6 text-gray-600'>
+              Your payment was declined. To start using tools, please
+              <Link className='fw-bolder' to='/crafted/account/settings/payments'>
+                {' '}
+                Add Payment Method
+              </Link>
+              .
+            </div>
+          </div>
         </div>
       </div>
     </div>

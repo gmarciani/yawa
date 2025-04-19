@@ -80,7 +80,7 @@ const AccountPage: React.FC = () => {
             </>
           }
         />
-        <Route index element={<Navigate to='/crafted/account/overview' />} />
+        <Route index element={<Navigate to='/crafted/account/settings/profile' />} />
       </Route>
     </Routes>
   )
