@@ -6,6 +6,7 @@ import {useFormik} from 'formik'
 import {useAuth} from '../../../../auth'
 import {deleteUserProfilePicture, updateUserProfile, updateUserProfilePicture} from '../../../core/_requests'
 import {UserProfileGenderEnum, UserProfileLanguageEnum} from '../../../../clients/yawa'
+import {useJsApiLoader} from '@react-google-maps/api'
 
 const profileDetailsSchema = Yup.object().shape({
   firstname: Yup.string().required('Firstname is required'),
@@ -112,6 +113,28 @@ const ProfileDetails: React.FC = () => {
       }, 1000)
     },
   })
+
+  const libraries: ('places')[] = ['places']
+  const locationRef = useRef<HTMLInputElement>(null)
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
+    libraries,
+  })
+
+  useEffect(() => {
+    if (!isLoaded || !locationRef.current) return
+
+    const autocomplete = new google.maps.places.Autocomplete(locationRef.current, {
+      types: ['(cities)'],
+    })
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace()
+      const city = place.formatted_address || place.name
+      formik.setFieldValue('location', city)
+    })
+  }, [isLoaded, formik])
 
   return (
     <div className='card mb-5 mb-xl-10'>
@@ -290,6 +313,7 @@ const ProfileDetails: React.FC = () => {
                   type='text'
                   className='form-control form-control-lg form-control-solid'
                   placeholder='Location'
+                  ref={locationRef}
                   {...formik.getFieldProps('location')}
                 />
                 {formik.touched.location && formik.errors.location && (

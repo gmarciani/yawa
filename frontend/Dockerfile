@@ -29,6 +29,7 @@ RUN node --version
 
 RUN npm install --global npm@latest
 RUN npm install --global yarn
+RUN npm install --global dotenv-cli
 
 RUN yarn install
 CMD yarn run start
