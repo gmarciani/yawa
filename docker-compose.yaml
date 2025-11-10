@@ -49,18 +49,16 @@ services:
     networks:
       - backend-network
 
-#  dbadmin:
-#    container_name: dbadmin
-#    image: phpmyadmin
-#    restart: always
-#    ports:
-#      - "8003:80"
-#    environment:
-#      - PMA_ARBITRARY=1
-#    depends_on:
-#      - database
-#    networks:
-#      - backend-network
+  dbadmin:
+    container_name: dbadmin
+    image: adminer
+    restart: always
+    ports:
+      - "8003:8080"
+    depends_on:
+      - database
+    networks:
+      - backend-network
 
   cache:
     container_name: cache
