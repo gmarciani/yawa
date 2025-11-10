@@ -53,3 +53,14 @@ export async function updateUserProfile(profile: IProfileDetails): Promise<void>
     throw error.response.data as ErrorModel
   }
 }
+
+export async function requestUserDeletion(): Promise<void> {
+  try {
+    const response = await userApi.sendUserDeletionToken()
+    const data = response.data
+    console.log(`Successfully request user deletion token: ${data}`)
+  } catch (error: any) {
+    log.error(`Cannot request user deletion token: ${JSON.stringify(error)}`)
+    throw error.response.data as ErrorModel
+  }
+}

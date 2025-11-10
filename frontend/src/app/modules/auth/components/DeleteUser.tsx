@@ -1,0 +1,91 @@
+import React, {FC, useEffect, useState} from 'react'
+import {Link, useSearchParams} from 'react-router-dom'
+import {toAbsoluteUrl} from '../../../../_metronic/helpers'
+import {activateUser} from '../core/_requests'
+
+const DeleteUser: FC = () => {
+  const [searchParams] = useSearchParams()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [status, setStatus] = useState<number | null>(null)
+  const [message, setMessage] = useState<string | null>(null)
+
+  const actionTitle = 'Activate User'
+
+  const token = searchParams.get('token') ?? ''
+
+  useEffect(() => {
+    const callBackend = async () => {
+      setLoading(true)
+      try {
+        const response = await activateUser(token)
+        setMessage(response.message)
+      } catch (err: any) {
+        setStatus(err.status)
+        setError(err.error)
+        setMessage(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    callBackend()
+  }, [token])
+
+  let imageLight = error ? '/media/auth/500-error.png' : '/media/auth/ok.png'
+  let imageDark = error ? '/media/auth/500-error-dark.png' : '/media/auth/ok-dark.png'
+
+  return (
+    <>
+      {/* begin::Title */}
+      <h1 id='title' className='fw-bolder fs-2hx text-gray-900 mb-4'>
+        {actionTitle}
+      </h1>
+      {/* end::Title */}
+
+      {/* begin::Loading */}
+      {loading && (
+        <span className='indicator-progress' style={{display: 'block'}}>
+                Please wait...{' '}
+          <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+        </span>
+      )}
+      {/* end::Loading */}
+
+      {/* Display the response */}
+      <div id='parameters' className='fw-semibold fs-6 text-gray-500 mb-7'>
+        <div className='fw-bolder text-dark'>Response</div>
+        {/*
+        <div>Status={status}</div>
+        <div>Error={error}</div>
+        */}
+        <div>Message={message}</div>
+      </div>
+      {/* end::Text */}
+
+      {/* begin::Illustration */}
+      <div className='mb-3'>
+        <img
+          src={toAbsoluteUrl(imageLight)}
+          className='mw-100 mh-300px theme-light-show'
+          alt=''
+        />
+        <img
+          src={toAbsoluteUrl(imageDark)}
+          className='mw-100 mh-300px theme-dark-show'
+          alt=''
+        />
+      </div>
+      {/* end::Illustration */}
+
+      {/* begin::Link */}
+      <div className='mb-0'>
+        <Link to='/home' className='btn btn-sm btn-primary'>
+          Return Home
+        </Link>
+      </div>
+      {/* end::Link */}
+    </>
+  )
+}
+
+export {DeleteUser}

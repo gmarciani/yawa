@@ -4,6 +4,7 @@ import {KTIcon} from '../../../../../../_metronic/helpers'
 import {deactivateAccount, IDeactivateAccount} from '../SettingsModel'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
+import {requestUserDeletion} from '../../../core/_requests'
 
 const deactivateAccountSchema = Yup.object().shape({
   confirm: Yup.boolean().oneOf([true], 'Please check the box to deactivate your account'),
@@ -18,10 +19,11 @@ const DeactivateAccount: React.FC = () => {
     validationSchema: deactivateAccountSchema,
     onSubmit: () => {
       setLoading(true)
-      setTimeout(() => {
+      setTimeout(async () => {
+        await requestUserDeletion()
         setLoading(false)
       }, 1000)
-      alert('Account has been successfully deleted!')
+      alert('User deletion submitted. Check your email to confirm.')
     },
   })
 
@@ -50,10 +52,9 @@ const DeactivateAccount: React.FC = () => {
                 <div className='fw-bold'>
                   <h4 className='text-gray-800 fw-bolder'>You Are Deactivating Your Account</h4>
                   <div className='fs-6 text-gray-600'>
-                    For extra security, this requires you to confirm your email or phone number when
-                    you reset yousignr password.
+                    For extra security, this requires you to confirm the decision with an email
                     <br />
-                    <a className='fw-bolder' href='#'>
+                    <a className='fw-bolder' href='/company/terms-of-service'>
                       Learn more
                     </a>
                   </div>
@@ -83,6 +84,7 @@ const DeactivateAccount: React.FC = () => {
               id='kt_account_deactivate_account_submit'
               type='submit'
               className='btn btn-danger fw-bold'
+              disabled={formik.isSubmitting || !formik.values.confirm}
             >
               {!loading && 'Deactivate Account'}
               {loading && (

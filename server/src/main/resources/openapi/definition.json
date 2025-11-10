@@ -808,16 +808,6 @@
     "/users/me/deletion/token" : {
       "post" : {
         "operationId" : "sendUserDeletionToken",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SendUserDeletionTokenRequest"
-              }
-            }
-          },
-          "required" : true
-        },
         "responses" : {
           "200" : {
             "content" : {
@@ -1272,15 +1262,6 @@
         "type" : "object",
         "properties" : {
           "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "SendUserDeletionTokenRequest" : {
-        "required" : [ "email" ],
-        "type" : "object",
-        "properties" : {
-          "email" : {
             "type" : "string"
           }
         }

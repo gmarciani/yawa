@@ -6,6 +6,7 @@ import {Login} from './components/Login'
 import {AuthLayout} from './AuthLayout'
 import {RequestUserActivation} from './components/RequestUserActivation'
 import {ActivateUser} from './components/ActivateUser'
+import {DeleteUser} from './components/DeleteUser'
 
 const AuthPage = () => (
   <Routes>
@@ -16,6 +17,7 @@ const AuthPage = () => (
       <Route path='password-reset' element={<PasswordReset />} />
       <Route path='request-user-activation' element={<RequestUserActivation />} />
       <Route path='activate-user' element={<ActivateUser />} />
+      <Route path='delete-user' element={<DeleteUser />} />
       <Route index element={<Login />} />
     </Route>
   </Routes>
