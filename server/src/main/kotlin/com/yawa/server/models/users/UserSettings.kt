@@ -8,13 +8,12 @@ import java.util.UUID
 @Table(name = "user_settings")
 class UserSettings(
     @OneToOne(
-        mappedBy = "user",
         cascade = [CascadeType.ALL],
         orphanRemoval = true,
         fetch = FetchType.LAZY,
         optional = true,
     )
-    @Column(name = "payment_method")
+    @JoinColumn(name = "user_id")
     var paymentMethod: PaymentMethod? = null,
 
     @Column(name = "is_mfa_enabled")
