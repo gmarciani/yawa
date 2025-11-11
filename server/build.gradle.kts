@@ -10,7 +10,7 @@ import java.util.Locale
 
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.1.12" // 3.3.5
+    id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.openapi.generator") version "6.6.0"
     id("com.github.ben-manes.versions") version "0.51.0"
@@ -50,11 +50,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
-//    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-mustache")
     implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.8.0") {
         /* org.springdoc:springdoc-openapi-common must be excluded because it conflicts with
          * org.springdoc:springdoc-openapi-starter-common:2.6.0
@@ -64,7 +64,7 @@ dependencies {
     }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.auth0:java-jwt:4.4.0")
-    implementation("io.micrometer:micrometer-registry-prometheus:1.10.2") // 1.13.6
+    implementation("io.micrometer:micrometer-registry-prometheus:1.14.2")
     implementation("org.apache.commons:commons-lang3:3.17.0")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
     implementation("io.github.microutils:kotlin-logging:3.0.5")
@@ -82,7 +82,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 //    runtimeOnly("com.h2database:h2:2.1.214")
-    runtimeOnly("mysql:mysql-connector-java:8.0.33")
+    runtimeOnly("com.mysql:mysql-connector-j:9.1.0")
 
     testImplementation("io.kotest:kotest-framework-api-jvm:5.9.1")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
