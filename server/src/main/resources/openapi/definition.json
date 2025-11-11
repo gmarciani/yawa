@@ -339,7 +339,7 @@
     },
     "/manage/configprops" : {
       "get" : {
-        "operationId" : "configprops",
+        "operationId" : "configurationProperties",
         "responses" : {
           "200" : {
             "content" : {
@@ -368,7 +368,7 @@
     },
     "/manage/configprops/{prefix}" : {
       "get" : {
-        "operationId" : "configprops-prefix",
+        "operationId" : "configurationPropertiesWithPrefix",
         "parameters" : [ {
           "in" : "path",
           "name" : "prefix",
@@ -397,6 +397,9 @@
               }
             },
             "description" : "OK"
+          },
+          "404" : {
+            "description" : "Not Found"
           }
         },
         "summary" : "Actuator web endpoint 'configprops-prefix'",
@@ -405,7 +408,14 @@
     },
     "/manage/env" : {
       "get" : {
-        "operationId" : "env",
+        "operationId" : "environment",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "pattern",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "content" : {
@@ -434,7 +444,7 @@
     },
     "/manage/env/{toMatch}" : {
       "get" : {
-        "operationId" : "env-toMatch",
+        "operationId" : "environmentEntry",
         "parameters" : [ {
           "in" : "path",
           "name" : "toMatch",
@@ -463,6 +473,9 @@
               }
             },
             "description" : "OK"
+          },
+          "404" : {
+            "description" : "Not Found"
           }
         },
         "summary" : "Actuator web endpoint 'env-toMatch'",
@@ -495,35 +508,6 @@
           }
         },
         "summary" : "Actuator web endpoint 'health'",
-        "tags" : [ "Actuator" ]
-      }
-    },
-    "/manage/health/**" : {
-      "get" : {
-        "operationId" : "health-path",
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            },
-            "description" : "OK"
-          }
-        },
-        "summary" : "Actuator web endpoint 'health-path'",
         "tags" : [ "Actuator" ]
       }
     },
@@ -587,7 +571,7 @@
     },
     "/manage/metrics" : {
       "get" : {
-        "operationId" : "metrics",
+        "operationId" : "listNames",
         "responses" : {
           "200" : {
             "content" : {
@@ -616,11 +600,17 @@
     },
     "/manage/metrics/{requiredMetricName}" : {
       "get" : {
-        "operationId" : "metrics-requiredMetricName",
+        "operationId" : "metric",
         "parameters" : [ {
           "in" : "path",
           "name" : "requiredMetricName",
           "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "tag",
           "schema" : {
             "type" : "string"
           }
@@ -645,6 +635,9 @@
               }
             },
             "description" : "OK"
+          },
+          "404" : {
+            "description" : "Not Found"
           }
         },
         "summary" : "Actuator web endpoint 'metrics-requiredMetricName'",
@@ -653,11 +646,30 @@
     },
     "/manage/prometheus" : {
       "get" : {
-        "operationId" : "prometheus",
+        "operationId" : "scrape",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "format",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "CONTENT_TYPE_004", "CONTENT_TYPE_OPENMETRICS_100", "CONTENT_TYPE_PROTOBUF" ]
+          }
+        }, {
+          "in" : "query",
+          "name" : "includedNames",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "content" : {
               "application/openmetrics-text;version=1.0.0;charset=utf-8" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              },
+              "application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited" : {
                 "schema" : {
                   "type" : "object"
                 }
@@ -679,25 +691,11 @@
       "post" : {
         "operationId" : "shutdown",
         "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v2+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              },
-              "application/vnd.spring-boot.actuator.v3+json" : {
-                "schema" : {
-                  "type" : "object"
-                }
-              }
-            },
-            "description" : "OK"
+          "204" : {
+            "description" : "No Content"
+          },
+          "400" : {
+            "description" : "Bad Request"
           }
         },
         "summary" : "Actuator web endpoint 'shutdown'",
@@ -1147,6 +1145,35 @@
           }
         }
       },
+      "PaymentMethod" : {
+        "required" : [ "cardCVV", "cardExpiration", "cardHolder", "cardNumber", "user" ],
+        "type" : "object",
+        "properties" : {
+          "cardCVV" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "cardExpiration" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "cardHolder" : {
+            "type" : "string"
+          },
+          "cardNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/User"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "uuid",
+            "nullable" : true
+          }
+        }
+      },
       "RefreshAuthenticationRequest" : {
         "required" : [ "refreshToken" ],
         "type" : "object",
@@ -1495,6 +1522,9 @@
             "type" : "boolean",
             "nullable" : true,
             "writeOnly" : true
+          },
+          "paymentMethod" : {
+            "$ref" : "#/components/schemas/PaymentMethod"
           },
           "user" : {
             "$ref" : "#/components/schemas/User"

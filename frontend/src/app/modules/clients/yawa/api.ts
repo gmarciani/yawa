@@ -313,6 +313,49 @@ export interface LogoutResponse {
 /**
  *
  * @export
+ * @interface PaymentMethod
+ */
+export interface PaymentMethod {
+    /**
+     *
+     * @type {number}
+     * @memberof PaymentMethod
+     */
+    'cardCVV': number;
+    /**
+     *
+     * @type {string}
+     * @memberof PaymentMethod
+     */
+    'cardExpiration': string;
+    /**
+     *
+     * @type {string}
+     * @memberof PaymentMethod
+     */
+    'cardHolder': string;
+    /**
+     *
+     * @type {number}
+     * @memberof PaymentMethod
+     */
+    'cardNumber': number;
+    /**
+     *
+     * @type {User}
+     * @memberof PaymentMethod
+     */
+    'user': User;
+    /**
+     *
+     * @type {string}
+     * @memberof PaymentMethod
+     */
+    'userId'?: string | null;
+}
+/**
+ *
+ * @export
  * @interface RefreshAuthenticationRequest
  */
 export interface RefreshAuthenticationRequest {
@@ -900,6 +943,12 @@ export interface UserSettings {
      * @memberof UserSettings
      */
     'mfaEnabled'?: boolean | null;
+    /**
+     *
+     * @type {PaymentMethod}
+     * @memberof UserSettings
+     */
+    'paymentMethod'?: PaymentMethod;
     /**
      *
      * @type {User}
