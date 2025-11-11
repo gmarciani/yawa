@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
 import {login} from '../core/_requests'
-import {toAbsoluteUrl} from '../../../../_metronic/helpers'
+import {toAbsoluteApiUrl, toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {useAuth} from '../core/Auth'
 import { StatusCodes } from 'http-status-codes'
 import {getUserProfile} from '../../profile/core/_requests'
@@ -101,7 +101,7 @@ export function Login() {
         <div className='col-md-6'>
           {/* begin::Google link */}
           <a
-            href='#'
+            href={toAbsoluteApiUrl('oauth2/authorization/google')}
             className='btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100'
           >
             <img

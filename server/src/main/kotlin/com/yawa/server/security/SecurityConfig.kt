@@ -3,6 +3,7 @@ package com.yawa.server.security
 import com.yawa.server.models.users.UserRole
 import com.yawa.server.security.authentication.AnonymousAuthenticationFilter
 import com.yawa.server.security.authentication.JwtTokenFilter
+import com.yawa.server.security.authentication.OAuth2SuccessHandler
 import com.yawa.server.security.authentication.UserInfoService
 import com.yawa.server.security.authorization.AccessControlAuthorizationFilter
 import com.yawa.server.security.encryption.PasswordEncodeService
@@ -15,8 +16,8 @@ import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpMethod.PATCH
 import org.springframework.http.HttpMethod.POST
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -38,11 +39,12 @@ class SecurityConfig(
     @Autowired val anonymousAuthenticationFilter: AnonymousAuthenticationFilter,
     @Autowired val accessControlAuthorizationFilter: AccessControlAuthorizationFilter,
     @Autowired val throttlingFilter: ThrottlingFilter,
+    @Autowired val oAuth2SuccessHandler: OAuth2SuccessHandler,
 ) {
 
     @Bean
-    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager? {
-        return authenticationConfiguration.authenticationManager
+    fun authenticationManager(authenticationProvider: DaoAuthenticationProvider): AuthenticationManager {
+        return ProviderManager(authenticationProvider)
     }
 
     @Bean
@@ -67,6 +69,9 @@ class SecurityConfig(
             authorize
                 // Authentication
                 .requestMatchers(POST, "/auth/login").permitAll()
+                .requestMatchers(GET, "/auth/oauth2/**").permitAll()
+                .requestMatchers(GET, "/oauth2/**").permitAll()
+                .requestMatchers(GET, "/login/oauth2/**").permitAll()
                 .requestMatchers(POST, "/auth/logout").authenticated()
                 .requestMatchers(POST, "/auth/refresh").authenticated()
                 .requestMatchers(POST, "/auth/password-reset").permitAll()
@@ -101,6 +106,12 @@ class SecurityConfig(
                 .requestMatchers("/error").permitAll()
                 // Any other endpoint
                 .anyRequest().denyAll()
+        }
+
+        // OAuth2 Login
+        http.oauth2Login { oauth2 ->
+            oauth2.successHandler(oAuth2SuccessHandler)
+                .failureUrl("/auth/oauth2/failure")
         }
 
         // Add filters

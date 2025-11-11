@@ -60,18 +60,14 @@ spring:
     fail-on-write-error: true
   lifecycle:
     timeout-per-shutdown-phase: 60s
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            scope: openid,profile,email
-##            client-id: FROM classpath:secrets/application.yaml
-##            client-secret: FROM classpath:secrets/application.yaml
-#      resourceserver:
-#        jwt:
-#          issuer-uri: https://accounts.google.com
-#          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            scope: openid,profile,email
+#            client-id: FROM classpath:secrets/application.yaml
+#            client-secret: FROM classpath:secrets/application.yaml
   mail:
     host: smtp.gmail.com
     port: 587

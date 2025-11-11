@@ -7,9 +7,11 @@ import {AuthLayout} from './AuthLayout'
 import {RequestUserActivation} from './components/RequestUserActivation'
 import {ActivateUser} from './components/ActivateUser'
 import {DeleteUser} from './components/DeleteUser'
+import {OAuth2Callback} from './components/OAuth2Callback'
 
 const AuthPage = () => (
   <Routes>
+    <Route path='oauth2/callback' element={<OAuth2Callback />} />
     <Route element={<AuthLayout />}>
       <Route path='login' element={<Login />} />
       <Route path='registration' element={<Registration />} />
