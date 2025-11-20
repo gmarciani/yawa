@@ -22,10 +22,10 @@ make build container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
 
 Run containers
 ```shell
-make run
+make start
 
 # Or a specific container
-make run container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
+make start container=[frontend|server|database|dbadmin|grafana|loki|prometheus]
 ```
 
 Restart containers

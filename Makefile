@@ -24,10 +24,12 @@ setup:
 build: docker-check
 	docker compose -f ${COMPOSE_FILE} pull $(container)
 	docker compose -f ${COMPOSE_FILE} build $(container)
-run: docker-check
+start: docker-check
 	docker compose -f ${COMPOSE_FILE} up --detach $(container)
+	@$(MAKE) print-endpoints
 restart: docker-check
 	docker compose -f ${COMPOSE_FILE} restart $(container)
+	@$(MAKE) print-endpoints
 stop: docker-check
 	docker compose -f ${COMPOSE_FILE} stop $(container)
 clean: docker-check
@@ -66,3 +68,13 @@ open-prometheus:
 	python3 -m webbrowser "http://localhost:8004"
 open-dbadmin:
 	python3 -m webbrowser "http://localhost:8003"
+
+print-endpoints:
+	@echo "\n=== Container Endpoints ==="
+	@echo "Frontend:   https://localhost:8010"
+	@echo "Server:     https://localhost:8002"
+	@echo "Database:   https://localhost:3307"
+	@echo "DB Admin:   http://localhost:8003"
+	@echo "Grafana:    http://localhost:8005"
+	@echo "Prometheus: http://localhost:8004"
+	@echo "========================="
