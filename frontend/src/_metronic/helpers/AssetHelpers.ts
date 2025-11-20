@@ -1,8 +1,15 @@
 import {useLayout} from '../layout/core'
 import {ThemeModeComponent} from '../assets/ts/layout'
 
-export const toAbsoluteUrl = (pathname: string) => process.env.PUBLIC_URL + pathname
-export const toAbsoluteApiUrl = (pathname: string) => `${process.env.REACT_APP_API_URL}/${pathname}`
+const isAbsoluteUrl = (url: string): boolean => {
+  return url.startsWith('http://') || url.startsWith('https://')
+}
+
+export const toAbsoluteUrl = (pathname: string) =>
+  isAbsoluteUrl(pathname) ? pathname : process.env.PUBLIC_URL + pathname
+
+export const toAbsoluteApiUrl = (pathname: string) =>
+  isAbsoluteUrl(pathname) ? pathname : `${process.env.REACT_APP_API_URL}/${pathname}`
 
 export const useIllustrationsPath = (illustrationName: string): string => {
   const {config} = useLayout()
