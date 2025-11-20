@@ -6,7 +6,6 @@ import {useFormik} from 'formik'
 import {useAuth} from '../../../../auth'
 import {deleteUserProfilePicture, updateUserProfile, updateUserProfilePicture} from '../../../core/_requests'
 import {UserProfileGenderEnum, UserProfileLanguageEnum} from '../../../../clients/yawa'
-import {useJsApiLoader} from '@react-google-maps/api'
 
 const profileDetailsSchema = Yup.object().shape({
   firstname: Yup.string().required('Firstname is required'),
@@ -114,27 +113,38 @@ const ProfileDetails: React.FC = () => {
     },
   })
 
-  const libraries: ('places')[] = ['places']
+  const [locationSuggestions, setLocationSuggestions] = useState<string[]>([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
   const locationRef = useRef<HTMLInputElement>(null)
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
-    libraries,
-  })
+  const searchLocation = async (query: string) => {
+    if (query.length < 3) {
+      setLocationSuggestions([])
+      return
+    }
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5`
+      )
+      const data = await response.json()
+      const suggestions = data.map((item: any) => item.display_name)
+      setLocationSuggestions(suggestions)
+      setShowSuggestions(true)
+    } catch (error) {
+      console.error('Error fetching location suggestions:', error)
+    }
+  }
 
   useEffect(() => {
-    if (!isLoaded || !locationRef.current) return
-
-    const autocomplete = new google.maps.places.Autocomplete(locationRef.current, {
-      types: ['(cities)'],
-    })
-
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace()
-      const city = place.formatted_address || place.name
-      formik.setFieldValue('location', city)
-    })
-  }, [isLoaded, formik])
+    if (!isTyping) return
+    const timer = setTimeout(() => {
+      if (formik.values.location) {
+        searchLocation(formik.values.location)
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [formik.values.location, isTyping])
 
   return (
     <div className='card mb-5 mb-xl-10'>
@@ -308,14 +318,59 @@ const ProfileDetails: React.FC = () => {
                 <span className='required'>Location</span>
               </label>
 
-              <div className='col-lg-8 fv-row'>
+              <div className='col-lg-8 fv-row' style={{position: 'relative'}}>
                 <input
                   type='text'
                   className='form-control form-control-lg form-control-solid'
                   placeholder='Location'
                   ref={locationRef}
                   {...formik.getFieldProps('location')}
+                  onChange={(e) => {
+                    formik.handleChange(e)
+                    setIsTyping(true)
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => {
+                    setTimeout(() => setShowSuggestions(false), 200)
+                    setIsTyping(false)
+                  }}
                 />
+                {showSuggestions && locationSuggestions.length > 0 && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      right: 0,
+                      backgroundColor: 'white',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      maxHeight: '200px',
+                      overflowY: 'auto',
+                      zIndex: 1000,
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    {locationSuggestions.map((suggestion, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '10px',
+                          cursor: 'pointer',
+                          borderBottom: index < locationSuggestions.length - 1 ? '1px solid #eee' : 'none'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'}
+                        onClick={() => {
+                          formik.setFieldValue('location', suggestion)
+                          setShowSuggestions(false)
+                        }}
+                      >
+                        {suggestion}
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {formik.touched.location && formik.errors.location && (
                   <div className='fv-plugins-message-container'>
                     <div className='fv-help-block'>{formik.errors.location}</div>
@@ -331,6 +386,7 @@ const ProfileDetails: React.FC = () => {
                   className='form-select form-select-solid form-select-lg'
                   {...formik.getFieldProps('language')}
                 >
+                  <option value='UNSPECIFIED'>Unspecified</option>
                   {Object.values(UserProfileLanguageEnum).map(language => (
                     <option key={language} value={language}>
                       {language.charAt(0) + language.slice(1).toLowerCase()}
