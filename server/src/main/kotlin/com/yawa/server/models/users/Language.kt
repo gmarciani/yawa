@@ -1,6 +1,7 @@
 package com.yawa.server.models.users
 
 enum class Language {
+    UNSPECIFIED,
     ARABIC,
     CHINESE,
     DUTCH,
