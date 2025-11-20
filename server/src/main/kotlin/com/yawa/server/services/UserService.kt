@@ -165,4 +165,26 @@ class UserService(
         user.password = passwordEncoder.encode(password)
         userRepository.save(user)
     }
+
+    fun findOrCreateOAuth2User(email: String, name: String, picture: String): User {
+        return userRepository.findByEmail(email).orElseGet {
+            val nameParts = name.split(" ", limit = 2)
+            val user = User(
+                email = email,
+                password = passwordEncoder.encode(UUID.randomUUID().toString()),
+                role = UserRole.NORMAL,
+                subscriptionPlan = UserSubscriptionPlan.FREE,
+                isEnabled = true,
+                createdAt = Instant.now()
+            )
+            user.profile = UserProfile(
+                user = user,
+                firstname = nameParts.getOrElse(0) { "" },
+                lastname = nameParts.getOrElse(1) { "" },
+                picture = picture
+            )
+            user.settings = UserSettings(user = user)
+            userRepository.save(user)
+        }
+    }
 }
